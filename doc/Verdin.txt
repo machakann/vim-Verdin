@@ -1,0 +1,93 @@
+*Verdin.txt*	An omni completion function for Vim script.
+						Last change:28-May-2017.
+
+Author  : machakann <https://github.com/machakann>
+License : NYSL license
+          Japanese <http://www.kmonos.net/nysl/>
+          English (Unofficial) <http://www.kmonos.net/nysl/index.en.html>
+
+Requirement:	Vim 8.0 or higher
+
+==============================================================================
+USAGE					*Verdin-usage*
+
+*Verdin* is an implementation of omni completion |compl-omni| function for Vim
+script. If this plugin has been appropriately installed, it automatically sets
+|'omnifunc'|. User can call the functionality by the key sequence <C-x><C-o>
+in insert mode. |i_CTRL-X_CTRL-O| If you don't want to set |'omnifunc'|
+option, add the line into your vimrc.
+					*g:Verdin_donotsetomnifunc*
+>
+	let g:Verdin_donotsetomnifunc = 1
+<
+
+------------------------------------------------------------------------------
+
+This plugin has a simple fuzzy matching engine. If a non-zero value is set to
+|g:Verdin_fuzzymatch|, similar items may also be listed to popup window.
+					*g:Verdin_fuzzymatch*
+>
+	let g:Verdin_fuzzymatch = 1
+<
+------------------------------------------------------------------------------
+
+This plugin also provides an additional feature, autocompletion. It
+automatically calls the completion function when the it can suggest items. If
+you want to try this, add the line into your vimrc.
+					*g:Verdin_autocomplete*
+>
+	let g:Verdin_autocomplete = 1
+<
+It may conflict with other autocompletion plugin, thus do not turn on if you
+are using them. The autocompletion feature does not depends on |'omnifunc'|.
+So not necessarily to set it.
+
+------------------------------------------------------------------------------
+
+The autocompletion could update your display too frequent, and it may cause
+annoying flickers. In that case, optimize the delay to refresh display in
+millisecond.
+					*g:Verdin_autocompletedelay*
+>
+	let g:Verdin_autocompletedelay = 100
+<
+This plugin waits a next user input for the period, and if not then update
+the popup window. For me 100 ~ 200 works comfortably, but it would depend on
+environments and, of course, personal preference. The default value is 100.
+
+------------------------------------------------------------------------------
+
+If |g:Verdin_autobraketinsert| is 1 or 2, braket may be added after a
+completed function name.
+
+  * If |g:Verdin_autobraketinsert| is 1, both bra and ket are added for
+    functions without argments and only bra is added for functions with
+    1 or more arguments.
+
+  * If |g:Verdin_autocompletedelay| is 2, both bra and ket are added.
+
+					*g:Verdin_autobraketinsert*
+>
+	let g:Verdin_autobraketinsert = 2
+<
+
+==============================================================================
+COMMANDS				*Verdin-commands*
+
+:VerdinStartAutocompletion[!]		*:VerdinStartAutocompletion*
+	The command starts auto-completion in the current buffer. If ! is
+	specified, it launchs auto-completion all over the listed buffers.
+
+:VerdinStopAutocompletion[!]		*:VerdinStopAutocompletion*
+	The command stops auto-completion in the current buffer. If ! is
+	specified, it stops auto-completion all over the listed buffers.
+
+==============================================================================
+FUNCTIONS				*Verdin-functions*
+
+Verdin#omnifunc(findstart, base)	*Verdin#omnifunc()*
+	This is a omni completion function for Vim script. See |'omnifunc'|,
+	|complete-functions| and |i_CTRL-X_CTRL-O|.
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:noet:

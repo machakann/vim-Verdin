@@ -1,0 +1,98 @@
+*Verdin.txt*	Vim script 用オムニ補完関数
+						Last change:28-May-2017.
+
+書いた人   : machakann <https://github.com/machakann>
+ライセンス : NYSL license
+          日本語 <http://www.kmonos.net/nysl/>
+          英語 (非公式) <http://www.kmonos.net/nysl/index.en.html>
+
+必須要件:	Vim 8.0 以降のバージョン
+
+==============================================================================
+USAGE					*Verdin-usage*
+
+*Verdin* は Vim script 向けのオムニ補完関数です。 |compl-omni| このプラグイン
+をインストールされていれば Vim script の編集を開始したときに自動的に
+|'omnifunc'| が設定されます。ユーザーはインサートモードにおいて <C-x><C-o> と
+入力することで機能を呼び出すことができます。 |i_CTRL-X_CTRL-O|
+もし、 |'omnifunc'| が自動的に設定されるのを防ぎたい場合は次の一行を vimrc に
+加えてください。
+					*g:Verdin_donotsetomnifunc*
+>
+	let g:Verdin_donotsetomnifunc = 1
+<
+
+------------------------------------------------------------------------------
+
+このプラグインは簡単な「あいまい」マッチ機能を持っています。補完の候補を表示
+するときに正確には一致しないが、よく似た候補も選択肢に加えます。
+|g:Verdin_fuzzymatch| に非ゼロ値が与えられた場合にこの機能が有効になります。
+					*g:Verdin_fuzzymatch*
+>
+	let g:Verdin_fuzzymatch = 1
+<
+------------------------------------------------------------------------------
+
+このプラグインはまた、自動補完機能も提供します。何か補完の候補がある場合に自動
+的にポップアップウィンドウを表示します。
+|g:Verdin_autocomplete| が非ゼロ値のときにこの機能が有効になります。
+					*g:Verdin_autocomplete*
+>
+	let g:Verdin_autocomplete = 1
+<
+他の補完プラグインを使っている場合は衝突する恐れがあるので、この機能を使わない
+ようにしてください。
+この機能は |'omnifunc'| に依存していないので、必ずしもこれを設定している必要は
+ありません。
+
+------------------------------------------------------------------------------
+
+自動補完は時に画面を頻繁に再描画するので、ちらつきが気になる場合があります。
+これを軽減するために補完候補を表示するまで一定の待機時間を設定することができま
+す。
+					*g:Verdin_autocompletedelay*
+>
+	let g:Verdin_autocompletedelay = 100
+<
+単位はミリ秒です。上記の例でいえば、ユーザーの最後の入力から次の入力が来ないか
+約 100 ミリ秒ほど待って、入力がなければ補完候補を表示するようになります。
+100 ~ 200 ミリ秒ぐらいがちょうどよさそうですが、環境や個人の好みに大きく依存す
+るでしょう。デフォルト値は 100 ミリ秒です。
+
+------------------------------------------------------------------------------
+
+|g:Verdin_autobraketinsert| が 1 か 2 の時、関数名のあとの括弧が自動的に入力さ
+れます。
+
+  * |g:Verdin_autobraketinsert| が 1 の時は、引数が 0 個の関数の開き・閉じ括弧
+    の両方を入力します。引数を 1 個以上もつ関数の場合は開き括弧のみを入力しま
+    す。
+
+  * |g:Verdin_autocompletedelay| が 2 の時は、開き・閉じ括弧の両方を入力しま
+    す。
+					*g:Verdin_autobraketinsert*
+>
+	let g:Verdin_autobraketinsert = 2
+<
+
+==============================================================================
+COMMANDS				*Verdin-commands*
+
+:VerdinStartAutocompletion[!]		*:VerdinStartAutocompletion*
+	現在のバッファで自動補完を開始します。 ! をつけた場合はリストされたす
+	べての Vim script バッファで自動補完を開始します。
+
+:VerdinStopAutocompletion[!]		*:VerdinStopAutocompletion*
+	現在のバッファで自動補完を停止します。 ! をつけた場合はリストされたす
+	べての Vim script バッファで自動補完を停止します。
+
+==============================================================================
+FUNCTIONS				*Verdin-functions*
+
+Verdin#omnifunc(findstart, base)	*Verdin#omnifunc()*
+	Vim script 用のオムニ補完関数です。
+	|'omnifunc'| |complete-functions| |i_CTRL-X_CTRL-O|
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:noet:
+
