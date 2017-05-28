@@ -366,8 +366,7 @@ endfunction
 "}}}
 function! s:fuzzyitem(item, base, score, difflen) abort "{{{
   let itemtype = type(a:item)
-  " let fuzzymenu = ' *fuzzy*'
-  let fuzzymenu = printf('*fuzzy:%f*', a:score)
+  let fuzzymenu = ' *fuzzy*'
   if itemtype == v:t_dict
     let candidate = deepcopy(a:item)
     if has_key(candidate, 'menu')

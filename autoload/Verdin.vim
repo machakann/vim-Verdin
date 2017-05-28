@@ -128,15 +128,14 @@ function! Verdin#omnifunc(findstart, base) abort "{{{
   if n < 3
     return []
   endif
-  let threshold = s:const.FUZZYMATCHTHRESHOLD
   call Completer.clock.start()
   while Completer.fuzzycandidatelist != []
     if complete_check()
       break
     endif
     let timeout = Completer.clock.elapsed() + s:const.FUZZYMATCHINTERVAL
-    let additional = Completer.fuzzymatch(a:base, timeout)
-    if additional == []
+    let additionals = Completer.fuzzymatch(a:base, timeout)
+    if additionals == []
       continue
     endif
     for item in additional
