@@ -134,11 +134,7 @@ function! Verdin#omnifunc(findstart, base) abort "{{{
       break
     endif
     let timeout = s:const.FUZZYMATCHINTERVAL
-    let additionals = Completer.fuzzymatch(a:base, timeout)
-    if additionals == []
-      continue
-    endif
-    for item in additional
+    for item in Completer.fuzzymatch(a:base, timeout)
       call complete_add(item)
     endfor
   endwhile
