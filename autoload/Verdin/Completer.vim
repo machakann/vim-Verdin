@@ -133,11 +133,11 @@ function! s:Completer.fuzzymatch(base, ...) dict abort "{{{
     return []
   endif
 
-  let timeout = get(a:000, 0, 500)
+  let timelimit = self.clock.elapsed() + get(a:000, 0, 500)
   let nbase = strchars(a:base)
   let s:MEMO_fuzzymatch = {}
   let candidatelist = []
-  while self.fuzzycandidatelist != [] && self.clock.elapsed() < timeout
+  while self.fuzzycandidatelist != [] && self.clock.elapsed() < timelimit
     let item = self.fuzzycandidatelist[0]
     let __text__ = s:lib.__text__(item)
     let difflen = strchars(__text__) - nbase

@@ -133,7 +133,7 @@ function! Verdin#omnifunc(findstart, base) abort "{{{
     if complete_check()
       break
     endif
-    let timeout = Completer.clock.elapsed() + s:const.FUZZYMATCHINTERVAL
+    let timeout = s:const.FUZZYMATCHINTERVAL
     let additionals = Completer.fuzzymatch(a:base, timeout)
     if additionals == []
       continue
@@ -178,7 +178,7 @@ function! s:complete() abort "{{{
         return ''
       endif
       if Completer.fuzzycandidatelist != []
-        let timeout = Completer.clock.elapsed() + s:const.FUZZYMATCHINTERVAL
+        let timeout = s:const.FUZZYMATCHINTERVAL
         let fuzzyitemlist += Completer.fuzzymatch(base, timeout)
       endif
     endwhile
@@ -196,7 +196,7 @@ function! s:complete() abort "{{{
     if getchar(1) isnot# 0 || len(itemlist) > s:const.ITEMLISTTHRESHOLD
       break
     endif
-    let timeout = Completer.clock.elapsed() + s:const.FUZZYMATCHINTERVAL
+    let timeout = s:const.FUZZYMATCHINTERVAL
     let additional = Completer.fuzzymatch(base, timeout)
     if additional != []
       let itemlist += additional
