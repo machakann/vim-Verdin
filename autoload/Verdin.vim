@@ -50,7 +50,7 @@ endfunction
 function! Verdin#stopautocomplete(...) abort "{{{
   if s:is_started()
     call s:stopbufferinspection()
-    call s:stopautocomple()
+    call s:stopautocomplete()
   endif
 
   let bang = get(a:000, 0, '')
@@ -60,7 +60,7 @@ function! Verdin#stopautocomplete(...) abort "{{{
       if has_key(bufinfo.variables, 'Verdin')
         execute 'buffer ' . bufinfo.bufnr
         call s:stopbufferinspection()
-        call s:stopautocomple()
+        call s:stopautocomplete()
       endif
     endfor
     execute 'buffer ' . originalbufnr
@@ -88,7 +88,7 @@ endfunction
 function! Verdin#finishautocomplete(...) abort "{{{
   if s:is_started()
     call s:stopbufferinspection()
-    call s:stopautocomple()
+    call s:stopautocomplete()
     unlet b:Verdin
   endif
 
@@ -99,7 +99,7 @@ function! Verdin#finishautocomplete(...) abort "{{{
       if has_key(bufinfo.variables, 'Verdin')
         execute 'buffer ' . bufinfo.bufnr
         call s:stopbufferinspection()
-        call s:stopautocomple()
+        call s:stopautocomplete()
         unlet b:Verdin
       endif
     endfor
