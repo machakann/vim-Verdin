@@ -153,7 +153,7 @@ function! s:Completer.fuzzymatch(base, ...) dict abort "{{{
     call remove(self.fuzzycandidatelist, 0)
   endwhile
   let postcursor = matchstr(self.last.postcursor, '^\k\+\>')
-  call s:addsnippeditems(candidatelist, postcursor)
+  call s:addsnippeditems(candidatelist, postcursor, 0)
   call s:autobrainsert(candidatelist)
   return candidatelist
 endfunction
@@ -265,11 +265,12 @@ function! s:capitalize(words, base) abort "{{{
   return map(a:words, 'substitute(v:val, ''^\(\l\)\(.*\)'', ''\u\1\2'', "")')
 endfunction
 "}}}
-function! s:addsnippeditems(candidatelist, postcursor) abort "{{{
+function! s:addsnippeditems(candidatelist, postcursor, ...) abort "{{{
   if a:postcursor ==# ''
     return a:candidatelist
   endif
 
+  let dup = get(a:000, 0, 1)
   let pattern = '\m\C' . s:lib.escape(a:postcursor) . '$'
   let i = len(a:candidatelist) - 1
   while i >= 0
@@ -281,17 +282,17 @@ function! s:addsnippeditems(candidatelist, postcursor) abort "{{{
         let snipped = deepcopy(candidate)
         let snipped.word = snipped.word[: idx-1]
         let snipped.menu .= ' snipped'
-        let snipped.dup = 1
+        let snipped.dup = dup
         if !has_key(snipped, 'abbr')
           let snipped.abbr = candidate.word
         endif
         let entire = deepcopy(candidate)
         let entire.menu .= ' entire'
-        let entire.dup = 1
+        let entire.dup = dup
       else
         let snipped = {'word': candidate[: idx-1], 'abbr': candidate,
-                    \  'menu': 'snipped', 'dup': 1}
-        let entire = {'word': candidate, 'menu': 'entire', 'dup': 1}
+                    \  'menu': 'snipped', 'dup': dup}
+        let entire = {'word': candidate, 'menu': 'entire', 'dup': dup}
       endif
       call remove(a:candidatelist, i)
       call insert(a:candidatelist, entire, i)
