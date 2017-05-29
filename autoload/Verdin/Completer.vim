@@ -1,4 +1,4 @@
-" FIXME: CR to close popup and break at once attribute
+" FIXME: CR to close popup and break at once
 
 " script local variables {{{
 let s:const = Verdin#constants#distribute()
@@ -69,6 +69,7 @@ function! s:Completer.startcol(...) dict abort "{{{
   let self.last.col = s:CURRENTCOL
   let self.last.line = s:CURRENTLINE
   let self.last.precursor = precursor
+  let self.last.postcursor = postcursor
   let self.candidatelist = []
   let self.fuzzycandidatelist = []
   let minstartcol = 1/0
