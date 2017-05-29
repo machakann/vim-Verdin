@@ -16,8 +16,8 @@ cnoremap <silent> <SID>(VerdinInsertKet) <Nop>
 nnoremap <silent> <SID>(VerdinInsertKet) a)<Esc>
 function! s:VerdinInsertKet() abort
   let Completer = Verdin#Completer#get()
-  let pat = printf('\m%s[^)]\%%#%s$', s:lib.escape(v:completed_item.word), s:lib.escape(Completer.last.postcursor))
-  if search(pat, 'bcn', line('.'))
+  let pat = printf('\m\%%%dl%s[^)]*\%%#%s$', Completer.last.lnum, s:lib.escape(v:completed_item.word), s:lib.escape(Completer.last.postcursor))
+  if search(pat, 'bcn', Completer.last.lnum)
     return ")\<C-g>U\<Left>"
   endif
   return ''
