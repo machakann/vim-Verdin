@@ -172,7 +172,7 @@ let s:commandconditionlist = [
     \   {'cursor_at': '\m\C\%(^\s*\|[^|]|\s\+\)com\%[mand!]\s\+\%(\S\+\s\+\)\+:\?\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#', 'priority': 256},
     \   {'cursor_at': '\m\C\<exists([''"]:\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#', 'priority': 256},
     \   {'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*\S\+\s\+:\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#', 'priority': 256},
-    \   {'cursor_at': '\m\<\a\w\{3,}\%#', 'priority': 128},
+    \   {'cursor_at': '\m\<\a\w\{5,}\%#', 'priority': 128},
     \ ]
 let s:commandwordlist = filter(getcompletion('', 'command'), 'v:val =~# ''\m\C^\%([[:lower:]]\|Next\)''')
 " let s:commandwordlist = Verdin#util#wordlist('command', g:report)
@@ -185,14 +185,28 @@ let s:funcconditionlist = [
     \   {'cursor_at': '\m\C\<\%(call([''"]\|exists([''"]\*\)\zs\%([gs]:\|\%([gs]:\)\?\h\k*\)\?\%#', 'priority': 256},
     \   {'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*<expr>\s*\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*\S\+\s\+\zs\%(<\S*\)\?\%#', 'priority': 256},
     \   {'cursor_at': '\m\C^\s*let\s\+\%(\h\k*\|\[\h\k*\%(\s*,\s*\h\k*\)\+\]\).*\zs\<\%([gs]:\)\?\k*\%#', 'priority': 256},
-    \   {'cursor_at': '\m\C\<\%([gs]:\h\k*\|\%([gs]:\)\?\h\k\{3,}\)\%#', 'priority': 128},
+    \   {'cursor_at': '\m\C\<\%([gs]:\h\k*\|\%([gs]:\)\?\h\k\{5,}\)\%#', 'priority': 128},
     \ ]
 let s:funcwordlist = map(filter(getcompletion('', 'function'), 'v:val =~# ''\m\C^[[:lower:]]\h*\%[()]$'''), 'matchstr(v:val, ''\h\k*\ze(\?'')')
 " let s:funcwordlist = Verdin#util#wordlist('function', g:report)
 " let g:funcwordlist = s:funcwordlist
 function! s:funcitems(funcwordlist) abort
   let evaltxtpath = join([expand('$VIMRUNTIME'), 'doc', 'eval.txt'], s:const.PATHSEPARATOR)
-  let evaltxt = filter(map(readfile(evaltxtpath), 'matchstr(v:val, ''\m^\h\w*([^)]*)'')'), 'v:val !=# ""')
+  let evallines = readfile(evaltxtpath)
+  let [start, end] = [-1, -1]
+  for i in range(len(evallines))
+    if evallines[i] =~# '^\d\+\.\s*Builtin Functions\s\+\*functions\*'
+      let start = i
+      break
+    endif
+  endfor
+  for i in range(start + 1, len(evallines) - 1)
+    if evallines[i] =~# '^\s\+\*feature-list\*'
+      let end = i
+      break
+    endif
+  endfor
+  let evaltxt = filter(map(evallines[start : end], 'matchstr(v:val, ''\m^\h\w*([^)]\{-})'')'), 'v:val !=# ""')
   let funcwordlist = copy(a:funcwordlist)
   call filter(a:funcwordlist, 0)
   for func in funcwordlist
@@ -217,7 +231,7 @@ let s:optionconditionlist = [
     \   {'cursor_at': '\m\C&\%(l:\)\?\zs\a*\%#', 'priority': 256},
     \   {'cursor_at': '\m\C^set\%[local]\s\+\zs\a*\%#', 'priority': 256},
     \   {'cursor_at': '\m\C\<exists([''"][&+]\zs\a*\%#', 'priority': 256},
-    \   {'cursor_at': '\m\<\a\{4,}\%#', 'priority': 128},
+    \   {'cursor_at': '\m\<\a\{6,}\%#', 'priority': 128},
     \ ]
 let s:optionwordlist = getcompletion('', 'option')
 "}}}
@@ -226,7 +240,7 @@ let s:eventconditionlist = [
     \   {'cursor_at': '\m\C^\s*au\%[tocmd]\s\+\%(\S\+\s\+\)\?\%([A-Z]\a*,\)*\zs\%([A-Z]\a*\)\?\%#', 'priority': 256},
     \   {'cursor_at': '\m\C\<exists([''"]##\?\zs\%([A-Z]\a*\)\?\%#', 'priority': 256},
     \   {'cursor_at': '\m\C^\s*do\%[autocmd]\s\+\%(<nomodeline>\s\+\)\?\%(\S\+\s\+\)\?\zs\%([A-Z]\a*\)\?\%#', 'priority': 256},
-    \   {'cursor_at': '\m\<\a\{4,}\%#', 'priority': 128},
+    \   {'cursor_at': '\m\<\a\{6,}\%#', 'priority': 128},
     \ ]
 let s:eventwordlist = getcompletion('', 'event')
 "}}}
@@ -347,8 +361,8 @@ endfunction
 function! s:rebuildvimbasedict() abort "{{{
   let options = {'sortbylength': 1}
   let basedict = {}
-  let basedict.command = Verdin#Dictionary#new('command', s:commandconditionlist, s:commandwordlist, 2, options)
-  let basedict.function = Verdin#Dictionary#new('function', s:funcconditionlist, s:funcwordlist, 2, options)
+  let basedict.command = Verdin#Dictionary#new('command', s:commandconditionlist, s:commandwordlist, 2)
+  let basedict.function = Verdin#Dictionary#new('function', s:funcconditionlist, s:funcwordlist, 2)
   let basedict.option = Verdin#Dictionary#new('option', s:optionconditionlist, s:optionwordlist, 1, options)
   let basedict.event = Verdin#Dictionary#new('event', s:eventconditionlist, s:eventwordlist, 1, options)
   let basedict.keys = Verdin#Dictionary#new('keys', s:specialkeyconditionlist, s:specialkeywordlist, 2, options)
