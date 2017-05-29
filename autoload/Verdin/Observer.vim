@@ -422,11 +422,10 @@ endfunction
 function! s:functionitems(funcdefinitions) abort "{{{
   let funcitemlist = []
   let funclist = map(copy(a:funcdefinitions), '[
-        \   v:val,
         \   matchstr(v:val, s:const.FUNCREGEX),
         \   matchstr(v:val, s:const.FUNCBODYREGEX),
         \ ]')
-  for [funcdef, funcname, funcbody] in funclist
+  for [funcname, funcbody] in funclist
     if funcname !=# ''
       let completeitem = {
             \   'word': funcname, 'menu': '[function]', 'abbr': funcbody,
