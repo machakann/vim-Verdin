@@ -159,6 +159,7 @@ function! s:Observer._inspectvim(range) dict abort "{{{
   endif
   if self.shelf.funcfragment == {}
     let funcfragmentconditionlist = map(deepcopy(Completer.shelf.function.conditionlist), 'extend(v:val, {"priority": get(v:val, "priority", 0) + 128}, "force")')
+    call insert(funcfragmentconditionlist, {'cursor_at': '\m\C^\s*fu\%[nction]!\?\s\+\zs\%([gs]:\)\?\k*\%#', 'priority': 384})
     let funcfragmentwordlist = s:funcfragmentwordlist()
     let funcfragment = Verdin#Dictionary#new('funcfragment', funcfragmentconditionlist, funcfragmentwordlist)
     call s:inject(self.shelf['funcfragment'], funcfragment)
