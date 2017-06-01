@@ -163,7 +163,8 @@ function! s:Completer.complete(startcol, itemlist) dict abort "{{{
     let self.savedoptions.completeopt = &completeopt
   endif
   set completeopt=menuone,noselect,noinsert
-  call s:pauseautocomplete()
+  let Event = Verdin#Event#get()
+  call Event.pauseautocomplete()
 
   " NOTE: It seems 'CompleteDone' event is triggered even inside complete() function.
   let self.is.in_completion = v:true
@@ -177,7 +178,8 @@ function! s:Completer.aftercomplete(...) dict abort "{{{
   if self.savedoptions != {} && !self.is.in_completion
     let &completeopt = self.savedoptions.completeopt
     let self.savedoptions = {}
-    call Verdin#__startautocomplete__()
+    let Event = Verdin#Event#get()
+    call Event.startautocomplete()
   endif
   if get(a:000, 0, '') ==# 'CompleteDone' && get(v:completed_item, 'abbr', '') =~# s:FUNCABBR
     call s:autoketinsert(v:completed_item)
@@ -301,29 +303,6 @@ function! s:addsnippeditems(candidatelist, postcursor, ...) abort "{{{
     let i -= 1
   endwhile
   return a:candidatelist
-endfunction
-"}}}
-function! s:pauseautocomplete() abort "{{{
-  augroup Verdin-completion-auto
-    autocmd! * <buffer>
-    autocmd CompleteDone  <buffer> call s:restoreoptions('CompleteDone')
-    autocmd InsertCharPre <buffer> call s:restoreoptions('InsertCharPre')
-    autocmd InsertLeave   <buffer> call s:restoreoptions('InsertLeave')
-    autocmd CursorMovedI  <buffer> call s:restoreoptions('CursorMovedI')
-  augroup END
-endfunction
-"}}}
-function! s:restoreoptions(event) abort "{{{
-  if !s:is_started()
-    return
-  endif
-  if a:event ==# 'InsertCharPre' && pumvisible()
-    " refresh popup always
-    call feedkeys("\<C-e>", 'in')
-  endif
-
-  let Completer = Verdin#Completer#get()
-  call Completer.aftercomplete(a:event)
 endfunction
 "}}}
 function! s:is_started() abort "{{{

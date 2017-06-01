@@ -28,19 +28,19 @@ function! Verdin#startautocomplete(...) abort "{{{
     return
   endif
 
-  if !s:is_started()
-    call s:startbufferinspection()
-    call s:startautocomplete()
-  endif
+  let Event = Verdin#Event#get()
+  call Event.startbufferinspection()
+  call Event.startautocomplete()
 
   let bang = get(a:000, 0, '')
   if bang ==# '!'
+    let Event = Verdin#Event#get()
     let originalbufnr = bufnr('%')
     for bufinfo in filter(s:lib.getbufinfo(), 'v:val.bufnr != originalbufnr')
       if !has_key(bufinfo.variables, 'Verdin')
         execute 'buffer ' . bufinfo.bufnr
-        call s:startbufferinspection()
-        call s:startautocomplete()
+        call Event.startbufferinspection()
+        call Event.startautocomplete()
       endif
     endfor
     execute 'buffer ' . originalbufnr
@@ -48,19 +48,19 @@ function! Verdin#startautocomplete(...) abort "{{{
 endfunction
 "}}}
 function! Verdin#stopautocomplete(...) abort "{{{
-  if s:is_started()
-    call s:stopbufferinspection()
-    call s:stopautocomplete()
-  endif
+  let Event = Verdin#Event#get()
+  call Event.stopbufferinspection()
+  call Event.stopautocomplete()
 
   let bang = get(a:000, 0, '')
   if bang ==# '!'
+    let Event = Verdin#Event#get()
     let originalbufnr = bufnr('%')
     for bufinfo in filter(s:lib.getbufinfo(), 'v:val.bufnr != originalbufnr')
       if has_key(bufinfo.variables, 'Verdin')
         execute 'buffer ' . bufinfo.bufnr
-        call s:stopbufferinspection()
-        call s:stopautocomplete()
+        call Event.stopbufferinspection()
+        call Event.stopautocomplete()
       endif
     endfor
     execute 'buffer ' . originalbufnr
@@ -68,9 +68,7 @@ function! Verdin#stopautocomplete(...) abort "{{{
 endfunction
 "}}}
 function! Verdin#refreshautocomplete(...) abort "{{{
-  if s:is_started()
-    call s:refresh()
-  endif
+  call s:refresh()
 
   let bang = get(a:000, 0, '')
   if bang ==# '!'
@@ -86,21 +84,21 @@ function! Verdin#refreshautocomplete(...) abort "{{{
 endfunction
 "}}}
 function! Verdin#finishautocomplete(...) abort "{{{
-  if s:is_started()
-    call s:stopbufferinspection()
-    call s:stopautocomplete()
-    unlet b:Verdin
-  endif
+  let Event = Verdin#Event#get()
+  call Event.stopbufferinspection()
+  call Event.stopautocomplete()
+  unlet! b:Verdin
 
   let bang = get(a:000, 0, '')
   if bang ==# '!'
+    let Event = Verdin#Event#get()
     let originalbufnr = bufnr('%')
     for bufinfo in filter(s:lib.getbufinfo(), 'v:val.bufnr != originalbufnr')
       if has_key(bufinfo.variables, 'Verdin')
         execute 'buffer ' . bufinfo.bufnr
-        call s:stopbufferinspection()
-        call s:stopautocomplete()
-        unlet b:Verdin
+        call Event.stopbufferinspection()
+        call Event.stopautocomplete()
+        unlet! b:Verdin
       endif
     endfor
     execute 'buffer ' . originalbufnr
@@ -108,9 +106,8 @@ function! Verdin#finishautocomplete(...) abort "{{{
 endfunction
 "}}}
 function! Verdin#omnifunc(findstart, base) abort "{{{
-  if !s:is_started()
-    call s:startbufferinspection()
-  endif
+  let Event = Verdin#Event#get()
+  call Event.startbufferinspection()
 
   let Completer = Verdin#Completer#get()
   if a:findstart == 1
@@ -141,8 +138,17 @@ function! Verdin#omnifunc(findstart, base) abort "{{{
   return []
 endfunction
 "}}}
-function! Verdin#__startautocomplete__() abort "{{{
-  call s:startautocomplete()
+function! Verdin#triggercomplete() abort "{{{
+  let Completer = Verdin#Completer#get()
+  if s:nothingchanged(Completer)
+    return ''
+  endif
+  if &lazyredraw
+    set nolazyredraw
+    let Completer.is.lazyredraw_changed = v:true
+  endif
+  call feedkeys(s:VerdinCompletionTrigger, 'im')
+  return ''
 endfunction
 "}}}
 function! s:complete() abort "{{{
@@ -202,109 +208,17 @@ function! s:complete() abort "{{{
   return ''
 endfunction
 "}}}
-function! s:inspect() abort "{{{
-  let Observer = Verdin#Observer#get()
-  call Observer.inspect('scope')
-  let Completer = Verdin#Completer#get()
-
-  if &filetype ==# 'vim'
-    if !has_key(Completer.shelf, 'buffervar')
-      call Completer.addDictionary('buffervar', Observer.shelf.buffervar)
-      call Completer.addDictionary('bufferfunc', Observer.shelf.bufferfunc)
-      call Completer.addDictionary('buffermember', Observer.shelf.buffermember)
-      call Completer.addDictionary('bufferkeymap', Observer.shelf.bufferkeymap)
-      call Completer.addDictionary('buffercommand', Observer.shelf.buffercommand)
-      call Completer.addDictionary('funcfragment', Observer.shelf.funcfragment)
-      call Completer.addDictionary('varfragment', Observer.shelf.varfragment)
-    endif
-  elseif &filetype ==# 'help'
-    if !has_key(Completer.shelf, 'buffertag')
-      call Completer.addDictionary('buffertag', Observer.shelf.buffertag)
-    endif
-  endif
-
-  if Observer.changedtick.global == -1
-    call s:checkglobals()
-  endif
-endfunction
-"}}}
-function! s:checkglobals() abort "{{{
-  let Observer = Verdin#Observer#get()
-  call Observer.checkglobals()
-  let Completer = Verdin#Completer#get()
-
-  if &filetype ==# 'vim'
-    if !has_key(Completer.shelf, 'globalvar')
-      call Completer.addDictionary('globalvar', Observer.shelf.globalvar)
-      call Completer.addDictionary('globalfunc', Observer.shelf.globalfunc)
-      call Completer.addDictionary('globalkeymap', Observer.shelf.globalkeymap)
-      call Completer.addDictionary('globalcommand', Observer.shelf.globalcommand)
-    endif
-  elseif &filetype ==# 'help'
-    if !has_key(Completer.shelf, 'globaltag')
-      call Completer.addDictionary('globalvar', Observer.shelf.globalvar)
-      call Completer.addDictionary('globalfunc', Observer.shelf.globalfunc)
-      call Completer.addDictionary('globalkeymap', Observer.shelf.globalkeymap)
-      call Completer.addDictionary('globalcommand', Observer.shelf.globalcommand)
-      call Completer.addDictionary('globaltag', Observer.shelf.globaltag)
-    endif
-  endif
-endfunction
-"}}}
-function! s:startbufferinspection() abort "{{{
-  call Verdin#Completer#get()
-  call Verdin#Observer#get()
-  call s:inspect()
-  augroup Verdin-completion-inspect
-    autocmd! * <buffer>
-    autocmd InsertEnter <buffer> call s:inspect()
-    autocmd BufEnter    <buffer> call s:checkglobals()
-  augroup END
-endfunction
-"}}}
-function! s:stopbufferinspection() abort "{{{
-  augroup Verdin-completion-inspect
-    autocmd! * <buffer>
-  augroup END
-endfunction
-"}}}
-function! s:startautocomplete() abort "{{{
-  augroup Verdin-completion-auto
-    autocmd! * <buffer>
-    autocmd CursorMovedI <buffer> call s:triggercomplete()
-  augroup END
-endfunction
-"}}}
-function! s:stopautocomplete() abort "{{{
-  augroup Verdin-completion-auto
-    autocmd! * <buffer>
-  augroup END
-endfunction
-"}}}
-function! s:triggercomplete() abort "{{{
-  let Completer = Verdin#Completer#get()
-  if s:nothingchanged(Completer)
-    return ''
-  endif
-  if &lazyredraw
-    set nolazyredraw
-    let Completer.is.lazyredraw_changed = v:true
-  endif
-  call feedkeys(s:VerdinCompletionTrigger, 'im')
-  return ''
-endfunction
-"}}}
 function! s:nothingchanged(Completer) abort "{{{
   return a:Completer.last.lnum == line('.') && a:Completer.last.col == col('.') && a:Completer.last.line ==# getline('.')
 endfunction
 "}}}
 function! s:refresh() abort "{{{
+  let Event = Verdin#Event#get()
   unlet! b:Verdin
-  call s:inspect()
-endfunction
-"}}}
-function! s:is_started() abort "{{{
-  return exists('b:Verdin')
+  call Verdin#Completer#get()
+  call Verdin#Observer#get()
+  let b:Verdin.Event = Event
+  call Event.startbufferinspection()
 endfunction
 "}}}
 function! s:compare_fuzzyitem(i1, i2) abort "{{{
