@@ -3385,6 +3385,7 @@ let s:function = {
 \       'priority': 256,
 \     },{
 \       'cursor_at': '\m\C\<\%([gs]:\h\k*\|\%([gs]:\)\?\h\k\{5,}\)\%#',
+\       'cursor_not_at': '\%(^\s*fu\%[nction]!\?\s\+\|^\s*let\s\+\)\%([gs]:\h\k*\|\%([gs]:\)\?\h\k*\)\%#',
 \       'priority': 128,
 \     },],
 \   'index': {
