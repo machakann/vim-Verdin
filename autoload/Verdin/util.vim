@@ -180,7 +180,7 @@ let s:commandwordlist = filter(getcompletion('', 'command'), 'v:val =~# ''\m\C^\
 "}}}
 " Function dictionary {{{
 let s:funcconditionlist = [
-    \   {'cursor_at': '\m\C^\s*call\s\+\zs\<\%([gs]:\)\?\k*\%#', 'priority': 256},
+    \   {'cursor_at': '\m\C^\s*call\s\+.*\zs\<\%([gs]:\)\?\k*\%#', 'priority': 256},
     \   {'cursor_at': '\m\C<[Cc]-[Rr]>=\zs\%([gs]:\|\%([gs]:\)\?\h\k*\)\?\%#', 'priority': 256},
     \   {'cursor_at': '\m\C\<\%(call([''"]\|exists([''"]\*\)\zs\%([gs]:\|\%([gs]:\)\?\h\k*\)\?\%#', 'priority': 256},
     \   {'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*<expr>\s*\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*\S\+\s\+\zs\%(<\S*\)\?\%#', 'priority': 256},

@@ -12,7 +12,8 @@ let s:varconditionlist = [
       \     'cursor_not_at': '\m\C^\s*\".*\%#',
       \     'priority': 128,
       \   },
-      \   {'cursor_at': '\m\C^\s*call\s\+\zs\%([ablstw]:\|\%([ablstw]:\)\?\h\w*\|g:\h[0-9A-Za-z_#]*\)\?\%#', 'priority': 128},
+      \   {'cursor_at': '\m\C^\s*call\s\+.*\zs\%([ablstw]:\|\%([ablstw]:\)\?\h\w*\|g:\h[0-9A-Za-z_#]*\)\?\%#', 'priority': 128},
+      \   {'cursor_at': '\m\C\%([ablstw]:\|\%([ablstw]:\)\?\h\w\{5,}\|g:\h[0-9A-Za-z_#]\{6,}\)\%#', 'priority': 128},
       \ ]
 let s:memberconditionlist = [{
       \   'cursor_at': s:const.VARNAME . '\.\zs\%(\h\k*\)\?\%#',

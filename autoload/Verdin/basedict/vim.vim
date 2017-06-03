@@ -3369,7 +3369,7 @@ let s:commandattrnargs = {
 lockvar! s:commandattrnargs
 let s:function = {
 \   'conditionlist': [{
-\       'cursor_at': '\m\C^\s*call\s\+\zs\<\%([gs]:\)\?\k*\%#',
+\       'cursor_at': '\m\C^\s*call\s\+.*\zs\<\%([gs]:\)\?\k*\%#',
 \       'priority': 256,
 \     },{
 \       'cursor_at': '\m\C<[Cc]-[Rr]>=\zs\%([gs]:\|\%([gs]:\)\?\h\k*\)\?\%#',
