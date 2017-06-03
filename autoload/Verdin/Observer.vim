@@ -105,9 +105,9 @@ function! s:Observer._inspectvim(range) dict abort "{{{
   let visualtail = ["'>", getpos("'>")]
   let [bufstart, bufend] = [1, line('$')]
   if a:range ==# 'scope'
-    let [scopestart, scopeend] = s:scoperange()
+    let [scopestart, scopeend, is_dict] = s:scoperange()
   else
-    let [scopestart, scopeend] = [bufstart, bufend]
+    let [scopestart, scopeend, is_dict] = [bufstart, bufend, 0]
   endif
   call self.clock.start()
   let [lvarlist, lmemberlist] = s:splitvarname(s:scan(s:const.LOCALVARREGEX, scopestart, scopeend, self.clock))
@@ -131,6 +131,9 @@ function! s:Observer._inspectvim(range) dict abort "{{{
   let Completer = Verdin#Completer#get()
   if varlist != []
     call s:scopecorrectedvaritems(varlist)
+    if is_dict
+      call add(varlist, 'self')
+    endif
     let options = {'delimitermatch': 1}
     let var = Verdin#Dictionary#new('var', s:varconditionlist, varlist, 2, options)
     call s:inject(self.shelf['buffervar'], var)
@@ -377,9 +380,10 @@ function! s:yank(start, end) abort "{{{
 endfunction
 "}}}
 function! s:scoperange() abort "{{{
-  let start = max([search('\m\C^\s*fu\%[nction!]', 'bcnW'), 1])
+  let start = max([search('\m\C^\s*fu\%[nction]!\?', 'bcnW'), 1])
   let end = min([search('\m\C^\s*endf\%[unction]', 'cnW'), line('$')])
-  return [start, end]
+  let is_dict = match(getline(start), '\m\C^\s*fu\%[nction]!\?\s\+\%([gs]:\)\?\h\k*\%(\.\%(\h\k*\)\|([^)]*)\%(\s*\%(range\|abort\|closure\)\)*\s*dict\)') >= 0
+  return [start, end, is_dict]
 endfunction
 "}}}
 function! s:splitvarname(varblocklist) abort "{{{
