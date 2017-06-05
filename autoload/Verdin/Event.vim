@@ -112,6 +112,7 @@ function! s:checkglobals() abort "{{{
     if !has_key(Completer.shelf, 'globalvar')
       call Completer.addDictionary('globalvar', Observer.shelf.globalvar)
       call Completer.addDictionary('globalfunc', Observer.shelf.globalfunc)
+      call Completer.addDictionary('globalmember', Observer.shelf.globalmember)
       call Completer.addDictionary('globalkeymap', Observer.shelf.globalkeymap)
       call Completer.addDictionary('globalcommand', Observer.shelf.globalcommand)
     endif
