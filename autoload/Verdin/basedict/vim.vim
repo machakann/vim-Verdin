@@ -2,9 +2,13 @@ scriptencoding utf-8
 function! Verdin#basedict#vim#distribute() abort
   let basedict = {}
   let basedict.mapattr = s:mapattr
-  let basedict.expandable = s:expandable
+  let basedict.hicmdopt = s:hicmdopt
+  let basedict.hicmdkey = s:hicmdkey
   let basedict.command = s:command
+  let basedict.hicmdattr = s:hicmdattr
+  let basedict.higroup = s:higroup
   let basedict.exists = s:exists
+  let basedict.expandable = s:expandable
   let basedict.expandablemodifier = s:expandablemodifier
   let basedict.vimvar = s:vimvar
   let basedict.commandattrnargs = s:commandattrnargs
@@ -64,67 +68,110 @@ let s:mapattr = {
 \   'wordlist': ['<buffer>','<nowait>','<silent>','<special>','<script>','<expr>','<unique>',],
 \ }
 lockvar! s:mapattr
-let s:expandable = {
+let s:hicmdopt = {
 \   'conditionlist': [{
-\       'cursor_at': '\m\Cexpand([''"]\zs\%(%\|#\d*\|<\a*\)\?\%#',
-\       'priority': 256,
+\       'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\zs\%(\h\w*\)\?\%#',
+\       'priority': 384,
 \     },],
 \   'index': {
-\     '#': {
+\     'c': {
 \       'itemlist': [{
-\           '__text__': '#',
-\           'menu': '[expand]',
-\           'word': '#',
+\           '__text__': 'clear',
+\           'menu': '[highlight]',
+\           'word': 'clear',
 \         },],
 \     },
-\     '%': {
+\     'd': {
 \       'itemlist': [{
-\           '__text__': '%',
-\           'menu': '[expand]',
-\           'word': '%',
+\           '__text__': 'default',
+\           'menu': '[highlight]',
+\           'word': 'default',
 \         },],
 \     },
-\     '<': {
+\     'l': {
 \       'itemlist': [{
-\           '__text__': '<abuf>',
-\           'menu': '[expand]',
-\           'word': '<abuf>',
-\         },{
-\           '__text__': '<cfile>',
-\           'menu': '[expand]',
-\           'word': '<cfile>',
-\         },{
-\           '__text__': '<afile>',
-\           'menu': '[expand]',
-\           'word': '<afile>',
-\         },{
-\           '__text__': '<sfile>',
-\           'menu': '[expand]',
-\           'word': '<sfile>',
-\         },{
-\           '__text__': '<slnum>',
-\           'menu': '[expand]',
-\           'word': '<slnum>',
-\         },{
-\           '__text__': '<cword>',
-\           'menu': '[expand]',
-\           'word': '<cword>',
-\         },{
-\           '__text__': '<cWORD>',
-\           'menu': '[expand]',
-\           'word': '<cWORD>',
-\         },{
-\           '__text__': '<client>',
-\           'menu': '[expand]',
-\           'word': '<client>',
+\           '__text__': 'link',
+\           'menu': '[highlight]',
+\           'word': 'link',
 \         },],
 \     },
 \   },
 \   'indexlen': 1,
-\   'name': 'expand',
-\   'wordlist': ['%','#','<cfile>','<afile>','<abuf>','<sfile>','<slnum>','<cword>','<cWORD>','<client>',],
+\   'name': 'highlight',
+\   'wordlist': ['default','link','clear',],
 \ }
-lockvar! s:expandable
+lockvar! s:hicmdopt
+let s:hicmdkey = {
+\   'conditionlist': [{
+\       'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(clear\s\|default\s\)\?\s*\h\w*\s\+\%(\S\+=\S\+\s\+\)*\zs\a*\%#',
+\       'priority': 384,
+\     },],
+\   'index': {
+\     'c': {
+\       'itemlist': [{
+\           '__text__': 'cterm=',
+\           'menu': '[highlight]',
+\           'word': 'cterm=',
+\         },{
+\           '__text__': 'ctermfg=',
+\           'menu': '[highlight]',
+\           'word': 'ctermfg=',
+\         },{
+\           '__text__': 'ctermbg=',
+\           'menu': '[highlight]',
+\           'word': 'ctermbg=',
+\         },],
+\     },
+\     'f': {
+\       'itemlist': [{
+\           '__text__': 'font=',
+\           'menu': '[highlight]',
+\           'word': 'font=',
+\         },],
+\     },
+\     'g': {
+\       'itemlist': [{
+\           '__text__': 'gui=',
+\           'menu': '[highlight]',
+\           'word': 'gui=',
+\         },{
+\           '__text__': 'guifg=',
+\           'menu': '[highlight]',
+\           'word': 'guifg=',
+\         },{
+\           '__text__': 'guibg=',
+\           'menu': '[highlight]',
+\           'word': 'guibg=',
+\         },{
+\           '__text__': 'guisp=',
+\           'menu': '[highlight]',
+\           'word': 'guisp=',
+\         },],
+\     },
+\     's': {
+\       'itemlist': [{
+\           '__text__': 'start=',
+\           'menu': '[highlight]',
+\           'word': 'start=',
+\         },{
+\           '__text__': 'stop=',
+\           'menu': '[highlight]',
+\           'word': 'stop=',
+\         },],
+\     },
+\     't': {
+\       'itemlist': [{
+\           '__text__': 'term=',
+\           'menu': '[highlight]',
+\           'word': 'term=',
+\         },],
+\     },
+\   },
+\   'indexlen': 1,
+\   'name': 'highlight',
+\   'wordlist': ['term=','cterm=','gui=','ctermfg=','ctermbg=','guifg=','guibg=','guisp=','font=','start=','stop=',],
+\ }
+lockvar! s:hicmdkey
 let s:command = {
 \   'conditionlist': [{
 \       'cursor_at': '\m\C\%(^\s*\|[^|]|\s\+\)\%(\%(sil\%[ent!]\|noa\%[utocmd]\|undoj\%[oin]\|vert\%[ical]\|lefta\%[bove]\|abo\%[veleft]\|rightb\%[elow]\|bel\%[owright]\|to\%[pleft]\|bo\%[tright]\)\s\+\)*\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#',
@@ -198,10 +245,6 @@ let s:command = {
 \     },
 \     'ar': {
 \       'itemlist': [{
-\           '__text__': 'args',
-\           'menu': '[command]',
-\           'word': 'args',
-\         },{
 \           '__text__': 'argadd',
 \           'menu': '[command]',
 \           'word': 'argadd',
@@ -225,6 +268,10 @@ let s:command = {
 \           '__text__': 'arglocal',
 \           'menu': '[command]',
 \           'word': 'arglocal',
+\         },{
+\           '__text__': 'args',
+\           'menu': '[command]',
+\           'word': 'args',
 \         },{
 \           '__text__': 'argument',
 \           'menu': '[command]',
@@ -360,13 +407,13 @@ let s:command = {
 \     },
 \     'bu': {
 \       'itemlist': [{
-\           '__text__': 'buffer',
-\           'menu': '[command]',
-\           'word': 'buffer',
-\         },{
 \           '__text__': 'bufdo',
 \           'menu': '[command]',
 \           'word': 'bufdo',
+\         },{
+\           '__text__': 'buffer',
+\           'menu': '[command]',
+\           'word': 'buffer',
 \         },{
 \           '__text__': 'buffers',
 \           'menu': '[command]',
@@ -472,13 +519,13 @@ let s:command = {
 \     },
 \     'cf': {
 \       'itemlist': [{
-\           '__text__': 'cfile',
-\           'menu': '[command]',
-\           'word': 'cfile',
-\         },{
 \           '__text__': 'cfdo',
 \           'menu': '[command]',
 \           'word': 'cfdo',
+\         },{
+\           '__text__': 'cfile',
+\           'menu': '[command]',
+\           'word': 'cfile',
 \         },{
 \           '__text__': 'cfirst',
 \           'menu': '[command]',
@@ -529,10 +576,6 @@ let s:command = {
 \     },
 \     'cl': {
 \       'itemlist': [{
-\           '__text__': 'close',
-\           'menu': '[command]',
-\           'word': 'close',
-\         },{
 \           '__text__': 'clast',
 \           'menu': '[command]',
 \           'word': 'clast',
@@ -544,6 +587,10 @@ let s:command = {
 \           '__text__': 'clist',
 \           'menu': '[command]',
 \           'word': 'clist',
+\         },{
+\           '__text__': 'close',
+\           'menu': '[command]',
+\           'word': 'close',
 \         },],
 \     },
 \     'cm': {
@@ -598,33 +645,33 @@ let s:command = {
 \           'menu': '[command]',
 \           'word': 'continue',
 \         },{
-\           '__text__': 'colorscheme',
-\           'menu': '[command]',
-\           'word': 'colorscheme',
-\         },{
-\           '__text__': 'copy',
-\           'menu': '[command]',
-\           'word': 'copy',
-\         },{
 \           '__text__': 'compiler',
 \           'menu': '[command]',
 \           'word': 'compiler',
-\         },{
-\           '__text__': 'confirm',
-\           'menu': '[command]',
-\           'word': 'confirm',
 \         },{
 \           '__text__': 'colder',
 \           'menu': '[command]',
 \           'word': 'colder',
 \         },{
+\           '__text__': 'colorscheme',
+\           'menu': '[command]',
+\           'word': 'colorscheme',
+\         },{
 \           '__text__': 'comclear',
 \           'menu': '[command]',
 \           'word': 'comclear',
 \         },{
+\           '__text__': 'confirm',
+\           'menu': '[command]',
+\           'word': 'confirm',
+\         },{
 \           '__text__': 'copen',
 \           'menu': '[command]',
 \           'word': 'copen',
+\         },{
+\           '__text__': 'copy',
+\           'menu': '[command]',
+\           'word': 'copy',
 \         },],
 \     },
 \     'cp': {
@@ -687,14 +734,6 @@ let s:command = {
 \     },
 \     'de': {
 \       'itemlist': [{
-\           '__text__': 'delete',
-\           'menu': '[command]',
-\           'word': 'delete',
-\         },{
-\           '__text__': 'delcommand',
-\           'menu': '[command]',
-\           'word': 'delcommand',
-\         },{
 \           '__text__': 'delfunction',
 \           'menu': '[command]',
 \           'word': 'delfunction',
@@ -707,6 +746,14 @@ let s:command = {
 \           'menu': '[command]',
 \           'word': 'debuggreedy',
 \         },{
+\           '__text__': 'delcommand',
+\           'menu': '[command]',
+\           'word': 'delcommand',
+\         },{
+\           '__text__': 'delete',
+\           'menu': '[command]',
+\           'word': 'delete',
+\         },{
 \           '__text__': 'delmarks',
 \           'menu': '[command]',
 \           'word': 'delmarks',
@@ -714,14 +761,6 @@ let s:command = {
 \     },
 \     'di': {
 \       'itemlist': [{
-\           '__text__': 'diffthis',
-\           'menu': '[command]',
-\           'word': 'diffthis',
-\         },{
-\           '__text__': 'display',
-\           'menu': '[command]',
-\           'word': 'display',
-\         },{
 \           '__text__': 'diffget',
 \           'menu': '[command]',
 \           'word': 'diffget',
@@ -742,6 +781,10 @@ let s:command = {
 \           'menu': '[command]',
 \           'word': 'diffsplit',
 \         },{
+\           '__text__': 'diffthis',
+\           'menu': '[command]',
+\           'word': 'diffthis',
+\         },{
 \           '__text__': 'diffupdate',
 \           'menu': '[command]',
 \           'word': 'diffupdate',
@@ -749,6 +792,10 @@ let s:command = {
 \           '__text__': 'digraphs',
 \           'menu': '[command]',
 \           'word': 'digraphs',
+\         },{
+\           '__text__': 'display',
+\           'menu': '[command]',
+\           'word': 'display',
 \         },],
 \     },
 \     'dj': {
@@ -767,13 +814,13 @@ let s:command = {
 \     },
 \     'do': {
 \       'itemlist': [{
-\           '__text__': 'doautocmd',
-\           'menu': '[command]',
-\           'word': 'doautocmd',
-\         },{
 \           '__text__': 'doautoall',
 \           'menu': '[command]',
 \           'word': 'doautoall',
+\         },{
+\           '__text__': 'doautocmd',
+\           'menu': '[command]',
+\           'word': 'doautocmd',
 \         },],
 \     },
 \     'dr': {
@@ -803,21 +850,21 @@ let s:command = {
 \     },
 \     'ec': {
 \       'itemlist': [{
-\           '__text__': 'echo',
+\           '__text__': 'echohl',
 \           'menu': '[command]',
-\           'word': 'echo',
+\           'word': 'echohl',
 \         },{
 \           '__text__': 'echoerr',
 \           'menu': '[command]',
 \           'word': 'echoerr',
 \         },{
+\           '__text__': 'echo',
+\           'menu': '[command]',
+\           'word': 'echo',
+\         },{
 \           '__text__': 'echomsg',
 \           'menu': '[command]',
 \           'word': 'echomsg',
-\         },{
-\           '__text__': 'echohl',
-\           'menu': '[command]',
-\           'word': 'echohl',
 \         },{
 \           '__text__': 'echon',
 \           'menu': '[command]',
@@ -901,10 +948,6 @@ let s:command = {
 \           'menu': '[command]',
 \           'word': 'finish',
 \         },{
-\           '__text__': 'filter',
-\           'menu': '[command]',
-\           'word': 'filter',
-\         },{
 \           '__text__': 'finally',
 \           'menu': '[command]',
 \           'word': 'finally',
@@ -917,17 +960,21 @@ let s:command = {
 \           'menu': '[command]',
 \           'word': 'file',
 \         },{
-\           '__text__': 'first',
-\           'menu': '[command]',
-\           'word': 'first',
-\         },{
 \           '__text__': 'files',
 \           'menu': '[command]',
 \           'word': 'files',
 \         },{
+\           '__text__': 'filter',
+\           'menu': '[command]',
+\           'word': 'filter',
+\         },{
 \           '__text__': 'find',
 \           'menu': '[command]',
 \           'word': 'find',
+\         },{
+\           '__text__': 'first',
+\           'menu': '[command]',
+\           'word': 'first',
 \         },{
 \           '__text__': 'fixdel',
 \           'menu': '[command]',
@@ -1043,13 +1090,13 @@ let s:command = {
 \           'menu': '[command]',
 \           'word': 'highlight',
 \         },{
-\           '__text__': 'history',
-\           'menu': '[command]',
-\           'word': 'history',
-\         },{
 \           '__text__': 'hide',
 \           'menu': '[command]',
 \           'word': 'hide',
+\         },{
+\           '__text__': 'history',
+\           'menu': '[command]',
+\           'word': 'history',
 \         },],
 \     },
 \     'ia': {
@@ -1105,10 +1152,6 @@ let s:command = {
 \           'menu': '[command]',
 \           'word': 'inoremap',
 \         },{
-\           '__text__': 'insert',
-\           'menu': '[command]',
-\           'word': 'insert',
-\         },{
 \           '__text__': 'inoreabbrev',
 \           'menu': '[command]',
 \           'word': 'inoreabbrev',
@@ -1116,6 +1159,10 @@ let s:command = {
 \           '__text__': 'inoremenu',
 \           'menu': '[command]',
 \           'word': 'inoremenu',
+\         },{
+\           '__text__': 'insert',
+\           'menu': '[command]',
+\           'word': 'insert',
 \         },{
 \           '__text__': 'intro',
 \           'menu': '[command]',
@@ -1205,10 +1252,6 @@ let s:command = {
 \           'menu': '[command]',
 \           'word': 'language',
 \         },{
-\           '__text__': 'last',
-\           'menu': '[command]',
-\           'word': 'last',
-\         },{
 \           '__text__': 'laddbuffer',
 \           'menu': '[command]',
 \           'word': 'laddbuffer',
@@ -1220,6 +1263,10 @@ let s:command = {
 \           '__text__': 'laddfile',
 \           'menu': '[command]',
 \           'word': 'laddfile',
+\         },{
+\           '__text__': 'last',
+\           'menu': '[command]',
+\           'word': 'last',
 \         },{
 \           '__text__': 'later',
 \           'menu': '[command]',
@@ -1489,17 +1536,13 @@ let s:command = {
 \           'menu': '[command]',
 \           'word': 'map',
 \         },{
-\           '__text__': 'match',
+\           '__text__': 'mark',
 \           'menu': '[command]',
-\           'word': 'match',
+\           'word': 'mark',
 \         },{
 \           '__text__': 'make',
 \           'menu': '[command]',
 \           'word': 'make',
-\         },{
-\           '__text__': 'mark',
-\           'menu': '[command]',
-\           'word': 'mark',
 \         },{
 \           '__text__': 'mapclear',
 \           'menu': '[command]',
@@ -1508,6 +1551,10 @@ let s:command = {
 \           '__text__': 'marks',
 \           'menu': '[command]',
 \           'word': 'marks',
+\         },{
+\           '__text__': 'match',
+\           'menu': '[command]',
+\           'word': 'match',
 \         },],
 \     },
 \     'me': {
@@ -1516,13 +1563,13 @@ let s:command = {
 \           'menu': '[command]',
 \           'word': 'menu',
 \         },{
-\           '__text__': 'messages',
-\           'menu': '[command]',
-\           'word': 'messages',
-\         },{
 \           '__text__': 'menutranslate',
 \           'menu': '[command]',
 \           'word': 'menutranslate',
+\         },{
+\           '__text__': 'messages',
+\           'menu': '[command]',
+\           'word': 'messages',
 \         },],
 \     },
 \     'mk': {
@@ -1587,13 +1634,13 @@ let s:command = {
 \     },
 \     'ne': {
 \       'itemlist': [{
-\           '__text__': 'next',
-\           'menu': '[command]',
-\           'word': 'next',
-\         },{
 \           '__text__': 'new',
 \           'menu': '[command]',
 \           'word': 'new',
+\         },{
+\           '__text__': 'next',
+\           'menu': '[command]',
+\           'word': 'next',
 \         },],
 \     },
 \     'nm': {
@@ -1636,10 +1683,6 @@ let s:command = {
 \           'menu': '[command]',
 \           'word': 'noautocmd',
 \         },{
-\           '__text__': 'noswapfile',
-\           'menu': '[command]',
-\           'word': 'noswapfile',
-\         },{
 \           '__text__': 'nohlsearch',
 \           'menu': '[command]',
 \           'word': 'nohlsearch',
@@ -1651,17 +1694,21 @@ let s:command = {
 \           '__text__': 'noremenu',
 \           'menu': '[command]',
 \           'word': 'noremenu',
+\         },{
+\           '__text__': 'noswapfile',
+\           'menu': '[command]',
+\           'word': 'noswapfile',
 \         },],
 \     },
 \     'nu': {
 \       'itemlist': [{
-\           '__text__': 'nunmap',
-\           'menu': '[command]',
-\           'word': 'nunmap',
-\         },{
 \           '__text__': 'number',
 \           'menu': '[command]',
 \           'word': 'number',
+\         },{
+\           '__text__': 'nunmap',
+\           'menu': '[command]',
+\           'word': 'nunmap',
 \         },{
 \           '__text__': 'nunmenu',
 \           'menu': '[command]',
@@ -1707,13 +1754,13 @@ let s:command = {
 \     },
 \     'op': {
 \       'itemlist': [{
-\           '__text__': 'options',
-\           'menu': '[command]',
-\           'word': 'options',
-\         },{
 \           '__text__': 'open',
 \           'menu': '[command]',
 \           'word': 'open',
+\         },{
+\           '__text__': 'options',
+\           'menu': '[command]',
+\           'word': 'options',
 \         },],
 \     },
 \     'ou': {
@@ -1787,6 +1834,10 @@ let s:command = {
 \     },
 \     'pr': {
 \       'itemlist': [{
+\           '__text__': 'preserve',
+\           'menu': '[command]',
+\           'word': 'preserve',
+\         },{
 \           '__text__': 'previous',
 \           'menu': '[command]',
 \           'word': 'previous',
@@ -1794,10 +1845,6 @@ let s:command = {
 \           '__text__': 'print',
 \           'menu': '[command]',
 \           'word': 'print',
-\         },{
-\           '__text__': 'preserve',
-\           'menu': '[command]',
-\           'word': 'preserve',
 \         },{
 \           '__text__': 'profdel',
 \           'menu': '[command]',
@@ -1947,17 +1994,9 @@ let s:command = {
 \           'menu': '[command]',
 \           'word': 'return',
 \         },{
-\           '__text__': 'registers',
-\           'menu': '[command]',
-\           'word': 'registers',
-\         },{
 \           '__text__': 'redraw',
 \           'menu': '[command]',
 \           'word': 'redraw',
-\         },{
-\           '__text__': 'redo',
-\           'menu': '[command]',
-\           'word': 'redo',
 \         },{
 \           '__text__': 'read',
 \           'menu': '[command]',
@@ -1971,9 +2010,17 @@ let s:command = {
 \           'menu': '[command]',
 \           'word': 'redir',
 \         },{
+\           '__text__': 'redo',
+\           'menu': '[command]',
+\           'word': 'redo',
+\         },{
 \           '__text__': 'redrawstatus',
 \           'menu': '[command]',
 \           'word': 'redrawstatus',
+\         },{
+\           '__text__': 'registers',
+\           'menu': '[command]',
+\           'word': 'registers',
 \         },{
 \           '__text__': 'resize',
 \           'menu': '[command]',
@@ -2216,21 +2263,17 @@ let s:command = {
 \     },
 \     'so': {
 \       'itemlist': [{
-\           '__text__': 'sort',
-\           'menu': '[command]',
-\           'word': 'sort',
-\         },{
 \           '__text__': 'source',
 \           'menu': '[command]',
 \           'word': 'source',
+\         },{
+\           '__text__': 'sort',
+\           'menu': '[command]',
+\           'word': 'sort',
 \         },],
 \     },
 \     'sp': {
 \       'itemlist': [{
-\           '__text__': 'split',
-\           'menu': '[command]',
-\           'word': 'split',
-\         },{
 \           '__text__': 'spelldump',
 \           'menu': '[command]',
 \           'word': 'spelldump',
@@ -2255,6 +2298,10 @@ let s:command = {
 \           'menu': '[command]',
 \           'word': 'spellwrong',
 \         },{
+\           '__text__': 'split',
+\           'menu': '[command]',
+\           'word': 'split',
+\         },{
 \           '__text__': 'sprevious',
 \           'menu': '[command]',
 \           'word': 'sprevious',
@@ -2273,14 +2320,6 @@ let s:command = {
 \           'menu': '[command]',
 \           'word': 'startinsert',
 \         },{
-\           '__text__': 'stop',
-\           'menu': '[command]',
-\           'word': 'stop',
-\         },{
-\           '__text__': 'stjump',
-\           'menu': '[command]',
-\           'word': 'stjump',
-\         },{
 \           '__text__': 'stag',
 \           'menu': '[command]',
 \           'word': 'stag',
@@ -2293,6 +2332,14 @@ let s:command = {
 \           'menu': '[command]',
 \           'word': 'startreplace',
 \         },{
+\           '__text__': 'stjump',
+\           'menu': '[command]',
+\           'word': 'stjump',
+\         },{
+\           '__text__': 'stop',
+\           'menu': '[command]',
+\           'word': 'stop',
+\         },{
 \           '__text__': 'stopinsert',
 \           'menu': '[command]',
 \           'word': 'stopinsert',
@@ -2304,13 +2351,13 @@ let s:command = {
 \     },
 \     'su': {
 \       'itemlist': [{
-\           '__text__': 'substitute',
-\           'menu': '[command]',
-\           'word': 'substitute',
-\         },{
 \           '__text__': 'sunmap',
 \           'menu': '[command]',
 \           'word': 'sunmap',
+\         },{
+\           '__text__': 'substitute',
+\           'menu': '[command]',
+\           'word': 'substitute',
 \         },{
 \           '__text__': 'sunhide',
 \           'menu': '[command]',
@@ -2370,21 +2417,13 @@ let s:command = {
 \     },
 \     'ta': {
 \       'itemlist': [{
-\           '__text__': 'tag',
+\           '__text__': 'tabnew',
 \           'menu': '[command]',
-\           'word': 'tag',
+\           'word': 'tabnew',
 \         },{
 \           '__text__': 'tab',
 \           'menu': '[command]',
 \           'word': 'tab',
-\         },{
-\           '__text__': 'tags',
-\           'menu': '[command]',
-\           'word': 'tags',
-\         },{
-\           '__text__': 'tabnew',
-\           'menu': '[command]',
-\           'word': 'tabnew',
 \         },{
 \           '__text__': 'tabNext',
 \           'menu': '[command]',
@@ -2437,6 +2476,14 @@ let s:command = {
 \           '__text__': 'tabs',
 \           'menu': '[command]',
 \           'word': 'tabs',
+\         },{
+\           '__text__': 'tag',
+\           'menu': '[command]',
+\           'word': 'tag',
+\         },{
+\           '__text__': 'tags',
+\           'menu': '[command]',
+\           'word': 'tags',
 \         },],
 \     },
 \     'tc': {
@@ -2548,21 +2595,21 @@ let s:command = {
 \           'menu': '[command]',
 \           'word': 'unlet',
 \         },{
-\           '__text__': 'undojoin',
-\           'menu': '[command]',
-\           'word': 'undojoin',
-\         },{
 \           '__text__': 'unlockvar',
 \           'menu': '[command]',
 \           'word': 'unlockvar',
+\         },{
+\           '__text__': 'unabbreviate',
+\           'menu': '[command]',
+\           'word': 'unabbreviate',
 \         },{
 \           '__text__': 'undo',
 \           'menu': '[command]',
 \           'word': 'undo',
 \         },{
-\           '__text__': 'unabbreviate',
+\           '__text__': 'undojoin',
 \           'menu': '[command]',
-\           'word': 'unabbreviate',
+\           'word': 'undojoin',
 \         },{
 \           '__text__': 'undolist',
 \           'menu': '[command]',
@@ -2620,10 +2667,6 @@ let s:command = {
 \           'menu': '[command]',
 \           'word': 'view',
 \         },{
-\           '__text__': 'visual',
-\           'menu': '[command]',
-\           'word': 'visual',
-\         },{
 \           '__text__': 'vimgrep',
 \           'menu': '[command]',
 \           'word': 'vimgrep',
@@ -2631,6 +2674,10 @@ let s:command = {
 \           '__text__': 'vimgrepadd',
 \           'menu': '[command]',
 \           'word': 'vimgrepadd',
+\         },{
+\           '__text__': 'visual',
+\           'menu': '[command]',
+\           'word': 'visual',
 \         },{
 \           '__text__': 'viusage',
 \           'menu': '[command]',
@@ -2708,13 +2755,13 @@ let s:command = {
 \     },
 \     'wi': {
 \       'itemlist': [{
-\           '__text__': 'windo',
-\           'menu': '[command]',
-\           'word': 'windo',
-\         },{
 \           '__text__': 'wincmd',
 \           'menu': '[command]',
 \           'word': 'wincmd',
+\         },{
+\           '__text__': 'windo',
+\           'menu': '[command]',
+\           'word': 'windo',
 \         },{
 \           '__text__': 'winpos',
 \           'menu': '[command]',
@@ -2846,9 +2893,568 @@ let s:command = {
 \   },
 \   'indexlen': 2,
 \   'name': 'command',
-\   'wordlist': ['let','if','endif','call','return','function','endfunction','setlocal','else','buffer','silent','set','finish','unlet','elseif','language','copy','execute','mode','t','for','filter','nnoremap','normal','last','endfor','substitute','highlight','change','map','options','previous','while','endwhile','break','list','autocmd','version','registers','try','augroup','view','catch','endtry','echohl','runtime','xnoremap','command','visual','match','noremap','append','args','vnoremap','amenu','delete','finally','ex','echo','split','syntax','filetype','join','nmap','throw','cfile','startinsert','file','onoremap','sort','update','echoerr','undojoin','Next','next','xmap','continue','echomsg','stop','z','all','history','close','inoremap','foldopen','k','new','menu','redraw','tag','vmap','delcommand','python','ruby','sleep','source','colorscheme','edit','exit','insert','keepjumps','noautocmd','omap','cd','echon','first','iabbrev','imap','nunmap','sunmap','tab','verbose','cmap','cquit','delfunction','doautocmd','global','noswapfile','number','open','tags','windo','compiler','confirm','diffthis','hide','lockvar','ls','make','messages','move','nohlsearch','ounmap','pedit','print','qall','shell','unlockvar','wincmd','xunmap','aunmenu','cnoremap','display','gui','help','ll','lua','mark','redo','scriptencoding','stjump','tabnew','tjump','undo','vnew','abbreviate','abclear','aboveleft','anoremenu','argadd','argdelete','argdo','argedit','argglobal','arglocal','argument','ascii','bNext','badd','ball','bdelete','behave','belowright','bfirst','blast','bmodified','bnext','botright','bprevious','breakadd','breakdel','breaklist','brewind','browse','bufdo','buffers','bunload','bwipeout','cNext','cNfile','cabbrev','cabclear','caddbuffer','caddexpr','caddfile','cbottom','cbuffer','cc','cclose','cdo','center','cexpr','cfdo','cfirst','cgetbuffer','cgetexpr','cgetfile','changes','chdir','checkpath','checktime','chistory','clast','clearjumps','clist','cmapclear','cmenu','cnewer','cnext','cnfile','cnoreabbrev','cnoremenu','colder','comclear','copen','cpfile','cprevious','crewind','cscope','cstag','cunabbrev','cunmap','cunmenu','cwindow','debug','debuggreedy','delmarks','diffget','diffoff','diffpatch','diffput','diffsplit','diffupdate','digraphs','djump','dlist','doautoall','drop','dsearch','dsplit','earlier','emenu','enew','exusage','files','find','fixdel','fold','foldclose','folddoclosed','folddoopen','goto','grep','grepadd','gvim','hardcopy','helpclose','helpfind','helpgrep','helptags','iabclear','ijump','ilist','imapclear','imenu','inoreabbrev','inoremenu','intro','isearch','isplit','iunabbrev','iunmap','iunmenu','jumps','keepalt','keepmarks','keeppatterns','lNext','lNfile','laddbuffer','laddexpr','laddfile','later','lbottom','lbuffer','lcd','lchdir','lclose','lcscope','ldo','left','leftabove','lexpr','lfdo','lfile','lfirst','lgetbuffer','lgetexpr','lgetfile','lgrep','lgrepadd','lhelpgrep','lhistory','llast','llist','lmake','lmap','lmapclear','lnewer','lnext','lnfile','lnoremap','loadkeymap','loadview','lockmarks','lolder','lopen','lpfile','lprevious','lrewind','ltag','luado','luafile','lunmap','lvimgrep','lvimgrepadd','lwindow','mapclear','marks','menutranslate','mkexrc','mksession','mkspell','mkview','mkvimrc','mzfile','mzscheme','nbclose','nbkey','nbstart','nmapclear','nmenu','nnoremenu','noreabbrev','noremenu','nunmenu','oldfiles','omapclear','omenu','only','onoremenu','ounmenu','ownsyntax','packadd','packloadall','pclose','perl','perldo','pop','popup','ppop','preserve','profdel','profile','promptfind','promptrepl','psearch','ptNext','ptag','ptfirst','ptjump','ptlast','ptnext','ptprevious','ptrewind','ptselect','put','pwd','py3','py3do','py3file','pydo','pyfile','python3','pythonx','pyx','pyxdo','pyxfile','quit','quitall','read','recover','redir','redrawstatus','resize','retab','rewind','right','rightbelow','rubydo','rubyfile','rundo','rviminfo','sNext','sall','sandbox','sargument','saveas','sbNext','sball','sbfirst','sblast','sbmodified','sbnext','sbprevious','sbrewind','sbuffer','scriptnames','scscope','setfiletype','setglobal','sfind','sfirst','sign','simalt','slast','smagic','smap','smapclear','smenu','smile','snext','snomagic','snoremap','snoremenu','spelldump','spellgood','spellinfo','spellrepall','spellundo','spellwrong','sprevious','srewind','stag','startgreplace','startreplace','stopinsert','stselect','sunhide','sunmenu','suspend','sview','swapname','syncbind','syntime','tNext','tabNext','tabclose','tabdo','tabedit','tabfind','tabfirst','tablast','tabmove','tabnext','tabonly','tabprevious','tabrewind','tabs','tcl','tcldo','tclfile','tearoff','tfirst','tlast','tmenu','tnext','topleft','tprevious','trewind','tselect','tunmenu','unabbreviate','undolist','unhide','unmap','unmenu','unsilent','vertical','vglobal','vimgrep','vimgrepadd','viusage','vmapclear','vmenu','vnoremenu','vsplit','vunmap','vunmenu','wNext','wall','winpos','winsize','wnext','wprevious','wq','wqall','write','wsverb','wundo','wviminfo','xall','xit','xmapclear','xmenu','xnoremenu','xunmenu','yank',],
+\   'wordlist': ['let','if','endif','call','return','function','endfunction','setlocal','else','set','unlet','finish','elseif','execute','nnoremap','for','endfor','normal','endwhile','while','break','autocmd','augroup','try','endtry','runtime','xnoremap','catch','echohl','silent','noremap','vnoremap','amenu','finally','command','nmap','throw','onoremap','echoerr','echo','continue','echomsg','inoremap','highlight','redraw','vmap','xmap','sleep','keepjumps','iabbrev','imap','map','source','startinsert','sunmap','cmap','cquit','delfunction','menu','echon','lockvar','new','python','qall','ruby','syntax','unlockvar','cnoremap','compiler','filetype','foldopen','language','mark','scriptencoding','tabnew','version','vnew','wincmd','windo','Next','abbreviate','abclear','aboveleft','all','anoremenu','append','argadd','argdelete','argdo','argedit','argglobal','arglocal','args','argument','ascii','aunmenu','bNext','badd','ball','bdelete','behave','belowright','bfirst','blast','bmodified','bnext','botright','bprevious','breakadd','breakdel','breaklist','brewind','browse','bufdo','buffer','buffers','bunload','bwipeout','cNext','cNfile','cabbrev','cabclear','caddbuffer','caddexpr','caddfile','cbottom','cbuffer','cc','cclose','cd','cdo','center','cexpr','cfdo','cfile','cfirst','cgetbuffer','cgetexpr','cgetfile','change','changes','chdir','checkpath','checktime','chistory','clast','clearjumps','clist','close','cmapclear','cmenu','cnewer','cnext','cnfile','cnoreabbrev','cnoremenu','colder','colorscheme','comclear','confirm','copen','copy','cpfile','cprevious','crewind','cscope','cstag','cunabbrev','cunmap','cunmenu','cwindow','debug','debuggreedy','delcommand','delete','delmarks','diffget','diffoff','diffpatch','diffput','diffsplit','diffthis','diffupdate','digraphs','display','djump','dlist','doautoall','doautocmd','drop','dsearch','dsplit','earlier','edit','emenu','enew','ex','exit','exusage','file','files','filter','find','first','fixdel','fold','foldclose','folddoclosed','folddoopen','global','goto','grep','grepadd','gui','gvim','hardcopy','help','helpclose','helpfind','helpgrep','helptags','hide','history','iabclear','ijump','ilist','imapclear','imenu','inoreabbrev','inoremenu','insert','intro','isearch','isplit','iunabbrev','iunmap','iunmenu','join','jumps','k','keepalt','keepmarks','keeppatterns','lNext','lNfile','laddbuffer','laddexpr','laddfile','last','later','lbottom','lbuffer','lcd','lchdir','lclose','lcscope','ldo','left','leftabove','lexpr','lfdo','lfile','lfirst','lgetbuffer','lgetexpr','lgetfile','lgrep','lgrepadd','lhelpgrep','lhistory','list','ll','llast','llist','lmake','lmap','lmapclear','lnewer','lnext','lnfile','lnoremap','loadkeymap','loadview','lockmarks','lolder','lopen','lpfile','lprevious','lrewind','ls','ltag','lua','luado','luafile','lunmap','lvimgrep','lvimgrepadd','lwindow','make','mapclear','marks','match','menutranslate','messages','mkexrc','mksession','mkspell','mkview','mkvimrc','mode','move','mzfile','mzscheme','nbclose','nbkey','nbstart','next','nmapclear','nmenu','nnoremenu','noautocmd','nohlsearch','noreabbrev','noremenu','noswapfile','number','nunmap','nunmenu','oldfiles','omap','omapclear','omenu','only','onoremenu','open','options','ounmap','ounmenu','ownsyntax','packadd','packloadall','pclose','pedit','perl','perldo','pop','popup','ppop','preserve','previous','print','profdel','profile','promptfind','promptrepl','psearch','ptNext','ptag','ptfirst','ptjump','ptlast','ptnext','ptprevious','ptrewind','ptselect','put','pwd','py3','py3do','py3file','pydo','pyfile','python3','pythonx','pyx','pyxdo','pyxfile','quit','quitall','read','recover','redir','redo','redrawstatus','registers','resize','retab','rewind','right','rightbelow','rubydo','rubyfile','rundo','rviminfo','sNext','sall','sandbox','sargument','saveas','sbNext','sball','sbfirst','sblast','sbmodified','sbnext','sbprevious','sbrewind','sbuffer','scriptnames','scscope','setfiletype','setglobal','sfind','sfirst','shell','sign','simalt','slast','smagic','smap','smapclear','smenu','smile','snext','snomagic','snoremap','snoremenu','sort','spelldump','spellgood','spellinfo','spellrepall','spellundo','spellwrong','split','sprevious','srewind','stag','startgreplace','startreplace','stjump','stop','stopinsert','stselect','substitute','sunhide','sunmenu','suspend','sview','swapname','syncbind','syntime','t','tNext','tab','tabNext','tabclose','tabdo','tabedit','tabfind','tabfirst','tablast','tabmove','tabnext','tabonly','tabprevious','tabrewind','tabs','tag','tags','tcl','tcldo','tclfile','tearoff','tfirst','tjump','tlast','tmenu','tnext','topleft','tprevious','trewind','tselect','tunmenu','unabbreviate','undo','undojoin','undolist','unhide','unmap','unmenu','unsilent','update','verbose','vertical','vglobal','view','vimgrep','vimgrepadd','visual','viusage','vmapclear','vmenu','vnoremenu','vsplit','vunmap','vunmenu','wNext','wall','winpos','winsize','wnext','wprevious','wq','wqall','write','wsverb','wundo','wviminfo','xall','xit','xmapclear','xmenu','xnoremenu','xunmap','xunmenu','yank','z',],
 \ }
 lockvar! s:command
+let s:hicmdattr = {
+\   'conditionlist': [{
+\       'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(clear\s\|default\s\)\?\s*\h\w*\s\+\%(\S\+=\S\+\s\+\)*\%(c\?term\|gui\)=\zs\S*\%#',
+\       'priority': 384,
+\     },],
+\   'index': {
+\     'N': {
+\       'itemlist': [{
+\           '__text__': 'NONE',
+\           'menu': '[highlight]',
+\           'word': 'NONE',
+\         },],
+\     },
+\     'b': {
+\       'itemlist': [{
+\           '__text__': 'bold',
+\           'menu': '[highlight]',
+\           'word': 'bold',
+\         },],
+\     },
+\     'i': {
+\       'itemlist': [{
+\           '__text__': 'inverse',
+\           'menu': '[highlight]',
+\           'word': 'inverse',
+\         },{
+\           '__text__': 'italic',
+\           'menu': '[highlight]',
+\           'word': 'italic',
+\         },],
+\     },
+\     'r': {
+\       'itemlist': [{
+\           '__text__': 'reverse',
+\           'menu': '[highlight]',
+\           'word': 'reverse',
+\         },],
+\     },
+\     's': {
+\       'itemlist': [{
+\           '__text__': 'standout',
+\           'menu': '[highlight]',
+\           'word': 'standout',
+\         },],
+\     },
+\     'u': {
+\       'itemlist': [{
+\           '__text__': 'underline',
+\           'menu': '[highlight]',
+\           'word': 'underline',
+\         },{
+\           '__text__': 'undercurl',
+\           'menu': '[highlight]',
+\           'word': 'undercurl',
+\         },],
+\     },
+\   },
+\   'indexlen': 1,
+\   'name': 'highlight',
+\   'wordlist': ['bold','underline','undercurl','reverse','inverse','italic','standout','NONE',],
+\ }
+lockvar! s:hicmdattr
+let s:higroup = {
+\   'conditionlist': [{
+\       'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(clear\|default\)\?\s\+\zs\%(\h\w*\)\?\%#',
+\       'priority': 128,
+\     },{
+\       'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(default\s\+\)\?link\s\+\%(\h\w*\s\+\)\?\zs\%(\h\w*\)\?\%#',
+\       'priority': 128,
+\     },{
+\       'cursor_at': '\m\C\<matchadd\%(pos\)\?([''"]\zs\%(\h\w*\)\?\%#',
+\       'priority': 256,
+\     },{
+\       'cursor_at': '\m\C^\s*[23]\?mat\%[ch]\s\+\zs\%(\h\w*\)\?\%#',
+\       'priority': 256,
+\     },],
+\   'index': {
+\     'Bo': {
+\       'itemlist': [{
+\           '__text__': 'Boolean',
+\           'menu': '[higroup]',
+\           'word': 'Boolean',
+\         },],
+\     },
+\     'Ch': {
+\       'itemlist': [{
+\           '__text__': 'Character',
+\           'menu': '[higroup]',
+\           'word': 'Character',
+\         },],
+\     },
+\     'Co': {
+\       'itemlist': [{
+\           '__text__': 'Comment',
+\           'menu': '[higroup]',
+\           'word': 'Comment',
+\         },{
+\           '__text__': 'Conceal',
+\           'menu': '[higroup]',
+\           'word': 'Conceal',
+\         },{
+\           '__text__': 'Constant',
+\           'menu': '[higroup]',
+\           'word': 'Constant',
+\         },{
+\           '__text__': 'ColorColumn',
+\           'menu': '[higroup]',
+\           'word': 'ColorColumn',
+\         },{
+\           '__text__': 'Conditional',
+\           'menu': '[higroup]',
+\           'word': 'Conditional',
+\         },],
+\     },
+\     'Cu': {
+\       'itemlist': [{
+\           '__text__': 'Cursor',
+\           'menu': '[higroup]',
+\           'word': 'Cursor',
+\         },{
+\           '__text__': 'CursorIM',
+\           'menu': '[higroup]',
+\           'word': 'CursorIM',
+\         },{
+\           '__text__': 'CursorLine',
+\           'menu': '[higroup]',
+\           'word': 'CursorLine',
+\         },{
+\           '__text__': 'CursorColumn',
+\           'menu': '[higroup]',
+\           'word': 'CursorColumn',
+\         },{
+\           '__text__': 'CursorLineNr',
+\           'menu': '[higroup]',
+\           'word': 'CursorLineNr',
+\         },],
+\     },
+\     'De': {
+\       'itemlist': [{
+\           '__text__': 'Debug',
+\           'menu': '[higroup]',
+\           'word': 'Debug',
+\         },{
+\           '__text__': 'Define',
+\           'menu': '[higroup]',
+\           'word': 'Define',
+\         },{
+\           '__text__': 'Delimiter',
+\           'menu': '[higroup]',
+\           'word': 'Delimiter',
+\         },],
+\     },
+\     'Di': {
+\       'itemlist': [{
+\           '__text__': 'DiffAdd',
+\           'menu': '[higroup]',
+\           'word': 'DiffAdd',
+\         },{
+\           '__text__': 'DiffText',
+\           'menu': '[higroup]',
+\           'word': 'DiffText',
+\         },{
+\           '__text__': 'Directory',
+\           'menu': '[higroup]',
+\           'word': 'Directory',
+\         },{
+\           '__text__': 'DiffChange',
+\           'menu': '[higroup]',
+\           'word': 'DiffChange',
+\         },{
+\           '__text__': 'DiffDelete',
+\           'menu': '[higroup]',
+\           'word': 'DiffDelete',
+\         },],
+\     },
+\     'En': {
+\       'itemlist': [{
+\           '__text__': 'EndOfBuffer',
+\           'menu': '[higroup]',
+\           'word': 'EndOfBuffer',
+\         },],
+\     },
+\     'Er': {
+\       'itemlist': [{
+\           '__text__': 'Error',
+\           'menu': '[higroup]',
+\           'word': 'Error',
+\         },{
+\           '__text__': 'ErrorMsg',
+\           'menu': '[higroup]',
+\           'word': 'ErrorMsg',
+\         },],
+\     },
+\     'Ex': {
+\       'itemlist': [{
+\           '__text__': 'Exception',
+\           'menu': '[higroup]',
+\           'word': 'Exception',
+\         },],
+\     },
+\     'Fl': {
+\       'itemlist': [{
+\           '__text__': 'Float',
+\           'menu': '[higroup]',
+\           'word': 'Float',
+\         },],
+\     },
+\     'Fo': {
+\       'itemlist': [{
+\           '__text__': 'Folded',
+\           'menu': '[higroup]',
+\           'word': 'Folded',
+\         },{
+\           '__text__': 'FoldColumn',
+\           'menu': '[higroup]',
+\           'word': 'FoldColumn',
+\         },],
+\     },
+\     'Fu': {
+\       'itemlist': [{
+\           '__text__': 'Function',
+\           'menu': '[higroup]',
+\           'word': 'Function',
+\         },],
+\     },
+\     'Id': {
+\       'itemlist': [{
+\           '__text__': 'Identifier',
+\           'menu': '[higroup]',
+\           'word': 'Identifier',
+\         },],
+\     },
+\     'Ig': {
+\       'itemlist': [{
+\           '__text__': 'Ignore',
+\           'menu': '[higroup]',
+\           'word': 'Ignore',
+\         },],
+\     },
+\     'In': {
+\       'itemlist': [{
+\           '__text__': 'Include',
+\           'menu': '[higroup]',
+\           'word': 'Include',
+\         },{
+\           '__text__': 'IncSearch',
+\           'menu': '[higroup]',
+\           'word': 'IncSearch',
+\         },],
+\     },
+\     'Ke': {
+\       'itemlist': [{
+\           '__text__': 'Keyword',
+\           'menu': '[higroup]',
+\           'word': 'Keyword',
+\         },],
+\     },
+\     'La': {
+\       'itemlist': [{
+\           '__text__': 'Label',
+\           'menu': '[higroup]',
+\           'word': 'Label',
+\         },],
+\     },
+\     'Li': {
+\       'itemlist': [{
+\           '__text__': 'LineNr',
+\           'menu': '[higroup]',
+\           'word': 'LineNr',
+\         },],
+\     },
+\     'Ma': {
+\       'itemlist': [{
+\           '__text__': 'Macro',
+\           'menu': '[higroup]',
+\           'word': 'Macro',
+\         },{
+\           '__text__': 'MatchParen',
+\           'menu': '[higroup]',
+\           'word': 'MatchParen',
+\         },],
+\     },
+\     'Me': {
+\       'itemlist': [{
+\           '__text__': 'Menu',
+\           'menu': '[higroup]',
+\           'word': 'Menu',
+\         },],
+\     },
+\     'Mo': {
+\       'itemlist': [{
+\           '__text__': 'ModeMsg',
+\           'menu': '[higroup]',
+\           'word': 'ModeMsg',
+\         },{
+\           '__text__': 'MoreMsg',
+\           'menu': '[higroup]',
+\           'word': 'MoreMsg',
+\         },],
+\     },
+\     'NO': {
+\       'itemlist': [{
+\           '__text__': 'NONE',
+\           'menu': '[higroup]',
+\           'word': 'NONE',
+\         },],
+\     },
+\     'No': {
+\       'itemlist': [{
+\           '__text__': 'Normal',
+\           'menu': '[higroup]',
+\           'word': 'Normal',
+\         },{
+\           '__text__': 'NonText',
+\           'menu': '[higroup]',
+\           'word': 'NonText',
+\         },],
+\     },
+\     'Nu': {
+\       'itemlist': [{
+\           '__text__': 'Number',
+\           'menu': '[higroup]',
+\           'word': 'Number',
+\         },],
+\     },
+\     'Op': {
+\       'itemlist': [{
+\           '__text__': 'Operator',
+\           'menu': '[higroup]',
+\           'word': 'Operator',
+\         },],
+\     },
+\     'Pm': {
+\       'itemlist': [{
+\           '__text__': 'Pmenu',
+\           'menu': '[higroup]',
+\           'word': 'Pmenu',
+\         },{
+\           '__text__': 'PmenuSel',
+\           'menu': '[higroup]',
+\           'word': 'PmenuSel',
+\         },{
+\           '__text__': 'PmenuSbar',
+\           'menu': '[higroup]',
+\           'word': 'PmenuSbar',
+\         },{
+\           '__text__': 'PmenuThumb',
+\           'menu': '[higroup]',
+\           'word': 'PmenuThumb',
+\         },],
+\     },
+\     'Pr': {
+\       'itemlist': [{
+\           '__text__': 'PreProc',
+\           'menu': '[higroup]',
+\           'word': 'PreProc',
+\         },{
+\           '__text__': 'PreCondit',
+\           'menu': '[higroup]',
+\           'word': 'PreCondit',
+\         },],
+\     },
+\     'Qu': {
+\       'itemlist': [{
+\           '__text__': 'Question',
+\           'menu': '[higroup]',
+\           'word': 'Question',
+\         },],
+\     },
+\     'Re': {
+\       'itemlist': [{
+\           '__text__': 'Repeat',
+\           'menu': '[higroup]',
+\           'word': 'Repeat',
+\         },],
+\     },
+\     'Sc': {
+\       'itemlist': [{
+\           '__text__': 'Scrollbar',
+\           'menu': '[higroup]',
+\           'word': 'Scrollbar',
+\         },],
+\     },
+\     'Se': {
+\       'itemlist': [{
+\           '__text__': 'Search',
+\           'menu': '[higroup]',
+\           'word': 'Search',
+\         },],
+\     },
+\     'Si': {
+\       'itemlist': [{
+\           '__text__': 'SignColumn',
+\           'menu': '[higroup]',
+\           'word': 'SignColumn',
+\         },],
+\     },
+\     'Sp': {
+\       'itemlist': [{
+\           '__text__': 'Special',
+\           'menu': '[higroup]',
+\           'word': 'Special',
+\         },{
+\           '__text__': 'SpellBad',
+\           'menu': '[higroup]',
+\           'word': 'SpellBad',
+\         },{
+\           '__text__': 'SpellCap',
+\           'menu': '[higroup]',
+\           'word': 'SpellCap',
+\         },{
+\           '__text__': 'SpellRare',
+\           'menu': '[higroup]',
+\           'word': 'SpellRare',
+\         },{
+\           '__text__': 'SpecialKey',
+\           'menu': '[higroup]',
+\           'word': 'SpecialKey',
+\         },{
+\           '__text__': 'SpellLocal',
+\           'menu': '[higroup]',
+\           'word': 'SpellLocal',
+\         },{
+\           '__text__': 'SpecialChar',
+\           'menu': '[higroup]',
+\           'word': 'SpecialChar',
+\         },{
+\           '__text__': 'SpecialComment',
+\           'menu': '[higroup]',
+\           'word': 'SpecialComment',
+\         },],
+\     },
+\     'St': {
+\       'itemlist': [{
+\           '__text__': 'String',
+\           'menu': '[higroup]',
+\           'word': 'String',
+\         },{
+\           '__text__': 'Statement',
+\           'menu': '[higroup]',
+\           'word': 'Statement',
+\         },{
+\           '__text__': 'Structure',
+\           'menu': '[higroup]',
+\           'word': 'Structure',
+\         },{
+\           '__text__': 'StatusLine',
+\           'menu': '[higroup]',
+\           'word': 'StatusLine',
+\         },{
+\           '__text__': 'StatusLineNC',
+\           'menu': '[higroup]',
+\           'word': 'StatusLineNC',
+\         },{
+\           '__text__': 'StorageClass',
+\           'menu': '[higroup]',
+\           'word': 'StorageClass',
+\         },],
+\     },
+\     'Ta': {
+\       'itemlist': [{
+\           '__text__': 'Tag',
+\           'menu': '[higroup]',
+\           'word': 'Tag',
+\         },{
+\           '__text__': 'TabLine',
+\           'menu': '[higroup]',
+\           'word': 'TabLine',
+\         },{
+\           '__text__': 'TabLineSel',
+\           'menu': '[higroup]',
+\           'word': 'TabLineSel',
+\         },{
+\           '__text__': 'TabLineFill',
+\           'menu': '[higroup]',
+\           'word': 'TabLineFill',
+\         },],
+\     },
+\     'Ti': {
+\       'itemlist': [{
+\           '__text__': 'Title',
+\           'menu': '[higroup]',
+\           'word': 'Title',
+\         },],
+\     },
+\     'To': {
+\       'itemlist': [{
+\           '__text__': 'Todo',
+\           'menu': '[higroup]',
+\           'word': 'Todo',
+\         },{
+\           '__text__': 'Tooltip',
+\           'menu': '[higroup]',
+\           'word': 'Tooltip',
+\         },],
+\     },
+\     'Ty': {
+\       'itemlist': [{
+\           '__text__': 'Type',
+\           'menu': '[higroup]',
+\           'word': 'Type',
+\         },{
+\           '__text__': 'Typedef',
+\           'menu': '[higroup]',
+\           'word': 'Typedef',
+\         },],
+\     },
+\     'Un': {
+\       'itemlist': [{
+\           '__text__': 'Underlined',
+\           'menu': '[higroup]',
+\           'word': 'Underlined',
+\         },],
+\     },
+\     'Ve': {
+\       'itemlist': [{
+\           '__text__': 'VertSplit',
+\           'menu': '[higroup]',
+\           'word': 'VertSplit',
+\         },],
+\     },
+\     'Vi': {
+\       'itemlist': [{
+\           '__text__': 'Visual',
+\           'menu': '[higroup]',
+\           'word': 'Visual',
+\         },{
+\           '__text__': 'VisualNOS',
+\           'menu': '[higroup]',
+\           'word': 'VisualNOS',
+\         },],
+\     },
+\     'Wa': {
+\       'itemlist': [{
+\           '__text__': 'WarningMsg',
+\           'menu': '[higroup]',
+\           'word': 'WarningMsg',
+\         },],
+\     },
+\     'Wi': {
+\       'itemlist': [{
+\           '__text__': 'WildMenu',
+\           'menu': '[higroup]',
+\           'word': 'WildMenu',
+\         },],
+\     },
+\     'lC': {
+\       'itemlist': [{
+\           '__text__': 'lCursor',
+\           'menu': '[higroup]',
+\           'word': 'lCursor',
+\         },],
+\     },
+\   },
+\   'indexlen': 2,
+\   'name': 'higroup',
+\   'wordlist': ['Boolean','Character','ColorColumn','Comment','Conceal','Conditional','Constant','Cursor','CursorColumn','CursorIM','CursorLine','CursorLineNr','Debug','Define','Delimiter','DiffAdd','DiffChange','DiffDelete','DiffText','Directory','EndOfBuffer','Error','ErrorMsg','Exception','Float','FoldColumn','Folded','Function','Identifier','Ignore','IncSearch','Include','Keyword','Label','LineNr','Macro','MatchParen','Menu','ModeMsg','MoreMsg','NONE','NonText','Normal','Number','Operator','Pmenu','PmenuSbar','PmenuSel','PmenuThumb','PreCondit','PreProc','Question','Repeat','Scrollbar','Search','SignColumn','Special','SpecialChar','SpecialComment','SpecialKey','SpellBad','SpellCap','SpellLocal','SpellRare','Statement','StatusLine','StatusLineNC','StorageClass','String','Structure','TabLine','TabLineFill','TabLineSel','Tag','Title','Todo','Tooltip','Type','Typedef','Underlined','VertSplit','Visual','VisualNOS','WarningMsg','WildMenu','lCursor',],
+\ }
+lockvar! s:higroup
 let s:exists = {
 \   'conditionlist': [{
 \       'cursor_at': '\m\C\<exists([''"]\zs\%([&+$*:]\|##\?\)\?\%#',
@@ -2907,6 +3513,67 @@ let s:exists = {
 \   'wordlist': ['&','+','$','*',':','#','##',],
 \ }
 lockvar! s:exists
+let s:expandable = {
+\   'conditionlist': [{
+\       'cursor_at': '\m\Cexpand([''"]\zs\%(%\|#\d*\|<\a*\)\?\%#',
+\       'priority': 256,
+\     },],
+\   'index': {
+\     '#': {
+\       'itemlist': [{
+\           '__text__': '#',
+\           'menu': '[expand]',
+\           'word': '#',
+\         },],
+\     },
+\     '%': {
+\       'itemlist': [{
+\           '__text__': '%',
+\           'menu': '[expand]',
+\           'word': '%',
+\         },],
+\     },
+\     '<': {
+\       'itemlist': [{
+\           '__text__': '<abuf>',
+\           'menu': '[expand]',
+\           'word': '<abuf>',
+\         },{
+\           '__text__': '<cfile>',
+\           'menu': '[expand]',
+\           'word': '<cfile>',
+\         },{
+\           '__text__': '<afile>',
+\           'menu': '[expand]',
+\           'word': '<afile>',
+\         },{
+\           '__text__': '<sfile>',
+\           'menu': '[expand]',
+\           'word': '<sfile>',
+\         },{
+\           '__text__': '<slnum>',
+\           'menu': '[expand]',
+\           'word': '<slnum>',
+\         },{
+\           '__text__': '<cword>',
+\           'menu': '[expand]',
+\           'word': '<cword>',
+\         },{
+\           '__text__': '<cWORD>',
+\           'menu': '[expand]',
+\           'word': '<cWORD>',
+\         },{
+\           '__text__': '<client>',
+\           'menu': '[expand]',
+\           'word': '<client>',
+\         },],
+\     },
+\   },
+\   'indexlen': 1,
+\   'name': 'expand',
+\   'wordlist': ['%','#','<cfile>','<afile>','<abuf>','<sfile>','<slnum>','<cword>','<cWORD>','<client>',],
+\ }
+lockvar! s:expandable
 let s:expandablemodifier = {
 \   'conditionlist': [{
 \       'cursor_at': '\m\Cexpand([''"]\%(%\|#\d*\|<\a*\)\zs\%(:[phtre]\?\)\?\%#',
@@ -3384,7 +4051,7 @@ let s:function = {
 \       'cursor_at': '\m\C^\s*let\s\+\%(\h\k*\|\[\h\k*\%(\s*,\s*\h\k*\)\+\]\).*\zs\<\%([gs]:\)\?\k*\%#',
 \       'priority': 256,
 \     },{
-\       'cursor_at': '\m\C\<\%([gs]:\h\k*\|\%([gs]:\)\?\h\k\{5,}\)\%#',
+\       'cursor_at': '\m\C\<\%([gs]:\h\k\{5,}\|\%([gs]:\)\?\h\k\{5,}\)\%#',
 \       'cursor_not_at': '\%(^\s*fu\%[nction]!\?\s\+\|^\s*let\s\+\)\%([gs]:\h\k*\|\%([gs]:\)\?\h\k*\)\%#',
 \       'priority': 128,
 \     },],
@@ -3935,12 +4602,6 @@ let s:function = {
 \           'word': 'exists',
 \         },{
 \           '__func__': 1,
-\           '__text__': 'execute',
-\           'abbr': 'execute({command})',
-\           'menu': '[function]',
-\           'word': 'execute',
-\         },{
-\           '__func__': 1,
 \           '__text__': 'expand',
 \           'abbr': 'expand({expr} [, {nosuf} [, {list}]])',
 \           'menu': '[function]',
@@ -3951,6 +4612,12 @@ let s:function = {
 \           'abbr': 'extend({expr1}, {expr2} [, {expr3}])',
 \           'menu': '[function]',
 \           'word': 'extend',
+\         },{
+\           '__func__': 1,
+\           '__text__': 'execute',
+\           'abbr': 'execute({command})',
+\           'menu': '[function]',
+\           'word': 'execute',
 \         },{
 \           '__func__': 1,
 \           '__text__': 'executable',
@@ -4116,16 +4783,16 @@ let s:function = {
 \     'ge': {
 \       'itemlist': [{
 \           '__func__': 1,
-\           '__text__': 'getline',
-\           'abbr': 'getline({lnum})',
-\           'menu': '[function]',
-\           'word': 'getline',
-\         },{
-\           '__func__': 1,
 \           '__text__': 'get',
 \           'abbr': 'get({list}, {idx} [, {def}])',
 \           'menu': '[function]',
 \           'word': 'get',
+\         },{
+\           '__func__': 1,
+\           '__text__': 'getline',
+\           'abbr': 'getline({lnum})',
+\           'menu': '[function]',
+\           'word': 'getline',
 \         },{
 \           '__func__': 1,
 \           '__text__': 'getpos',
@@ -4176,16 +4843,16 @@ let s:function = {
 \           'word': 'getmatches',
 \         },{
 \           '__func__': 1,
-\           '__text__': 'getftime',
-\           'abbr': 'getftime({fname})',
-\           'menu': '[function]',
-\           'word': 'getftime',
-\         },{
-\           '__func__': 1,
 \           '__text__': 'getcurpos',
 \           'abbr': 'getcurpos()',
 \           'menu': '[function]',
 \           'word': 'getcurpos',
+\         },{
+\           '__func__': 1,
+\           '__text__': 'getftime',
+\           'abbr': 'getftime({fname})',
+\           'menu': '[function]',
+\           'word': 'getftime',
 \         },{
 \           '__func__': 1,
 \           '__text__': 'getbufinfo',
@@ -4433,28 +5100,28 @@ let s:function = {
 \     'in': {
 \       'itemlist': [{
 \           '__func__': 1,
-\           '__text__': 'indent',
-\           'abbr': 'indent({lnum})',
-\           'menu': '[function]',
-\           'word': 'indent',
-\         },{
-\           '__func__': 1,
 \           '__text__': 'input',
 \           'abbr': 'input({prompt} [, {text} [, {completion}]])',
 \           'menu': '[function]',
 \           'word': 'input',
 \         },{
 \           '__func__': 1,
-\           '__text__': 'index',
-\           'abbr': 'index({list}, {expr} [, {start} [, {ic}]])',
+\           '__text__': 'indent',
+\           'abbr': 'indent({lnum})',
 \           'menu': '[function]',
-\           'word': 'index',
+\           'word': 'indent',
 \         },{
 \           '__func__': 1,
 \           '__text__': 'insert',
 \           'abbr': 'insert({list}, {item} [, {idx}])',
 \           'menu': '[function]',
 \           'word': 'insert',
+\         },{
+\           '__func__': 1,
+\           '__text__': 'index',
+\           'abbr': 'index({list}, {expr} [, {start} [, {ic}]])',
+\           'menu': '[function]',
+\           'word': 'index',
 \         },{
 \           '__func__': 1,
 \           '__text__': 'inputsecret',
@@ -4650,16 +5317,16 @@ let s:function = {
 \     'lo': {
 \       'itemlist': [{
 \           '__func__': 1,
-\           '__text__': 'localtime',
-\           'abbr': 'localtime()',
-\           'menu': '[function]',
-\           'word': 'localtime',
-\         },{
-\           '__func__': 1,
 \           '__text__': 'log',
 \           'abbr': 'log({expr})',
 \           'menu': '[function]',
 \           'word': 'log',
+\         },{
+\           '__func__': 1,
+\           '__text__': 'localtime',
+\           'abbr': 'localtime()',
+\           'menu': '[function]',
+\           'word': 'localtime',
 \         },],
 \     },
 \     'lu': {
@@ -4710,22 +5377,28 @@ let s:function = {
 \           'word': 'matchaddpos',
 \         },{
 \           '__func__': 1,
-\           '__text__': 'maparg',
-\           'abbr': 'maparg({name}[, {mode} [, {abbr} [, {dict}]]])',
-\           'menu': '[function]',
-\           'word': 'maparg',
-\         },{
-\           '__func__': 1,
 \           '__text__': 'mapcheck',
 \           'abbr': 'mapcheck({name}[, {mode} [, {abbr}]])',
 \           'menu': '[function]',
 \           'word': 'mapcheck',
 \         },{
 \           '__func__': 1,
+\           '__text__': 'matchdelete',
+\           'abbr': 'matchdelete({id})',
+\           'menu': '[function]',
+\           'word': 'matchdelete',
+\         },{
+\           '__func__': 1,
 \           '__text__': 'matchadd',
 \           'abbr': 'matchadd({group}, {pattern}[, {priority}[, {id} [, {dict}]]])',
 \           'menu': '[function]',
 \           'word': 'matchadd',
+\         },{
+\           '__func__': 1,
+\           '__text__': 'maparg',
+\           'abbr': 'maparg({name}[, {mode} [, {abbr} [, {dict}]]])',
+\           'menu': '[function]',
+\           'word': 'maparg',
 \         },{
 \           '__func__': 1,
 \           '__text__': 'matchlist',
@@ -4738,12 +5411,6 @@ let s:function = {
 \           'abbr': 'matchstrpos({expr}, {pat}[, {start}[, {count}]])',
 \           'menu': '[function]',
 \           'word': 'matchstrpos',
-\         },{
-\           '__func__': 1,
-\           '__text__': 'matchdelete',
-\           'abbr': 'matchdelete({id})',
-\           'menu': '[function]',
-\           'word': 'matchdelete',
 \         },{
 \           '__func__': 1,
 \           '__text__': 'matcharg',
@@ -4872,16 +5539,16 @@ let s:function = {
 \           'word': 'reltime',
 \         },{
 \           '__func__': 1,
-\           '__text__': 'remove',
-\           'abbr': 'remove({list}, {idx} [, {end}])',
-\           'menu': '[function]',
-\           'word': 'remove',
-\         },{
-\           '__func__': 1,
 \           '__text__': 'repeat',
 \           'abbr': 'repeat({expr}, {count})',
 \           'menu': '[function]',
 \           'word': 'repeat',
+\         },{
+\           '__func__': 1,
+\           '__text__': 'remove',
+\           'abbr': 'remove({list}, {idx} [, {end}])',
+\           'menu': '[function]',
+\           'word': 'remove',
 \         },{
 \           '__func__': 1,
 \           '__text__': 'readfile',
@@ -5199,16 +5866,16 @@ let s:function = {
 \           'word': 'string',
 \         },{
 \           '__func__': 1,
-\           '__text__': 'strpart',
-\           'abbr': 'strpart({str}, {start}[, {len}])',
-\           'menu': '[function]',
-\           'word': 'strpart',
-\         },{
-\           '__func__': 1,
 \           '__text__': 'strlen',
 \           'abbr': 'strlen({expr})',
 \           'menu': '[function]',
 \           'word': 'strlen',
+\         },{
+\           '__func__': 1,
+\           '__text__': 'strpart',
+\           'abbr': 'strpart({str}, {start}[, {len}])',
+\           'menu': '[function]',
+\           'word': 'strpart',
 \         },{
 \           '__func__': 1,
 \           '__text__': 'stridx',
@@ -5229,16 +5896,16 @@ let s:function = {
 \           'word': 'strftime',
 \         },{
 \           '__func__': 1,
-\           '__text__': 'strchars',
-\           'abbr': 'strchars({expr} [, {skipcc}])',
-\           'menu': '[function]',
-\           'word': 'strchars',
-\         },{
-\           '__func__': 1,
 \           '__text__': 'strwidth',
 \           'abbr': 'strwidth({expr})',
 \           'menu': '[function]',
 \           'word': 'strwidth',
+\         },{
+\           '__func__': 1,
+\           '__text__': 'strchars',
+\           'abbr': 'strchars({expr} [, {skipcc}])',
+\           'menu': '[function]',
+\           'word': 'strchars',
 \         },{
 \           '__func__': 1,
 \           '__text__': 'strcharpart',
@@ -5283,10 +5950,10 @@ let s:function = {
 \     'sy': {
 \       'itemlist': [{
 \           '__func__': 1,
-\           '__text__': 'system',
-\           'abbr': 'system({expr} [, {input}])',
+\           '__text__': 'synIDattr',
+\           'abbr': 'synIDattr({synID}, {what} [, {mode}])',
 \           'menu': '[function]',
-\           'word': 'system',
+\           'word': 'synIDattr',
 \         },{
 \           '__func__': 1,
 \           '__text__': 'synID',
@@ -5295,22 +5962,22 @@ let s:function = {
 \           'word': 'synID',
 \         },{
 \           '__func__': 1,
-\           '__text__': 'synIDattr',
-\           'abbr': 'synIDattr({synID}, {what} [, {mode}])',
+\           '__text__': 'system',
+\           'abbr': 'system({expr} [, {input}])',
 \           'menu': '[function]',
-\           'word': 'synIDattr',
-\         },{
-\           '__func__': 1,
-\           '__text__': 'synstack',
-\           'abbr': 'synstack({lnum}, {col})',
-\           'menu': '[function]',
-\           'word': 'synstack',
+\           'word': 'system',
 \         },{
 \           '__func__': 1,
 \           '__text__': 'synIDtrans',
 \           'abbr': 'synIDtrans({synID})',
 \           'menu': '[function]',
 \           'word': 'synIDtrans',
+\         },{
+\           '__func__': 1,
+\           '__text__': 'synstack',
+\           'abbr': 'synstack({lnum}, {col})',
+\           'menu': '[function]',
+\           'word': 'synstack',
 \         },{
 \           '__func__': 1,
 \           '__text__': 'synconcealed',
@@ -5681,64 +6348,16 @@ let s:function = {
 \   'name': 'function',
 \   'wordlist': [{
 \       '__func__': 1,
-\       '__text__': 'call',
-\       'abbr': 'call({func}, {arglist} [, {dict}])',
-\       'menu': '[function]',
-\       'word': 'call',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'function',
-\       'abbr': 'function({name} [, {arglist}] [, {dict}])',
-\       'menu': '[function]',
-\       'word': 'function',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'exists',
 \       'abbr': 'exists({expr})',
 \       'menu': '[function]',
 \       'word': 'exists',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'line',
-\       'abbr': 'line({expr})',
+\       '__text__': 'call',
+\       'abbr': 'call({func}, {arglist} [, {dict}])',
 \       'menu': '[function]',
-\       'word': 'line',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'copy',
-\       'abbr': 'copy({expr})',
-\       'menu': '[function]',
-\       'word': 'copy',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'cursor',
-\       'abbr': 'cursor({lnum}, {col} [, {off}])',
-\       'menu': '[function]',
-\       'word': 'cursor',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'execute',
-\       'abbr': 'execute({command})',
-\       'menu': '[function]',
-\       'word': 'execute',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'has',
-\       'abbr': 'has({feature})',
-\       'menu': '[function]',
-\       'word': 'has',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'getline',
-\       'abbr': 'getline({lnum})',
-\       'menu': '[function]',
-\       'word': 'getline',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'get',
-\       'abbr': 'get({list}, {idx} [, {def}])',
-\       'menu': '[function]',
-\       'word': 'get',
+\       'word': 'call',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'mode',
@@ -5747,10 +6366,64 @@ let s:function = {
 \       'word': 'mode',
 \     },{
 \       '__func__': 1,
+\       '__text__': 'line',
+\       'abbr': 'line({expr})',
+\       'menu': '[function]',
+\       'word': 'line',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'string',
+\       'abbr': 'string({expr})',
+\       'menu': '[function]',
+\       'word': 'string',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'cursor',
+\       'abbr': 'cursor({lnum}, {col} [, {off}])',
+\       'menu': '[function]',
+\       'word': 'cursor',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'copy',
+\       'abbr': 'copy({expr})',
+\       'menu': '[function]',
+\       'word': 'copy',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'get',
+\       'abbr': 'get({list}, {idx} [, {def}])',
+\       'menu': '[function]',
+\       'word': 'get',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'getline',
+\       'abbr': 'getline({lnum})',
+\       'menu': '[function]',
+\       'word': 'getline',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'has',
+\       'abbr': 'has({feature})',
+\       'menu': '[function]',
+\       'word': 'has',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'input',
+\       'abbr': 'input({prompt} [, {text} [, {completion}]])',
+\       'menu': '[function]',
+\       'word': 'input',
+\     },{
+\       '__func__': 1,
 \       '__text__': 'count',
 \       'abbr': 'count({list}, {expr} [, {ic} [, {start}]])',
 \       'menu': '[function]',
 \       'word': 'count',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'len',
+\       'abbr': 'len({expr})',
+\       'menu': '[function]',
+\       'word': 'len',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'getpos',
@@ -5765,22 +6438,10 @@ let s:function = {
 \       'word': 'filter',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'len',
-\       'abbr': 'len({expr})',
-\       'menu': '[function]',
-\       'word': 'len',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'deepcopy',
 \       'abbr': 'deepcopy({expr} [, {noref}])',
 \       'menu': '[function]',
 \       'word': 'deepcopy',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'expand',
-\       'abbr': 'expand({expr} [, {nosuf} [, {list}]])',
-\       'menu': '[function]',
-\       'word': 'expand',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'substitute',
@@ -5789,16 +6450,16 @@ let s:function = {
 \       'word': 'substitute',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'printf',
-\       'abbr': 'printf({fmt}, {expr1}...)',
-\       'menu': '[function]',
-\       'word': 'printf',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'range',
 \       'abbr': 'range({expr} [, {max} [, {stride}]])',
 \       'menu': '[function]',
 \       'word': 'range',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'expand',
+\       'abbr': 'expand({expr} [, {nosuf} [, {list}]])',
+\       'menu': '[function]',
+\       'word': 'expand',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'map',
@@ -5807,10 +6468,16 @@ let s:function = {
 \       'word': 'map',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'string',
-\       'abbr': 'string({expr})',
+\       '__text__': 'search',
+\       'abbr': 'search({pattern} [, {flags} [, {stopline} [, {timeout}]]])',
 \       'menu': '[function]',
-\       'word': 'string',
+\       'word': 'search',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'printf',
+\       'abbr': 'printf({fmt}, {expr1}...)',
+\       'menu': '[function]',
+\       'word': 'printf',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'type',
@@ -5819,22 +6486,10 @@ let s:function = {
 \       'word': 'type',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'search',
-\       'abbr': 'search({pattern} [, {flags} [, {stopline} [, {timeout}]]])',
-\       'menu': '[function]',
-\       'word': 'search',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'col',
 \       'abbr': 'col({expr})',
 \       'menu': '[function]',
 \       'word': 'col',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'has_key',
-\       'abbr': 'has_key({dict}, {key})',
-\       'menu': '[function]',
-\       'word': 'has_key',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'indent',
@@ -5843,16 +6498,16 @@ let s:function = {
 \       'word': 'indent',
 \     },{
 \       '__func__': 1,
+\       '__text__': 'has_key',
+\       'abbr': 'has_key({dict}, {key})',
+\       'menu': '[function]',
+\       'word': 'has_key',
+\     },{
+\       '__func__': 1,
 \       '__text__': 'setpos',
 \       'abbr': 'setpos({expr}, {list})',
 \       'menu': '[function]',
 \       'word': 'setpos',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'input',
-\       'abbr': 'input({prompt} [, {text} [, {completion}]])',
-\       'menu': '[function]',
-\       'word': 'input',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'add',
@@ -5861,16 +6516,16 @@ let s:function = {
 \       'word': 'add',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'searchpos',
-\       'abbr': 'searchpos({pattern} [, {flags} [, {stopline} [, {timeout}]]])',
-\       'menu': '[function]',
-\       'word': 'searchpos',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'matchstr',
 \       'abbr': 'matchstr({expr}, {pat}[, {start}[, {count}]])',
 \       'menu': '[function]',
 \       'word': 'matchstr',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'searchpos',
+\       'abbr': 'searchpos({pattern} [, {flags} [, {stopline} [, {timeout}]]])',
+\       'menu': '[function]',
+\       'word': 'searchpos',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'setline',
@@ -5885,16 +6540,16 @@ let s:function = {
 \       'word': 'match',
 \     },{
 \       '__func__': 1,
+\       '__text__': 'delete',
+\       'abbr': 'delete({fname} [, {flags}])',
+\       'menu': '[function]',
+\       'word': 'delete',
+\     },{
+\       '__func__': 1,
 \       '__text__': 'append',
 \       'abbr': 'append({lnum}, {string})',
 \       'menu': '[function]',
 \       'word': 'append',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'visualmode',
-\       'abbr': 'visualmode([expr])',
-\       'menu': '[function]',
-\       'word': 'visualmode',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'items',
@@ -5903,28 +6558,28 @@ let s:function = {
 \       'word': 'items',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'strpart',
-\       'abbr': 'strpart({str}, {start}[, {len}])',
-\       'menu': '[function]',
-\       'word': 'strpart',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'strlen',
 \       'abbr': 'strlen({expr})',
 \       'menu': '[function]',
 \       'word': 'strlen',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'fnameescape',
-\       'abbr': 'fnameescape({fname})',
+\       '__text__': 'strpart',
+\       'abbr': 'strpart({str}, {start}[, {len}])',
 \       'menu': '[function]',
-\       'word': 'fnameescape',
+\       'word': 'strpart',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'delete',
-\       'abbr': 'delete({fname} [, {flags}])',
+\       '__text__': 'function',
+\       'abbr': 'function({name} [, {arglist}] [, {dict}])',
 \       'menu': '[function]',
-\       'word': 'delete',
+\       'word': 'function',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'visualmode',
+\       'abbr': 'visualmode([expr])',
+\       'menu': '[function]',
+\       'word': 'visualmode',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'escape',
@@ -5933,22 +6588,10 @@ let s:function = {
 \       'word': 'escape',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'winsaveview',
-\       'abbr': 'winsaveview()',
-\       'menu': '[function]',
-\       'word': 'winsaveview',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'split',
 \       'abbr': 'split({expr} [, {pat} [, {keepempty}]])',
 \       'menu': '[function]',
 \       'word': 'split',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'winrestview',
-\       'abbr': 'winrestview({dict})',
-\       'menu': '[function]',
-\       'word': 'winrestview',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'join',
@@ -5957,46 +6600,22 @@ let s:function = {
 \       'word': 'join',
 \     },{
 \       '__func__': 1,
+\       '__text__': 'winsaveview',
+\       'abbr': 'winsaveview()',
+\       'menu': '[function]',
+\       'word': 'winsaveview',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'winrestview',
+\       'abbr': 'winrestview({dict})',
+\       'menu': '[function]',
+\       'word': 'winrestview',
+\     },{
+\       '__func__': 1,
 \       '__text__': 'min',
 \       'abbr': 'min({expr})',
 \       'menu': '[function]',
 \       'word': 'min',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'winnr',
-\       'abbr': 'winnr([{expr}])',
-\       'menu': '[function]',
-\       'word': 'winnr',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'extend',
-\       'abbr': 'extend({expr1}, {expr2} [, {expr3}])',
-\       'menu': '[function]',
-\       'word': 'extend',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'sort',
-\       'abbr': 'sort({list} [, {func} [, {dict}]])',
-\       'menu': '[function]',
-\       'word': 'sort',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'bufnr',
-\       'abbr': 'bufnr({expr} [, {create}])',
-\       'menu': '[function]',
-\       'word': 'bufnr',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'empty',
-\       'abbr': 'empty({expr})',
-\       'menu': '[function]',
-\       'word': 'empty',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'shiftwidth',
-\       'abbr': 'shiftwidth()',
-\       'menu': '[function]',
-\       'word': 'shiftwidth',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'reltime',
@@ -6005,16 +6624,22 @@ let s:function = {
 \       'word': 'reltime',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'complete',
-\       'abbr': 'complete({startcol}, {matches})',
+\       '__text__': 'shiftwidth',
+\       'abbr': 'shiftwidth()',
 \       'menu': '[function]',
-\       'word': 'complete',
+\       'word': 'shiftwidth',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'max',
-\       'abbr': 'max({expr})',
+\       '__text__': 'empty',
+\       'abbr': 'empty({expr})',
 \       'menu': '[function]',
-\       'word': 'max',
+\       'word': 'empty',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'sort',
+\       'abbr': 'sort({list} [, {func} [, {dict}]])',
+\       'menu': '[function]',
+\       'word': 'sort',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'eval',
@@ -6023,16 +6648,70 @@ let s:function = {
 \       'word': 'eval',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'stridx',
-\       'abbr': 'stridx({haystack}, {needle}[, {start}])',
+\       '__text__': 'extend',
+\       'abbr': 'extend({expr1}, {expr2} [, {expr3}])',
 \       'menu': '[function]',
-\       'word': 'stridx',
+\       'word': 'extend',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'fnameescape',
+\       'abbr': 'fnameescape({fname})',
+\       'menu': '[function]',
+\       'word': 'fnameescape',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'winnr',
+\       'abbr': 'winnr([{expr}])',
+\       'menu': '[function]',
+\       'word': 'winnr',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'complete',
+\       'abbr': 'complete({startcol}, {matches})',
+\       'menu': '[function]',
+\       'word': 'complete',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'bufnr',
+\       'abbr': 'bufnr({expr} [, {create}])',
+\       'menu': '[function]',
+\       'word': 'bufnr',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'max',
+\       'abbr': 'max({expr})',
+\       'menu': '[function]',
+\       'word': 'max',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'synIDattr',
+\       'abbr': 'synIDattr({synID}, {what} [, {mode}])',
+\       'menu': '[function]',
+\       'word': 'synIDattr',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'repeat',
+\       'abbr': 'repeat({expr}, {count})',
+\       'menu': '[function]',
+\       'word': 'repeat',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'matchend',
 \       'abbr': 'matchend({expr}, {pat}[, {start}[, {count}]])',
 \       'menu': '[function]',
 \       'word': 'matchend',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'stridx',
+\       'abbr': 'stridx({haystack}, {needle}[, {start}])',
+\       'menu': '[function]',
+\       'word': 'stridx',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'matchaddpos',
+\       'abbr': 'matchaddpos({group}, {pos}[, {priority}[, {id}[, {dict}]]])',
+\       'menu': '[function]',
+\       'word': 'matchaddpos',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'remove',
@@ -6047,6 +6726,18 @@ let s:function = {
 \       'word': 'searchpairpos',
 \     },{
 \       '__func__': 1,
+\       '__text__': 'execute',
+\       'abbr': 'execute({command})',
+\       'menu': '[function]',
+\       'word': 'execute',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'synID',
+\       'abbr': 'synID({lnum}, {col}, {trans})',
+\       'menu': '[function]',
+\       'word': 'synID',
+\     },{
+\       '__func__': 1,
 \       '__text__': 'system',
 \       'abbr': 'system({expr} [, {input}])',
 \       'menu': '[function]',
@@ -6059,16 +6750,10 @@ let s:function = {
 \       'word': 'tabpagenr',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'hasmapto',
-\       'abbr': 'hasmapto({what} [, {mode} [, {abbr}]])',
+\       '__text__': 'foldtext',
+\       'abbr': 'foldtext()',
 \       'menu': '[function]',
-\       'word': 'hasmapto',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'matchaddpos',
-\       'abbr': 'matchaddpos({group}, {pos}[, {priority}[, {id}[, {dict}]]])',
-\       'menu': '[function]',
-\       'word': 'matchaddpos',
+\       'word': 'foldtext',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'keys',
@@ -6077,46 +6762,22 @@ let s:function = {
 \       'word': 'keys',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'maparg',
-\       'abbr': 'maparg({name}[, {mode} [, {abbr} [, {dict}]]])',
-\       'menu': '[function]',
-\       'word': 'maparg',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'repeat',
-\       'abbr': 'repeat({expr}, {count})',
-\       'menu': '[function]',
-\       'word': 'repeat',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'synID',
-\       'abbr': 'synID({lnum}, {col}, {trans})',
-\       'menu': '[function]',
-\       'word': 'synID',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'synIDattr',
-\       'abbr': 'synIDattr({synID}, {what} [, {mode}])',
-\       'menu': '[function]',
-\       'word': 'synIDattr',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'getregtype',
 \       'abbr': 'getregtype([{regname}])',
 \       'menu': '[function]',
 \       'word': 'getregtype',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'values',
-\       'abbr': 'values({dict})',
+\       '__text__': 'hasmapto',
+\       'abbr': 'hasmapto({what} [, {mode} [, {abbr}]])',
 \       'menu': '[function]',
-\       'word': 'values',
+\       'word': 'hasmapto',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'foldtext',
-\       'abbr': 'foldtext()',
+\       '__text__': 'setreg',
+\       'abbr': 'setreg({n}, {v}[, {opt}])',
 \       'menu': '[function]',
-\       'word': 'foldtext',
+\       'word': 'setreg',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'getcwd',
@@ -6131,22 +6792,22 @@ let s:function = {
 \       'word': 'getreg',
 \     },{
 \       '__func__': 1,
+\       '__text__': 'insert',
+\       'abbr': 'insert({list}, {item} [, {idx}])',
+\       'menu': '[function]',
+\       'word': 'insert',
+\     },{
+\       '__func__': 1,
 \       '__text__': 'mapcheck',
 \       'abbr': 'mapcheck({name}[, {mode} [, {abbr}]])',
 \       'menu': '[function]',
 \       'word': 'mapcheck',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'index',
-\       'abbr': 'index({list}, {expr} [, {start} [, {ic}]])',
+\       '__text__': 'matchdelete',
+\       'abbr': 'matchdelete({id})',
 \       'menu': '[function]',
-\       'word': 'index',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'virtcol',
-\       'abbr': 'virtcol({expr})',
-\       'menu': '[function]',
-\       'word': 'virtcol',
+\       'word': 'matchdelete',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'feedkeys',
@@ -6155,10 +6816,28 @@ let s:function = {
 \       'word': 'feedkeys',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'and',
-\       'abbr': 'and({expr}, {expr})',
+\       '__text__': 'index',
+\       'abbr': 'index({list}, {expr} [, {start} [, {ic}]])',
 \       'menu': '[function]',
-\       'word': 'and',
+\       'word': 'index',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'matchadd',
+\       'abbr': 'matchadd({group}, {pattern}[, {priority}[, {id} [, {dict}]]])',
+\       'menu': '[function]',
+\       'word': 'matchadd',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'virtcol',
+\       'abbr': 'virtcol({expr})',
+\       'menu': '[function]',
+\       'word': 'virtcol',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'win_getid',
+\       'abbr': 'win_getid([{win} [, {tab}]])',
+\       'menu': '[function]',
+\       'word': 'win_getid',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'bufname',
@@ -6185,10 +6864,10 @@ let s:function = {
 \       'word': 'getcompletion',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'matchadd',
-\       'abbr': 'matchadd({group}, {pattern}[, {priority}[, {id} [, {dict}]]])',
+\       '__text__': 'maparg',
+\       'abbr': 'maparg({name}[, {mode} [, {abbr} [, {dict}]]])',
 \       'menu': '[function]',
-\       'word': 'matchadd',
+\       'word': 'maparg',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'matchlist',
@@ -6215,10 +6894,34 @@ let s:function = {
 \       'word': 'reltimestr',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'win_getid',
-\       'abbr': 'win_getid([{win} [, {tab}]])',
+\       '__text__': 'reverse',
+\       'abbr': 'reverse({list})',
 \       'menu': '[function]',
-\       'word': 'win_getid',
+\       'word': 'reverse',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'shellescape',
+\       'abbr': 'shellescape({string} [, {special}])',
+\       'menu': '[function]',
+\       'word': 'shellescape',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'synIDtrans',
+\       'abbr': 'synIDtrans({synID})',
+\       'menu': '[function]',
+\       'word': 'synIDtrans',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'synstack',
+\       'abbr': 'synstack({lnum}, {col})',
+\       'menu': '[function]',
+\       'word': 'synstack',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'values',
+\       'abbr': 'values({dict})',
+\       'menu': '[function]',
+\       'word': 'values',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'executable',
@@ -6237,24 +6940,6 @@ let s:function = {
 \       'abbr': 'globpath({path}, {expr} [, {nosuf} [, {list} [, {alllinks}]]])',
 \       'menu': '[function]',
 \       'word': 'globpath',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'insert',
-\       'abbr': 'insert({list}, {item} [, {idx}])',
-\       'menu': '[function]',
-\       'word': 'insert',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'reverse',
-\       'abbr': 'reverse({list})',
-\       'menu': '[function]',
-\       'word': 'reverse',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'synstack',
-\       'abbr': 'synstack({lnum}, {col})',
-\       'menu': '[function]',
-\       'word': 'synstack',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'uniq',
@@ -6287,22 +6972,10 @@ let s:function = {
 \       'word': 'isdirectory',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'matchdelete',
-\       'abbr': 'matchdelete({id})',
+\       '__text__': 'tr',
+\       'abbr': 'tr({src}, {fromstr}, {tostr})',
 \       'menu': '[function]',
-\       'word': 'matchdelete',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'setreg',
-\       'abbr': 'setreg({n}, {v}[, {opt}])',
-\       'menu': '[function]',
-\       'word': 'setreg',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'shellescape',
-\       'abbr': 'shellescape({string} [, {special}])',
-\       'menu': '[function]',
-\       'word': 'shellescape',
+\       'word': 'tr',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'bufloaded',
@@ -6327,7 +7000,13 @@ let s:function = {
 \       'abbr': 'getmatches()',
 \       'menu': '[function]',
 \       'word': 'getmatches',
-\     },'highlightID',{
+\     },{
+\       '__func__': 1,
+\       '__text__': 'hostname',
+\       'abbr': 'hostname()',
+\       'menu': '[function]',
+\       'word': 'hostname',
+\     },{
 \       '__func__': 1,
 \       '__text__': 'strdisplaywidth',
 \       'abbr': 'strdisplaywidth({expr} [, {col}])',
@@ -6341,16 +7020,16 @@ let s:function = {
 \       'word': 'strftime',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'synIDtrans',
-\       'abbr': 'synIDtrans({synID})',
-\       'menu': '[function]',
-\       'word': 'synIDtrans',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'win_gotoid',
 \       'abbr': 'win_gotoid({expr})',
 \       'menu': '[function]',
 \       'word': 'win_gotoid',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'and',
+\       'abbr': 'and({expr}, {expr})',
+\       'menu': '[function]',
+\       'word': 'and',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'bufwinnr',
@@ -6371,6 +7050,12 @@ let s:function = {
 \       'word': 'finddir',
 \     },{
 \       '__func__': 1,
+\       '__text__': 'getcurpos',
+\       'abbr': 'getcurpos()',
+\       'menu': '[function]',
+\       'word': 'getcurpos',
+\     },{
+\       '__func__': 1,
 \       '__text__': 'getftime',
 \       'abbr': 'getftime({fname})',
 \       'menu': '[function]',
@@ -6383,10 +7068,10 @@ let s:function = {
 \       'word': 'hlexists',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'hostname',
-\       'abbr': 'hostname()',
+\       '__text__': 'log',
+\       'abbr': 'log({expr})',
 \       'menu': '[function]',
-\       'word': 'hostname',
+\       'word': 'log',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'nextnonblank',
@@ -6395,16 +7080,22 @@ let s:function = {
 \       'word': 'nextnonblank',
 \     },{
 \       '__func__': 1,
+\       '__text__': 'or',
+\       'abbr': 'or({expr}, {expr})',
+\       'menu': '[function]',
+\       'word': 'or',
+\     },{
+\       '__func__': 1,
 \       '__text__': 'searchpair',
 \       'abbr': 'searchpair({start}, {middle}, {end} [, {flags} [, {skip} [...]]])',
 \       'menu': '[function]',
 \       'word': 'searchpair',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'submatch',
-\       'abbr': 'submatch({nr}[, {list}])',
+\       '__text__': 'strwidth',
+\       'abbr': 'strwidth({expr})',
 \       'menu': '[function]',
-\       'word': 'submatch',
+\       'word': 'strwidth',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'timer_start',
@@ -6467,12 +7158,6 @@ let s:function = {
 \       'word': 'bufexists',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'getcurpos',
-\       'abbr': 'getcurpos()',
-\       'menu': '[function]',
-\       'word': 'getcurpos',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'glob',
 \       'abbr': 'glob({expr} [, {nosuf} [, {list} [, {alllinks}]]])',
 \       'menu': '[function]',
@@ -6509,22 +7194,16 @@ let s:function = {
 \       'word': 'strchars',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'strwidth',
-\       'abbr': 'strwidth({expr})',
+\       '__text__': 'submatch',
+\       'abbr': 'submatch({nr}[, {list}])',
 \       'menu': '[function]',
-\       'word': 'strwidth',
+\       'word': 'submatch',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'tempname',
 \       'abbr': 'tempname()',
 \       'menu': '[function]',
 \       'word': 'tempname',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'tr',
-\       'abbr': 'tr({src}, {fromstr}, {tostr})',
-\       'menu': '[function]',
-\       'word': 'tr',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'acos',
@@ -7023,7 +7702,7 @@ let s:function = {
 \       'abbr': 'getwinvar({nr}, {varname} [, {def}])',
 \       'menu': '[function]',
 \       'word': 'getwinvar',
-\     },'highlight_exists',{
+\     },'highlightID','highlight_exists',{
 \       '__func__': 1,
 \       '__text__': 'histadd',
 \       'abbr': 'histadd({history}, {item})',
@@ -7187,12 +7866,6 @@ let s:function = {
 \       'word': 'localtime',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'log',
-\       'abbr': 'log({expr})',
-\       'menu': '[function]',
-\       'word': 'log',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'luaeval',
 \       'abbr': 'luaeval({expr}[, {expr}])',
 \       'menu': '[function]',
@@ -7209,12 +7882,6 @@ let s:function = {
 \       'abbr': 'mkdir({name} [, {path} [, {prot}]])',
 \       'menu': '[function]',
 \       'word': 'mkdir',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'or',
-\       'abbr': 'or({expr}, {expr})',
-\       'menu': '[function]',
-\       'word': 'or',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'pathshorten',

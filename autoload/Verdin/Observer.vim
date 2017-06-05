@@ -73,12 +73,14 @@ let s:Observer = {
       \     'buffermember': {},
       \     'bufferkeymap': {},
       \     'buffercommand': {},
+      \     'bufferhigroup': {},
       \     'buffertag': {},
       \     'globalvar': {},
       \     'globalfunc': {},
       \     'globalmember': {},
       \     'globalkeymap': {},
       \     'globalcommand': {},
+      \     'globalhigroup': {},
       \     'globaltag': {},
       \     'varfragment': {},
       \     'funcfragment': {},
@@ -124,6 +126,7 @@ function! s:Observer._inspectvim(range) dict abort "{{{
   let funclist = s:functionitems(s:scan(s:const.FUNCDEFINITIONREGEX, bufstart, bufend, self.clock))
   let keymaplist = s:scan(s:const.KEYMAPREGEX, bufstart, bufend, self.clock)
   let commandlist = s:scan(s:const.COMMANDREGEX, bufstart, bufend, self.clock)
+  let higrouplist = s:scan(s:const.HIGROUPREGEX, bufstart, bufend, self.clock)
   call call('setpos', visualhead)
   call call('setpos', visualtail)
   call call('setreg', reg)
@@ -160,6 +163,12 @@ function! s:Observer._inspectvim(range) dict abort "{{{
     let conditionlist = Completer.shelf.command.conditionlist
     let command = Verdin#Dictionary#new('command', conditionlist, commandlist, 2)
     call s:inject(self.shelf['buffercommand'], command)
+  endif
+  if higrouplist != []
+    let options = {'delimitermatch': 1}
+    let conditionlist = Completer.shelf.higroup.conditionlist
+    let higroup = Verdin#Dictionary#new('higroup', conditionlist, higrouplist, 2, options)
+    call s:inject(self.shelf['bufferhigroup'], higroup)
   endif
   if self.shelf.funcfragment == {}
     let funcfragmentconditionlist = map(deepcopy(Completer.shelf.function.conditionlist), 'extend(v:val, {"priority": get(v:val, "priority", 0) + 128}, "force")')
@@ -219,6 +228,7 @@ function! s:Observer._checkglobalsvim() dict abort "{{{
   let memberlist = []
   let keymapwordlist = []
   let commandlist = []
+  let higrouplist = []
   for bufinfo in listedbufs
     let Observer = Verdin#Observer#get(bufinfo.bufnr)
     if Observer.changedtick.buffer == -1
@@ -231,6 +241,7 @@ function! s:Observer._checkglobalsvim() dict abort "{{{
     let memberlist += copy(get(Observer.shelf.bufferfunc, 'wordlist', []))
     let keymapwordlist += filter(copy(get(Observer.shelf.bufferkeymap, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^<Plug>''')
     let commandlist += get(Observer.shelf.buffercommand, 'wordlist', [])
+    let higrouplist += get(Observer.shelf.bufferhigroup, 'wordlist', [])
   endfor
   let Completer = Verdin#Completer#get()
   if varlist != []
@@ -254,6 +265,11 @@ function! s:Observer._checkglobalsvim() dict abort "{{{
     let conditionlist = Completer.shelf.command.conditionlist
     let command = Verdin#Dictionary#new('command', conditionlist, commandlist, 2)
     call s:inject(self.shelf['globalcommand'], command)
+  endif
+  if higrouplist != []
+    let conditionlist = Completer.shelf.higroup.conditionlist
+    let higroup = Verdin#Dictionary#new('higroup', conditionlist, higrouplist, 2)
+    call s:inject(self.shelf['globalhigroup'], higroup)
   endif
 endfunction
 "}}}

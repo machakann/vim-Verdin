@@ -109,7 +109,13 @@ function! Verdin#util#countoccurrence(...) abort "{{{
     if !has_key(Dictionary, 'name') || Dictionary.name ==# 'symbol'
       continue
     endif
-    let report += map(copy(Dictionary.wordlist), '{"name": Dictionary.name, "word": s:lib.word(v:val), "n": 0}')
+    if Dictionary.name ==# 'command'
+      let report += map(copy(Dictionary.wordlist), '{"name": Dictionary.name, "word": s:lib.word(v:val), "pat": printf(''\m\C^\s*%s\>'', s:lib.word(v:val)), "n": 0}')
+    elseif Dictionary.name ==# 'function'
+      let report += map(copy(Dictionary.wordlist), '{"name": Dictionary.name, "word": s:lib.word(v:val), "pat": printf(''\m\C^\s*\S.*\<%s\>'', s:lib.word(v:val)), "n": 0}')
+    else
+      let report += map(copy(Dictionary.wordlist), '{"name": Dictionary.name, "word": s:lib.word(v:val), "pat": printf(''\m\C\<%s\>'', s:lib.word(v:val)), "n": 0}')
+    endif
   endfor
 
   for bufnr in range(1, bufnr('$'))
@@ -129,25 +135,20 @@ function! s:scan(bufnr, report) abort "{{{
   echomsg bufname(a:bufnr)
 
   for item in a:report
-    let item.n += s:count(item.word)
+    let item.n += s:count(item.pat)
   endfor
 endfunction
 "}}}
-function! s:count(word) abort "{{{
+function! s:count(pat) abort "{{{
   normal! gg
-  if a:word =~# '^[A-Za-z_]\+$'
-    let pat = printf('\<%s\>', s:lib.escape(a:word))
-  else
-    let pat = printf('\%%(^\|\w\|\s\)\zs%s\ze\%%($\|\w\|\s\)', s:lib.escape(a:word))
-  endif
   let n = 0
-  let lnum = search(pat, 'W')
+  let lnum = search(a:pat, 'W')
   while lnum != 0
     let syntax = synIDattr(synIDtrans(synID(line('.'), col('.'), 1)), 'name')
     if syntax !~# '\%(Constant\|Comment\)'
       let n += 1
     endif
-    let lnum = search(pat, 'W')
+    let lnum = search(a:pat, 'W')
   endwhile
   return n
 endfunction
@@ -243,6 +244,45 @@ let s:eventconditionlist = [
     \   {'cursor_at': '\m\<\a\{6,}\%#', 'priority': 128},
     \ ]
 let s:eventwordlist = getcompletion('', 'event')
+"}}}
+" Highlight group dictionary {{{
+let s:higroupconditionlist = [
+    \   {'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(clear\|default\)\?\s\+\zs\%(\h\w*\)\?\%#', 'priority': 128},
+    \   {'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(default\s\+\)\?link\s\+\%(\h\w*\s\+\)\?\zs\%(\h\w*\)\?\%#', 'priority': 128},
+    \   {'cursor_at': '\m\C\<matchadd\%(pos\)\?([''"]\zs\%(\h\w*\)\?\%#', 'priority': 256},
+    \   {'cursor_at': '\m\C^\s*[23]\?mat\%[ch]\s\+\zs\%(\h\w*\)\?\%#', 'priority': 256},
+    \ ]
+let s:higroupwordlist = [
+    \   'Boolean', 'Character', 'ColorColumn', 'Comment', 'Conceal',
+    \   'Conditional', 'Constant', 'Cursor', 'CursorColumn', 'CursorIM',
+    \   'CursorLine', 'CursorLineNr', 'Debug', 'Define', 'Delimiter', 'DiffAdd',
+    \   'DiffChange', 'DiffDelete', 'DiffText', 'Directory', 'EndOfBuffer',
+    \   'Error', 'ErrorMsg', 'Exception', 'Float', 'FoldColumn', 'Folded',
+    \   'Function', 'Identifier', 'Ignore', 'IncSearch', 'Include', 'Keyword',
+    \   'Label', 'LineNr', 'Macro', 'MatchParen', 'Menu', 'ModeMsg', 'MoreMsg',
+    \   'NONE', 'NonText', 'Normal', 'Number', 'Operator', 'Pmenu', 'PmenuSbar',
+    \   'PmenuSel', 'PmenuThumb', 'PreCondit', 'PreProc', 'Question', 'Repeat',
+    \   'Scrollbar', 'Search', 'SignColumn', 'Special', 'SpecialChar',
+    \   'SpecialComment', 'SpecialKey', 'SpellBad', 'SpellCap', 'SpellLocal',
+    \   'SpellRare', 'Statement', 'StatusLine', 'StatusLineNC', 'StorageClass',
+    \   'String', 'Structure', 'TabLine', 'TabLineFill', 'TabLineSel', 'Tag',
+    \   'Title', 'Todo', 'Tooltip', 'Type', 'Typedef', 'Underlined',
+    \   'VertSplit', 'Visual', 'VisualNOS', 'WarningMsg', 'WildMenu', 'lCursor',
+    \ ]
+"}}}
+" Helper dictionary for :highlight command {{{
+let s:hicmdoptconditionlist = [
+    \   {'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\zs\%(\h\w*\)\?\%#', 'priority': 384}
+    \ ]
+let s:hicmdoptwordlist = ['default', 'link', 'clear']
+let s:hicmdkeyconditionlist = [
+    \   {'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(clear\s\|default\s\)\?\s*\h\w*\s\+\%(\S\+=\S\+\s\+\)*\zs\a*\%#', 'priority': 384}
+    \ ]
+let s:hicmdkeywordlist = ['term=', 'cterm=', 'gui=', 'ctermfg=', 'ctermbg=', 'guifg=', 'guibg=', 'guisp=', 'font=', 'start=', 'stop=']
+let s:hicmdattrconditionlist = [
+    \   {'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(clear\|default\)\?\s\+\h\w*\s\+\%(\S\+=\S\+\s\+\)\%(c\?term\|gui\)=\zs\S*\%#', 'priority': 384}
+    \ ]
+let s:hicmdattrwordlist = ['bold', 'underline', 'undercurl', 'reverse', 'inverse', 'italic', 'standout', 'NONE']
 "}}}
 " Special keys dictionary{{{
 let s:specialkeyconditionlist = [
@@ -365,6 +405,10 @@ function! s:rebuildvimbasedict() abort "{{{
   let basedict.function = Verdin#Dictionary#new('function', s:funcconditionlist, s:funcwordlist, 2)
   let basedict.option = Verdin#Dictionary#new('option', s:optionconditionlist, s:optionwordlist, 1, options)
   let basedict.event = Verdin#Dictionary#new('event', s:eventconditionlist, s:eventwordlist, 1, options)
+  let basedict.higroup = Verdin#Dictionary#new('higroup', s:higroupconditionlist, s:higroupwordlist, 2, options)
+  let basedict.hicmdopt = Verdin#Dictionary#new('highlight', s:hicmdoptconditionlist, s:hicmdoptwordlist, 1)
+  let basedict.hicmdkey = Verdin#Dictionary#new('highlight', s:hicmdkeyconditionlist, s:hicmdkeywordlist, 1)
+  let basedict.hicmdattr = Verdin#Dictionary#new('highlight', s:hicmdattrconditionlist, s:hicmdattrwordlist, 1)
   let basedict.keys = Verdin#Dictionary#new('keys', s:specialkeyconditionlist, s:specialkeywordlist, 2, options)
   let basedict.mapattr = Verdin#Dictionary#new('mapattr', s:mapattrconditionlist, s:mapattrwordlist, 1, options)
   let basedict.commandattr = Verdin#Dictionary#new('commandattr', s:commandattrconditionlist, s:commandattrwordlist, 1, options)
