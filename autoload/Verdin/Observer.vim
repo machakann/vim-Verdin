@@ -3,17 +3,13 @@ let s:const = Verdin#constants#distribute()
 let s:lib = Verdin#lib#distribute()
 let s:varconditionlist = [
       \   {
-      \     'cursor_at': '\m\C[:.]\@1<!\<\%([abglstwv]:\|\%([abglstwv]:\)\?\h\k*\)\%#',
-      \     'cursor_not_at': '\m\C^\%(\s*\S*\|\s*\".*\|^\%([^"]*"[^"]*\%(\\\\\)*"\)*[^"]*"[^"]*\|^\%([^'']*''[^'']*''\)*[^'']*''[^'']*\|^\s*fu\%[nction!]\s\+\%([gs]:\|\%([gs]:\)\?\h\k*\).*\|^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*\S\+\s\+:\a*\|^\s*com\%[mand!]\s\+\%(\S\+\s\+\)\+:\a*\|\<exists([''"]\%([&+$*:]\|##\)\%([gs]:\)\?\w*\|^\s*call\?\s\+\%([gs]:\)\?\w*\)\%#',
-      \     'priority': 128,
-      \   },
-      \   {
-      \     'cursor_at': '\m\C\<\%(let\|if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|unl\%[et]\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*\zs[:.]\@1<!\<\%(\%([abglstwv]:\)\?\h\k*\)\?\%#',
+      \     'cursor_at': '\m\C\<\%(let\|if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|fu\%[nction]!\?\|unl\%[et]!\?\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.]\@1<!\zs\%(\<[abglstwv]:\h\k*\|\<[abglstwv]:\|\<\k*\)\%#',
       \     'cursor_not_at': '\m\C^\s*\".*\%#',
-      \     'priority': 128,
+      \     'priority': 256,
       \   },
-      \   {'cursor_at': '\m\C^\s*call\s\+.*\zs\%([ablstw]:\|\%([ablstw]:\)\?\h\w*\|g:\h[0-9A-Za-z_#]*\)\?\%#', 'priority': 128},
-      \   {'cursor_at': '\m\C\%([ablstw]:\|\%([ablstw]:\)\?\h\w\{5,}\|g:\h[0-9A-Za-z_#]\{6,}\)\%#', 'priority': 128},
+      \   {'cursor_at': '\m\C^\s*call\s\+\zs\%([ablstw]:\|\%([ablstw]:\)\?\<\h\w*\|g:\h[0-9A-Za-z_#]*\)\?\%#', 'priority': 128},
+      \   {'cursor_at': '\m\C^\s*call\s\+.*\zs\<\%([ablstw]:\|\%([ablstw]:\)\?\<\h\w*\|g:\h[0-9A-Za-z_#]*\)\?\%#', 'priority': 256},
+      \   {'cursor_at': '\m\C\%(\%([ablstw]:\)\?\<\h\w\{5,}\|g:\h[0-9A-Za-z_#]\{6,}\)\%#', 'priority': 0},
       \ ]
 let s:memberconditionlist = [{
       \   'cursor_at': s:const.VARNAME . '\.\zs\%(\h\k*\)\?\%#',

@@ -189,7 +189,7 @@ let s:command = {
 \       'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*\S\+\s\+:\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#',
 \       'priority': 256,
 \     },{
-\       'cursor_at': '\m\<\a\w\{5,}\%#',
+\       'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\w\{5,}\%#',
 \       'priority': 128,
 \     },],
 \   'index': {
@@ -2971,6 +2971,9 @@ let s:higroup = {
 \     },{
 \       'cursor_at': '\m\C^\s*[23]\?mat\%[ch]\s\+\zs\%(\h\w*\)\?\%#',
 \       'priority': 256,
+\     },{
+\       'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#',
+\       'priority': 128,
 \     },],
 \   'index': {
 \     'Bo': {
@@ -4036,23 +4039,29 @@ let s:commandattrnargs = {
 lockvar! s:commandattrnargs
 let s:function = {
 \   'conditionlist': [{
-\       'cursor_at': '\m\C^\s*call\s\+.*\zs\<\%([gs]:\)\?\k*\%#',
+\       'cursor_at': '\m\C^\s*call\s\+\zs\<\%([gs]:\)\?\k*\%#',
 \       'priority': 256,
+\     },{
+\       'cursor_at': '\m\C^\s*call\s\+.*\zs\<\%([gs]:\)\?\k*\%#',
+\       'priority': 128,
 \     },{
 \       'cursor_at': '\m\C<[Cc]-[Rr]>=\zs\%([gs]:\|\%([gs]:\)\?\h\k*\)\?\%#',
 \       'priority': 256,
 \     },{
-\       'cursor_at': '\m\C\<\%(call([''"]\|exists([''"]\*\)\zs\%([gs]:\|\%([gs]:\)\?\h\k*\)\?\%#',
+\       'cursor_at': '\m\C\<\%(call([''"]\|exists([''"]\*\)\zs\<\%([gs]:\|\%([gs]:\)\?\h\k*\)\?\%#',
 \       'priority': 256,
 \     },{
 \       'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*<expr>\s*\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*\S\+\s\+\zs\%(<\S*\)\?\%#',
 \       'priority': 256,
 \     },{
 \       'cursor_at': '\m\C^\s*let\s\+\%(\h\k*\|\[\h\k*\%(\s*,\s*\h\k*\)\+\]\).*\zs\<\%([gs]:\)\?\k*\%#',
-\       'priority': 256,
+\       'priority': 128,
+\     },{
+\       'cursor_at': '\m\C\<\%(if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|fu\%[nction]!\?\|unl\%[et]!\?\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#',
+\       'cursor_not_at': '\m\C^\s*\".*\%#',
+\       'priority': 128,
 \     },{
 \       'cursor_at': '\m\C\<\%([gs]:\h\k\{5,}\|\%([gs]:\)\?\h\k\{5,}\)\%#',
-\       'cursor_not_at': '\%(^\s*fu\%[nction]!\?\s\+\|^\s*let\s\+\)\%([gs]:\h\k*\|\%([gs]:\)\?\h\k*\)\%#',
 \       'priority': 128,
 \     },],
 \   'index': {
@@ -8403,7 +8412,7 @@ let s:option = {
 \       'cursor_at': '\m\C\<exists([''"][&+]\zs\a*\%#',
 \       'priority': 256,
 \     },{
-\       'cursor_at': '\m\<\a\{6,}\%#',
+\       'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#',
 \       'priority': 128,
 \     },],
 \   'index': {
@@ -9929,7 +9938,7 @@ let s:event = {
 \       'cursor_at': '\m\C^\s*do\%[autocmd]\s\+\%(<nomodeline>\s\+\)\?\%(\S\+\s\+\)\?\zs\%([A-Z]\a*\)\?\%#',
 \       'priority': 256,
 \     },{
-\       'cursor_at': '\m\<\a\{6,}\%#',
+\       'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#',
 \       'priority': 128,
 \     },],
 \   'index': {

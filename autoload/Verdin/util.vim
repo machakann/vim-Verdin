@@ -173,7 +173,7 @@ let s:commandconditionlist = [
     \   {'cursor_at': '\m\C\%(^\s*\|[^|]|\s\+\)com\%[mand!]\s\+\%(\S\+\s\+\)\+:\?\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#', 'priority': 256},
     \   {'cursor_at': '\m\C\<exists([''"]:\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#', 'priority': 256},
     \   {'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*\S\+\s\+:\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#', 'priority': 256},
-    \   {'cursor_at': '\m\<\a\w\{5,}\%#', 'priority': 128},
+    \   {'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\w\{5,}\%#', 'priority': 0},
     \ ]
 let s:commandwordlist = filter(getcompletion('', 'command'), 'v:val =~# ''\m\C^\%([[:lower:]]\|Next\)''')
 " let s:commandwordlist = Verdin#util#wordlist('command', g:report)
@@ -181,12 +181,18 @@ let s:commandwordlist = filter(getcompletion('', 'command'), 'v:val =~# ''\m\C^\
 "}}}
 " Function dictionary {{{
 let s:funcconditionlist = [
-    \   {'cursor_at': '\m\C^\s*call\s\+.*\zs\<\%([gs]:\)\?\k*\%#', 'priority': 256},
+    \   {'cursor_at': '\m\C^\s*call\s\+\zs\<\%([gs]:\)\?\k*\%#', 'priority': 256},
+    \   {'cursor_at': '\m\C^\s*call\s\+.*\zs\<\%([gs]:\)\?\k*\%#', 'priority': 128},
     \   {'cursor_at': '\m\C<[Cc]-[Rr]>=\zs\%([gs]:\|\%([gs]:\)\?\h\k*\)\?\%#', 'priority': 256},
-    \   {'cursor_at': '\m\C\<\%(call([''"]\|exists([''"]\*\)\zs\%([gs]:\|\%([gs]:\)\?\h\k*\)\?\%#', 'priority': 256},
+    \   {'cursor_at': '\m\C\<\%(call([''"]\|exists([''"]\*\)\zs\<\%([gs]:\|\%([gs]:\)\?\h\k*\)\?\%#', 'priority': 256},
     \   {'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*<expr>\s*\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*\S\+\s\+\zs\%(<\S*\)\?\%#', 'priority': 256},
-    \   {'cursor_at': '\m\C^\s*let\s\+\%(\h\k*\|\[\h\k*\%(\s*,\s*\h\k*\)\+\]\).*\zs\<\%([gs]:\)\?\k*\%#', 'priority': 256},
-    \   {'cursor_at': '\m\C\<\%([gs]:\h\k\{5,}\|\%([gs]:\)\?\h\k\{5,}\)\%#', 'cursor_not_at': '\%(^\s*fu\%[nction]!\?\s\+\|^\s*let\s\+\)\%([gs]:\h\k*\|\%([gs]:\)\?\h\k*\)\%#', 'priority': 128},
+    \   {'cursor_at': '\m\C^\s*let\s\+\%(\h\k*\|\[\h\k*\%(\s*,\s*\h\k*\)\+\]\).*\zs\<\%([gs]:\)\?\k*\%#', 'priority': 128},
+    \   {
+    \     'cursor_at': '\m\C\<\%(if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|fu\%[nction]!\?\|unl\%[et]!\?\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#',
+    \     'cursor_not_at': '\m\C^\s*\".*\%#',
+    \     'priority': 128,
+    \   },
+    \   {'cursor_at': '\m\C\<\%([gs]:\h\k\{5,}\|\%([gs]:\)\?\h\k\{5,}\)\%#', 'priority': 0},
     \ ]
 let s:funcwordlist = map(filter(getcompletion('', 'function'), 'v:val =~# ''\m\C^[[:lower:]]\h*\%[()]$'''), 'matchstr(v:val, ''\h\k*\ze(\?'')')
 " let s:funcwordlist = Verdin#util#wordlist('function', g:report)
@@ -232,7 +238,7 @@ let s:optionconditionlist = [
     \   {'cursor_at': '\m\C&\%(l:\)\?\zs\a*\%#', 'priority': 256},
     \   {'cursor_at': '\m\C^set\%[local]\s\+\zs\a*\%#', 'priority': 256},
     \   {'cursor_at': '\m\C\<exists([''"][&+]\zs\a*\%#', 'priority': 256},
-    \   {'cursor_at': '\m\<\a\{6,}\%#', 'priority': 128},
+    \   {'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#', 'priority': 0},
     \ ]
 let s:optionwordlist = getcompletion('', 'option')
 "}}}
@@ -241,7 +247,7 @@ let s:eventconditionlist = [
     \   {'cursor_at': '\m\C^\s*au\%[tocmd]\s\+\%(\S\+\s\+\)\?\%([A-Z]\a*,\)*\zs\%([A-Z]\a*\)\?\%#', 'priority': 256},
     \   {'cursor_at': '\m\C\<exists([''"]##\?\zs\%([A-Z]\a*\)\?\%#', 'priority': 256},
     \   {'cursor_at': '\m\C^\s*do\%[autocmd]\s\+\%(<nomodeline>\s\+\)\?\%(\S\+\s\+\)\?\zs\%([A-Z]\a*\)\?\%#', 'priority': 256},
-    \   {'cursor_at': '\m\<\a\{6,}\%#', 'priority': 128},
+    \   {'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#', 'priority': 0},
     \ ]
 let s:eventwordlist = getcompletion('', 'event')
 "}}}
@@ -251,6 +257,7 @@ let s:higroupconditionlist = [
     \   {'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(default\s\+\)\?link\s\+\%(\h\w*\s\+\)\?\zs\%(\h\w*\)\?\%#', 'priority': 128},
     \   {'cursor_at': '\m\C\<matchadd\%(pos\)\?([''"]\zs\%(\h\w*\)\?\%#', 'priority': 256},
     \   {'cursor_at': '\m\C^\s*[23]\?mat\%[ch]\s\+\zs\%(\h\w*\)\?\%#', 'priority': 256},
+    \   {'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#', 'priority': 0},
     \ ]
 let s:higroupwordlist = [
     \   'Boolean', 'Character', 'ColorColumn', 'Comment', 'Conceal',
