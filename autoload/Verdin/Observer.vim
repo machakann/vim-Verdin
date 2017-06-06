@@ -485,6 +485,7 @@ function! s:SIDfuncitems(funclist) abort "{{{
       let item = deepcopy(func)
       let item.word = SIDfunc
       let item.__text__ = SIDfunc
+      let item.abbr = substitute(item.abbr, '^s:\ze\h\w*$', '<SID>', '')
       call add(a:funclist, item)
     endif
   endfor
