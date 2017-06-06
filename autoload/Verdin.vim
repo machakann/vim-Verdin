@@ -121,8 +121,8 @@ function! Verdin#omnifunc(findstart, base) abort "{{{
   endfor
 
   " fuzzy matching
-  let n = strchars(a:base)
-  if n < 3
+  let fuzzymatch = s:lib.getoption('fuzzymatch')
+  if !fuzzymatch || strchars(a:base) < 3
     return []
   endif
   call Completer.clock.start()
