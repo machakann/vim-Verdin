@@ -234,7 +234,7 @@ function! s:Observer._checkglobalsvim() dict abort "{{{
     endif
     let varlist += filter(copy(get(Observer.shelf.buffervar, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^[bgtw]:\h\k*''')
     let funclist += filter(copy(get(Observer.shelf.bufferfunc, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^\%([A-Z]\k*\|\h\k\%(#\h\k*\)\+\)''')
-    let memberlist += copy(get(Observer.shelf.bufferfunc, 'wordlist', []))
+    let memberlist += copy(get(Observer.shelf.buffermember, 'wordlist', []))
     let keymapwordlist += filter(copy(get(Observer.shelf.bufferkeymap, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^<Plug>''')
     let commandlist += get(Observer.shelf.buffercommand, 'wordlist', [])
     let higrouplist += get(Observer.shelf.bufferhigroup, 'wordlist', [])
