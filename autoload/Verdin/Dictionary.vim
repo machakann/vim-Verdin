@@ -23,26 +23,45 @@ function! s:Dictionary(name, conditionlist, wordlist, indexlen, options) abort
   let Dictionary.conditionlist = a:conditionlist
   let Dictionary.wordlist = a:wordlist
   if get(a:options, 'delimitermatch', 0)
-    let Dictionary.wordlist += s:delimitermatcheditem(a:name, a:wordlist)
+    let Dictionary.wordlist += s:delimitermatcheditemlist(a:name, a:wordlist)
   endif
   let Dictionary.indexlen = a:indexlen
   let Dictionary.index = s:makeindex(Dictionary, a:options)
   return Dictionary
 endfunction
-function! s:delimitermatcheditem(name, wordlist) abort "{{{
+function! s:delimitermatcheditemlist(name, itemlist) abort "{{{
   let menustr = printf('[%s] ', a:name)
-  let wordlist = []
-  for word in map(copy(a:wordlist), 's:lib.word(v:val)')
+  let done = {}
+  let itemlist = []
+  for item in a:itemlist
+    let word = s:lib.word(item)
+    if get(done, word, 0)
+      continue
+    endif
     let match = matchlist(word, s:const.SNAKECASEWORDREGEX)
     if match != [] && match[0] != '' && match[1] != '' && match[2] != ''
-      let wordlist += [{'word': word, 'menu': menustr . tolower(join(match[1:], '')), 'dup': 1, '__text__': join(match[1:], ''), '__delimitermatch__': 1}]
+      let itemlist += [s:delimitermatcheditem(item, match, menustr)]
     endif
     let match = matchlist(word, s:const.CAMELCASEWORDREGEX)
     if match != [] && match[0] != '' && match[1] != '' && match[2] != ''
-      let wordlist += [{'word': word, 'menu': menustr . tolower(join(match[1:], '')), 'dup': 1, '__text__': join(match[1:], ''), '__delimitermatch__': 1}]
+      let itemlist += [s:delimitermatcheditem(item, match, menustr)]
     endif
+    let done[word] = 1
   endfor
-  return wordlist
+  return itemlist
+endfunction
+"}}}
+function! s:delimitermatcheditem(original, match, menustr) abort "{{{
+  if type(a:original) == v:t_dict
+    let new = deepcopy(a:original)
+    let new.menu = a:menustr . tolower(join(a:match[1:], ''))
+    let new.dup = 1
+    let new.__text__ = join(a:match[1:], '')
+    let new.__delimitermatch__ = 1
+  else
+    let new = {'word': a:original, 'menu': a:menustr . tolower(join(a:match[1:], '')), 'dup': 1, '__text__': join(a:match[1:], ''), '__delimitermatch__': 1}
+  endif
+  return new
 endfunction
 "}}}
 function! s:makeindex(Dictionary, options) abort "{{{
