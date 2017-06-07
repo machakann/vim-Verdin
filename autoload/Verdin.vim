@@ -34,11 +34,11 @@ function! Verdin#startautocomplete(...) abort "{{{
 
   let bang = get(a:000, 0, '')
   if bang ==# '!'
-    let Event = Verdin#Event#get()
     let originalbufnr = bufnr('%')
     for bufinfo in filter(s:lib.getbufinfo(), 'v:val.bufnr != originalbufnr')
       if !has_key(bufinfo.variables, 'Verdin')
         execute 'buffer ' . bufinfo.bufnr
+        let Event = Verdin#Event#get()
         call Event.startbufferinspection()
         call Event.startautocomplete()
       endif
@@ -54,11 +54,11 @@ function! Verdin#stopautocomplete(...) abort "{{{
 
   let bang = get(a:000, 0, '')
   if bang ==# '!'
-    let Event = Verdin#Event#get()
     let originalbufnr = bufnr('%')
     for bufinfo in filter(s:lib.getbufinfo(), 'v:val.bufnr != originalbufnr')
       if has_key(bufinfo.variables, 'Verdin')
         execute 'buffer ' . bufinfo.bufnr
+        let Event = Verdin#Event#get()
         call Event.stopbufferinspection()
         call Event.stopautocomplete()
       endif
@@ -91,11 +91,11 @@ function! Verdin#finishautocomplete(...) abort "{{{
 
   let bang = get(a:000, 0, '')
   if bang ==# '!'
-    let Event = Verdin#Event#get()
     let originalbufnr = bufnr('%')
     for bufinfo in filter(s:lib.getbufinfo(), 'v:val.bufnr != originalbufnr')
       if has_key(bufinfo.variables, 'Verdin')
         execute 'buffer ' . bufinfo.bufnr
+        let Event = Verdin#Event#get()
         call Event.stopbufferinspection()
         call Event.stopautocomplete()
         unlet! b:Verdin
