@@ -121,10 +121,6 @@ function! s:Completer.match(base) dict abort "{{{
       endif
     endfor
   endfor
-
-  let postcursor = matchstr(self.last.postcursor, '^\k\+\>')
-  call s:addsnippeditems(candidatelist, postcursor)
-  call s:autobrainsert(candidatelist)
   return candidatelist
 endfunction
 "}}}
@@ -152,10 +148,20 @@ function! s:Completer.fuzzymatch(base, ...) dict abort "{{{
     endif
     call remove(self.fuzzycandidatelist, 0)
   endwhile
-  let postcursor = matchstr(self.last.postcursor, '^\k\+\>')
-  call s:addsnippeditems(candidatelist, postcursor, 0)
-  call s:autobrainsert(candidatelist)
   return candidatelist
+endfunction
+"}}}
+function! s:Completer.modify(candidatelist, ...) dict abort "{{{
+  let modifiers = get(a:000, 0, ['braket', 'snip'])
+  for modifier in modifiers
+    if match(modifier, '\m\C^snip$') > -1
+      let postcursor = matchstr(self.last.postcursor, '^\k\+\>')
+      call s:addsnippeditems(a:candidatelist, postcursor, 0)
+    elseif match(modifier, '\m\C^braket$') > -1
+      call s:autobrainsert(a:candidatelist)
+    endif
+  endfor
+  return a:candidatelist
 endfunction
 "}}}
 function! s:Completer.complete(startcol, itemlist) dict abort "{{{
@@ -172,17 +178,22 @@ function! s:Completer.complete(startcol, itemlist) dict abort "{{{
   let self.is.in_completion = v:false
 endfunction
 "}}}
-function! s:Completer.aftercomplete(...) dict abort "{{{
-  " NOTE: This function is called by 'CompleteDone' event
-  "       to restore the options shifted by Completer.complete().
+function! s:Completer.aftercomplete(event, autocomplete) dict abort "{{{
+  if a:event ==# 'CompleteDone' && get(v:completed_item, 'abbr', '') =~# s:FUNCABBR
+    call s:autoketinsert(v:completed_item)
+  endif
+  if !a:autocomplete
+    return
+  endif
+  if a:event ==# 'InsertCharPre' && pumvisible()
+    " refresh popup always
+    call feedkeys("\<C-e>", 'in')
+  endif
   if self.savedoptions != {} && !self.is.in_completion
     let &completeopt = self.savedoptions.completeopt
     let self.savedoptions = {}
     let Event = Verdin#Event#get()
     call Event.startautocomplete()
-  endif
-  if get(a:000, 0, '') ==# 'CompleteDone' && get(v:completed_item, 'abbr', '') =~# s:FUNCABBR
-    call s:autoketinsert(v:completed_item)
   endif
 endfunction
 "}}}

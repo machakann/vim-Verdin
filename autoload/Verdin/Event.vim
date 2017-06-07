@@ -3,7 +3,6 @@
 " script local variables {{{
 let s:on = 1
 let s:off = 0
-let s:pause = -1
 "}}}
 
 function! Verdin#Event#get() abort
@@ -19,6 +18,7 @@ endfunction
 let s:Event = {
       \   'bufferinspection': 0,
       \   'autocomplete': 0,
+      \   'CompleteDone': 0,
       \ }
 function! s:Event.startbufferinspection() abort "{{{
   if self.bufferinspection is s:on
@@ -29,7 +29,7 @@ function! s:Event.startbufferinspection() abort "{{{
   call Verdin#Completer#get()
   call Verdin#Observer#get()
   call s:inspect()
-  augroup Verdin-completion-inspect
+  augroup Verdin-bufferinspection
     autocmd! * <buffer>
     autocmd InsertEnter <buffer> call s:inspect()
     autocmd BufEnter    <buffer> call s:checkglobals()
@@ -38,9 +38,52 @@ endfunction
 "}}}
 function! s:Event.stopbufferinspection() abort "{{{
   let self.bufferinspection = s:off
-  augroup Verdin-completion-inspect
+  augroup Verdin-bufferinspection
     autocmd! * <buffer>
   augroup END
+endfunction
+"}}}
+function! s:Event.setCompleteDone(autocomplete) dict abort "{{{
+  let self.CompleteDone = s:on
+  if a:autocomplete
+    augroup Verdin-aftercomplete
+      autocmd! * <buffer>
+      autocmd CompleteDone  <buffer> call s:aftercomplete('CompleteDone', 1)
+      autocmd InsertCharPre <buffer> call s:aftercomplete('InsertCharPre', 1)
+      autocmd InsertLeave   <buffer> call s:aftercomplete('InsertLeave', 1)
+      autocmd CursorMovedI  <buffer> call s:aftercomplete('CursorMovedI', 1)
+    augroup END
+  else
+    augroup Verdin-aftercomplete
+      autocmd! * <buffer>
+      autocmd CompleteDone  <buffer> call s:aftercomplete('CompleteDone', 0)
+      autocmd InsertCharPre <buffer> call s:aftercomplete('InsertCharPre', 0)
+      autocmd InsertLeave   <buffer> call s:aftercomplete('InsertLeave', 0)
+      autocmd CursorMovedI  <buffer> call s:aftercomplete('CursorMovedI', 0)
+    augroup END
+  endif
+endfunction
+"}}}
+function! s:Event.unsetCompleteDone() dict abort "{{{
+  augroup Verdin-aftercomplete
+    autocmd! * <buffer>
+  augroup END
+  let self.CompleteDone = s:off
+endfunction
+"}}}
+function! s:Event.setpersistentCompleteDone(autocomplete) dict abort "{{{
+  let self.CompleteDone = s:on
+  if a:autocomplete
+    augroup Verdin-aftercomplete
+      autocmd! * <buffer>
+      autocmd CompleteDone  <buffer> call s:aftercomplete('CompleteDone', 1)
+    augroup END
+  else
+    augroup Verdin-aftercomplete
+      autocmd! * <buffer>
+      autocmd CompleteDone  <buffer> call s:aftercomplete('CompleteDone', 0)
+    augroup END
+  endif
 endfunction
 "}}}
 function! s:Event.startautocomplete() abort "{{{
@@ -49,7 +92,7 @@ function! s:Event.startautocomplete() abort "{{{
   endif
 
   let self.autocomplete = s:on
-  augroup Verdin-completion-auto
+  augroup Verdin-autocomplete
     autocmd! * <buffer>
     autocmd CursorMovedI <buffer> call Verdin#triggercomplete()
   augroup END
@@ -57,7 +100,7 @@ endfunction
 "}}}
 function! s:Event.stopautocomplete() abort "{{{
   let self.autocomplete = s:off
-  augroup Verdin-completion-auto
+  augroup Verdin-autocomplete
     autocmd! * <buffer>
   augroup END
 endfunction
@@ -66,15 +109,8 @@ function! s:Event.pauseautocomplete() abort "{{{
   if self.autocomplete is s:off
     return
   endif
-
-  let self.autocomplete = s:pause
-  augroup Verdin-completion-auto
-    autocmd! * <buffer>
-    autocmd CompleteDone  <buffer> call s:aftercomplete('CompleteDone')
-    autocmd InsertCharPre <buffer> call s:aftercomplete('InsertCharPre')
-    autocmd InsertLeave   <buffer> call s:aftercomplete('InsertLeave')
-    autocmd CursorMovedI  <buffer> call s:aftercomplete('CursorMovedI')
-  augroup END
+  call self.stopautocomplete()
+  call self.setCompleteDone(1)
 endfunction
 "}}}
 function! s:inspect() abort "{{{
@@ -127,14 +163,12 @@ function! s:checkglobals() abort "{{{
   endif
 endfunction
 "}}}
-function! s:aftercomplete(event) abort "{{{
-  if a:event ==# 'InsertCharPre' && pumvisible()
-    " refresh popup always
-    call feedkeys("\<C-e>", 'in')
-  endif
+function! s:aftercomplete(event, autocomplete) abort "{{{
+  let Event = Verdin#Event#get()
+  call Event.unsetCompleteDone()
 
   let Completer = Verdin#Completer#get()
-  call Completer.aftercomplete(a:event)
+  call Completer.aftercomplete(a:event, a:autocomplete)
 endfunction
 "}}}
 

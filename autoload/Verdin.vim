@@ -116,7 +116,7 @@ function! Verdin#omnifunc(findstart, base) abort "{{{
   endif
 
   " second run
-  for item in Completer.match(a:base)
+  for item in Completer.modify(Completer.match(a:base))
     call complete_add(item)
   endfor
 
@@ -131,7 +131,7 @@ function! Verdin#omnifunc(findstart, base) abort "{{{
     if complete_check()
       break
     endif
-    for item in Completer.fuzzymatch(a:base, timeout)
+    for item in Completer.modify(Completer.fuzzymatch(a:base, timeout))
       call complete_add(item)
     endfor
   endwhile
@@ -187,6 +187,7 @@ function! s:complete() abort "{{{
   endif
   let itemlist += sort(fuzzyitemlist, 's:compare_fuzzyitem')
   if itemlist != []
+    call Completer.modify(itemlist)
     call Completer.complete(startcol, itemlist)
   endif
 
@@ -201,6 +202,7 @@ function! s:complete() abort "{{{
     endif
     let additional = Completer.fuzzymatch(base, timeout)
     if additional != []
+      call Completer.modify(additional)
       let itemlist += additional
       call Completer.complete(startcol, itemlist)
     endif
