@@ -32,6 +32,7 @@ function! s:source.hooks.on_init(context) dict abort "{{{
 endfunction
 "}}}
 function! s:source.hooks.on_final(context) dict abort "{{{
+  let originalbufnr = bufnr('%')
   for bufinfo in s:lib.getbufinfo()
     if !has_key(bufinfo.variables, 'Verdin')
       execute 'buffer ' . bufinfo.bufnr
