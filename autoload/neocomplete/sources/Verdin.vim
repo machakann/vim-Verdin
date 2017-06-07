@@ -65,7 +65,7 @@ function! s:source.gather_candidates(context) dict abort "{{{
     let Event = Verdin#Event#get()
     call Event.setpersistentCompleteDone(0)
   endif
-  return itemlist
+  return map(itemlist, 'type(v:val) == v:t_dict ? v:val : {"word": v:val}')
 endfunction
 "}}}
 
