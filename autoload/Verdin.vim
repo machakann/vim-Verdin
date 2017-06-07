@@ -119,6 +119,7 @@ function! Verdin#omnifunc(findstart, base) abort "{{{
   for item in Completer.modify(Completer.match(a:base))
     call complete_add(item)
   endfor
+  call Event.setCompleteDone(0)
 
   " fuzzy matching
   let fuzzymatch = s:lib.getoption('fuzzymatch')
