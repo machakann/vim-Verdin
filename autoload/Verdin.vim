@@ -28,23 +28,24 @@ function! Verdin#startautocomplete(...) abort "{{{
     return
   endif
 
-  let Event = Verdin#Event#get()
-  call Event.startbufferinspection()
-  call Event.startautocomplete()
-
   let bang = get(a:000, 0, '')
   if bang ==# '!'
     let originalbufnr = bufnr('%')
+    let view = winsaveview()
     for bufinfo in filter(s:lib.getbufinfo(), 'v:val.bufnr != originalbufnr')
       if !has_key(bufinfo.variables, 'Verdin')
-        execute 'buffer ' . bufinfo.bufnr
-        let Event = Verdin#Event#get()
-        call Event.startbufferinspection()
+        let Event = Verdin#Event#get(bufinfo.bufnr)
+        call Event.startbufferinspection(1)
         call Event.startautocomplete()
       endif
     endfor
     execute 'buffer ' . originalbufnr
+    call winrestview(view)
   endif
+
+  let Event = Verdin#Event#get()
+  call Event.startbufferinspection(1)
+  call Event.startautocomplete()
 endfunction
 "}}}
 function! Verdin#stopautocomplete(...) abort "{{{
@@ -107,7 +108,7 @@ endfunction
 "}}}
 function! Verdin#omnifunc(findstart, base) abort "{{{
   let Event = Verdin#Event#get()
-  call Event.startbufferinspection()
+  call Event.startbufferinspection(1)
 
   let Completer = Verdin#Completer#get()
   if a:findstart == 1
@@ -221,7 +222,7 @@ function! s:refresh() abort "{{{
   call Verdin#Completer#get()
   call Verdin#Observer#get()
   let b:Verdin.Event = Event
-  call Event.startbufferinspection()
+  call Event.startbufferinspection(1)
 endfunction
 "}}}
 function! s:compare_fuzzyitem(i1, i2) abort "{{{

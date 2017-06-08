@@ -24,14 +24,20 @@ function! s:VerdinInsertKet() abort
 endfunction
 "}}}
 
-function! Verdin#Completer#get() abort "{{{
-  if !exists('b:Verdin')
-    let b:Verdin = {}
+function! Verdin#Completer#get(...) abort "{{{
+  let bufnr = get(a:000, 0, bufnr('%'))
+  let bufinfo = get(getbufinfo(bufnr), 0, {})
+  if bufinfo == {}
+    echoerr 'Verdin: Invalid bufnr is given for Verdin#Completer#get()'
   endif
-  if !has_key(b:Verdin, 'Completer')
-    let b:Verdin.Completer = s:Completer()
+
+  if !has_key(bufinfo.variables, 'Verdin')
+    let bufinfo.variables.Verdin = {}
   endif
-  return b:Verdin.Completer
+  if !has_key(bufinfo.variables.Verdin, 'Completer')
+    let bufinfo.variables.Verdin.Completer = s:Completer()
+  endif
+  return bufinfo.variables.Verdin.Completer
 endfunction
 "}}}
 

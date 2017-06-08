@@ -5,85 +5,80 @@ let s:on = 1
 let s:off = 0
 "}}}
 
-function! Verdin#Event#get() abort
-  if !exists('b:Verdin')
-    let b:Verdin = {}
+function! Verdin#Event#get(...) abort
+  let bufnr = get(a:000, 0, bufnr('%'))
+  let bufinfo = get(getbufinfo(bufnr), 0, {})
+  if bufinfo == {}
+    echoerr 'Verdin: Invalid bufnr is given for Verdin#Event#get()'
   endif
-  if !has_key(b:Verdin, 'Event')
-    let b:Verdin.Event = s:Event()
+
+  if !has_key(bufinfo.variables, 'Verdin')
+    let bufinfo.variables.Verdin = {}
   endif
-  return b:Verdin.Event
+  if !has_key(bufinfo.variables.Verdin, 'Event')
+    let bufinfo.variables.Verdin.Event = s:Event()
+  endif
+  return bufinfo.variables.Verdin.Event
 endfunction
 
 let s:Event = {
+      \   'bufnr': 0,
       \   'bufferinspection': 0,
       \   'autocomplete': 0,
       \   'CompleteDone': 0,
       \ }
-function! s:Event.startbufferinspection() abort "{{{
+function! s:Event.startbufferinspection(inspectnow) abort "{{{
   if self.bufferinspection is s:on
     return
   endif
 
   let self.bufferinspection = s:on
-  call Verdin#Completer#get()
-  call Verdin#Observer#get()
-  call s:inspect()
+  call Verdin#Completer#get(self.bufnr)
+  call Verdin#Observer#get(self.bufnr)
+  if a:inspectnow
+    if bufnr('%') != self.bufnr
+      execute 'noautocmd buffer ' . self.bufnr
+    endif
+    call s:inspect()
+  endif
   augroup Verdin-bufferinspection
-    autocmd! * <buffer>
-    autocmd InsertEnter <buffer> call s:inspect()
-    autocmd BufEnter    <buffer> call s:checkglobals()
+    execute printf('autocmd! * <buffer=%d>', self.bufnr)
+    execute printf('autocmd InsertEnter <buffer=%d> call s:inspect()', self.bufnr)
+    execute printf('autocmd BufEnter    <buffer=%d> call s:checkglobals()', self.bufnr)
   augroup END
 endfunction
 "}}}
 function! s:Event.stopbufferinspection() abort "{{{
   let self.bufferinspection = s:off
   augroup Verdin-bufferinspection
-    autocmd! * <buffer>
+    execute printf('autocmd! * <buffer=%d>', self.bufnr)
   augroup END
 endfunction
 "}}}
 function! s:Event.setCompleteDone(autocomplete) dict abort "{{{
   let self.CompleteDone = s:on
-  if a:autocomplete
-    augroup Verdin-aftercomplete
-      autocmd! * <buffer>
-      autocmd CompleteDone  <buffer> call s:aftercomplete('CompleteDone', 1)
-      autocmd InsertCharPre <buffer> call s:aftercomplete('InsertCharPre', 1)
-      autocmd InsertLeave   <buffer> call s:aftercomplete('InsertLeave', 1)
-      autocmd CursorMovedI  <buffer> call s:aftercomplete('CursorMovedI', 1)
-    augroup END
-  else
-    augroup Verdin-aftercomplete
-      autocmd! * <buffer>
-      autocmd CompleteDone  <buffer> call s:aftercomplete('CompleteDone', 0)
-      autocmd InsertCharPre <buffer> call s:aftercomplete('InsertCharPre', 0)
-      autocmd InsertLeave   <buffer> call s:aftercomplete('InsertLeave', 0)
-      autocmd CursorMovedI  <buffer> call s:aftercomplete('CursorMovedI', 0)
-    augroup END
-  endif
+  augroup Verdin-aftercomplete
+    execute printf('autocmd! * <buffer=%d>', self.bufnr)
+    execute printf('autocmd CompleteDone  <buffer=%d> call s:aftercomplete("CompleteDone",  %d)', self.bufnr, a:autocomplete)
+    execute printf('autocmd InsertCharPre <buffer=%d> call s:aftercomplete("InsertCharPre", %d)', self.bufnr, a:autocomplete)
+    execute printf('autocmd InsertLeave   <buffer=%d> call s:aftercomplete("InsertLeave",   %d)', self.bufnr, a:autocomplete)
+    execute printf('autocmd CursorMovedI  <buffer=%d> call s:aftercomplete("CursorMovedI",  %d)', self.bufnr, a:autocomplete)
+  augroup END
 endfunction
 "}}}
 function! s:Event.unsetCompleteDone() dict abort "{{{
   augroup Verdin-aftercomplete
-    autocmd! * <buffer>
+    execute printf('autocmd! * <buffer=%d>', self.bufnr)
   augroup END
   let self.CompleteDone = s:off
 endfunction
 "}}}
 function! s:Event.setpersistentCompleteDone(autocomplete) dict abort "{{{
   let self.CompleteDone = s:on
-  if a:autocomplete
-    augroup Verdin-aftercomplete
-      autocmd! * <buffer>
-      autocmd CompleteDone  <buffer> call s:aftercomplete('CompleteDone', 1)
-    augroup END
-  else
-    augroup Verdin-aftercomplete
-      autocmd! * <buffer>
-      autocmd CompleteDone  <buffer> call s:aftercomplete('CompleteDone', 0)
-    augroup END
-  endif
+  augroup Verdin-aftercomplete
+    execute printf('autocmd! * <buffer=%d>', self.bufnr)
+    execute printf('autocmd CompleteDone <buffer=%d> call s:aftercomplete("CompleteDone", %d)', self.bufnr, a:autocomplete)
+  augroup END
 endfunction
 "}}}
 function! s:Event.startautocomplete() abort "{{{
@@ -93,15 +88,15 @@ function! s:Event.startautocomplete() abort "{{{
 
   let self.autocomplete = s:on
   augroup Verdin-autocomplete
-    autocmd! * <buffer>
-    autocmd CursorMovedI <buffer> call Verdin#triggercomplete()
+    execute printf('autocmd! * <buffer=%d>', self.bufnr)
+    execute printf('autocmd CursorMovedI <buffer=%d> call Verdin#triggercomplete()', self.bufnr)
   augroup END
 endfunction
 "}}}
 function! s:Event.stopautocomplete() abort "{{{
   let self.autocomplete = s:off
   augroup Verdin-autocomplete
-    autocmd! * <buffer>
+    execute printf('autocmd! * <buffer=%d>', self.bufnr)
   augroup END
 endfunction
 "}}}
@@ -172,8 +167,10 @@ function! s:aftercomplete(event, autocomplete) abort "{{{
 endfunction
 "}}}
 
-function! s:Event() abort
-  return deepcopy(s:Event)
+function! s:Event(...) abort
+  let Event = deepcopy(s:Event)
+  let Event.bufnr = get(a:000, 0, bufnr('%'))
+  return Event
 endfunction
 
 " vim:set ts=2 sts=2 sw=2 tw=0:

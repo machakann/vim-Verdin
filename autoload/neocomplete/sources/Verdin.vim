@@ -21,31 +21,31 @@ let s:source = {
 
 function! s:source.hooks.on_init(context) dict abort "{{{
   let originalbufnr = bufnr('%')
+  let view = winsaveview()
+  let in_cmdwin = getcmdwintype() !=# ''
   for bufinfo in s:lib.getbufinfo()
-    if !has_key(bufinfo.variables, 'Verdin')
-      execute 'buffer ' . bufinfo.bufnr
-      let Event = Verdin#Event#get()
-      call Event.startbufferinspection()
+    if has_key(bufinfo.variables, 'Verdin')
+      let Event = Verdin#Event#get(bufinfo.bufnr)
+      let inspectnow = in_cmdwin && bufinfo.bufnr != originalbufnr ? 0 : 1
+      call Event.startbufferinspection(inspectnow)
     endif
   endfor
   execute 'buffer ' . originalbufnr
+  call winrestview(view)
 endfunction
 "}}}
 function! s:source.hooks.on_final(context) dict abort "{{{
-  let originalbufnr = bufnr('%')
   for bufinfo in s:lib.getbufinfo()
-    if !has_key(bufinfo.variables, 'Verdin')
-      execute 'buffer ' . bufinfo.bufnr
-      let Event = Verdin#Event#get()
+    if has_key(bufinfo.variables, 'Verdin')
+      let Event = Verdin#Event#get(bufinfo.bufnr)
       call Event.stopbufferinspection()
     endif
   endfor
-  execute 'buffer ' . originalbufnr
 endfunction
 "}}}
 function! s:source.get_complete_position(context) dict abort "{{{
   let Event = Verdin#Event#get()
-  call Event.startbufferinspection()
+  call Event.startbufferinspection(1)
   let Completer = Verdin#Completer#get()
   return Completer.startcol(s:giveupifshort)
 endfunction
