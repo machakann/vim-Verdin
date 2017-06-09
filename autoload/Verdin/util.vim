@@ -235,7 +235,7 @@ call s:funcitems(s:funcwordlist)
 "}}}
 " Option dictionary {{{
 let s:optionconditionlist = [
-    \   {'cursor_at': '\m\C&\%(l:\)\?\zs\a*\%#', 'priority': 256},
+    \   {'cursor_at': '\m\C\&\%(l:\)\?\zs\a*\%#', 'priority': 256},
     \   {'cursor_at': '\m\C^set\%[local]\s\+\zs\a*\%#', 'priority': 256},
     \   {'cursor_at': '\m\C\<exists([''"][&+]\zs\a*\%#', 'priority': 256},
     \   {'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#', 'priority': 0},

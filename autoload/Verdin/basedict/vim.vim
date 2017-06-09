@@ -7657,7 +7657,7 @@ let s:commandattr = {
 lockvar! s:commandattr
 let s:option = {
 \   'conditionlist': [{
-\       'cursor_at': '\m\C&\%(l:\)\?\zs\a*\%#',
+\       'cursor_at': '\m\C\&\%(l:\)\?\zs\a*\%#',
 \       'priority': 256,
 \     },{
 \       'cursor_at': '\m\C^set\%[local]\s\+\zs\a*\%#',
