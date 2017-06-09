@@ -24,6 +24,10 @@ function! s:VerdinInsertKet() abort
 endfunction
 "}}}
 
+function! Verdin#Completer#new(Dictionaries) abort "{{{
+  return s:Completer(a:Dictionaries)
+endfunction
+"}}}
 function! Verdin#Completer#get(...) abort "{{{
   let bufnr = get(a:000, 0, bufnr('%'))
   let bufinfo = get(getbufinfo(bufnr), 0, {})
@@ -35,7 +39,8 @@ function! Verdin#Completer#get(...) abort "{{{
     let bufinfo.variables.Verdin = {}
   endif
   if !has_key(bufinfo.variables.Verdin, 'Completer')
-    let bufinfo.variables.Verdin.Completer = s:Completer()
+    let Dictionaries = Verdin#basedict#{&l:filetype}#distribute()
+    let bufinfo.variables.Verdin.Completer = s:Completer(Dictionaries)
   endif
   return bufinfo.variables.Verdin.Completer
 endfunction
@@ -421,9 +426,9 @@ function! s:autoketinsert(item) abort "{{{
 endfunction
 "}}}
 
-function! s:Completer() abort
+function! s:Completer(Dictionaries) abort
   let Completer = deepcopy(s:Completer)
-  let Completer.shelf = copy(Verdin#basedict#{&l:filetype}#distribute())
+  let Completer.shelf = copy(a:Dictionaries)
   return Completer
 endfunction
 "}}}
