@@ -30,7 +30,7 @@ function! s:Dictionary(name, conditionlist, wordlist, indexlen, options) abort
   return Dictionary
 endfunction
 function! s:delimitermatcheditemlist(name, itemlist) abort "{{{
-  let menustr = printf('[%s] ', a:name)
+  let menustr = a:name ==# '' ? '' : printf('[%s] ', a:name)
   let done = {}
   let itemlist = []
   for item in a:itemlist
@@ -67,7 +67,7 @@ endfunction
 function! s:makeindex(Dictionary, options) abort "{{{
   let sortbyoccurrence = get(a:options, 'sortbyoccurrence', 0)
   let sortbylength = get(a:options, 'sortbylength', 0)
-  let menustr = printf('[%s]', a:Dictionary.name)
+  let menustr = a:Dictionary.name ==# '' ? '' : printf('[%s]', a:Dictionary.name)
   let indexlen = a:Dictionary.indexlen
   let initials = uniq(sort(map(copy(a:Dictionary.wordlist), 'strcharpart(s:lib.__text__(v:val), 0, indexlen)')))
   let wordlist = copy(a:Dictionary.wordlist)

@@ -23,7 +23,7 @@ function! s:Worddictionary(name, conditionlist, wordlist, indexlen) abort
   return Dictionary
 endfunction
 function! s:makeindex(Dictionary, wordlist) abort "{{{
-  let menustr = printf('[%s]', a:Dictionary.name)
+  let menustr = a:Dictionary.name ==# '' ? '' : printf('[%s]', a:Dictionary.name)
   let indexlen = a:Dictionary.indexlen
   let wordlist = sort(copy(a:wordlist))
   let initials = uniq(map(copy(wordlist), 'strcharpart(v:val, 0, indexlen)'))
