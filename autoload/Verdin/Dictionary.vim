@@ -21,7 +21,7 @@ function! s:Dictionary(name, conditionlist, wordlist, indexlen, options) abort
   let Dictionary = deepcopy(s:Dictionary)
   let Dictionary.name = a:name
   let Dictionary.conditionlist = a:conditionlist
-  let Dictionary.wordlist = a:wordlist
+  let Dictionary.wordlist = copy(a:wordlist)
   if get(a:options, 'delimitermatch', 0)
     let Dictionary.wordlist += s:delimitermatcheditemlist(a:name, a:wordlist)
   endif
