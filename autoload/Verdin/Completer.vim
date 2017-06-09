@@ -250,8 +250,7 @@ function! s:lookup(Dictionary, precursor, minstartcol, giveupifshort, fuzzymatch
     endif
 
     for key in keys
-      let partialdict = a:Dictionary.index[key]
-      let candidate.itemlist += partialdict.itemlist
+      let candidate.itemlist += a:Dictionary.index[key]
     endfor
     if candidate.itemlist != []
       let candidate.priority = get(condition, 'priority', 0)
@@ -349,13 +348,13 @@ function! s:similarlist(candidatelist, base) abort "{{{
       let shortbase = strcharpart(a:base, 0, n)
       if n <= 2
         let d = shortbase ==? key ? 0 : 1
-        call add(similarlist, [d, copy(candidate[key].itemlist)])
+        call add(similarlist, [d, copy(candidate[key])])
         continue
       endif
       let threshold = s:lib.DL_threshold(n)
       let d = s:lib.Damerau_Levenshtein_distance(shortbase, key, threshold)
       if d <= threshold
-        call add(similarlist, [d, copy(candidate[key].itemlist)])
+        call add(similarlist, [d, copy(candidate[key])])
       endif
     endfor
   endfor

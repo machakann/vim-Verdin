@@ -27,17 +27,16 @@ function! s:makeindex(Dictionary, wordlist) abort "{{{
   let indexlen = a:Dictionary.indexlen
   let wordlist = sort(copy(a:wordlist))
   let initials = uniq(map(copy(wordlist), 'strcharpart(v:val, 0, indexlen)'))
-  let partialdict = {}
+  let index = {}
   for c in initials
     if strchars(c) < a:Dictionary.indexlen
       let pattern = '^' . s:lib.escape(c) . '$'
     else
       let pattern = '^' . s:lib.escape(c)
     endif
-    let partialdict[c] = {}
-    let partialdict[c]['itemlist'] = s:extract(wordlist, pattern)
+    let index[c] = s:extract(wordlist, pattern)
   endfor
-  return partialdict
+  return index
 endfunction
 "}}}
 function! s:extract(list, pattern) abort "{{{

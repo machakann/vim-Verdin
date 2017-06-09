@@ -71,7 +71,7 @@ function! s:makeindex(Dictionary, options) abort "{{{
   let indexlen = a:Dictionary.indexlen
   let initials = uniq(sort(map(copy(a:Dictionary.wordlist), 'strcharpart(s:lib.__text__(v:val), 0, indexlen)')))
   let wordlist = copy(a:Dictionary.wordlist)
-  let partialdict = {}
+  let index = {}
   for c in sort(initials, {a, b -> strchars(b) - strchars(a)})
     let pattern = '^' . s:lib.escape(c)
     let matched = s:extract(wordlist, pattern)
@@ -81,10 +81,9 @@ function! s:makeindex(Dictionary, options) abort "{{{
     if sortbylength
       call s:lib.sortbylength(matched)
     endif
-    let partialdict[c] = {}
-    let partialdict[c]['itemlist'] = map(copy(matched), 's:completeitem(v:val, menustr)')
+    let index[c] = map(copy(matched), 's:completeitem(v:val, menustr)')
   endfor
-  return partialdict
+  return index
 endfunction
 "}}}
 function! s:extract(list, pattern) abort "{{{
