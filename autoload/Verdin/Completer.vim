@@ -104,6 +104,9 @@ function! s:Completer.startcol(...) dict abort "{{{
   endif
   call filter(self.candidatelist, 'v:val != {}')
   call filter(self.fuzzycandidatelist, 'v:val != {}')
+  if self.candidatelist == [] && self.fuzzycandidatelist == []
+    return -1
+  endif
   let base = s:CURRENTCOL == 1 ? '' : s:CURRENTLINE[minstartcol : s:CURRENTCOL-2]
   let self.fuzzycandidatelist = s:flatten(self.fuzzycandidatelist, base)
   return minstartcol
