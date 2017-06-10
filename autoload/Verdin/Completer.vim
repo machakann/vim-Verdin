@@ -229,6 +229,7 @@ function! s:lookup(Dictionary, precursor, minstartcol, giveupifshort, fuzzymatch
   endif
 
   let candidate = {}
+  let candidate.name = a:Dictionary.name
   let candidate.itemlist = []
   let fuzzycandidate = {}
   let notyetmatched = v:true
