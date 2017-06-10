@@ -11,14 +11,26 @@ endfunction
 let s:SID = printf("\<SNR>%s_", s:SID())
 delfunction s:SID
 let s:VerdinInsertKet = s:SID . '(VerdinInsertKet)'
-inoremap <silent> <SID>(VerdinInsertKet) <C-r>=<SID>VerdinInsertKet()<CR>
+inoremap <silent> <SID>(VerdinInsertKet) <C-r>=<SID>VerdinInsertKet('i')<CR>
 cnoremap <silent> <SID>(VerdinInsertKet) <Nop>
-nnoremap <silent> <SID>(VerdinInsertKet) a)<Esc>
-function! s:VerdinInsertKet() abort
+nnoremap <silent><expr> <SID>(VerdinInsertKet) <SID>VerdinInsertKet('n')
+function! s:VerdinInsertKet(mode) abort
   let Completer = Verdin#Completer#get()
-  let pat = printf('\m\%%%dl%s[^)]*\%%#%s$', Completer.last.lnum, s:lib.escape(v:completed_item.word), s:lib.escape(Completer.last.postcursor))
+  if Completer.last.postcursor[0] ==# '('
+    return ''
+  endif
+  let lnum = Completer.last.lnum
+  let startcol = Completer.last.startcol+1
+  let funcname = s:lib.escape(v:completed_item.word)
+  let postcursor = s:lib.escape(Completer.last.postcursor)
+  let pat = printf('\m\%%%dl\%%%dc%s[^)]*\%%#%s$',
+                  \lnum, startcol, funcname, postcursor)
   if search(pat, 'bcn', Completer.last.lnum)
-    return ")\<C-g>U\<Left>"
+    if a:mode ==# 'i'
+      return ")\<C-g>U\<Left>"
+    elseif a:mode ==# 'n'
+      return "a)\<CR>"
+    endif
   endif
   return ''
 endfunction
@@ -63,6 +75,8 @@ let s:Completer = {
       \     'line': '',
       \     'precursor': '',
       \     'postcursor': '',
+      \     'startcol': -1,
+      \     'base': '',
       \   },
       \ }
 let s:CURRENTLNUM = 0
@@ -109,6 +123,8 @@ function! s:Completer.startcol(...) dict abort "{{{
   endif
   let base = s:CURRENTCOL == 1 ? '' : s:CURRENTLINE[minstartcol : s:CURRENTCOL-2]
   let self.fuzzycandidatelist = s:flatten(self.fuzzycandidatelist, base)
+  let self.last.startcol = minstartcol
+  let self.last.base = base
   return minstartcol
 endfunction
 "}}}
@@ -167,14 +183,12 @@ endfunction
 "}}}
 function! s:Completer.modify(candidatelist, ...) dict abort "{{{
   let modifiers = get(a:000, 0, ['braket', 'snip'])
-  for modifier in modifiers
-    if match(modifier, '\m\C^snip$') > -1
-      let postcursor = matchstr(self.last.postcursor, '^\k\+\>')
-      call s:addsnippeditems(a:candidatelist, postcursor, 0)
-    elseif match(modifier, '\m\C^braket$') > -1
-      call s:autobrainsert(a:candidatelist)
-    endif
-  endfor
+  if match(modifiers, '\m\C^braket$') > -1
+    call s:autobrainsert(a:candidatelist, self.last.postcursor)
+  endif
+  if match(modifiers, '\m\C^snip$') > -1
+    call s:addsnippeditems(a:candidatelist, self.last.postcursor, 0)
+  endif
   return a:candidatelist
 endfunction
 "}}}
@@ -298,7 +312,7 @@ function! s:addsnippeditems(candidatelist, postcursor, ...) abort "{{{
   endif
 
   let dup = get(a:000, 0, 1)
-  let pattern = '\m\C' . s:lib.escape(a:postcursor) . '$'
+  let pattern = '\m\C' . s:lib.escape(matchstr(a:postcursor, '^\k\+\>')) . '$'
   let i = len(a:candidatelist) - 1
   while i >= 0
     let candidate = a:candidatelist[i]
@@ -401,7 +415,11 @@ function! s:strcmp(base, text) abort "{{{
   return d
 endfunction
 "}}}
-function! s:autobrainsert(candidatelist) abort "{{{
+function! s:autobrainsert(candidatelist, postcursor) abort "{{{
+  if a:postcursor[0] ==# '('
+    return a:candidatelist
+  endif
+
   let autobraketinsert = s:lib.getoption('autobraketinsert')
   if autobraketinsert
     for i in range(len(a:candidatelist))
@@ -418,6 +436,7 @@ function! s:autobrainsert(candidatelist) abort "{{{
       endif
     endfor
   endif
+  return a:candidatelist
 endfunction
 "}}}
 function! s:autoketinsert(item) abort "{{{
