@@ -3491,9 +3491,11 @@ let s:function = {
 \       'cursor_at': '\m\C^\s*let\s\+[^=]\+=\%(.*[^.:]\)\?\zs\<\%([gs]:\)\?\k*\%#',
 \       'priority': 128,
 \     },{
-\       'cursor_at': '\m\C\<\%(if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|fu\%[nction]!\?\|unl\%[et]!\?\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#',
-\       'cursor_not_at': '\m\C^\s*\".*\%#',
+\       'cursor_at': '\m\C^\s*\%(if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|fu\%[nction]!\?\|unl\%[et]!\?\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#',
 \       'priority': 128,
+\     },{
+\       'cursor_at': '\m\C^\s*[A-Z]\w*!\?\s.*[:.]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#',
+\       'priority': 0,
 \     },{
 \       'cursor_at': '\m\C\<\%([gs]:\h\k\{5,}\|\%([gs]:\)\?\h\k\{5,}\)\%#',
 \       'priority': 0,
@@ -7657,7 +7659,7 @@ let s:commandattr = {
 lockvar! s:commandattr
 let s:option = {
 \   'conditionlist': [{
-\       'cursor_at': '\m\C\&\%(l:\)\?\zs\a*\%#',
+\       'cursor_at': '\m\C&\%(l:\)\?\zs\a*\%#',
 \       'priority': 256,
 \     },{
 \       'cursor_at': '\m\C^set\%[local]\s\+\zs\a*\%#',

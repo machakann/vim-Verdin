@@ -187,11 +187,8 @@ let s:funcconditionlist = [
     \   {'cursor_at': '\m\C\<\%(call([''"]\|exists([''"]\*\)\zs\<\%([gs]:\|\%([gs]:\)\?\h\k*\)\?\%#', 'priority': 256},
     \   {'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*<expr>\s*\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*\S\+\s\+\zs\%(<\S*\)\?\%#', 'priority': 256},
     \   {'cursor_at': '\m\C^\s*let\s\+[^=]\+=\%(.*[^.:]\)\?\zs\<\%([gs]:\)\?\k*\%#', 'priority': 128},
-    \   {
-    \     'cursor_at': '\m\C\<\%(if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|fu\%[nction]!\?\|unl\%[et]!\?\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#',
-    \     'cursor_not_at': '\m\C^\s*\".*\%#',
-    \     'priority': 128,
-    \   },
+    \   {'cursor_at': '\m\C^\s*\%(if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|fu\%[nction]!\?\|unl\%[et]!\?\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#', 'priority': 128},
+    \   {'cursor_at': '\m\C^\s*[A-Z]\w*\s.*[:.]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#', 'priority': 0,},
     \   {'cursor_at': '\m\C\<\%([gs]:\h\k\{5,}\|\%([gs]:\)\?\h\k\{5,}\)\%#', 'priority': 0},
     \ ]
 let s:funcwordlist = map(filter(getcompletion('', 'function'), 'v:val =~# ''\m\C^[[:lower:]]\h*\%[()]$'''), 'matchstr(v:val, ''\h\k*\ze(\?'')')
@@ -235,7 +232,7 @@ call s:funcitems(s:funcwordlist)
 "}}}
 " Option dictionary {{{
 let s:optionconditionlist = [
-    \   {'cursor_at': '\m\C\&\%(l:\)\?\zs\a*\%#', 'priority': 256},
+    \   {'cursor_at': '\m\C&\%(l:\)\?\zs\a*\%#', 'priority': 256},
     \   {'cursor_at': '\m\C^set\%[local]\s\+\zs\a*\%#', 'priority': 256},
     \   {'cursor_at': '\m\C\<exists([''"][&+]\zs\a*\%#', 'priority': 256},
     \   {'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#', 'priority': 0},
