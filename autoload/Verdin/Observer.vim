@@ -208,6 +208,8 @@ function! s:Observer.checkglobals() dict abort "{{{
   elseif &filetype ==# 'help'
     call self._checkglobalshelp()
   endif
+  " redraw cursor
+  redraw
 endfunction
 "}}}
 function! s:Observer._checkglobalsvim() dict abort "{{{
