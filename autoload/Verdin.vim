@@ -33,11 +33,10 @@ function! Verdin#startautocomplete(...) abort "{{{
     let originalbufnr = bufnr('%')
     let view = winsaveview()
     for bufinfo in filter(s:lib.getbufinfo(), 'v:val.bufnr != originalbufnr')
-      if !has_key(bufinfo.variables, 'Verdin')
-        let Event = Verdin#Event#get(bufinfo.bufnr)
-        call Event.startbufferinspection(1)
-        call Event.startautocomplete()
-      endif
+      execute 'buffer ' . bufinfo.bufnr
+      let Event = Verdin#Event#get(bufinfo.bufnr)
+      call Event.startbufferinspection(1)
+      call Event.startautocomplete()
     endfor
     execute 'buffer ' . originalbufnr
     call winrestview(view)
