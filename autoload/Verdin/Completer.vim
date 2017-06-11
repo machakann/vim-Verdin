@@ -307,12 +307,13 @@ function! s:capitalize(words, base) abort "{{{
 endfunction
 "}}}
 function! s:addsnippeditems(candidatelist, postcursor, ...) abort "{{{
-  if a:postcursor ==# ''
+  let postcursor = s:lib.escape(matchstr(a:postcursor, '^\k\+\>'))
+  if postcursor ==# ''
     return a:candidatelist
   endif
 
   let dup = get(a:000, 0, 1)
-  let pattern = '\m\C' . s:lib.escape(matchstr(a:postcursor, '^\k\+\>')) . '$'
+  let pattern = '\m\C' . postcursor . '$'
   let i = len(a:candidatelist) - 1
   while i >= 0
     let candidate = a:candidatelist[i]
