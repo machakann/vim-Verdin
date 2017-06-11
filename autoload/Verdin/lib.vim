@@ -21,10 +21,10 @@ function! s:lib.word(item) dict abort "{{{
   let itemtype = type(a:item)
   if itemtype == v:t_string
     return a:item
-  elseif itemtype == v:t_list
-    return a:item[1]
   elseif itemtype == v:t_dict
     return a:item.word
+  elseif itemtype == v:t_list
+    return a:item[1]
   endif
   return ''
 endfunction
@@ -33,12 +33,48 @@ function! s:lib.__text__(item) dict abort "{{{
   let itemtype = type(a:item)
   if itemtype == v:t_string
     return a:item
-  elseif itemtype == v:t_list
-    return a:item[0]
   elseif itemtype == v:t_dict
     return get(a:item, '__text__', a:item.word)
+  elseif itemtype == v:t_list
+    return a:item[0]
   endif
   return ''
+endfunction
+"}}}
+function! s:lib.abbr(item) dict abort "{{{
+  let itemtype = type(a:item)
+  if itemtype == v:t_string
+    return a:item
+  elseif itemtype == v:t_dict
+    return get(a:item, 'abbr', a:item.word)
+  elseif itemtype == v:t_list
+    return a:item[1]
+  endif
+  return ''
+endfunction
+"}}}
+function! s:lib.names(item) dict abort "{{{
+  let itemtype = type(a:item)
+  if itemtype == v:t_string
+    return [a:item, a:item, a:item]
+  elseif itemtype == v:t_dict
+    return [a:item.word, get(a:item, '__text__', a:item.word), get(a:item, 'abbr', a:item.word)]
+  elseif itemtype == v:t_list
+    return [a:item[1], a:item[0], a:item[1]]
+  endif
+  return ''
+endfunction
+"}}}
+function! s:lib.uniq(list) dict abort "{{{
+  let list = copy(a:list)
+  call filter(a:list, 0)
+  while list != []
+    let item = remove(list, 0)
+    let [word, text, abbr] = s:lib.names(item)
+    call add(a:list, item)
+    call filter(list, 's:lib.word(v:val) !=# word || s:lib.__text__(v:val) !=# text || s:lib.abbr(v:val) !=# abbr')
+  endwhile
+  return a:list
 endfunction
 "}}}
 function! s:lib.sortbyoccurrence(list) dict abort "{{{

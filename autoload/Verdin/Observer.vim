@@ -127,6 +127,7 @@ function! s:Observer._inspectvim(range) dict abort "{{{
   let Completer = Verdin#Completer#get()
   if varlist != []
     call s:scopecorrectedvaritems(varlist)
+    call s:lib.uniq(varlist)
     if is_dict
       call add(varlist, 'self')
     endif
@@ -254,6 +255,7 @@ function! s:Observer._checkglobalsvim(listedbufs) dict abort "{{{
     call s:inject(self.shelf['globalfunc'], func)
   endif
   if memberlist != []
+    call s:lib.uniq(memberlist)
     let member = Verdin#Dictionary#new('member', s:memberconditionlist, memberlist, 2)
     call s:inject(self.shelf['globalmember'], member)
   endif
