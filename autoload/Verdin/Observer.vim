@@ -199,16 +199,6 @@ function! s:Observer._inspecthelp() dict abort "{{{
 endfunction
 "}}}
 function! s:Observer.checkglobals() dict abort "{{{
-  if &filetype ==# 'vim'
-    call self._checkglobalsvim()
-  elseif &filetype ==# 'help'
-    call self._checkglobalshelp()
-  endif
-  " redraw cursor
-  redraw
-endfunction
-"}}}
-function! s:Observer._checkglobalsvim() dict abort "{{{
   let listedbufs = filter(s:lib.getbufinfo(), 'v:val.bufnr != self.bufnr')
   let globalchangedtick = s:globalchangedtick(listedbufs)
   if self.changedtick.global == globalchangedtick || len(listedbufs) == 0
@@ -216,6 +206,16 @@ function! s:Observer._checkglobalsvim() dict abort "{{{
   endif
   let self.changedtick.global = globalchangedtick
 
+  if &filetype ==# 'vim'
+    call self._checkglobalsvim(listedbufs)
+  elseif &filetype ==# 'help'
+    call self._checkglobalshelp(listedbufs)
+  endif
+  " redraw cursor
+  redraw
+endfunction
+"}}}
+function! s:Observer._checkglobalsvim(listedbufs) dict abort "{{{
   let originalbufnr = bufnr('%')
   let is_cmdwin = getcmdwintype() !=# ''
   let varlist = []
@@ -224,7 +224,7 @@ function! s:Observer._checkglobalsvim() dict abort "{{{
   let keymapwordlist = []
   let commandlist = []
   let higrouplist = []
-  for bufinfo in listedbufs
+  for bufinfo in a:listedbufs
     let Observer = Verdin#Observer#get(bufinfo.bufnr)
     if Observer.changedtick.buffer == -1
       if is_cmdwin
@@ -273,19 +273,12 @@ function! s:Observer._checkglobalsvim() dict abort "{{{
   endif
 endfunction
 "}}}
-function! s:Observer._checkglobalshelp() dict abort "{{{
-  let listedbufs = filter(s:lib.getbufinfo(), 'v:val.bufnr != self.bufnr')
-  let globalchangedtick = s:globalchangedtick(listedbufs)
-  if self.changedtick.global == globalchangedtick
-    return
-  endif
-  let self.changedtick.global = globalchangedtick
-
+function! s:Observer._checkglobalshelp(listedbufs) dict abort "{{{
   " check help buffer
   let originalbufnr = bufnr('%')
   let is_cmdwin = getcmdwintype() !=# ''
   let helptaglist = []
-  for bufinfo in listedbufs
+  for bufinfo in a:listedbufs
     let Observer = Verdin#Observer#get(bufinfo.bufnr)
     if Observer.changedtick.buffer == -1
       if is_cmdwin
