@@ -114,7 +114,7 @@ function! s:Observer._inspectvim(range) dict abort "{{{
   let [_, amemberlist] = s:splitvarname(s:scan(s:const.ARGNAME, scopestart, scopeend, self.clock))
   let memberlist = lmemberlist + gmemberlist + amemberlist
   let memberlist += s:altscan(s:const.KEYREGEX1, s:const.KEYREGEX2, bufstart, bufend, self.clock)
-  let memberlist += s:splitmemberfuncname(s:scan(s:const.MEMBERFUNCREGEX, bufstart, bufend, self.clock))
+  let memberlist += s:splitmethodname(s:scan(s:const.METHODREGEX, bufstart, bufend, self.clock))
   let funclist = s:functionitems(s:scan(s:const.FUNCDEFINITIONREGEX, bufstart, bufend, self.clock))
   let keymaplist = s:scan(s:const.KEYMAPREGEX, bufstart, bufend, self.clock)
   let commandlist = s:scan(s:const.COMMANDREGEX, bufstart, bufend, self.clock)
@@ -144,6 +144,7 @@ function! s:Observer._inspectvim(range) dict abort "{{{
   endif
   if memberlist != []
     let options = {'sortbyoccurrence': 1}
+    call s:lib.uniq(memberlist)
     let member = Verdin#Dictionary#new('member', s:memberconditionlist, memberlist, 1, options)
     call s:inject(self.shelf['buffermember'], member)
   endif
@@ -432,10 +433,18 @@ function! s:splitargvarname(varblocklist) abort "{{{
   return varlist
 endfunction
 "}}}
-function! s:splitmemberfuncname(identifierlist) abort "{{{
+function! s:splitmethodname(identifierlist) abort "{{{
   let memberlist = []
   for identfier in a:identifierlist
-    let memberlist += split(identfier, '\.')
+    let members = split(identfier, '[^.]\zs\.\ze[^.]')
+    if members == []
+      continue
+    elseif len(members) > 1
+      let memberlist += members[: -2]
+    endif
+    let methodbody = members[-1]
+    let methodname = matchstr(methodbody, '\m^\h\w*')
+    call add(memberlist, s:funcitem(methodname, methodbody, {'menu': '[member]', 'dup': 1}))
   endfor
   return memberlist
 endfunction
@@ -448,14 +457,15 @@ function! s:functionitems(funcdefinitions) abort "{{{
         \ ]')
   for [funcname, funcbody] in funclist
     if funcname !=# ''
-      let completeitem = {
-            \   'word': funcname, 'menu': '[function]', 'abbr': funcbody,
-            \   '__text__': funcname, '__func__': 1,
-            \ }
+      let completeitem = s:funcitem(funcname, funcbody)
       call add(funcitemlist, completeitem)
     endif
   endfor
   return funcitemlist
+endfunction
+"}}}
+function! s:funcitem(name, body, ...) abort "{{{
+  return extend({'word': a:name, 'abbr': a:body, '__text__': a:name, '__func__': 1}, get(a:000, 0, {'menu': '[function]'}))
 endfunction
 "}}}
 function! s:localvarmembers(varlist, memberlist, scopestart, scopeend, clock) abort "{{{
