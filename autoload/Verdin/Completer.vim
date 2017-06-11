@@ -25,12 +25,13 @@ function! s:VerdinInsertKet(mode) abort
   let postcursor = s:lib.escape(Completer.last.postcursor)
   let pat = printf('\m\%%%dl\%%%dc%s[^)]*\%%#%s$',
                   \lnum, startcol, funcname, postcursor)
-  if search(pat, 'bcn', Completer.last.lnum)
-    if a:mode ==# 'i'
-      return ")\<C-g>U\<Left>"
-    elseif a:mode ==# 'n'
-      return "a)\<CR>"
-    endif
+  if a:mode ==# 'i' && search(pat, 'bcn', Completer.last.lnum)
+    return ")\<C-g>U\<Left>"
+  endif
+  let pat = printf('\m\%%%dl\%%%dc%s\%%#(%s$',
+                  \lnum, startcol, funcname[:-2], postcursor)
+  if a:mode ==# 'n' && search(pat, 'bcn', Completer.last.lnum)
+    return "a)\<Esc>"
   endif
   return ''
 endfunction
