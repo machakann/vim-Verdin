@@ -245,30 +245,33 @@ function! s:Observer._checkglobalsvim(listedbufs) dict abort "{{{
   endif
   let Completer = Verdin#Completer#get()
   if varlist != []
-    let var = Verdin#Dictionary#new('var', s:varconditionlist, varlist, 2)
+    let conditionlist = s:decrementpriority(s:varconditionlist)
+    let var = Verdin#Dictionary#new('var', conditionlist, varlist, 2)
     call s:inject(self.shelf['globalvar'], var)
   endif
   if funclist != []
-    let conditionlist = Completer.shelf.function.conditionlist
+    let conditionlist = s:decrementpriority(Completer.shelf.function.conditionlist)
     let func = Verdin#Dictionary#new('function', conditionlist, funclist, 1)
     call s:inject(self.shelf['globalfunc'], func)
   endif
   if memberlist != []
     call s:lib.uniq(memberlist)
-    let member = Verdin#Dictionary#new('member', s:memberconditionlist, memberlist, 2)
+    let conditionlist = s:decrementpriority(s:memberconditionlist)
+    let member = Verdin#Dictionary#new('member', conditionlist, memberlist, 1)
     call s:inject(self.shelf['globalmember'], member)
   endif
   if keymapwordlist != []
-    let keymap = Verdin#Dictionary#new('keymap', s:keymapconditionlist, keymapwordlist, 2)
+    let conditionlist = s:decrementpriority(s:keymapconditionlist)
+    let keymap = Verdin#Dictionary#new('keymap', conditionlist, keymapwordlist, 2)
     call s:inject(self.shelf['globalkeymap'], keymap)
   endif
   if commandlist != []
-    let conditionlist = Completer.shelf.command.conditionlist
+    let conditionlist = s:decrementpriority(Completer.shelf.command.conditionlist)
     let command = Verdin#Dictionary#new('command', conditionlist, commandlist, 2)
     call s:inject(self.shelf['globalcommand'], command)
   endif
   if higrouplist != []
-    let conditionlist = Completer.shelf.higroup.conditionlist
+    let conditionlist = s:decrementpriority(Completer.shelf.higroup.conditionlist)
     let higroup = Verdin#Dictionary#new('higroup', conditionlist, higrouplist, 2)
     call s:inject(self.shelf['globalhigroup'], higroup)
   endif
@@ -546,6 +549,16 @@ function! s:globalchangedtick(listedbufs) abort "{{{
     let changedtick += bufinfo.changedtick
   endfor
   return changedtick
+endfunction
+"}}}
+function! s:decrementpriority(conditionlist) abort "{{{
+  let newlist = deepcopy(a:conditionlist)
+  for condition in newlist
+    if has_key(condition, 'priority') && condition.priority > 0
+      let condition.priority -= 1
+    endif
+  endfor
+  return newlist
 endfunction
 "}}}
 
