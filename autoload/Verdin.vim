@@ -58,22 +58,19 @@ function! Verdin#stopautocomplete(...) abort "{{{
     let originalbufnr = bufnr('%')
     for bufinfo in filter(s:lib.getbufinfo(), 'v:val.bufnr != originalbufnr')
       if has_key(bufinfo.variables, 'Verdin')
-        execute 'buffer ' . bufinfo.bufnr
-        let Event = Verdin#Event#get()
+        let Event = Verdin#Event#get(bufinfo.bufnr)
         call Event.stopbufferinspection()
         call Event.stopautocomplete()
       endif
     endfor
-    execute 'buffer ' . originalbufnr
   endif
 endfunction
 "}}}
 function! Verdin#refreshautocomplete(...) abort "{{{
-  call s:refresh()
-
   let bang = get(a:000, 0, '')
   if bang ==# '!'
     let originalbufnr = bufnr('%')
+    let view = winsaveview()
     for bufinfo in filter(s:lib.getbufinfo(), 'v:val.bufnr != originalbufnr')
       if has_key(bufinfo.variables, 'Verdin')
         execute 'buffer ' . bufinfo.bufnr
@@ -81,7 +78,9 @@ function! Verdin#refreshautocomplete(...) abort "{{{
       endif
     endfor
     execute 'buffer ' . originalbufnr
+    call winrestview(view)
   endif
+  call s:refresh()
 endfunction
 "}}}
 function! Verdin#finishautocomplete(...) abort "{{{
@@ -92,17 +91,14 @@ function! Verdin#finishautocomplete(...) abort "{{{
 
   let bang = get(a:000, 0, '')
   if bang ==# '!'
-    let originalbufnr = bufnr('%')
     for bufinfo in filter(s:lib.getbufinfo(), 'v:val.bufnr != originalbufnr')
       if has_key(bufinfo.variables, 'Verdin')
-        execute 'buffer ' . bufinfo.bufnr
         let Event = Verdin#Event#get()
         call Event.stopbufferinspection()
         call Event.stopautocomplete()
-        unlet! b:Verdin
+        unlet! bufinfo.variables.Verdin
       endif
     endfor
-    execute 'buffer ' . originalbufnr
   endif
 endfunction
 "}}}
