@@ -2540,7 +2540,7 @@ let s:hicmdattr = {
 lockvar! s:hicmdattr
 let s:higroup = {
 \   'conditionlist': [{
-\       'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(clear\|default\)\?\s\+\zs\%(\h\w*\)\?\%#',
+\       'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(\%(clear\|default\)\s\+\)\?\zs\%(\h\w*\)\?\%#',
 \       'priority': 128,
 \     },{
 \       'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(default\s\+\)\?link\s\+\%(\h\w*\s\+\)\?\zs\%(\h\w*\)\?\%#',
@@ -3485,16 +3485,16 @@ let s:function = {
 \       'cursor_at': '\m\C\<\%(call([''"]\|exists([''"]\*\)\zs\<\%([gs]:\|\%([gs]:\)\?\h\k*\)\?\%#',
 \       'priority': 256,
 \     },{
-\       'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*<expr>\s*\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*\S\+\s\+\zs\%(<\S*\)\?\%#',
+\       'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*<expr>\s*\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*\S\+\s\+\zs\%(\S*\)\?\%#',
 \       'priority': 256,
 \     },{
 \       'cursor_at': '\m\C^\s*let\s\+[^=]\{-}=\%(.*[^.:]\)\?\zs\<\%([gs]:\)\?\k*\%#',
 \       'priority': 128,
 \     },{
-\       'cursor_at': '\m\C^\s*\%(if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|fu\%[nction]!\?\|unl\%[et]!\?\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#',
+\       'cursor_at': '\m\C^\s*\%(if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.&]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#',
 \       'priority': 128,
 \     },{
-\       'cursor_at': '\m\C^\s*[A-Z]\w*!\?\s.*[:.]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#',
+\       'cursor_at': '\m\C^\s*[A-Z]\w*!\?\s.*[:.&]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#',
 \       'priority': 0,
 \     },{
 \       'cursor_at': '\m\C\<\%([gs]:\h\k\{5,}\|\%([gs]:\)\?\h\k\{5,}\)\%#',
@@ -7659,7 +7659,7 @@ let s:commandattr = {
 lockvar! s:commandattr
 let s:option = {
 \   'conditionlist': [{
-\       'cursor_at': '\m\C&\%(l:\)\?\zs\a*\%#',
+\       'cursor_at': '\m\C&\%(l:\)\?\zs\<\a*\%#',
 \       'priority': 256,
 \     },{
 \       'cursor_at': '\m\C^\s*set\%[local]\s\+\zs\a*\%#',

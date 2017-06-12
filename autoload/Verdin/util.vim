@@ -185,10 +185,10 @@ let s:funcconditionlist = [
     \   {'cursor_at': '\m\C^\s*call\s\+.*\zs\<\%([gs]:\)\?\k*\%#', 'priority': 128},
     \   {'cursor_at': '\m\C<[Cc]-[Rr]>=\zs\%([gs]:\|\%([gs]:\)\?\h\k*\)\?\%#', 'priority': 256},
     \   {'cursor_at': '\m\C\<\%(call([''"]\|exists([''"]\*\)\zs\<\%([gs]:\|\%([gs]:\)\?\h\k*\)\?\%#', 'priority': 256},
-    \   {'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*<expr>\s*\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*\S\+\s\+\zs\%(<\S*\)\?\%#', 'priority': 256},
+    \   {'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*<expr>\s*\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*\S\+\s\+\zs\%(\S*\)\?\%#', 'priority': 256},
     \   {'cursor_at': '\m\C^\s*let\s\+[^=]\{-}=\%(.*[^.:]\)\?\zs\<\%([gs]:\)\?\k*\%#', 'priority': 128},
-    \   {'cursor_at': '\m\C^\s*\%(if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|fu\%[nction]!\?\|unl\%[et]!\?\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#', 'priority': 128},
-    \   {'cursor_at': '\m\C^\s*[A-Z]\w*\s.*[:.]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#', 'priority': 0,},
+    \   {'cursor_at': '\m\C^\s*\%(if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.&]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#', 'priority': 128},
+    \   {'cursor_at': '\m\C^\s*[A-Z]\w*!\?\s.*[:.&]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#', 'priority': 0,},
     \   {'cursor_at': '\m\C\<\%([gs]:\h\k\{5,}\|\%([gs]:\)\?\h\k\{5,}\)\%#', 'priority': 0},
     \ ]
 let s:funcwordlist = map(filter(getcompletion('', 'function'), 'v:val =~# ''\m\C^[[:lower:]]\h*\%[()]$'''), 'matchstr(v:val, ''\h\k*\ze(\?'')')
@@ -250,7 +250,7 @@ let s:eventwordlist = getcompletion('', 'event')
 "}}}
 " Highlight group dictionary {{{
 let s:higroupconditionlist = [
-    \   {'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(clear\|default\)\?\s\+\zs\%(\h\w*\)\?\%#', 'priority': 128},
+    \   {'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(\%(clear\|default\)\s\+\)\?\zs\%(\h\w*\)\?\%#', 'priority': 128},
     \   {'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(default\s\+\)\?link\s\+\%(\h\w*\s\+\)\?\zs\%(\h\w*\)\?\%#', 'priority': 128},
     \   {'cursor_at': '\m\C\<matchadd\%(pos\)\?([''"]\zs\%(\h\w*\)\?\%#', 'priority': 256},
     \   {'cursor_at': '\m\C^\s*[23]\?mat\%[ch]\s\+\zs\%(\h\w*\)\?\%#', 'priority': 256},

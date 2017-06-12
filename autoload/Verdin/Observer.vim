@@ -3,9 +3,9 @@ let s:const = Verdin#constants#distribute()
 let s:lib = Verdin#lib#distribute()
 let s:varconditionlist = [
       \   {'cursor_at': '\m\C^\s*call\s\+\zs\%([ablstw]:\|\%([ablstw]:\)\?\<\h\w*\|g:\h[0-9A-Za-z_#]*\)\?\%#', 'priority': 128},
-      \   {'cursor_at': '\m\C^\s*\%(let\|call\?\|if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|fu\%[nction]!\?\|unl\%[et]!\?\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.]\@1<!\zs\%(\<[abglstwv]:\h\k*\|\<[abglstwv]:\|\<\k*\)\%#', 'priority': 256},
-      \   {'cursor_at': '\m\C^\s*[A-Z]\w*!\?\s.*[:.]\@1<!\zs\%(\<[abglstwv]:\h\k*\|\<[abglstwv]:\|\<\k*\)\%#', 'priority': 0},
-      \   {'cursor_at': '\m\C\%(\%([ablstw]:\)\?\<\h\w\{5,}\|g:\h[0-9A-Za-z_#]\{6,}\)\%#', 'priority': 0},
+      \   {'cursor_at': '\m\C^\s*\%(let\|call\?\|if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|fu\%[nction]!\?\|unl\%[et]!\?\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.&+]\@1<!\zs\%(\<[abglstwv]:\h\k*\|\<[abglstwv]:\|\<\k*\)\%#', 'priority': 256},
+      \   {'cursor_at': '\m\C^\s*[A-Z]\w*!\?\s.*[:.&]\@1<!\zs\%(\<[abglstwv]:\h\k*\|\<[abglstwv]:\|\<\k*\)\%#', 'priority': 0},
+      \   {'cursor_at': '\m\C\%(\%([:.&]\@1<![ablstw]:\)\?\<\h\w\{5,}\|g:\h[0-9A-Za-z_#]\{6,}\)\%#', 'priority': 0},
       \ ]
 let s:memberconditionlist = [{
       \   'cursor_at': s:const.VARNAME . '\.\zs\%(\h\k*\)\?\%#',
