@@ -280,23 +280,23 @@ let s:hicmdoptconditionlist = [
     \ ]
 let s:hicmdoptwordlist = ['default', 'link', 'clear']
 let s:hicmdkeyconditionlist = [
-    \   {'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(clear\s\|default\s\)\?\s*\h\w*\s\+\%(\S\+=\S\+\s\+\)*\zs\a*\%#', 'priority': 384}
+    \   {'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(\%(clear\|default\)\s\+\)\?\h\w*\s\+\%(\S\+=\S\+\s\+\)*\zs\a*\%#', 'priority': 384}
     \ ]
 let s:hicmdkeywordlist = ['term=', 'cterm=', 'gui=', 'ctermfg=', 'ctermbg=', 'guifg=', 'guibg=', 'guisp=', 'font=', 'start=', 'stop=']
 let s:hicmdattrconditionlist = [
-    \   {'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(clear\|default\)\?\s\+\h\w*\s\+\%(\S\+=\S\+\s\+\)\%(c\?term\|gui\)=\zs\S*\%#', 'priority': 384}
+    \   {'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(\%(clear\|default\)\s\+\)\?\h\w*\s\+\%(\S\+=\S\+\s\+\)*\%(c\?term\|gui\)=\zs\S*\%#', 'priority': 384}
     \ ]
 let s:hicmdattrwordlist = ['bold', 'underline', 'undercurl', 'reverse', 'inverse', 'italic', 'standout', 'NONE']
 "}}}
 " Special keys dictionary{{{
 let s:specialkeyconditionlist = [
-      \   {'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|expr\|unique\)>\s*\)*\S\+\s\+\zs\%(<[[:alnum:]-]*\)\?\%#', 'priority': 128},
+      \   {'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|expr\|unique\)>\s*\)*\%(\S\+\s\+\)\?\zs<[[:alnum:]-]*\%#', 'priority': 128},
       \   {'cursor_at': '\m\C\<normal!\?\s\+.*\zs<[[:alnum:]-]*\%#', 'priority': 128},
       \   {'cursor_at': '\m\C\<feedkeys(\%(''\%([^'']*\%(''''\)*\)*[^'']*\|"\%([^"]*\%(\\"\)*\)[^"]*\)\zs<[[:alnum:]-]*\%#', 'priority': 128},
       \   {'cursor_at': '\m<[[:alnum:]-]\+\%#', 'priority': 128},
       \ ]
 let s:specialkeywordlist = [
-      \   '<BS>', '<Tab>', '<CR>', '<Return>', '<Enter>', '<Esc>', '<Space>', '<lt>', '<Bslash>', '<Bar>', '<Del>', '<Up>', '<Down>', '<Left>', '<Right>', '<F1>', '<F2>', '<F3>', '<F4>', '<F5>', '<F6>', '<F7>', '<F8>', '<F9>', '<F10>', '<F11>', '<F12>', '<S-Up>', '<S-Down>', '<S-Left>', '<S-Right>', '<C-Left>', '<C-Right>', '<S-F1>', '<S-F2>', '<S-F3>', '<S-F4>', '<S-F5>', '<S-F6>', '<S-F7>', '<S-F8>', '<S-F9>', '<S-F10>', '<S-F11>', '<S-F12>', '<Help>', '<Undo>', '<Insert>', '<Home>', '<End>', '<PageUp>', '<PageDown>', '<kHome>', '<kEnd>', '<kPageUp>', '<kPageDown>', '<kPlus>', '<kMinus>', '<kMultiply>', '<kDivide>', '<kEnter>', '<kPoint>', '<k0>', '<k1>', '<k2>', '<k3>', '<k4>', '<k5>', '<k6>', '<k7>', '<k8>', '<k9>', '<EOL>', '<CSI>', '<xCSI>', '<NL>', '<FF>', '<Nul>', '<Nop>',
+      \   '<BS>', '<Tab>', '<CR>', '<Return>', '<Enter>', '<Esc>', '<Space>', '<lt>', '<Bslash>', '<Bar>', '<Del>', '<Up>', '<Down>', '<Left>', '<Right>', '<F1>', '<F2>', '<F3>', '<F4>', '<F5>', '<F6>', '<F7>', '<F8>', '<F9>', '<F10>', '<F11>', '<F12>', '<S-Up>', '<S-Down>', '<S-Left>', '<S-Right>', '<C-Left>', '<C-Right>', '<S-F1>', '<S-F2>', '<S-F3>', '<S-F4>', '<S-F5>', '<S-F6>', '<S-F7>', '<S-F8>', '<S-F9>', '<S-F10>', '<S-F11>', '<S-F12>', '<Help>', '<Undo>', '<Insert>', '<Home>', '<End>', '<PageUp>', '<PageDown>', '<kHome>', '<kEnd>', '<kPageUp>', '<kPageDown>', '<kPlus>', '<kMinus>', '<kMultiply>', '<kDivide>', '<kEnter>', '<kPoint>', '<k0>', '<k1>', '<k2>', '<k3>', '<k4>', '<k5>', '<k6>', '<k7>', '<k8>', '<k9>', '<EOL>', '<CSI>', '<xCSI>', '<NL>', '<FF>', '<Nul>', '<Nop>', '<Plug>', '<SID>',
       \ ]
 "}}}
 " Map attribute dictionary {{{
@@ -310,18 +310,18 @@ let s:mapattrwordlist = [
 "}}}
 " Command attribute dictionary {{{
 let s:commandattrconditionlist = [
-      \   {'cursor_at': '\m\C^\s*command!\?\s\+\%(-\S\+\s\+\)*\zs\%(-\S*\)\?\%#', 'priority': 256}
+      \   {'cursor_at': '\m\C^\s*command!\?\s\+\%(-\w\+\s\+\)*\zs\%(-\w*\)\?\%#', 'priority': 256}
       \ ]
 let s:commandattrwordlist = [
       \   '-nargs', '-complete', '-range', '-count', '-addr', '-bang',
       \   '-bar', '-register', '-buffer',
       \ ]
 let s:commandattrnargsconditionlist = [
-      \   {'cursor_at': '\m\C^\s*command!\?\s\+\%(-\S\+\s\+\)*-nargs\zs\%(=[01*?+]\?\)\?\%#', 'priority': 256}
+      \   {'cursor_at': '\m\C^\s*command!\?\s\+\%(-\w\+\s\+\)*-nargs\zs\%(=[01*?+]\?\)\?\%#', 'priority': 256}
       \ ]
 let s:commandattrnargswordlist = ['=0', '=1', '=*', '=?', '=+']
 let s:commandattrcompleteconditionlist = [
-      \   {'cursor_at': '\m\C^\s*command!\?\s\+\%(-\S\+\s\+\)*-complete\zs\%(=[a-z_]*\)\?\%#', 'priority': 256}
+      \   {'cursor_at': '\m\C^\s*command!\?\s\+\%(-\w\+\s\+\)*-complete\zs\%(=[a-z_]*\)\?\%#', 'priority': 256}
       \ ]
 let s:commandattrcompletewordlist = [
       \   '=augroup', '=buffer', '=behave', '=color', '=command', '=compiler',
@@ -347,13 +347,13 @@ let s:expandablewordlist = [
       \   '<cword>', '<cWORD>', '<client>',
       \ ]
 let s:expandablemodifierconditionlist = [
-      \   {'cursor_at': '\m\Cexpand([''"]\%(%\|#\d*\|<\a*\)\zs\%(:[phtre]\?\)\?\%#', 'priority': 256}
+      \   {'cursor_at': '\m\Cexpand([''"]\%(%\|#\d*\|<\a*\)\%(:[phtre]\)*\zs:[phtre]\?\%#', 'priority': 256}
       \ ]
 let s:expandablemodifierwordlist = [':p', ':h', ':t', ':r', ':e']
 "}}}
 " Vimvar dictionary {{{
 let s:vimvarconditionlist = [
-    \   {'cursor_at': '\m\Cv:\h\k*\%#', 'priority': 256},
+    \   {'cursor_at': '\m\Cv:\w*\%#', 'priority': 256},
     \ ]
 let s:vimvarwordlist = getcompletion('v:', 'var')
 "}}}

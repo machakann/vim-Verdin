@@ -95,7 +95,7 @@ let s:hicmdopt = {
 lockvar! s:hicmdopt
 let s:hicmdkey = {
 \   'conditionlist': [{
-\       'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(clear\s\|default\s\)\?\s*\h\w*\s\+\%(\S\+=\S\+\s\+\)*\zs\a*\%#',
+\       'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(\%(clear\|default\)\s\+\)\?\h\w*\s\+\%(\S\+=\S\+\s\+\)*\zs\a*\%#',
 \       'priority': 384,
 \     },],
 \   'index': {
@@ -2490,7 +2490,7 @@ let s:command = {
 lockvar! s:command
 let s:hicmdattr = {
 \   'conditionlist': [{
-\       'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(clear\|default\)\?\s\+\h\w*\s\+\%(\S\+=\S\+\s\+\)\%(c\?term\|gui\)=\zs\S*\%#',
+\       'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(\%(clear\|default\)\s\+\)\?\h\w*\s\+\%(\S\+=\S\+\s\+\)*\%(c\?term\|gui\)=\zs\S*\%#',
 \       'priority': 384,
 \     },],
 \   'index': {
@@ -3053,7 +3053,7 @@ let s:expandable = {
 lockvar! s:expandable
 let s:expandablemodifier = {
 \   'conditionlist': [{
-\       'cursor_at': '\m\Cexpand([''"]\%(%\|#\d*\|<\a*\)\zs\%(:[phtre]\?\)\?\%#',
+\       'cursor_at': '\m\Cexpand([''"]\%(%\|#\d*\|<\a*\)\%(:[phtre]\)*\zs:[phtre]\?\%#',
 \       'priority': 256,
 \     },],
 \   'index': {
@@ -3086,7 +3086,7 @@ let s:expandablemodifier = {
 lockvar! s:expandablemodifier
 let s:vimvar = {
 \   'conditionlist': [{
-\       'cursor_at': '\m\Cv:\h\k*\%#',
+\       'cursor_at': '\m\Cv:\w*\%#',
 \       'priority': 256,
 \     },],
 \   'index': {
@@ -7610,7 +7610,7 @@ let s:function = {
 lockvar! s:function
 let s:commandattr = {
 \   'conditionlist': [{
-\       'cursor_at': '\m\C^\s*command!\?\s\+\%(-\S\+\s\+\)*\zs\%(-\S*\)\?\%#',
+\       'cursor_at': '\m\C^\s*command!\?\s\+\%(-\w\+\s\+\)*\zs\%(-\w*\)\?\%#',
 \       'priority': 256,
 \     },],
 \   'index': {
@@ -9539,7 +9539,7 @@ let s:event = {
 lockvar! s:event
 let s:keys = {
 \   'conditionlist': [{
-\       'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|expr\|unique\)>\s*\)*\S\+\s\+\zs\%(<[[:alnum:]-]*\)\?\%#',
+\       'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|expr\|unique\)>\s*\)*\%(\S\+\s\+\)\?\zs<[[:alnum:]-]*\%#',
 \       'priority': 128,
 \     },{
 \       'cursor_at': '\m\C\<normal!\?\s\+.*\zs<[[:alnum:]-]*\%#',
@@ -9701,6 +9701,10 @@ let s:keys = {
 \         '__text__': '<PageDown>',
 \         'menu': '[keys]',
 \         'word': '<PageDown>',
+\       },{
+\         '__text__': '<Plug>',
+\         'menu': '[keys]',
+\         'word': '<Plug>',
 \       },],
 \     '<R': [{
 \         '__text__': '<Right>',
@@ -9751,6 +9755,10 @@ let s:keys = {
 \         '__text__': '<S-F9>',
 \         'menu': '[keys]',
 \         'word': '<S-F9>',
+\       },{
+\         '__text__': '<SID>',
+\         'menu': '[keys]',
+\         'word': '<SID>',
 \       },{
 \         '__text__': '<Space>',
 \         'menu': '[keys]',
@@ -9893,7 +9901,7 @@ let s:keys = {
 lockvar! s:keys
 let s:commandattraddr = {
 \   'conditionlist': [{
-\       'cursor_at': '\m\C^\s*command!\?\s\+\%(-\S\+\s\+\)*-addr\zs\%(=[a-z_]*\)\?\%#',
+\       'cursor_at': '\m\C^\s*command!\?\s\+\%(-\w\+\s\+\)*-addr\zs\%(=[a-z_]*\)\?\%#',
 \       'priority': 256,
 \     },],
 \   'index': {
@@ -12691,7 +12699,7 @@ let s:word = {
 lockvar! s:word
 let s:commandattrcomplete = {
 \   'conditionlist': [{
-\       'cursor_at': '\m\C^\s*command!\?\s\+\%(-\S\+\s\+\)*-complete\zs\%(=[a-z_]*\)\?\%#',
+\       'cursor_at': '\m\C^\s*command!\?\s\+\%(-\w\+\s\+\)*-complete\zs\%(=[a-z_]*\)\?\%#',
 \       'priority': 256,
 \     },],
 \   'index': {
