@@ -21,8 +21,8 @@ let s:FUNCNAME = '\%(s:\h\w*\|\%(g:\)\?[A-Z]\w*\|\h[0-9A-Za-z_#]*\)'
 let s:FUNCREGEX = printf('\m\C^\s*fu\%%[nction]!\?\s\+\zs%s\ze(', s:FUNCNAME)
 let s:FUNCBODYREGEX = printf('\m\C^\s*fu\%%[nction]!\?\s\+\zs%s([^)]*)', s:FUNCNAME)
 let s:FUNCDEFINITIONREGEX = printf('\m\C^\s*fu\%%[nction]!\?\s\+%s([^)]*)', s:FUNCNAME)
-let s:KEYREGEX1 = '\m[{,]\s*\%(\_s*\\\s*\)\%(''\zs\%(.\{-}\%(''''\)*\)*\ze''\|\"\zs\%(.\{-}\%(\\"\)*\)*\ze\"\)'
-let s:KEYREGEX2 = '\m\%(''\zs\%(.\{-}\%(''''\)*\)*\ze''\|\"\zs\%(.\{-}\%(\\"\)*\)*\ze\"\)'
+let s:KEYREGEX1 = '\m[{,]\s*\%(\_s*\\\s*\)\?\%(''\zs\h\w*\ze''\|\"\zs\h\w*\ze\"\)'
+let s:KEYREGEX2 = '\m\%(''\zs\h\w*\ze''\|\"\zs\h\w*\ze\"\)'
 let s:METHODREGEX = printf('\m\C^\s*fu\%%[nction!]\s\+%s\.\zs\%(\h\w*\.\)*\h\w*([^)]*)', s:VARNAME)
 let s:KEYMAPREGEX = printf('\m\C^\s*\%%([nvxsoilc]\?\%%(m\%%[ap]\|nor\%%[emap]\)\|map!\)\s\+\%%(%s\)*\s*\zs\%%(%s\)\S\+',
       \   join(['<buffer>', '<nowait>', '<silent>', '<special>', '<script>', '<expr>', '<unique>',], '\|'),
