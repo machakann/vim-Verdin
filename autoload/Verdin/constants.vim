@@ -31,7 +31,7 @@ let s:KEYMAPREGEX = printf('\m\C^\s*\%%([nvxsoilc]\?\%%(m\%%[ap]\|nor\%%[emap]\)
 let s:ARGNAME = '\<a:\h\w*\%(\.\h\w*\)*\>'
 let s:ARGREGEX = printf('\m\C^\s*fu\%%[nction]!\?\s\+\%(%s\|%s\%%(\.\h\w*\)*\)(\s*\zs\%%(\h\w*\%%(,\s*\h\w*\)*\%(,\s*\.\{3}\)\?\|\s*\.\{3}\)\ze\s*)', s:FUNCNAME, s:VARNAME)
 let s:COMMANDREGEX = '\m\C^\s*com\%[mand]!\?\s\+\%(\%(-nargs=[01*?+]\|-complete=\S\+\|-range\%(=\%(%\|\d\+\)\)\?\|-count=\d\+\|-addr=\w\+\|-bang\|-bar\|-registers\|-buffer\)\s\+\)*\zs\w\+\>'
-let s:HIGROUPREGEX = '\m\C^\s*hi\%[ghlight]!\?\s\+\%(default\s\+\)\?\%(link\s\+\)\zs\h\w*'
+let s:HIGROUPREGEX = '\m\C^\s*hi\%[ghlight]!\?\s\+\%(default\s\+\)\?\%(link\s\+\)\?\zs\h\w*'
 let s:SNAKECASEWORDREGEX = '\m\C\(\h\)[0-9A-Za-z]*' . repeat('\%([_#\-]\+\(\h\)[0-9A-Za-z]*\)\?', 8)
 let s:CAMELCASEWORDREGEX = '\m\C\(\u\)\u*[0-9a-z]\+' . repeat('\%(\(\u\)\u*[0-9a-z]\+\)\?', 8)
 let s:HELPTAGREGEX = '\m\*\zs[^*]\+\ze\*'
