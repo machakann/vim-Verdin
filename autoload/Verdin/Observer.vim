@@ -111,7 +111,6 @@ function! s:Observer._inspectvim(range) dict abort "{{{
   call self.clock.start()
   let [lvarlist, lmemberlist] = s:splitvarname(s:scan(s:const.LOCALVARREGEX, scopestart, scopeend, self.clock))
   let [gvarlist, gmemberlist] = s:splitvarname(s:scan(s:const.GLOBALVARREGEX, bufstart, bufend, self.clock))
-  call s:localvarmembers(lvarlist, lmemberlist, scopestart, scopeend, self.clock)
   let varlist = lvarlist + gvarlist
   call s:lib.sortbyoccurrence(varlist)
   let varlist += s:splitargvarname(s:scan(s:const.ARGREGEX, scopestart, scopestart, self.clock))
@@ -473,14 +472,6 @@ endfunction
 "}}}
 function! s:funcitem(name, body, ...) abort "{{{
   return extend({'word': a:name, 'abbr': a:body, '__text__': a:name, '__func__': 1}, get(a:000, 0, {'menu': '[function]'}))
-endfunction
-"}}}
-function! s:localvarmembers(varlist, memberlist, scopestart, scopeend, clock) abort "{{{
-  for var in a:varlist
-    let pattern = '\<' . var . '\>\%(\.\h\k*\)*'
-    let [_, memberlist] = s:splitvarname(s:scan(pattern, a:scopestart, a:scopeend, a:clock))
-    call extend(a:memberlist, memberlist)
-  endfor
 endfunction
 "}}}
 function! s:scopecorrectedvaritems(varlist) abort "{{{
