@@ -35,6 +35,10 @@ let s:keymapconditionlist = [
       \ ]
 "}}}
 
+function! Verdin#Observer#new() abort "{{{
+  return s:Observer()
+endfunction
+"}}}
 function! Verdin#Observer#get(...) abort "{{{
   let bufnr = get(a:000, 0, bufnr('%'))
   let bufinfo = get(getbufinfo(bufnr), 0, {})
