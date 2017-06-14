@@ -157,8 +157,9 @@ function! s:Observer._inspectvim(range) dict abort "{{{
     call s:inject(self.shelf['bufferkeymap'], keymap)
   endif
   if commandlist != []
+    let options = {'delimitermatch': 1}
     let conditionlist = Completer.shelf.command.conditionlist
-    let command = Verdin#Dictionary#new('command', conditionlist, commandlist, 2)
+    let command = Verdin#Dictionary#new('command', conditionlist, commandlist, 2, options)
     call s:inject(self.shelf['buffercommand'], command)
   endif
   if higrouplist != []
