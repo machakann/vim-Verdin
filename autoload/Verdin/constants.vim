@@ -12,10 +12,10 @@ let s:VARREGEX = join(['\m\C\%(', join([
 let s:GLOBALVARNAME = '\<\%([bstw]:\h\w*\|g:\h[0-9A-Za-z_#]*\)\%(\.\h\w*\)*(\@!\>'
 let s:LOCALVARNAME = '\<\%(l:\)\?\h\w*\%(\.\h\w*\)*(\@!\>'
 let s:LOCALVARREGEX = join(['\m\C\%(', join([
-      \   printf('^\s*let\s\+\zs%s\ze\%(\s*\|\_s\+\\\s*\)=', s:LOCALVARNAME),
-      \   printf('^\s*let\s\+\[\s*\zs\%(%s,\s*\)*%s\ze\s*\]\%(\s*\|\_s\+\\\s*\)=', s:LOCALVARNAME, s:LOCALVARNAME),
+      \   printf('^\s*let\s\+\zs%s\ze\%%(\s*\|\_s\+\\\s*\)=', s:LOCALVARNAME),
+      \   printf('^\s*let\s\+\[\s*\zs\%%(%s,\s*\)*%s\ze\s*\]\%%(\s*\|\_s\+\\\s*\)=', s:LOCALVARNAME, s:LOCALVARNAME),
       \   printf('^\s*for\s\+\zs%s\ze\s\+in', s:LOCALVARNAME),
-      \   printf('^\s*for\s\+\[\s*\zs\%(%s,\s*\)*%s\ze\s*\]\s\+in', s:LOCALVARNAME, s:LOCALVARNAME),
+      \   printf('^\s*for\s\+\[\s*\zs\%%(%s,\s*\)*%s\ze\s*\]\s\+in', s:LOCALVARNAME, s:LOCALVARNAME),
       \ ], '\|'), '\)'], '')
 let s:FUNCNAME = '\%(s:\h\w*\|\%(g:\)\?[A-Z]\w*\|\h[0-9A-Za-z_#]*\)'
 let s:FUNCREGEX = printf('\m\C^\s*fu\%%[nction]!\?\s\+\zs%s\ze(', s:FUNCNAME)
