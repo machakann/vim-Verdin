@@ -7,10 +7,10 @@ let s:varconditionlist = [
       \   {'cursor_at': '\m\C^\s*[A-Z]\w*!\?\s.*[:.&]\@1<!\zs\%(\<[abglstwv]:\h\k*\|\<[abglstwv]:\|\<\k*\)\%#', 'priority': 0},
       \   {'cursor_at': '\m\C\%(\%([:.&]\@1<![ablstw]:\)\?\<\h\w\{5,}\|g:\h[0-9A-Za-z_#]\{6,}\)\%#', 'priority': 0},
       \ ]
-let s:memberconditionlist = [{
-      \   'cursor_at': s:const.VARNAME . '\.\zs\%(\h\k*\)\?\%#',
-      \   'priority': 384,
-      \ }]
+let s:memberconditionlist = [
+      \   {'cursor_at': s:const.VARNAME . '\.\zs\%(\h\w*\)\?\%#', 'priority': 384},
+      \   {'cursor_at': printf('\m\C\<has_key(\s*%s\s*,\s*[''"]\zs\w*\%%#', s:const.VARNAME), 'priority': 384},
+      \ ]
 let s:keymapconditionlist = [
       \   {
       \     'cursor_at': '\m\C<\%(P\%[lug>]\|S\%[ID>]\)\S*\%#',
@@ -117,6 +117,7 @@ function! s:Observer._inspectvim(range) dict abort "{{{
   let [_, amemberlist] = s:splitvarname(s:scan(s:const.ARGNAME, scopestart, scopeend, self.clock))
   let memberlist = lmemberlist + gmemberlist + amemberlist
   let memberlist += s:altscan(s:const.KEYREGEX1, s:const.KEYREGEX2, bufstart, bufend, self.clock)
+  let memberlist += s:scan(s:const.KEYREGEX3, bufstart, bufend, self.clock)
   let memberlist += s:splitmethodname(s:scan(s:const.METHODREGEX, bufstart, bufend, self.clock))
   let funclist = s:functionitems(s:scan(s:const.FUNCDEFINITIONREGEX, bufstart, bufend, self.clock))
   let keymaplist = s:scan(s:const.KEYMAPREGEX, bufstart, bufend, self.clock)
