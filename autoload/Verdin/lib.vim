@@ -113,6 +113,12 @@ function! s:lib.getbufinfo(...) dict abort "{{{
   return []
 endfunction
 "}}}
+function! s:lib.pathjoin(parts) dict abort "{{{
+  return join(a:parts, s:const.PATHSEPARATOR)
+endfunction
+"}}}
+
+" fuzzy match
 function! s:lib.Damerau_Levenshtein_distance(a, b, threshold) dict abort "{{{
   " NOTE: Cannot apply for multi-byte strings
   let na = strchars(a:a)

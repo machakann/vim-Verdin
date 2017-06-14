@@ -195,7 +195,7 @@ let s:funcwordlist = map(filter(getcompletion('', 'function'), 'v:val =~# ''\m\C
 " let s:funcwordlist = Verdin#util#wordlist('function', g:report)
 " let g:funcwordlist = s:funcwordlist
 function! s:funcitems(funcwordlist) abort
-  let evaltxtpath = join([expand('$VIMRUNTIME'), 'doc', 'eval.txt'], s:const.PATHSEPARATOR)
+  let evaltxtpath = s:lib.pathjoin([expand('$VIMRUNTIME'), 'doc', 'eval.txt'])
   let evallines = readfile(evaltxtpath)
   let [start, end] = [-1, -1]
   for i in range(len(evallines))
@@ -367,7 +367,7 @@ let s:existshelperwordlist = [
 "}}}
 " Word dictionary {{{
 let s:wordconditionlist = [{'cursor_at': '\m^\s*".*\zs\<\a\{2,}\%#', 'priority': 0}]
-let s:worddictpath = join([expand('<sfile>:p:h:h:h'), 'dict', 'words'], s:const.PATHSEPARATOR)
+let s:worddictpath = s:lib.pathjoin([expand('<sfile>:p:h:h:h'), 'dict', 'words'])
 let s:wordwordlist = filter(readfile(s:worddictpath), 'v:val !=# ""')
 "}}}
 " Help tags dictionary {{{
@@ -394,7 +394,7 @@ function! s:helptagitems(helptaglist) abort
   endfor
   return a:helptaglist
 endfunction
-let s:helptagspath = join([expand('$VIMRUNTIME'), 'doc', 'tags'], s:const.PATHSEPARATOR)
+let s:helptagspath = s:lib.pathjoin([expand('$VIMRUNTIME'), 'doc', 'tags'])
 let s:helptagwordlist = s:helptagitems(map(readfile(s:helptagspath), 'split(v:val, ''\s\+'')'))
 "}}}
 function! Verdin#util#rebuildbasedict(...) abort "{{{
