@@ -349,19 +349,19 @@ function! s:scan(pat, startlnum, endlnum, clock) abort "{{{
   endif
 
   execute printf('normal! %dG0', a:startlnum)
-  let start = searchpos(a:pat, 'cW', a:endlnum, s:const.SEARCHTIMEOUT)
-  if start[0] == 0 || start[0] > a:endlnum
+  let start = searchpos(a:pat, 'c', a:endlnum, s:const.SEARCHTIMEOUT)
+  if start[0] == 0
     return []
   endif
-  let end = searchpos(a:pat, 'ceW', a:endlnum, s:const.SEARCHTIMEOUT)
+  let end = searchpos(a:pat, 'ce', a:endlnum, s:const.SEARCHTIMEOUT)
   let wordlist = [s:yank(start, end)]
   call cursor(end)
   while a:clock.elapsed() < s:const.SEARCHTIMEOUT
-    let start = searchpos(a:pat, 'W', a:endlnum, s:const.SEARCHTIMEOUT)
-    if start[0] == 0 || start[0] > a:endlnum
+    let start = searchpos(a:pat, '', a:endlnum, s:const.SEARCHTIMEOUT)
+    if start[0] == 0
       break
     endif
-    let end = searchpos(a:pat, 'ceW', a:endlnum, s:const.SEARCHTIMEOUT)
+    let end = searchpos(a:pat, 'ce', a:endlnum, s:const.SEARCHTIMEOUT)
     let wordlist += [s:yank(start, end)]
     call cursor(end)
   endwhile
