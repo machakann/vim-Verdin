@@ -404,7 +404,8 @@ endfunction
 "}}}
 function! s:scoperange() abort "{{{
   let start = max([search('\m\C^\s*fu\%[nction]!\?', 'bcnW'), 1])
-  let end = min([search('\m\C^\s*endf\%[unction]', 'cnW'), line('$')])
+  let end = min([search('\m\C^\s*endf\%[unction]o\@!', 'cnW'), line('$')])
+  let end = end != 0 ? end : line('$')
   let is_dict = match(getline(start), '\m\C^\s*fu\%[nction]!\?\s\+\%([gs]:\)\?\h\k*\%(\.\%(\h\k*\)\|([^)]*)\%(\s*\%(range\|abort\|closure\)\)*\s*dict\)') >= 0
   return [start, end, is_dict]
 endfunction
