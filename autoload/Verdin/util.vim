@@ -365,6 +365,29 @@ let s:existshelperwordlist = [
     \   '&', '+', '$', '*', ':', '#', '##',
     \ ]
 "}}}
+" Feature dictionary{{{
+let s:featureconditionlsit = [
+      \   {'cursor_at': '\<has([''"]\zs\w*\%#', 'priority': 384}
+      \ ]
+function! s:featurelist() abort
+  let evaltxtpath = s:lib.pathjoin([expand('$VIMRUNTIME'), 'doc', 'eval.txt'])
+  let evallines = readfile(evaltxtpath)
+  for i in range(len(evallines))
+    if evallines[i] =~# '^use: `if exists(''+shellslash'')`'
+      let start = i + 1
+      break
+    endif
+  endfor
+  for i in range(start + 1, len(evallines) - 1)
+    if evallines[i] =~# '^\s\+\*string-match\*'
+      let end = i
+      break
+    endif
+  endfor
+  return filter(map(evallines[start : end], 'matchstr(v:val, ''\m^\h\w*'')'), 'v:val !=# ""')
+endfunction
+let s:featurewordlist = s:featurelist()
+"}}}
 " Word dictionary {{{
 let s:wordconditionlist = [{'cursor_at': '\m^\s*".*\zs\<\a\{2,}\%#', 'priority': 0}]
 let s:worddictpath = s:lib.pathjoin([expand('<sfile>:p:h:h:h'), 'dict', 'words'])
@@ -423,6 +446,7 @@ function! s:rebuildvimbasedict() abort "{{{
   let basedict.expandablemodifier = Verdin#Dictionary#new('expand', s:expandablemodifierconditionlist, s:expandablemodifierwordlist, 1, options)
   let basedict.vimvar = Verdin#Dictionary#new('vimvar', s:vimvarconditionlist, s:vimvarwordlist, 3, options)
   let basedict.exists = Verdin#Dictionary#new('exists', s:existshelperconditionlist, s:existshelperwordlist, 1, options)
+  let basedict.feature = Verdin#Dictionary#new('feature', s:featureconditionlsit, s:featurewordlist, 1)
   let basedict.word = Verdin#Worddictionary#new('word', s:wordconditionlist, s:wordwordlist, 3)
   return basedict
 endfunction
