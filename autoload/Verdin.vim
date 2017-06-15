@@ -90,6 +90,7 @@ function! Verdin#finishautocomplete(...) abort "{{{
 
   let bang = get(a:000, 0, '')
   if bang ==# '!'
+    let originalbufnr = bufnr('%')
     for bufinfo in filter(s:lib.getbufinfo(), 'v:val.bufnr != originalbufnr')
       if has_key(bufinfo.variables, 'Verdin')
         let Event = Verdin#Event#get()
