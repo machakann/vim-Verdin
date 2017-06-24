@@ -173,8 +173,13 @@ let s:command = {
 \       'priority': 256,
 \     },{
 \       'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\w\{5,}\%#',
+\       'in_comment': 1,
 \       'priority': 0,
-\     },],
+\     },{
+\       'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\w\{5,}\%#',
+\       'in_string': 1,
+\       'priority': 0,
+\     }],
 \   'index': {
 \     'Ne': [{
 \         '__text__': 'Next',
@@ -2554,8 +2559,13 @@ let s:higroup = {
 \       'priority': 256,
 \     },{
 \       'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#',
+\       'in_string': 1,
 \       'priority': 0,
-\     },],
+\     },{
+\       'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#',
+\       'in_comment': 1,
+\       'priority': 0,
+\     }],
 \   'index': {
 \     'Bo': [{
 \         '__text__': 'Boolean',
@@ -4170,6 +4180,8 @@ let s:function = {
 \       'priority': 256,
 \     },{
 \       'cursor_at': '\m\C^\s*call\s\+.*\zs\<\%([gs]:\)\?\k*\%#',
+\       'not_in_comment': 1,
+\       'not_in_string': 1,
 \       'priority': 128,
 \     },{
 \       'cursor_at': '\m\C<[Cc]-[Rr]>=\zs\%([gs]:\|\%([gs]:\)\?\h\k*\)\?\%#',
@@ -4179,20 +4191,33 @@ let s:function = {
 \       'priority': 256,
 \     },{
 \       'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*<expr>\s*\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*\S\+\s\+\zs\%(\S*\)\?\%#',
+\       'not_in_comment': 1,
+\       'not_in_string': 1,
 \       'priority': 256,
 \     },{
 \       'cursor_at': '\m\C^\s*let\s\+[^=]\{-}=\%(.*[^.:]\)\?\zs\<\%([gs]:\)\?\k*\%#',
+\       'not_in_comment': 1,
+\       'not_in_string': 1,
 \       'priority': 128,
 \     },{
 \       'cursor_at': '\m\C^\s*\%(if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.&]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#',
+\       'not_in_comment': 1,
+\       'not_in_string': 1,
 \       'priority': 128,
 \     },{
 \       'cursor_at': '\m\C^\s*[A-Z]\w*!\?\s.*[:.&]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#',
+\       'not_in_comment': 1,
+\       'not_in_string': 1,
 \       'priority': 0,
 \     },{
 \       'cursor_at': '\m\C\<\%([gs]:\h\k\{5,}\|\%([gs]:\)\?\h\k\{5,}\)\%#',
+\       'in_string': 1,
 \       'priority': 0,
-\     },],
+\     },{
+\       'cursor_at': '\m\C\<\%([gs]:\h\k\{5,}\|\%([gs]:\)\?\h\k\{5,}\)\%#',
+\       'in_comment': 1,
+\       'priority': 0,
+\     }],
 \   'index': {
 \     'ab': [{
 \         '__func__': 1,
@@ -8362,8 +8387,13 @@ let s:option = {
 \       'priority': 256,
 \     },{
 \       'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#',
+\       'in_string': 1,
 \       'priority': 0,
-\     },],
+\     },{
+\       'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#',
+\       'in_comment': 1,
+\       'priority': 0,
+\     }],
 \   'index': {
 \     'a': [{
 \         '__text__': 'all',
@@ -9842,8 +9872,13 @@ let s:event = {
 \       'priority': 256,
 \     },{
 \       'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#',
+\       'in_string': 1,
 \       'priority': 0,
-\     },],
+\     },{
+\       'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#',
+\       'in_comment': 1,
+\       'priority': 0,
+\     }],
 \   'index': {
 \     'B': [{
 \         '__text__': 'BufAdd',
@@ -10239,6 +10274,7 @@ let s:keys = {
 \       'priority': 128,
 \     },{
 \       'cursor_at': '\m\C\<feedkeys(\%(''\%([^'']*\%(''''\)*\)*[^'']*\|"\%([^"]*\%(\\"\)*\)[^"]*\)\zs<[[:alnum:]-]*\%#',
+\       'in_string': 1,
 \       'priority': 128,
 \     },{
 \       'cursor_at': '\m<[[:alnum:]-]\+\%#',

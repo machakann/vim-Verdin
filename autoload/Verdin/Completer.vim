@@ -91,6 +91,7 @@ function! s:Completer.startcol(...) dict abort "{{{
   let s:CURRENTLINE = getline('.')
   let precursor = s:CURRENTCOL == 1 ? '' : s:CURRENTLINE[: s:CURRENTCOL-2]
   let postcursor = s:CURRENTLINE[s:CURRENTCOL-1 :]
+  let cursor_is_in = s:whereishere(precursor, s:CURRENTLNUM, s:CURRENTCOL)
   let self.last.lnum = s:CURRENTLNUM
   let self.last.col = s:CURRENTCOL
   let self.last.line = s:CURRENTLINE
@@ -101,8 +102,7 @@ function! s:Completer.startcol(...) dict abort "{{{
   let minstartcol = 1/0
   let startcol = minstartcol
   for Dictionary in values(self.shelf)
-    let [startcol, candidate, fuzzycandidate]
-          \ = s:lookup(Dictionary, precursor, minstartcol, giveupifshort, fuzzymatch)
+    let [startcol, candidate, fuzzycandidate] = s:lookup(Dictionary, precursor, minstartcol, cursor_is_in, giveupifshort, fuzzymatch)
     if startcol < 0 || startcol > minstartcol
       continue
     endif
@@ -238,7 +238,7 @@ function! s:Completer.dropduplicates(wordlist, namelist) dict abort "{{{
 endfunction
 "}}}
 let s:NOTHING_FOUND = [-1, {}, {}]
-function! s:lookup(Dictionary, precursor, minstartcol, giveupifshort, fuzzymatch) abort  "{{{
+function! s:lookup(Dictionary, precursor, minstartcol, cursor_is_in, giveupifshort, fuzzymatch) abort  "{{{
   if a:Dictionary == {}
     return s:NOTHING_FOUND
   endif
@@ -251,7 +251,7 @@ function! s:lookup(Dictionary, precursor, minstartcol, giveupifshort, fuzzymatch
   let savedstartcol = -1
   for condition in a:Dictionary.conditionlist
     let [matched, str] = s:matchstr(a:precursor, condition.cursor_at)
-    if !matched || (a:giveupifshort && strchars(str) < a:Dictionary.indexlen) || s:cursor_not_at(condition)
+    if !matched || (a:giveupifshort && strchars(str) < a:Dictionary.indexlen) || !s:cursor_is_in(condition, a:cursor_is_in) || s:cursor_not_at(condition)
       continue
     endif
     let startcol = s:CURRENTCOL - strlen(str) - 1
@@ -298,6 +298,39 @@ endfunction
 function! s:cursor_not_at(condition) abort "{{{
   let cursor_not_at = get(a:condition, 'cursor_not_at', '')
   return cursor_not_at !=# '' && (search(cursor_not_at, 'bcnW', s:CURRENTLNUM) != 0 || search(cursor_not_at, 'cn', s:CURRENTLNUM) != 0)
+endfunction
+"}}}
+function! s:cursor_is_in(condition, cursor_is_in) abort "{{{
+  let flags = []
+  if has_key(a:condition, 'in_string')
+    if !!a:cursor_is_in.string == !!a:condition.in_string
+      call add(flags, 1)
+    else
+      call add(flags, 0)
+    endif
+  endif
+  if has_key(a:condition, 'in_comment')
+    if !!a:cursor_is_in.comment == !!a:condition.in_comment
+      call add(flags, 1)
+    else
+      call add(flags, 0)
+    endif
+  endif
+  if has_key(a:condition, 'not_in_string')
+    if !!a:cursor_is_in.string != !!a:condition.not_in_string
+      call add(flags, 1)
+    else
+      call add(flags, 0)
+    endif
+  endif
+  if has_key(a:condition, 'not_in_comment')
+    if !!a:cursor_is_in.comment != !!a:condition.not_in_comment
+      call add(flags, 1)
+    else
+      call add(flags, 0)
+    endif
+  endif
+  return flags == [] || eval(join(flags, '&&')) ? 1 : 0
 endfunction
 "}}}
 function! s:capitalize(words, base) abort "{{{
@@ -448,6 +481,16 @@ function! s:autoketinsert(item) abort "{{{
       call feedkeys(s:VerdinInsertKet, 'im')
     endif
   endif
+endfunction
+"}}}
+function! s:whereishere(precursor, lnum, col) abort "{{{
+  if synIDattr(synIDtrans(synID(a:lnum, a:col-1, 1)), 'name') ==# 'Comment'
+    return {'comment': 1, 'string': 0}
+  endif
+  if match(a:precursor, '^[^''"]*\%(\%(''[^'']*''\|".\{-}\%(\\\%(\\\\\)*\)\@21<!"\)[^''"]*\)*[''"][^''"]*$') > -1
+    return {'comment': 0, 'string': 1}
+  endif
+  return {'comment': 0, 'string': 0}
 endfunction
 "}}}
 
