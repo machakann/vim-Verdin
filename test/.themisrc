@@ -1,0 +1,4 @@
+set encoding=utf-8
+set noswapfile
+execute 'set runtimepath+=' . expand('<sfile>:p:h:h')
+let g:assert = themis#helper('assert')
