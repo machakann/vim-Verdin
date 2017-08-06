@@ -110,21 +110,22 @@ function! s:Observer._inspectvim(range) dict abort "{{{
     let [scopestart, scopeend, is_dict] = [bufstart, bufend, 0]
   endif
   call self.clock.start()
-  let [lvarlist, lmemberlist] = s:splitvarname(s:scan(s:const.LOCALVARREGEX, scopestart, scopeend, self.clock))
-  let [gvarlist, gmemberlist] = s:splitvarname(s:scan(s:const.GLOBALVARREGEX, bufstart, bufend, self.clock))
+  let buffer = getline(1, line('$'))
+  let [lvarlist, lmemberlist] = s:splitvarname(s:scan(s:const.LOCALVARREGEX, buffer, scopestart, scopeend, self.clock))
+  let [gvarlist, gmemberlist] = s:splitvarname(s:scan(s:const.GLOBALVARREGEX, buffer, bufstart, bufend, self.clock))
   let varlist = lvarlist + gvarlist
   call s:lib.sortbyoccurrence(varlist)
-  let varlist += s:splitargvarname(s:scan(s:const.ARGREGEX, scopestart, scopestart, self.clock))
-  let [_, amemberlist] = s:splitvarname(s:scan(s:const.ARGNAME, scopestart, scopeend, self.clock))
+  let varlist += s:splitargvarname(s:scan(s:const.ARGREGEX, buffer, scopestart, scopestart, self.clock))
+  let [_, amemberlist] = s:splitvarname(s:scan(s:const.ARGNAME, buffer, scopestart, scopeend, self.clock))
   let memberlist = lmemberlist + gmemberlist + amemberlist
-  let memberlist += s:altscan(s:const.KEYREGEX1, s:const.KEYREGEX2, bufstart, bufend, self.clock)
-  let memberlist += s:scan(s:const.KEYREGEX3, bufstart, bufend, self.clock)
+  let memberlist += s:altscan(s:const.KEYREGEX1, s:const.KEYREGEX2, buffer, bufstart, bufend, self.clock)
+  let memberlist += s:scan(s:const.KEYREGEX3, buffer, bufstart, bufend, self.clock)
   call uniq(sort(memberlist))
-  let memberlist += s:splitmethodname(s:scan(s:const.METHODREGEX, bufstart, bufend, self.clock))
-  let funclist = s:functionitems(s:scan(s:const.FUNCDEFINITIONREGEX, bufstart, bufend, self.clock))
-  let keymaplist = s:scan(s:const.KEYMAPREGEX, bufstart, bufend, self.clock)
-  let commandlist = s:scan(s:const.COMMANDREGEX, bufstart, bufend, self.clock)
-  let higrouplist = s:scan(s:const.HIGROUPREGEX, bufstart, bufend, self.clock)
+  let memberlist += s:splitmethodname(s:scan(s:const.METHODREGEX, buffer, bufstart, bufend, self.clock))
+  let funclist = s:functionitems(s:scan(s:const.FUNCDEFINITIONREGEX, buffer, bufstart, bufend, self.clock))
+  let keymaplist = s:scan(s:const.KEYMAPREGEX, buffer, bufstart, bufend, self.clock)
+  let commandlist = s:scan(s:const.COMMANDREGEX, buffer, bufstart, bufend, self.clock)
+  let higrouplist = s:scan(s:const.HIGROUPREGEX, buffer, bufstart, bufend, self.clock)
   call call('setpos', visualhead)
   call call('setpos', visualtail)
   call call('setreg', reg)
@@ -193,7 +194,8 @@ function! s:Observer._inspecthelp() dict abort "{{{
   let visualhead = ["'<", getpos("'<")]
   let visualtail = ["'>", getpos("'>")]
   let [bufstart, bufend] = [1, line('$')]
-  let helptaglist = s:helptagitems(s:scan(s:const.HELPTAGREGEX, bufstart, bufend, self.clock))
+  let buffer = getline(1, line('$'))
+  let helptaglist = s:helptagitems(s:scan(s:const.HELPTAGREGEX, buffer, bufstart, bufend, self.clock))
   call call('setpos', visualhead)
   call call('setpos', visualtail)
   call call('setreg', reg)
@@ -347,7 +349,7 @@ function! s:Observer._checkglobalshelp(listedbufs) dict abort "{{{
   endif
 endfunction
 "}}}
-function! s:scan(pat, startlnum, endlnum, clock) abort "{{{
+function! s:scan(pat, buffer, startlnum, endlnum, clock) abort "{{{
   if a:clock.elapsed() >= s:const.SEARCHTIMEOUT
     return []
   endif
@@ -358,7 +360,7 @@ function! s:scan(pat, startlnum, endlnum, clock) abort "{{{
     return []
   endif
   let end = searchpos(a:pat, 'ce', a:endlnum, s:const.SEARCHTIMEOUT)
-  let wordlist = [s:yank(start, end)]
+  let wordlist = [s:get_text(a:buffer, start, end)]
   call cursor(end)
   while a:clock.elapsed() < s:const.SEARCHTIMEOUT
     let start = searchpos(a:pat, '', a:endlnum, s:const.SEARCHTIMEOUT)
@@ -366,13 +368,13 @@ function! s:scan(pat, startlnum, endlnum, clock) abort "{{{
       break
     endif
     let end = searchpos(a:pat, 'ce', a:endlnum, s:const.SEARCHTIMEOUT)
-    let wordlist += [s:yank(start, end)]
+    let wordlist += [s:get_text(a:buffer, start, end)]
     call cursor(end)
   endwhile
   return wordlist
 endfunction
 "}}}
-function! s:altscan(pat1, pat2, startlnum, endlnum, clock) abort "{{{
+function! s:altscan(pat1, pat2, buffer, startlnum, endlnum, clock) abort "{{{
   if a:clock.elapsed() >= s:const.SEARCHTIMEOUT
     return []
   endif
@@ -383,7 +385,7 @@ function! s:altscan(pat1, pat2, startlnum, endlnum, clock) abort "{{{
     return []
   endif
   let end = searchpos(a:pat2, 'ceW', a:endlnum, s:const.SEARCHTIMEOUT)
-  let wordlist = [s:yank(start, end)]
+  let wordlist = [s:get_text(a:buffer, start, end)]
   call cursor(end)
   while a:clock.elapsed() < s:const.SEARCHTIMEOUT
     let start = searchpos(a:pat1, 'W', a:endlnum, s:const.SEARCHTIMEOUT)
@@ -391,19 +393,24 @@ function! s:altscan(pat1, pat2, startlnum, endlnum, clock) abort "{{{
       break
     endif
     let end = searchpos(a:pat2, 'ceW', a:endlnum, s:const.SEARCHTIMEOUT)
-    let wordlist += [s:yank(start, end)]
+    let wordlist += [s:get_text(a:buffer, start, end)]
     call cursor(end)
   endwhile
   return wordlist
 endfunction
 "}}}
-function! s:yank(start, end) abort "{{{
-  normal! v
-  call cursor(a:start)
-  normal! o
-  call cursor(a:end)
-  noautocmd silent! normal! ""y
-  return @@
+function! s:get_text(buffer, start, end) abort "{{{
+  if a:start[0] == a:end[0]
+    let text = a:buffer[a:start[0]-1][a:start[1]-1 : a:end[1]-1]
+  else
+    let head = a:buffer[a:start[0]-1][a:start[1]-1]
+    if a:start[0] <= a:end[0] - 2
+      let body = join(a:buffer[a:start[0] : a:end[0]-2], "\n")
+    endif
+    let tail = a:buffer[a:end[0]-1][: a:end[1]-1]
+    let text = head . body . tail
+  endif
+  return text
 endfunction
 "}}}
 function! s:scoperange() abort "{{{
