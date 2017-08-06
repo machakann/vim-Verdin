@@ -1,4 +1,5 @@
 " script local variables {{{
+let s:SEARCHLINES = 200
 let s:const = Verdin#constants#distribute()
 let s:lib = Verdin#lib#distribute()
 let s:varconditionlist = [
@@ -406,9 +407,14 @@ function! s:yank(start, end) abort "{{{
 endfunction
 "}}}
 function! s:scoperange() abort "{{{
-  let start = max([search('\m\C^\s*fu\%[nction]!\?', 'bcnW'), 1])
-  let end = min([search('\m\C^\s*endf\%[unction]o\@!', 'cnW'), line('$')])
-  let end = end != 0 ? end : line('$')
+  let start = search('\m\C^\s*fu\%[nction]!\?', 'bcnW')
+  if start != 0
+    let end = search('\m\C^\s*endf\%[unction]o\@!', 'cnW')
+    let end = end == 0 ? min([line('.') + s:SEARCHLINES, line('$')]) : end
+  else
+    let start = max([line('.') - s:SEARCHLINES, 1])
+    let end = line('.')
+  endif
   let is_dict = match(getline(start), '\m\C^\s*fu\%[nction]!\?\s\+\%([gs]:\)\?\h\k*\%(\.\%(\h\k*\)\|([^)]*)\%(\s*\%(range\|abort\|closure\)\)*\s*dict\)') >= 0
   return [start, end, is_dict]
 endfunction
