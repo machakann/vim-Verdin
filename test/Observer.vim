@@ -81,6 +81,7 @@ function! s:suite.inspect() dict abort "{{{
         \       '  let bar.bar = g:foo.baz',
         \       'endfunction',
         \     ],
+        \     'startline': 2,
         \     'expect': {
         \       'buffervar': ['bar', 'g:foo'],
         \       'buffermember': ['bar', 'baz', 'qux'],
@@ -95,8 +96,9 @@ function! s:suite.inspect() dict abort "{{{
         \       '  return 2',
         \       'endfunction',
         \     ],
+        \     'startline': 2,
         \     'expect': {
-        \       'buffervar': ['s:foo'],
+        \       'buffervar': ['s:foo', 'self'],
         \       'buffermember': ['bar', s:funcitem('method', 'method()', {'menu': '[member]', 'dup': 1})],
         \     },
         \   },
@@ -155,49 +157,50 @@ function! s:suite.inspect() dict abort "{{{
     let expect = test.expect
     let basemessage = printf("----- buffer start -----\n%s\n----- buffer end -----", join(test.buffer, "\n"))
     call append(0, test.buffer)
-    normal! 1G
+    let startline = get(test, 'startline', 1)
+    execute printf('normal! %dG', startline)
     call Observer.inspect('scope')
     if has_key(expect, 'buffervar')
       let got = Observer.shelf.buffervar.wordlist
       let exp = s:scopecorrectedvaritems(expect.buffervar)
       let message = "Mismatches in 'buffervar' items.\n\n" . basemessage
-      call g:assert.equals(got, exp, message)
+      call g:assert.equals(sort(got), sort(exp), message)
     endif
     if has_key(expect, 'buffermember')
       let got = Observer.shelf.buffermember.wordlist
       let exp = expect.buffermember
       let message = "Mismatches in 'buffermember' items.\n\n" . basemessage
-      call g:assert.equals(got, exp, message)
+      call g:assert.equals(sort(got), sort(exp), message)
     endif
     if has_key(expect, 'bufferfunc')
       let got = Observer.shelf.bufferfunc.wordlist
       let exp = expect.bufferfunc
       let message = "Mismatches in 'bufferfunc' items.\n\n" . basemessage
-      call g:assert.equals(got, exp, message)
+      call g:assert.equals(sort(got), sort(exp), message)
     endif
     if has_key(expect, 'bufferkeymap')
       let got = Observer.shelf.bufferkeymap.wordlist
       let exp = expect.bufferkeymap
       let message = "Mismatches in 'bufferkeymap' items.\n\n" . basemessage
-      call g:assert.equals(got, exp, message)
+      call g:assert.equals(sort(got), sort(exp), message)
     endif
     if has_key(expect, 'buffercommand')
       let got = Observer.shelf.buffercommand.wordlist
       let exp = Verdin#Dictionary#new('command', [], expect.buffercommand, 2, {'delimitermatch': 1}).wordlist
       let message = "Mismatches in 'buffercommand' items.\n\n" . basemessage
-      call g:assert.equals(got, exp, message)
+      call g:assert.equals(sort(got), sort(exp), message)
     endif
     if has_key(expect, 'bufferhigroup')
       let got = Observer.shelf.bufferhigroup.wordlist
       let exp = Verdin#Dictionary#new('higroup', [], expect.bufferhigroup, 2, {'delimitermatch': 1}).wordlist
       let message = "Mismatches in 'bufferhigroup' items.\n\n" . basemessage
-      call g:assert.equals(got, exp, message)
+      call g:assert.equals(sort(got), sort(exp), message)
     endif
     if has_key(expect, 'varfragment')
       let got = Observer.shelf.varfragment.wordlist
       let exp = map(expect.varfragment, '{"word": v:val, "menu": "[fragment]", "__text__": v:val}')
       let message = "Mismatches in 'varfragment' items.\n\n" . basemessage
-      call g:assert.equals(got, exp, message)
+      call g:assert.equals(sort(got), sort(exp), message)
     endif
     %delete
   endfor

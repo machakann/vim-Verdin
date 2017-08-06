@@ -66,14 +66,19 @@ function! s:lib.names(item) dict abort "{{{
 endfunction
 "}}}
 function! s:lib.uniq(list) dict abort "{{{
-  let list = copy(a:list)
-  call filter(a:list, 0)
-  while list != []
-    let item = remove(list, 0)
-    let [word, text, abbr] = s:lib.names(item)
-    call add(a:list, item)
-    call filter(list, 's:lib.word(v:val) !=# word || s:lib.__text__(v:val) !=# text || s:lib.abbr(v:val) !=# abbr')
-  endwhile
+  let is_all_string = filter(map(copy(a:list), 'type(v:val) != v:t_string'), 'v:val') == []
+  if is_all_string
+    call uniq(sort(a:list))
+  else
+    let list = copy(a:list)
+    call filter(a:list, 0)
+    while list != []
+      let item = remove(list, 0)
+      let [word, text, abbr] = s:lib.names(item)
+      call add(a:list, item)
+      call filter(list, 's:lib.word(v:val) !=# word || s:lib.__text__(v:val) !=# text || s:lib.abbr(v:val) !=# abbr')
+    endwhile
+  endif
   return a:list
 endfunction
 "}}}
