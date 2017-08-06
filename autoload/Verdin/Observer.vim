@@ -118,6 +118,7 @@ function! s:Observer._inspectvim(range) dict abort "{{{
   let memberlist = lmemberlist + gmemberlist + amemberlist
   let memberlist += s:altscan(s:const.KEYREGEX1, s:const.KEYREGEX2, bufstart, bufend, self.clock)
   let memberlist += s:scan(s:const.KEYREGEX3, bufstart, bufend, self.clock)
+  call uniq(sort(memberlist))
   let memberlist += s:splitmethodname(s:scan(s:const.METHODREGEX, bufstart, bufend, self.clock))
   let funclist = s:functionitems(s:scan(s:const.FUNCDEFINITIONREGEX, bufstart, bufend, self.clock))
   let keymaplist = s:scan(s:const.KEYMAPREGEX, bufstart, bufend, self.clock)
