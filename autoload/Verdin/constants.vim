@@ -4,16 +4,16 @@ endfunction
 
 let s:VARNAME = '\<\%(\%([ablstw]:\)\?\h\w*\%(\.\h\w*\)*\|g:\h[0-9A-Za-z_#]*\%(\.\h\w*\)*\)(\@!\>'
 let s:VARREGEX = join(['\m\C\%(', join([
-      \   printf('^\s*let\s\+\zs%s\ze\s*=', s:VARNAME),
-      \   printf('^\s*let\s\+\[\s*\zs\%(%s,\s*\)*%s\ze\s*\]\s*=', s:VARNAME, s:VARNAME),
+      \   printf('^\s*\%(noautocmd\s\+\|silent!\?\s\+\)\?let\s\+\zs%s\ze\s*=', s:VARNAME),
+      \   printf('^\s*\%(noautocmd\s\+\|silent!\?\s\+\)\?let\s\+\[\s*\zs\%(%s,\s*\)*%s\ze\s*\]\s*=', s:VARNAME, s:VARNAME),
       \   printf('^\s*for\s\+\zs%s\ze\s\+in', s:VARNAME),
       \   printf('^\s*for\s\+\[\s*\zs\%(%s,\s*\)*%s\ze\s*\]\s\+in', s:VARNAME, s:VARNAME),
       \ ], '\|'), '\)'], '')
 let s:GLOBALVARNAME = '\<\%([bstw]:\h\w*\|g:\h[0-9A-Za-z_#]*\)\%(\.\h\w*\)*(\@!\>'
 let s:LOCALVARNAME = '\<\%(l:\)\?\h\w*\%(\.\h\w*\)*(\@!\>'
 let s:LOCALVARREGEX = join(['\m\C\%(', join([
-      \   printf('^\s*let\s\+\zs%s\ze\%%(\s*\|\_s\+\\\s*\)=', s:LOCALVARNAME),
-      \   printf('^\s*let\s\+\[\s*\zs\%%(%s,\s*\)*%s\ze\s*\]\%%(\s*\|\_s\+\\\s*\)=', s:LOCALVARNAME, s:LOCALVARNAME),
+      \   printf('^\s*\%(noautocmd\s\+\|silent!\?\s\+\)\?let\s\+\zs%s\ze\%%(\s*\|\_s\+\\\s*\)=', s:LOCALVARNAME),
+      \   printf('^\s*\%(noautocmd\s\+\|silent!\?\s\+\)\?let\s\+\[\s*\zs\%%(%s,\s*\)*%s\ze\s*\]\%%(\s*\|\_s\+\\\s*\)=', s:LOCALVARNAME, s:LOCALVARNAME),
       \   printf('^\s*for\s\+\zs%s\ze\s\+in', s:LOCALVARNAME),
       \   printf('^\s*for\s\+\[\s*\zs\%%(%s,\s*\)*%s\ze\s*\]\s\+in', s:LOCALVARNAME, s:LOCALVARNAME),
       \ ], '\|'), '\)'], '')
