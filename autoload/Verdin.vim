@@ -33,12 +33,12 @@ function! Verdin#startautocomplete(...) abort "{{{
     let originalbufnr = bufnr('%')
     let view = winsaveview()
     for bufinfo in filter(s:lib.getbufinfo(), 'v:val.bufnr != originalbufnr')
-      execute 'buffer ' . bufinfo.bufnr
+      execute 'noautocmd silent buffer ' . bufinfo.bufnr
       let Event = Verdin#Event#get(bufinfo.bufnr)
       call Event.startbufferinspection(1)
       call Event.startautocomplete()
     endfor
-    execute 'buffer ' . originalbufnr
+    execute 'noautocmd silent buffer ' . originalbufnr
     call winrestview(view)
   endif
 
@@ -72,11 +72,11 @@ function! Verdin#refreshautocomplete(...) abort "{{{
     let view = winsaveview()
     for bufinfo in filter(s:lib.getbufinfo(), 'v:val.bufnr != originalbufnr')
       if has_key(bufinfo.variables, 'Verdin')
-        execute 'buffer ' . bufinfo.bufnr
+        execute 'noautocmd silent buffer ' . bufinfo.bufnr
         call s:refresh()
       endif
     endfor
-    execute 'buffer ' . originalbufnr
+    execute 'noautocmd silent buffer ' . originalbufnr
     call winrestview(view)
   endif
   call s:refresh()

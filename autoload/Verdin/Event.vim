@@ -37,7 +37,7 @@ function! s:Event.startbufferinspection(inspectnow) abort "{{{
   call Verdin#Observer#get(self.bufnr)
   if a:inspectnow
     if bufnr('%') != self.bufnr
-      execute 'noautocmd buffer ' . self.bufnr
+      execute 'noautocmd silent buffer ' . self.bufnr
     endif
     call s:inspect()
   endif

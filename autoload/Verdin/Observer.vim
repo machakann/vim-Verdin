@@ -239,7 +239,7 @@ function! s:Observer._checkglobalsvim(listedbufs) dict abort "{{{
       if is_cmdwin
         continue
       endif
-      execute 'noautocmd buffer ' . bufinfo.bufnr
+      execute 'noautocmd silent buffer ' . bufinfo.bufnr
       call Observer.inspect('buffer')
     endif
     let varlist += filter(copy(get(Observer.shelf.buffervar, 'wordlist', [])), 's:lib.word(v:val) =~# ''\m\C^[bgtw]:\h\k*''')
@@ -250,7 +250,7 @@ function! s:Observer._checkglobalsvim(listedbufs) dict abort "{{{
     let higrouplist += get(Observer.shelf.bufferhigroup, 'wordlist', [])
   endfor
   if bufnr('%') != originalbufnr
-    execute 'noautocmd buffer ' . originalbufnr
+    execute 'noautocmd silent buffer ' . originalbufnr
   endif
   let Completer = Verdin#Completer#get()
   if varlist != []
@@ -297,13 +297,13 @@ function! s:Observer._checkglobalshelp(listedbufs) dict abort "{{{
       if is_cmdwin
         continue
       endif
-      execute 'noautocmd buffer ' . bufinfo.bufnr
+      execute 'noautocmd silent buffer ' . bufinfo.bufnr
       call Observer.inspect()
     endif
     let helptaglist += get(Observer.shelf.buffertag, 'wordlist', [])
   endfor
   if bufnr('%') != originalbufnr
-    execute 'noautocmd buffer ' . originalbufnr
+    execute 'noautocmd silent buffer ' . originalbufnr
   endif
   if helptaglist != []
     let Completer = Verdin#Completer#get()
@@ -321,9 +321,9 @@ function! s:Observer._checkglobalshelp(listedbufs) dict abort "{{{
   for bufinfo in listedbufs
     let Observer = Verdin#Observer#get(bufinfo.bufnr)
     if Observer.changedtick.buffer == -1
-      execute 'buffer ' . bufinfo.bufnr
+      execute 'noautocmd silent buffer ' . bufinfo.bufnr
       call Observer.inspect()
-      execute 'buffer ' . originalbufnr
+      execute 'noautocmd silent buffer ' . originalbufnr
     endif
     let varlist += filter(copy(get(Observer.shelf.buffervar, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^[bgtw]:\h\k*''')
     let funclist += filter(copy(get(Observer.shelf.bufferfunc, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^\%([A-Z]\k*\|\h\k\%(#\h\k*\)\+\)''')

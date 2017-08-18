@@ -30,7 +30,7 @@ function! s:source.hooks.on_init(context) dict abort "{{{
       call Event.startbufferinspection(inspectnow)
     endif
   endfor
-  execute 'buffer ' . originalbufnr
+  execute 'noautocmd silent buffer ' . originalbufnr
   call winrestview(view)
 endfunction
 "}}}

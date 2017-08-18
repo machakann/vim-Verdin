@@ -128,7 +128,7 @@ function! s:scan(bufnr, report) abort "{{{
   if !bufexists(a:bufnr)
     return
   endif
-  execute 'buffer ' . a:bufnr
+  execute 'noautocmd silent buffer ' . a:bufnr
   if &l:filetype !=# 'vim'
     return
   endif
