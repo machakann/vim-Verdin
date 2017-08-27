@@ -34,24 +34,35 @@ let s:keymapconditionlist = [
       \     'priority': 256,
       \   },
       \ ]
+let s:cache = {}
 "}}}
 
-function! Verdin#Observer#new() abort "{{{
-  return s:Observer()
+
+function! Verdin#Observer#new(target, kind) abort "{{{
+  return s:Observer(a:target, a:kind)
 endfunction
 "}}}
 function! Verdin#Observer#get(...) abort "{{{
-  let bufnr = get(a:000, 0, bufnr('%'))
-  let bufinfo = get(getbufinfo(bufnr), 0, {})
+  let target = get(a:000, 0, bufname('%'))
+  let bufinfo = get(getbufinfo(target), 0, {})
   if bufinfo == {}
-    echoerr 'Verdin: Invalid bufnr is given for Verdin#Observer#get()'
+    echoerr 'Verdin: Invalid bufexpr is given for Verdin#Observer#get()'
   endif
 
   if !has_key(bufinfo.variables, 'Verdin')
     let bufinfo.variables.Verdin = {}
   endif
   if !has_key(bufinfo.variables.Verdin, 'Observer')
-    let bufinfo.variables.Verdin.Observer = s:Observer()
+    let filetype = getbufvar(target, '&filetype')
+    let filename = bufname(target)
+    if filetype ==# 'vim' || filename =~# '\.vim$'
+      let kind = 'vim'
+    elseif filetype ==# 'help' || filename =~# '\.txt'
+      let kind = 'help'
+    else
+      return {}
+    endif
+    let bufinfo.variables.Verdin.Observer = Verdin#Observer#new(target, kind)
   endif
   return bufinfo.variables.Verdin.Observer
 endfunction
@@ -60,10 +71,7 @@ endfunction
 " Observer object {{{
 let s:Observer = {
       \   'bufnr': -1,
-      \   'changedtick': {
-      \     'buffer': -1,
-      \     'global': -1,
-      \   },
+      \   'changedtick': -1,
       \   'shelf': {
       \     'buffervar': {},
       \     'bufferfunc': {},
@@ -82,60 +90,166 @@ let s:Observer = {
       \     'varfragment': {},
       \     'funcfragment': {},
       \   },
-      \   'clock': Verdin#clock#new(),
       \ }
-function! s:Observer.inspect(...) dict abort "{{{
-  if self.changedtick.buffer == b:changedtick
-    return
-  endif
-  let self.changedtick.buffer = b:changedtick
+function! s:checkglobalsvim() dict abort "{{{
+  let varlist = []
+  let funclist = []
+  let memberlist = []
+  let keymapwordlist = []
+  let commandlist = []
+  let higrouplist = []
+  for filepath in s:lib.searchvimscripts()
+    let Observer = s:checkglobal(filepath, 'vim')
+    let varlist += filter(copy(get(Observer.shelf.buffervar, 'wordlist', [])), 's:lib.word(v:val) =~# ''\m\C^[bgtw]:\h\k*''')
+    let funclist += filter(copy(get(Observer.shelf.bufferfunc, 'wordlist', [])), 's:lib.word(v:val) =~# ''\m\C^\%([A-Z]\k*\|\h\k\%(#\h\k*\)\+\)''')
+    let memberlist += copy(get(Observer.shelf.buffermember, 'wordlist', []))
+    let keymapwordlist += filter(copy(get(Observer.shelf.bufferkeymap, 'wordlist', [])), 's:lib.word(v:val) =~# ''\m\C^<Plug>''')
+    let commandlist += get(Observer.shelf.buffercommand, 'wordlist', [])
+    let higrouplist += get(Observer.shelf.bufferhigroup, 'wordlist', [])
+  endfor
 
-  if &filetype ==# 'vim'
-    let range = get(a:000, 0, 'buffer')
-    call self._inspectvim(range)
-  elseif &filetype ==# 'help'
-    call self._inspecthelp()
+  let Completer = Verdin#Completer#get()
+  if varlist != []
+    let conditionlist = s:decrementpriority(s:varconditionlist)
+    let var = Verdin#Dictionary#new('var', conditionlist, varlist, 2)
+    call s:inject(self.shelf['globalvar'], var)
+  endif
+  if funclist != []
+    let conditionlist = s:decrementpriority(Completer.shelf.function.conditionlist)
+    let func = Verdin#Dictionary#new('function', conditionlist, funclist, 1)
+    call s:inject(self.shelf['globalfunc'], func)
+  endif
+  if memberlist != []
+    call s:lib.uniq(memberlist)
+    let conditionlist = s:decrementpriority(s:memberconditionlist)
+    let member = Verdin#Dictionary#new('member', conditionlist, memberlist, 1)
+    call s:inject(self.shelf['globalmember'], member)
+  endif
+  if keymapwordlist != []
+    let conditionlist = s:decrementpriority(s:keymapconditionlist)
+    let keymap = Verdin#Dictionary#new('keymap', conditionlist, keymapwordlist, 2)
+    call s:inject(self.shelf['globalkeymap'], keymap)
+  endif
+  if commandlist != []
+    let conditionlist = s:decrementpriority(Completer.shelf.command.conditionlist)
+    let command = Verdin#Dictionary#new('command', conditionlist, commandlist, 2)
+    call s:inject(self.shelf['globalcommand'], command)
+  endif
+  if higrouplist != []
+    let conditionlist = s:decrementpriority(Completer.shelf.higroup.conditionlist)
+    let higroup = Verdin#Dictionary#new('higroup', conditionlist, higrouplist, 2)
+    call s:inject(self.shelf['globalhigroup'], higroup)
   endif
 endfunction
 "}}}
-function! s:Observer._inspectvim(range) dict abort "{{{
-  let view = winsaveview()
-  let reg = ['"', getreg('"'), getregtype('"')]
-  let visualhead = ["'<", getpos("'<")]
-  let visualtail = ["'>", getpos("'>")]
-  let [bufstart, bufend] = [1, line('$')]
-  if a:range ==# 'scope'
-    let [scopestart, scopeend, is_dict] = s:scoperange()
-  else
-    let [scopestart, scopeend, is_dict] = [bufstart, bufend, 0]
+function! s:checkglobalshelp(listedbufs) dict abort "{{{
+  " check help buffer
+  let helptaglist = []
+  for filepath in s:lib.searchvimhelps()
+    let Observer = s:checkglobal(filepath, 'help')
+    let helptaglist += get(Observer.shelf.buffertag, 'wordlist', [])
+  endfor
+  if helptaglist != []
+    let Completer = Verdin#Completer#get()
+    let conditionlist = Completer.shelf.tag.conditionlist
+    let helptag = Verdin#Dictionary#new('tag', conditionlist, helptaglist, 2)
+    call s:inject(self.shelf['globaltag'], helptag)
   endif
-  call self.clock.start()
-  let buffer = getline(1, line('$'))
-  let [lvarlist, lmemberlist] = s:splitvarname(s:scan(s:const.LOCALVARREGEX, buffer, scopestart, scopeend, self.clock))
-  let [gvarlist, gmemberlist] = s:splitvarname(s:scan(s:const.GLOBALVARREGEX, buffer, bufstart, bufend, self.clock))
+
+  " check vim buffer
+  let varlist = []
+  let funclist = []
+  let keymapwordlist = []
+  let commandlist = []
+  for filepath in s:lib.searchvimscripts()
+    let Observer = s:checkglobal(filepath, 'vim')
+    let varlist += filter(copy(get(Observer.shelf.buffervar, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^[bgtw]:\h\k*''')
+    let funclist += filter(copy(get(Observer.shelf.bufferfunc, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^\%([A-Z]\k*\|\h\k\%(#\h\k*\)\+\)''')
+    let keymapwordlist += filter(copy(get(Observer.shelf.bufferkeymap, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^<Plug>''')
+    let commandlist += get(Observer.shelf.buffercommand, 'wordlist', [])
+  endfor
+  let conditionlist = [{'cursor_at': '\m\%(\<\%([bgtw]:\|:\)\?\h\S*\|<P\%[lug>]\S*\)\%#'}]
+  if varlist != []
+    let var = Verdin#Dictionary#new('var', conditionlist, varlist, 3)
+    call s:inject(self.shelf['globalvar'], var)
+  endif
+  if funclist != []
+    let func = Verdin#Dictionary#new('function', conditionlist, funclist, 3)
+    call s:inject(self.shelf['globalfunc'], func)
+  endif
+  if keymapwordlist != []
+    let keymap = Verdin#Dictionary#new('keymap', conditionlist, keymapwordlist, 3)
+    call s:inject(self.shelf['globalkeymap'], keymap)
+  endif
+  if commandlist != []
+    let command = Verdin#Dictionary#new('command', conditionlist, commandlist, 3)
+    call s:inject(self.shelf['globalcommand'], command)
+  endif
+endfunction
+"}}}
+function! s:checkglobal(filepath, kind) abort "{{{
+  if bufloaded(a:filepath)
+    let Observer = Verdin#Observer#get(a:filepath)
+    if Observer.changedtick == -1
+      call Observer.inspect()
+    endif
+    if has_key(s:cache, a:filepath)
+      unlet s:cache[a:filepath]
+    endif
+  elseif !has_key(s:cache, a:filepath)
+    let Observer = Verdin#Observer#new(a:filepath, a:kind)
+    call Observer.inspect()
+    let s:cache[a:filepath] = Observer
+  else
+    let Observer = s:cache[a:filepath]
+  endif
+  return Observer
+endfunction
+"}}}
+function! s:inspectvim() dict abort "{{{
+  if self.changedtick == b:changedtick
+    return
+  endif
+  let self.changedtick = b:changedtick
+
+  " NOTE: The second condition is for tests
+  if bufloaded(self.bufexpr) || self.bufexpr is# ''
+    let global = s:get_buffer_string(self.bufexpr)
+    if bufnr(self.bufexpr) == bufnr('%')
+      let cursoridx = line2byte(line('.')) + col('.') - 1
+    else
+      let cursoridx = -1
+    endif
+  else
+    let global = s:get_file_string(self.bufexpr)
+    let cursoridx = -1
+  endif
+  let local = s:get_local_string(global, cursoridx)
+
+  let clock = Verdin#clock#new()
+  call clock.start()
+  let [lvarlist, lmemberlist] = s:splitvarname(s:scan(local, s:const.LOCALVARREGEX, clock))
+  let [gvarlist, gmemberlist] = s:splitvarname(s:scan(global, s:const.GLOBALVARREGEX, clock))
   let varlist = lvarlist + gvarlist
   call s:lib.sortbyoccurrence(varlist)
-  let varlist += s:splitargvarname(s:scan(s:const.ARGREGEX, buffer, scopestart, scopestart, self.clock))
-  let [_, amemberlist] = s:splitvarname(s:scan(s:const.ARGNAME, buffer, scopestart, scopeend, self.clock))
+  let varlist += s:splitargvarname(s:scan(local, s:const.ARGREGEX, clock))
+  let [_, amemberlist] = s:splitvarname(s:scan(local, s:const.ARGNAME, clock))
   let memberlist = lmemberlist + gmemberlist + amemberlist
-  let memberlist += s:altscan(s:const.KEYREGEX1, s:const.KEYREGEX2, buffer, bufstart, bufend, self.clock)
-  let memberlist += s:scan(s:const.KEYREGEX3, buffer, bufstart, bufend, self.clock)
+  let memberlist += s:scan(global, s:const.KEYREGEX, clock)
+  let memberlist += s:scan(global, s:const.HASKEYREGEX, clock)
+
   call uniq(sort(memberlist))
-  let memberlist += s:splitmethodname(s:scan(s:const.METHODREGEX, buffer, bufstart, bufend, self.clock))
-  let funclist = s:functionitems(s:scan(s:const.FUNCDEFINITIONREGEX, buffer, bufstart, bufend, self.clock))
-  let keymaplist = s:scan(s:const.KEYMAPREGEX, buffer, bufstart, bufend, self.clock)
-  let commandlist = s:scan(s:const.COMMANDREGEX, buffer, bufstart, bufend, self.clock)
-  let higrouplist = s:scan(s:const.HIGROUPREGEX, buffer, bufstart, bufend, self.clock)
-  call call('setpos', visualhead)
-  call call('setpos', visualtail)
-  call call('setreg', reg)
-  call winrestview(view)
+  let memberlist += s:splitmethodname(s:scan(global, s:const.METHODREGEX, clock))
+  let funclist = s:functionitems(s:scan(global, s:const.FUNCDEFINITIONREGEX, clock))
+  let keymaplist = s:scan(global, s:const.KEYMAPREGEX, clock)
+  let commandlist = s:scan(global, s:const.COMMANDREGEX, clock)
+  let higrouplist = s:scan(global, s:const.HIGROUPREGEX, clock)
 
   let Completer = Verdin#Completer#get()
   if varlist != []
     call s:scopecorrectedvaritems(varlist)
     call s:lib.uniq(varlist)
-    if is_dict
+    if local.is_dictfunc
       call add(varlist, 'self')
     endif
     let options = {'delimitermatch': 1}
@@ -179,27 +293,29 @@ function! s:Observer._inspectvim(range) dict abort "{{{
     let funcfragment = Verdin#Dictionary#new('funcfragment', funcfragmentconditionlist, funcfragmentwordlist)
     call s:inject(self.shelf['funcfragment'], funcfragment)
   endif
-  let varfragmentconditionlist = map(deepcopy(s:varconditionlist), 'extend(v:val, {"priority": get(v:val, "priority", 0) + 128}, "force")')
   let varfragmentwordlist = s:varfragmentwordlist(varlist)
   if varfragmentwordlist != []
+    let varfragmentconditionlist = map(deepcopy(s:varconditionlist), 'extend(v:val, {"priority": get(v:val, "priority", 0) + 128}, "force")')
     let varfragment = Verdin#Dictionary#new('varfragment', s:varconditionlist, varfragmentwordlist)
     call s:inject(self.shelf['varfragment'], varfragment)
   endif
-  call self.clock.stop()
+  call clock.stop()
 endfunction
 "}}}
-function! s:Observer._inspecthelp() dict abort "{{{
-  let view = winsaveview()
-  let reg = ['"', getreg('"'), getregtype('"')]
-  let visualhead = ["'<", getpos("'<")]
-  let visualtail = ["'>", getpos("'>")]
-  let [bufstart, bufend] = [1, line('$')]
-  let buffer = getline(1, line('$'))
-  let helptaglist = s:helptagitems(s:scan(s:const.HELPTAGREGEX, buffer, bufstart, bufend, self.clock))
-  call call('setpos', visualhead)
-  call call('setpos', visualtail)
-  call call('setreg', reg)
-  call winrestview(view)
+function! s:inspecthelp() dict abort "{{{
+  if self.changedtick == b:changedtick
+    return
+  endif
+  let self.changedtick = b:changedtick
+
+  if bufloaded(self.bufexpr)
+    let doc = s:get_buffer_string(self.bufexpr)
+  else
+    let doc = s:get_file_string(self.bufexpr)
+  endif
+  let clock = Verdin#clock#new()
+  call clock.start()
+  let helptaglist = s:helptagitems(s:scan(s:const.HELPTAGREGEX, doc, clock))
 
   if helptaglist != []
     let Completer = Verdin#Completer#get()
@@ -209,221 +325,99 @@ function! s:Observer._inspecthelp() dict abort "{{{
   endif
 endfunction
 "}}}
-function! s:Observer.checkglobals() dict abort "{{{
-  let listedbufs = filter(s:lib.getbufinfo(), 'v:val.bufnr != self.bufnr')
-  let globalchangedtick = s:globalchangedtick(listedbufs)
-  if self.changedtick.global == globalchangedtick || len(listedbufs) == 0
-    return
+function! s:get_line_break() abort "{{{
+  if &fileformat ==# 'unix'
+    let linebreak = "\n"
+  elseif &fileformat ==# 'dos'
+    let linebreak = "\r\n"
+  else
+    let linebreak = "\r"
   endif
-  let self.changedtick.global = globalchangedtick
-
-  if &filetype ==# 'vim'
-    call self._checkglobalsvim(listedbufs)
-  elseif &filetype ==# 'help'
-    call self._checkglobalshelp(listedbufs)
-  endif
+  return linebreak
 endfunction
 "}}}
-function! s:Observer._checkglobalsvim(listedbufs) dict abort "{{{
-  let originalbufnr = bufnr('%')
-  let is_cmdwin = getcmdwintype() !=# ''
-  let varlist = []
-  let funclist = []
-  let memberlist = []
-  let keymapwordlist = []
-  let commandlist = []
-  let higrouplist = []
-  for bufinfo in a:listedbufs
-    let Observer = Verdin#Observer#get(bufinfo.bufnr)
-    if Observer.changedtick.buffer == -1
-      if is_cmdwin
-        continue
-      endif
-      execute 'noautocmd silent buffer ' . bufinfo.bufnr
-      call Observer.inspect('buffer')
-    endif
-    let varlist += filter(copy(get(Observer.shelf.buffervar, 'wordlist', [])), 's:lib.word(v:val) =~# ''\m\C^[bgtw]:\h\k*''')
-    let funclist += filter(copy(get(Observer.shelf.bufferfunc, 'wordlist', [])), 's:lib.word(v:val) =~# ''\m\C^\%([A-Z]\k*\|\h\k\%(#\h\k*\)\+\)''')
-    let memberlist += copy(get(Observer.shelf.buffermember, 'wordlist', []))
-    let keymapwordlist += filter(copy(get(Observer.shelf.bufferkeymap, 'wordlist', [])), 's:lib.word(v:val) =~# ''\m\C^<Plug>''')
-    let commandlist += get(Observer.shelf.buffercommand, 'wordlist', [])
-    let higrouplist += get(Observer.shelf.bufferhigroup, 'wordlist', [])
-  endfor
-  if bufnr('%') != originalbufnr
-    execute 'noautocmd silent buffer ' . originalbufnr
-  endif
-  let Completer = Verdin#Completer#get()
-  if varlist != []
-    let conditionlist = s:decrementpriority(s:varconditionlist)
-    let var = Verdin#Dictionary#new('var', conditionlist, varlist, 2)
-    call s:inject(self.shelf['globalvar'], var)
-  endif
-  if funclist != []
-    let conditionlist = s:decrementpriority(Completer.shelf.function.conditionlist)
-    let func = Verdin#Dictionary#new('function', conditionlist, funclist, 1)
-    call s:inject(self.shelf['globalfunc'], func)
-  endif
-  if memberlist != []
-    call s:lib.uniq(memberlist)
-    let conditionlist = s:decrementpriority(s:memberconditionlist)
-    let member = Verdin#Dictionary#new('member', conditionlist, memberlist, 1)
-    call s:inject(self.shelf['globalmember'], member)
-  endif
-  if keymapwordlist != []
-    let conditionlist = s:decrementpriority(s:keymapconditionlist)
-    let keymap = Verdin#Dictionary#new('keymap', conditionlist, keymapwordlist, 2)
-    call s:inject(self.shelf['globalkeymap'], keymap)
-  endif
-  if commandlist != []
-    let conditionlist = s:decrementpriority(Completer.shelf.command.conditionlist)
-    let command = Verdin#Dictionary#new('command', conditionlist, commandlist, 2)
-    call s:inject(self.shelf['globalcommand'], command)
-  endif
-  if higrouplist != []
-    let conditionlist = s:decrementpriority(Completer.shelf.higroup.conditionlist)
-    let higroup = Verdin#Dictionary#new('higroup', conditionlist, higrouplist, 2)
-    call s:inject(self.shelf['globalhigroup'], higroup)
-  endif
+function! s:get_buffer_string(bufnr) abort "{{{
+  let linebreak = s:get_line_break()
+  let buffer = getbufline(a:bufnr, 1, line('$'))
+  let string = join(buffer, linebreak)
+  let length = strlen(string)
+  return {'str': string, 'len': length}
 endfunction
 "}}}
-function! s:Observer._checkglobalshelp(listedbufs) dict abort "{{{
-  " check help buffer
-  let originalbufnr = bufnr('%')
-  let is_cmdwin = getcmdwintype() !=# ''
-  let helptaglist = []
-  for bufinfo in a:listedbufs
-    let Observer = Verdin#Observer#get(bufinfo.bufnr)
-    if Observer.changedtick.buffer == -1
-      if is_cmdwin
-        continue
-      endif
-      execute 'noautocmd silent buffer ' . bufinfo.bufnr
-      call Observer.inspect()
-    endif
-    let helptaglist += get(Observer.shelf.buffertag, 'wordlist', [])
-  endfor
-  if bufnr('%') != originalbufnr
-    execute 'noautocmd silent buffer ' . originalbufnr
-  endif
-  if helptaglist != []
-    let Completer = Verdin#Completer#get()
-    let conditionlist = Completer.shelf.tag.conditionlist
-    let helptag = Verdin#Dictionary#new('tag', conditionlist, helptaglist, 2)
-    call s:inject(self.shelf['globaltag'], helptag)
-  endif
-
-  " check vim buffer
-  let listedbufs = s:lib.getbufinfo('vim')
-  let varlist = []
-  let funclist = []
-  let keymapwordlist = []
-  let commandlist = []
-  for bufinfo in listedbufs
-    let Observer = Verdin#Observer#get(bufinfo.bufnr)
-    if Observer.changedtick.buffer == -1
-      execute 'noautocmd silent buffer ' . bufinfo.bufnr
-      call Observer.inspect()
-      execute 'noautocmd silent buffer ' . originalbufnr
-    endif
-    let varlist += filter(copy(get(Observer.shelf.buffervar, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^[bgtw]:\h\k*''')
-    let funclist += filter(copy(get(Observer.shelf.bufferfunc, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^\%([A-Z]\k*\|\h\k\%(#\h\k*\)\+\)''')
-    let keymapwordlist += filter(copy(get(Observer.shelf.bufferkeymap, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^<Plug>''')
-    let commandlist += get(Observer.shelf.buffercommand, 'wordlist', [])
-  endfor
-  let conditionlist = [{'cursor_at': '\m\%(\<\%([bgtw]:\|:\)\?\h\S*\|<P\%[lug>]\S*\)\%#'}]
-  if varlist != []
-    let var = Verdin#Dictionary#new('var', conditionlist, varlist, 3)
-    call s:inject(self.shelf['globalvar'], var)
-  endif
-  if funclist != []
-    let func = Verdin#Dictionary#new('function', conditionlist, funclist, 3)
-    call s:inject(self.shelf['globalfunc'], func)
-  endif
-  if keymapwordlist != []
-    let keymap = Verdin#Dictionary#new('keymap', conditionlist, keymapwordlist, 3)
-    call s:inject(self.shelf['globalkeymap'], keymap)
-  endif
-  if commandlist != []
-    let command = Verdin#Dictionary#new('command', conditionlist, commandlist, 3)
-    call s:inject(self.shelf['globalcommand'], command)
-  endif
+function! s:get_file_string(filepath) abort "{{{
+  let linebreak = s:get_line_break()
+  let file = readfile(a:filepath)
+  let string = join(file, linebreak)
+  let length = strlen(string)
+  return {'str': string, 'len': length}
 endfunction
 "}}}
-function! s:scan(pat, buffer, startlnum, endlnum, clock) abort "{{{
-  if a:clock.elapsed() >= s:const.SEARCHTIMEOUT
-    return []
+function! s:get_local_string(global, cursoridx) abort "{{{
+  if a:cursoridx < 0
+    return {'str': '', 'len': 0, 'is_dictfunc': 0}
   endif
 
-  execute printf('normal! %dG0', a:startlnum)
-  let start = searchpos(a:pat, 'c', a:endlnum, s:const.SEARCHTIMEOUT)
-  if start[0] == 0
-    return []
-  endif
-  let end = searchpos(a:pat, 'ce', a:endlnum, s:const.SEARCHTIMEOUT)
-  let wordlist = [s:get_text(a:buffer, start, end)]
-  call cursor(end)
-  while a:clock.elapsed() < s:const.SEARCHTIMEOUT
-    let start = searchpos(a:pat, '', a:endlnum, s:const.SEARCHTIMEOUT)
-    if start[0] == 0
+  let i = 0
+  let string = ''
+  while i < a:global.len
+    let start = matchstrpos(a:global.str, '\m\C\%(^\|\n\)\s*\zsfu\%[nction]!\?', i)
+    if start[1] == -1
       break
     endif
-    let end = searchpos(a:pat, 'ce', a:endlnum, s:const.SEARCHTIMEOUT)
-    let wordlist += [s:get_text(a:buffer, start, end)]
-    call cursor(end)
+
+    let end = matchstrpos(a:global.str, '\m\C\%(^\|\n\)\s*\%(endf\%[unction]o\@!\|\zefu\%[nction]!\?\)', start[2])
+    if start[1] <= a:cursoridx && a:cursoridx <= end[2]
+      let string = a:global.str[start[1] : end[2]-1]
+      break
+    endif
+    if end[2] == -1
+      break
+    endif
+    let i = end[2]
   endwhile
-  return wordlist
+  let length = strlen(string)
+  let is_dictfunc = s:is_dict_function(string)
+  return {'str': string, 'len': length, 'is_dictfunc': is_dictfunc}
 endfunction
 "}}}
-function! s:altscan(pat1, pat2, buffer, startlnum, endlnum, clock) abort "{{{
-  if a:clock.elapsed() >= s:const.SEARCHTIMEOUT
+function! s:is_dict_function(local) abort "{{{
+  if a:local ==# ''
+    return 0
+  endif
+  return match(a:local, '\m\C^\s*fu\%[nction]!\?\s\+\%([gs]:\)\?\h\k*\%(\.\%(\h\k*\)\|([^)]*)\%(\s*\%(range\|abort\|closure\)\)*\s*dict\)') >= 0
+endfunction
+"}}}
+function! s:scan(text, pat, clock) abort "{{{
+  if a:text.str ==# ''
     return []
   endif
 
-  execute printf('normal! %dG0', a:startlnum)
-  let start = searchpos(a:pat1, 'cW', a:endlnum, s:const.SEARCHTIMEOUT)
-  if start[0] == 0 || start[0] > a:endlnum
-    return []
-  endif
-  let end = searchpos(a:pat2, 'ceW', a:endlnum, s:const.SEARCHTIMEOUT)
-  let wordlist = [s:get_text(a:buffer, start, end)]
-  call cursor(end)
-  while a:clock.elapsed() < s:const.SEARCHTIMEOUT
-    let start = searchpos(a:pat1, 'W', a:endlnum, s:const.SEARCHTIMEOUT)
-    if start[0] == 0 || start[0] > a:endlnum
+  let i = 0
+  let alive = 1
+  let counts = range(s:const.SEARCHINTERVAL)
+  let string = a:text.str
+  let threshold = a:text.len
+  let wordlist = []
+  while alive
+    if a:clock.elapsed() >= s:const.SEARCHTIMEOUT
       break
     endif
-    let end = searchpos(a:pat2, 'ceW', a:endlnum, s:const.SEARCHTIMEOUT)
-    let wordlist += [s:get_text(a:buffer, start, end)]
-    call cursor(end)
+
+    for j in counts
+      let ret = matchstrpos(string, a:pat, i)
+      if ret[1] == -1
+        let alive = 0
+        break
+      endif
+      let wordlist += [ret[0]]
+      let i = ret[2]
+      if i >= threshold
+        let alive = 0
+        break
+      endif
+    endfor
   endwhile
   return wordlist
-endfunction
-"}}}
-function! s:get_text(buffer, start, end) abort "{{{
-  if a:start[0] == a:end[0]
-    let text = a:buffer[a:start[0]-1][a:start[1]-1 : a:end[1]-1]
-  else
-    let head = a:buffer[a:start[0]-1][a:start[1]-1]
-    if a:start[0] <= a:end[0] - 2
-      let body = join(a:buffer[a:start[0] : a:end[0]-2], "\n")
-    endif
-    let tail = a:buffer[a:end[0]-1][: a:end[1]-1]
-    let text = head . body . tail
-  endif
-  return text
-endfunction
-"}}}
-function! s:scoperange() abort "{{{
-  let start = search('\m\C^\s*fu\%[nction]!\?', 'bcnW')
-  if start != 0
-    let end = search('\m\C^\s*endf\%[unction]o\@!', 'cnW')
-    let end = end == 0 ? min([line('.') + s:SEARCHLINES, line('$')]) : end
-  else
-    let start = max([line('.') - s:SEARCHLINES, 1])
-    let end = line('.')
-  endif
-  let is_dict = match(getline(start), '\m\C^\s*fu\%[nction]!\?\s\+\%([gs]:\)\?\h\k*\%(\.\%(\h\k*\)\|([^)]*)\%(\s*\%(range\|abort\|closure\)\)*\s*dict\)') >= 0
-  return [start, end, is_dict]
 endfunction
 "}}}
 function! s:splitvarname(varblocklist) abort "{{{
@@ -555,14 +549,6 @@ function! s:inject(destination, Dictionary) abort "{{{
   return extend(a:destination, a:Dictionary)
 endfunction
 "}}}
-function! s:globalchangedtick(listedbufs) abort "{{{
-  let changedtick = len(a:listedbufs)
-  for bufinfo in a:listedbufs
-    let changedtick += bufinfo.changedtick
-  endfor
-  return changedtick
-endfunction
-"}}}
 function! s:decrementpriority(conditionlist) abort "{{{
   let newlist = deepcopy(a:conditionlist)
   for condition in newlist
@@ -574,9 +560,18 @@ function! s:decrementpriority(conditionlist) abort "{{{
 endfunction
 "}}}
 
-function! s:Observer() abort
+function! s:Observer(target, kind) abort
   let Observer = deepcopy(s:Observer)
-  let Observer.bufnr = bufnr('%')
+  let Observer.bufexpr = a:target
+  if a:kind ==# 'vim'
+    let Observer.inspect = function('s:inspectvim')
+    let Observer.checkglobals = function('s:checkglobalsvim')
+  elseif a:kind ==# 'help'
+    let Observer.inspect = function('s:inspecthelp')
+    let Observer.checkglobals = function('s:checkglobalshelp')
+  else
+    echoerr 'Verdin: Unanticipated arguments are passed to s:Observer().'
+  endif
   return Observer
 endfunction
 "}}}

@@ -122,6 +122,31 @@ function! s:lib.pathjoin(parts) dict abort "{{{
   return join(a:parts, s:const.PATHSEPARATOR)
 endfunction
 "}}}
+function! s:lib.searchvimscripts() dict abort "{{{
+  let searchpaths = [
+        \   '', '**',
+        \   'autoload', self.pathjoin(['autoload', '**']),
+        \   'plugin', self.pathjoin(['plugin', '**']),
+        \   'ftplugin', self.pathjoin(['ftplugin', '**']),
+        \ ]
+  let cwd = getcwd()
+  call map(searchpaths, 'self.pathjoin([cwd, v:val])')
+  let searchpaths += [expand('%:p:h')]
+
+  let scriptpaths = globpath(join(searchpaths, ','), '*.vim', 0, 1)
+  return uniq(sort(scriptpaths))
+endfunction
+"}}}
+function! s:lib.searchvimhelps() dict abort "{{{
+  let cwd = getcwd()
+  let docpaths = glob(self.pathjoin([cwd, 'doc', '*.txt']), 0, 1)
+  if len(docpaths) > s:const.DOCPATHSMAX
+    " not to load too much txt files
+    let docpaths = docpaths[: s:const.DOCPATHSMAX]
+  endif
+  return docpaths
+endfunction
+"}}}
 
 " fuzzy match
 function! s:lib.Damerau_Levenshtein_distance(a, b, threshold) dict abort "{{{

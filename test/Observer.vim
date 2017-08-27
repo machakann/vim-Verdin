@@ -153,13 +153,13 @@ function! s:suite.inspect() dict abort "{{{
 
   setlocal filetype=vim
   for test in testset
-    let Observer = Verdin#Observer#new()
     let expect = test.expect
     let basemessage = printf("----- buffer start -----\n%s\n----- buffer end -----", join(test.buffer, "\n"))
     call append(0, test.buffer)
     let startline = get(test, 'startline', 1)
     execute printf('normal! %dG', startline)
-    call Observer.inspect('scope')
+    let Observer = Verdin#Observer#new('', 'vim')
+    call Observer.inspect()
     if has_key(expect, 'buffervar')
       let got = Observer.shelf.buffervar.wordlist
       let exp = s:scopecorrectedvaritems(expect.buffervar)

@@ -36,9 +36,6 @@ function! s:Event.startbufferinspection(inspectnow) abort "{{{
   call Verdin#Completer#get(self.bufnr)
   call Verdin#Observer#get(self.bufnr)
   if a:inspectnow
-    if bufnr('%') != self.bufnr
-      execute 'noautocmd silent buffer ' . self.bufnr
-    endif
     call s:inspect()
   endif
   augroup Verdin-bufferinspection
@@ -110,7 +107,8 @@ endfunction
 "}}}
 function! s:inspect() abort "{{{
   let Observer = Verdin#Observer#get()
-  call Observer.inspect('scope')
+  let checkglobalnow = Observer.changedtick == -1 ? 1 : 0
+  call Observer.inspect()
   let Completer = Verdin#Completer#get()
 
   if &filetype ==# 'vim'
@@ -129,7 +127,7 @@ function! s:inspect() abort "{{{
     endif
   endif
 
-  if Observer.changedtick.global == -1
+  if checkglobalnow
     call s:checkglobals()
   endif
 endfunction
