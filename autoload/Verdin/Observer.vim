@@ -142,7 +142,7 @@ function! s:checkglobalsvim() dict abort "{{{
   endif
 endfunction
 "}}}
-function! s:checkglobalshelp(listedbufs) dict abort "{{{
+function! s:checkglobalshelp() dict abort "{{{
   " check help buffer
   let helptaglist = []
   for filepath in s:lib.searchvimhelps()
@@ -315,7 +315,7 @@ function! s:inspecthelp() dict abort "{{{
   endif
   let clock = Verdin#clock#new()
   call clock.start()
-  let helptaglist = s:helptagitems(s:scan(s:const.HELPTAGREGEX, doc, clock))
+  let helptaglist = s:helptagitems(s:scan(doc, s:const.HELPTAGREGEX, clock))
 
   if helptaglist != []
     let Completer = Verdin#Completer#get()
