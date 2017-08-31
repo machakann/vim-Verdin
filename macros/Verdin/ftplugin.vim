@@ -1,6 +1,4 @@
 let s:lib = Verdin#lib#distribute()
-let s:const = Verdin#constants#distribute()
-let s:default = s:const.option.default
 
 command! -buffer -nargs=0 -bang VerdinStartAutocompletion call Verdin#startautocomplete('<bang>')
 command! -buffer -nargs=0 -bang VerdinStopAutocompletion  call Verdin#stopautocomplete('<bang>')
