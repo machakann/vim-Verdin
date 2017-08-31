@@ -193,7 +193,7 @@ let s:funcconditionlist = [
     \   {'cursor_at': '\m\C\<\%([gs]:\h\k\{5,}\|\%([gs]:\)\?\h\k\{5,}\)\%#', 'in_string': 1, 'priority': 0},
     \   {'cursor_at': '\m\C\<\%([gs]:\h\k\{5,}\|\%([gs]:\)\?\h\k\{5,}\)\%#', 'in_comment': 1, 'priority': 0},
     \ ]
-let s:funcwordlist = map(filter(getcompletion('', 'function'), 'v:val =~# ''\m\C^[[:lower:]]\h*\%[()]$'''), 'matchstr(v:val, ''\h\k*\ze(\?'')')
+let s:funcwordlist = map(filter(getcompletion('', 'function'), 'v:val =~# ''\m\C^[[:lower:]]\w*\%[()]$'''), 'matchstr(v:val, ''\h\k*\ze(\?'')')
 " let s:funcwordlist = Verdin#util#wordlist('function', g:report)
 " let g:funcwordlist = s:funcwordlist
 function! s:funcitems(funcwordlist) abort

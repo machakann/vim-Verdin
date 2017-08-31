@@ -4352,6 +4352,12 @@ let s:function = {
 \         'abbr': 'atan({expr})',
 \         'menu': '[function]',
 \         'word': 'atan',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'atan2',
+\         'abbr': 'atan2({expr1}, {expr2})',
+\         'menu': '[function]',
+\         'word': 'atan2',
 \       },],
 \     'ba': [{
 \         '__func__': 1,
@@ -4429,6 +4435,12 @@ let s:function = {
 \         'word': 'buffer_number',
 \       },],
 \     'by': [{
+\         '__func__': 1,
+\         '__text__': 'byte2line',
+\         'abbr': 'byte2line({byte})',
+\         'menu': '[function]',
+\         'word': 'byte2line',
+\       },{
 \         '__func__': 1,
 \         '__text__': 'byteidx',
 \         'abbr': 'byteidx({expr}, {nr})',
@@ -4563,6 +4575,12 @@ let s:function = {
 \         'abbr': 'changenr()',
 \         'menu': '[function]',
 \         'word': 'changenr',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'char2nr',
+\         'abbr': 'char2nr({expr}[, {utf8}])',
+\         'menu': '[function]',
+\         'word': 'char2nr',
 \       },],
 \     'ci': [{
 \         '__func__': 1,
@@ -4797,6 +4815,12 @@ let s:function = {
 \         'abbr': 'floor({expr})',
 \         'menu': '[function]',
 \         'word': 'floor',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'float2nr',
+\         'abbr': 'float2nr({expr})',
+\         'menu': '[function]',
+\         'word': 'float2nr',
 \       },],
 \     'fm': [{
 \         '__func__': 1,
@@ -5092,6 +5116,12 @@ let s:function = {
 \         'abbr': 'glob({expr} [, {nosuf} [, {list} [, {alllinks}]]])',
 \         'menu': '[function]',
 \         'word': 'glob',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'glob2regpat',
+\         'abbr': 'glob2regpat({expr})',
+\         'menu': '[function]',
+\         'word': 'glob2regpat',
 \       },],
 \     'ha': [{
 \         '__func__': 1,
@@ -5360,6 +5390,12 @@ let s:function = {
 \         'word': 'line',
 \       },{
 \         '__func__': 1,
+\         '__text__': 'line2byte',
+\         'abbr': 'line2byte({lnum})',
+\         'menu': '[function]',
+\         'word': 'line2byte',
+\       },{
+\         '__func__': 1,
 \         '__text__': 'libcall',
 \         'abbr': 'libcall({lib}, {func}, {arg})',
 \         'menu': '[function]',
@@ -5383,6 +5419,12 @@ let s:function = {
 \         'abbr': 'log({expr})',
 \         'menu': '[function]',
 \         'word': 'log',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'log10',
+\         'abbr': 'log10({expr})',
+\         'menu': '[function]',
+\         'word': 'log10',
 \       },{
 \         '__func__': 1,
 \         '__text__': 'localtime',
@@ -5504,6 +5546,13 @@ let s:function = {
 \         'menu': '[function]',
 \         'word': 'nextnonblank',
 \       },],
+\     'nr': [{
+\         '__func__': 1,
+\         '__text__': 'nr2char',
+\         'abbr': 'nr2char({expr}[, {utf8}])',
+\         'menu': '[function]',
+\         'word': 'nr2char',
+\       },],
 \     'or': [{
 \         '__func__': 1,
 \         '__text__': 'or',
@@ -5546,6 +5595,12 @@ let s:function = {
 \         'word': 'pumvisible',
 \       },],
 \     'py': [{
+\         '__func__': 1,
+\         '__text__': 'py3eval',
+\         'abbr': 'py3eval({expr})',
+\         'menu': '[function]',
+\         'word': 'py3eval',
+\       },{
 \         '__func__': 1,
 \         '__text__': 'pyeval',
 \         'abbr': 'pyeval({expr})',
@@ -5732,6 +5787,12 @@ let s:function = {
 \         'word': 'serverlist',
 \       },{
 \         '__func__': 1,
+\         '__text__': 'server2client',
+\         'abbr': 'server2client({clientid}, {string})',
+\         'menu': '[function]',
+\         'word': 'server2client',
+\       },{
+\         '__func__': 1,
 \         '__text__': 'searchpair',
 \         'abbr': 'searchpair({start}, {middle}, {end} [, {flags} [, {skip} [...]]])',
 \         'menu': '[function]',
@@ -5815,6 +5876,12 @@ let s:function = {
 \         'abbr': 'shellescape({string} [, {special}])',
 \         'menu': '[function]',
 \         'word': 'shellescape',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'sha256',
+\         'abbr': 'sha256({string})',
+\         'menu': '[function]',
+\         'word': 'sha256',
 \       },],
 \     'si': [{
 \         '__func__': 1,
@@ -5946,6 +6013,18 @@ let s:function = {
 \         'abbr': 'strtrans({expr})',
 \         'menu': '[function]',
 \         'word': 'strtrans',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'str2float',
+\         'abbr': 'str2float({expr})',
+\         'menu': '[function]',
+\         'word': 'str2float',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'str2nr',
+\         'abbr': 'str2nr({expr} [, {base}])',
+\         'menu': '[function]',
+\         'word': 'str2nr',
 \       },],
 \     'su': [{
 \         '__func__': 1,
@@ -6272,10 +6351,22 @@ let s:function = {
 \         'word': 'win_gotoid',
 \       },{
 \         '__func__': 1,
+\         '__text__': 'win_id2tabwin',
+\         'abbr': 'win_id2tabwin({expr})',
+\         'menu': '[function]',
+\         'word': 'win_id2tabwin',
+\       },{
+\         '__func__': 1,
 \         '__text__': 'wildmenumode',
 \         'abbr': 'wildmenumode()',
 \         'menu': '[function]',
 \         'word': 'wildmenumode',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'win_id2win',
+\         'abbr': 'win_id2win({expr})',
+\         'menu': '[function]',
+\         'word': 'win_id2win',
 \       },{
 \         '__func__': 1,
 \         '__text__': 'win_findbuf',
@@ -6385,6 +6476,12 @@ let s:function = {
 \       'abbr': 'line({expr})',
 \       'menu': '[function]',
 \       'word': 'line',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'line2byte',
+\       'abbr': 'line2byte({lnum})',
+\       'menu': '[function]',
+\       'word': 'line2byte',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'cursor',
@@ -7029,6 +7126,12 @@ let s:function = {
 \       'word': 'matchstrpos',
 \     },{
 \       '__func__': 1,
+\       '__text__': 'py3eval',
+\       'abbr': 'py3eval({expr})',
+\       'menu': '[function]',
+\       'word': 'py3eval',
+\     },{
+\       '__func__': 1,
 \       '__text__': 'pyeval',
 \       'abbr': 'pyeval({expr})',
 \       'menu': '[function]',
@@ -7045,6 +7148,18 @@ let s:function = {
 \       'abbr': 'serverlist()',
 \       'menu': '[function]',
 \       'word': 'serverlist',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'server2client',
+\       'abbr': 'server2client({clientid}, {string})',
+\       'menu': '[function]',
+\       'word': 'server2client',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'sha256',
+\       'abbr': 'sha256({string})',
+\       'menu': '[function]',
+\       'word': 'sha256',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'shellescape',
@@ -7075,6 +7190,12 @@ let s:function = {
 \       'abbr': 'findfile({name}[, {path}[, {count}]])',
 \       'menu': '[function]',
 \       'word': 'findfile',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'float2nr',
+\       'abbr': 'float2nr({expr})',
+\       'menu': '[function]',
+\       'word': 'float2nr',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'floor',
@@ -7131,6 +7252,12 @@ let s:function = {
 \       'word': 'log',
 \     },{
 \       '__func__': 1,
+\       '__text__': 'log10',
+\       'abbr': 'log10({expr})',
+\       'menu': '[function]',
+\       'word': 'log10',
+\     },{
+\       '__func__': 1,
 \       '__text__': 'virtcol',
 \       'abbr': 'virtcol({expr})',
 \       'menu': '[function]',
@@ -7147,6 +7274,12 @@ let s:function = {
 \       'abbr': 'glob({expr} [, {nosuf} [, {list} [, {alllinks}]]])',
 \       'menu': '[function]',
 \       'word': 'glob',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'glob2regpat',
+\       'abbr': 'glob2regpat({expr})',
+\       'menu': '[function]',
+\       'word': 'glob2regpat',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'hostname',
@@ -7237,6 +7370,12 @@ let s:function = {
 \       'abbr': 'nextnonblank({lnum})',
 \       'menu': '[function]',
 \       'word': 'nextnonblank',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'nr2char',
+\       'abbr': 'nr2char({expr}[, {utf8}])',
+\       'menu': '[function]',
+\       'word': 'nr2char',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'pow',
@@ -7377,6 +7516,18 @@ let s:function = {
 \       'word': 'win_gotoid',
 \     },{
 \       '__func__': 1,
+\       '__text__': 'win_id2tabwin',
+\       'abbr': 'win_id2tabwin({expr})',
+\       'menu': '[function]',
+\       'word': 'win_id2tabwin',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'win_id2win',
+\       'abbr': 'win_id2win({expr})',
+\       'menu': '[function]',
+\       'word': 'win_id2win',
+\     },{
+\       '__func__': 1,
 \       '__text__': 'acos',
 \       'abbr': 'acos({expr})',
 \       'menu': '[function]',
@@ -7467,6 +7618,12 @@ let s:function = {
 \       'word': 'atan',
 \     },{
 \       '__func__': 1,
+\       '__text__': 'atan2',
+\       'abbr': 'atan2({expr1}, {expr2})',
+\       'menu': '[function]',
+\       'word': 'atan2',
+\     },{
+\       '__func__': 1,
 \       '__text__': 'balloon_show',
 \       'abbr': 'balloon_show({msg})',
 \       'menu': '[function]',
@@ -7477,6 +7634,12 @@ let s:function = {
 \       'abbr': 'bufwinid({expr})',
 \       'menu': '[function]',
 \       'word': 'bufwinid',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'byte2line',
+\       'abbr': 'byte2line({byte})',
+\       'menu': '[function]',
+\       'word': 'byte2line',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'byteidx',
@@ -7603,6 +7766,12 @@ let s:function = {
 \       'abbr': 'changenr()',
 \       'menu': '[function]',
 \       'word': 'changenr',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'char2nr',
+\       'abbr': 'char2nr({expr}[, {utf8}])',
+\       'menu': '[function]',
+\       'word': 'char2nr',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'clearmatches',
@@ -8119,6 +8288,18 @@ let s:function = {
 \       'abbr': 'sqrt({expr})',
 \       'menu': '[function]',
 \       'word': 'sqrt',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'str2float',
+\       'abbr': 'str2float({expr})',
+\       'menu': '[function]',
+\       'word': 'str2float',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'str2nr',
+\       'abbr': 'str2nr({expr} [, {base}])',
+\       'menu': '[function]',
+\       'word': 'str2nr',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'strgetchar',
