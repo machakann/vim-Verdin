@@ -393,11 +393,6 @@ function! s:featurelist() abort
 endfunction
 let s:featurewordlist = s:featurelist()
 "}}}
-" Word dictionary {{{
-let s:wordconditionlist = [{'cursor_at': '\m^\s*".*\zs\<\a\{2,}\%#', 'priority': 0}]
-let s:worddictpath = s:lib.pathjoin([expand('<sfile>:p:h:h:h'), 'dict', 'words'])
-let s:wordwordlist = filter(readfile(s:worddictpath), 'v:val !=# ""')
-"}}}
 " Help tags dictionary {{{
 let s:helptagconditionlist = [
     \   {'cursor_at': '\m|[^| 	]\+\%#'}
@@ -452,13 +447,11 @@ function! s:rebuildvimbasedict() abort "{{{
   let basedict.vimvar = Verdin#Dictionary#new('vimvar', s:vimvarconditionlist, s:vimvarwordlist, 3, options)
   let basedict.exists = Verdin#Dictionary#new('exists', s:existshelperconditionlist, s:existshelperwordlist, 1, options)
   let basedict.feature = Verdin#Dictionary#new('feature', s:featureconditionlsit, s:featurewordlist, 1)
-  let basedict.word = Verdin#Worddictionary#new('word', s:wordconditionlist, s:wordwordlist, 3)
   return basedict
 endfunction
 "}}}
 function! s:rebuildhelpbasedict() abort "{{{
   let basedict = {}
-  let basedict.word = Verdin#Worddictionary#new('word', [{'cursor_at': '\m\<\h\S*\%#'}], s:wordwordlist, 3)
   let basedict.tag = Verdin#Dictionary#new('tag', s:helptagconditionlist, s:helptagwordlist, 2)
   return basedict
 endfunction
