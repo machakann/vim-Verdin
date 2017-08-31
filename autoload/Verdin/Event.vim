@@ -27,7 +27,7 @@ let s:Event = {
       \   'autocomplete': 0,
       \   'CompleteDone': 0,
       \ }
-function! s:Event.startbufferinspection(inspectnow) abort "{{{
+function! s:Event.startbufferinspection() abort "{{{
   if self.bufferinspection is s:on
     return
   endif
@@ -35,9 +35,7 @@ function! s:Event.startbufferinspection(inspectnow) abort "{{{
   let self.bufferinspection = s:on
   call Verdin#Completer#get(self.bufnr)
   call Verdin#Observer#get(self.bufnr)
-  if a:inspectnow
-    call s:inspect()
-  endif
+  call s:inspect()
   augroup Verdin-bufferinspection
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
     execute printf('autocmd InsertEnter <buffer=%d> call s:inspect()', self.bufnr)

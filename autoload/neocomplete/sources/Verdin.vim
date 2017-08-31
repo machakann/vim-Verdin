@@ -20,18 +20,12 @@ let s:source = {
       \}
 
 function! s:source.hooks.on_init(context) dict abort "{{{
-  let originalbufnr = bufnr('%')
-  let view = winsaveview()
-  let in_cmdwin = getcmdwintype() !=# ''
   for bufinfo in s:lib.getbufinfo()
     if has_key(bufinfo.variables, 'Verdin')
       let Event = Verdin#Event#get(bufinfo.bufnr)
-      let inspectnow = in_cmdwin && bufinfo.bufnr != originalbufnr ? 0 : 1
-      call Event.startbufferinspection(inspectnow)
+      call Event.startbufferinspection()
     endif
   endfor
-  execute 'noautocmd silent buffer ' . originalbufnr
-  call winrestview(view)
 endfunction
 "}}}
 function! s:source.hooks.on_final(context) dict abort "{{{
@@ -45,7 +39,7 @@ endfunction
 "}}}
 function! s:source.get_complete_position(context) dict abort "{{{
   let Event = Verdin#Event#get()
-  call Event.startbufferinspection(1)
+  call Event.startbufferinspection()
   let Completer = Verdin#Completer#get()
   return Completer.startcol(s:giveupifshort)
 endfunction
