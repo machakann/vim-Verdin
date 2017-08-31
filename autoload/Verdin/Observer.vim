@@ -395,8 +395,6 @@ function! s:scan(text, pat, clock) abort "{{{
   let i = 0
   let alive = 1
   let counts = range(s:const.SEARCHINTERVAL)
-  let string = a:text.str
-  let threshold = a:text.len
   let wordlist = []
   while alive
     if a:clock.elapsed() >= s:const.SEARCHTIMEOUT
@@ -404,14 +402,14 @@ function! s:scan(text, pat, clock) abort "{{{
     endif
 
     for j in counts
-      let ret = matchstrpos(string, a:pat, i)
+      let ret = matchstrpos(a:text.str, a:pat, i)
       if ret[1] == -1
         let alive = 0
         break
       endif
       let wordlist += [ret[0]]
       let i = ret[2]
-      if i >= threshold
+      if i >= a:text.len
         let alive = 0
         break
       endif
