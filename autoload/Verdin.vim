@@ -130,6 +130,8 @@ function! Verdin#triggercomplete() abort "{{{
   if s:nothingchanged(Completer)
     return ''
   endif
+
+  " to update cursor
   if &lazyredraw
     set nolazyredraw
     let Completer.is.lazyredraw_changed = v:true
@@ -140,8 +142,16 @@ endfunction
 "}}}
 function! s:complete() abort "{{{
   let Completer = Verdin#Completer#get()
-  call s:redraw(Completer)
   call Completer.clock.start()
+
+  " to show matchparen highlight etc...
+  redraw
+  " restore the 'lazyredraw' option changed in Verdin#triggercomplete()
+  if Completer.is.lazyredraw_changed
+    set lazyredraw
+    let Completer.is.lazyredraw_changed = v:false
+  endif
+
   let startcol = Completer.startcol(v:true)
   if startcol < 0
     return ''
@@ -152,26 +162,18 @@ function! s:complete() abort "{{{
   let itemlist = Completer.match(base)
 
   " wait & fuzzy matching (1st stage)
+  let timeout = s:const.FUZZYMATCHINTERVAL
   let autocompletedelay = s:lib.getoption('autocompletedelay')
-  let fuzzymatch = s:lib.getoption('fuzzymatch')
+  let fuzzymatch = s:lib.getoption('fuzzymatch') && nbase >= 3
   let fuzzyitemlist = []
-  if !fuzzymatch || nbase < 3
-    while Completer.clock.elapsed() < autocompletedelay
-      if getchar(1) isnot# 0
-        return ''
-      endif
-    endwhile
-  else
-    let timeout = s:const.FUZZYMATCHINTERVAL
-    while Completer.clock.elapsed() < autocompletedelay
-      if getchar(1) isnot# 0
-        return ''
-      endif
-      if Completer.fuzzycandidatelist != []
-        let fuzzyitemlist += Completer.fuzzymatch(base, timeout)
-      endif
-    endwhile
-  endif
+  while Completer.clock.elapsed() < autocompletedelay
+    if getchar(1) isnot# 0
+      return ''
+    endif
+    if fuzzymatch && Completer.fuzzycandidatelist != []
+      let fuzzyitemlist += Completer.fuzzymatch(base, timeout)
+    endif
+  endwhile
   let itemlist += sort(fuzzyitemlist, 's:compare_fuzzyitem')
   if itemlist != []
     call Completer.modify(itemlist)
@@ -179,7 +181,7 @@ function! s:complete() abort "{{{
   endif
 
   " fuzzy matching (2nd stage)
-  if !fuzzymatch || nbase < 3
+  if !fuzzymatch
     return ''
   endif
   let timeout = s:const.FUZZYMATCHINTERVAL
@@ -221,16 +223,6 @@ function! s:compare_fuzzyitem(i1, i2) abort "{{{
     return 1
   endif
   return 0
-endfunction
-"}}}
-function! s:redraw(Completer) abort "{{{
-  " to show matchparen highlight etc...
-  redraw
-  " to update cursor
-  if a:Completer.is.lazyredraw_changed
-    set lazyredraw
-    let a:Completer.is.lazyredraw_changed = v:false
-  endif
 endfunction
 "}}}
 
