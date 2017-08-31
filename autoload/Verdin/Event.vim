@@ -1,8 +1,8 @@
 " function library specialized for managing autocommands
 
 " script local variables {{{
-let s:on = 1
-let s:off = 0
+let s:ON = 1
+let s:OFF = 0
 "}}}
 
 function! Verdin#Event#get(...) abort
@@ -28,11 +28,11 @@ let s:Event = {
       \   'CompleteDone': 0,
       \ }
 function! s:Event.startbufferinspection() abort "{{{
-  if self.bufferinspection is s:on
+  if self.bufferinspection is s:ON
     return
   endif
 
-  let self.bufferinspection = s:on
+  let self.bufferinspection = s:ON
   call Verdin#Completer#get(self.bufnr)
   call Verdin#Observer#get(self.bufnr)
   call s:inspect()
@@ -44,14 +44,14 @@ function! s:Event.startbufferinspection() abort "{{{
 endfunction
 "}}}
 function! s:Event.stopbufferinspection() abort "{{{
-  let self.bufferinspection = s:off
+  let self.bufferinspection = s:OFF
   augroup Verdin-bufferinspection
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
   augroup END
 endfunction
 "}}}
 function! s:Event.setCompleteDone(autocomplete) dict abort "{{{
-  let self.CompleteDone = s:on
+  let self.CompleteDone = s:ON
   augroup Verdin-aftercomplete
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
     execute printf('autocmd CompleteDone  <buffer=%d> call s:aftercomplete("CompleteDone",  %d)', self.bufnr, a:autocomplete)
@@ -65,11 +65,11 @@ function! s:Event.unsetCompleteDone() dict abort "{{{
   augroup Verdin-aftercomplete
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
   augroup END
-  let self.CompleteDone = s:off
+  let self.CompleteDone = s:OFF
 endfunction
 "}}}
 function! s:Event.setpersistentCompleteDone(autocomplete) dict abort "{{{
-  let self.CompleteDone = s:on
+  let self.CompleteDone = s:ON
   augroup Verdin-aftercomplete
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
     execute printf('autocmd CompleteDone <buffer=%d> call s:aftercomplete("CompleteDone", %d)', self.bufnr, a:autocomplete)
@@ -77,11 +77,11 @@ function! s:Event.setpersistentCompleteDone(autocomplete) dict abort "{{{
 endfunction
 "}}}
 function! s:Event.startautocomplete() abort "{{{
-  if self.autocomplete is s:on
+  if self.autocomplete is s:ON
     return
   endif
 
-  let self.autocomplete = s:on
+  let self.autocomplete = s:ON
   augroup Verdin-autocomplete
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
     execute printf('autocmd CursorMovedI <buffer=%d> call Verdin#triggercomplete()', self.bufnr)
@@ -89,14 +89,14 @@ function! s:Event.startautocomplete() abort "{{{
 endfunction
 "}}}
 function! s:Event.stopautocomplete() abort "{{{
-  let self.autocomplete = s:off
+  let self.autocomplete = s:OFF
   augroup Verdin-autocomplete
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
   augroup END
 endfunction
 "}}}
 function! s:Event.pauseautocomplete() abort "{{{
-  if self.autocomplete is s:off
+  if self.autocomplete is s:OFF
     return
   endif
   call self.stopautocomplete()

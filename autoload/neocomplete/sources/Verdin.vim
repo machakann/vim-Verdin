@@ -1,9 +1,9 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-let s:giveupifshort = 1
 let s:lib = Verdin#lib#distribute()
 let s:const = Verdin#constants#distribute()
+let s:GIVEUPIFSHORT = 1
 
 let s:source = {
       \ 'name' : 'Verdin',
@@ -41,7 +41,7 @@ function! s:source.get_complete_position(context) dict abort "{{{
   let Event = Verdin#Event#get()
   call Event.startbufferinspection()
   let Completer = Verdin#Completer#get()
-  return Completer.startcol(s:giveupifshort)
+  return Completer.startcol(s:GIVEUPIFSHORT)
 endfunction
 "}}}
 function! s:source.gather_candidates(context) dict abort "{{{
