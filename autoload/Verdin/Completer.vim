@@ -42,10 +42,10 @@ function! Verdin#Completer#new(Dictionaries) abort "{{{
 endfunction
 "}}}
 function! Verdin#Completer#get(...) abort "{{{
-  let bufnr = get(a:000, 0, bufnr('%'))
-  let bufinfo = get(getbufinfo(bufnr), 0, {})
+  let bufexpr = get(a:000, 0, '%')
+  let bufinfo = get(getbufinfo(bufexpr), 0, {})
   if bufinfo == {}
-    echoerr 'Verdin: Invalid bufnr is given for Verdin#Completer#get()'
+    echoerr printf('Verdin: Invalid bufexpr is given for Verdin#Completer#get(): %s', string(bufexpr))
   endif
 
   if !has_key(bufinfo.variables, 'Verdin')
