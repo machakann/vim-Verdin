@@ -70,7 +70,8 @@ endfunction
 
 " Observer object {{{
 let s:Observer = {
-      \   'bufnr': -1,
+      \   'bufexpr': '',
+      \   'b': {},
       \   'changedtick': -1,
       \   'shelf': {
       \     'buffervar': {},
@@ -91,15 +92,24 @@ let s:Observer = {
       \     'funcfragment': {},
       \   },
       \ }
+function! s:Observer.changed() dict abort "{{{
+  return self.b.changedtick != self.changedtick
+endfunction
+"}}}
 function! s:checkglobalsvim() dict abort "{{{
+  let files = s:lib.searchvimscripts()
+  if !s:changed(files)
+    return
+  endif
+
   let varlist = []
   let funclist = []
   let memberlist = []
   let keymapwordlist = []
   let commandlist = []
   let higrouplist = []
-  for filepath in s:lib.searchvimscripts()
-    let Observer = s:checkglobal(filepath, 'vim')
+  for filepath in files
+    let Observer = s:check(filepath, 'vim')
     let varlist += filter(copy(get(Observer.shelf.buffervar, 'wordlist', [])), 's:lib.word(v:val) =~# ''\m\C^[bgtw]:\h\k*''')
     let funclist += filter(copy(get(Observer.shelf.bufferfunc, 'wordlist', [])), 's:lib.word(v:val) =~# ''\m\C^\%([A-Z]\k*\|\h\k\%(#\h\k*\)\+\)''')
     let memberlist += copy(get(Observer.shelf.buffermember, 'wordlist', []))
@@ -143,10 +153,15 @@ function! s:checkglobalsvim() dict abort "{{{
 endfunction
 "}}}
 function! s:checkglobalshelp() dict abort "{{{
+  let files = s:lib.searchvimhelps()
+  if !s:changed(files)
+    return
+  endif
+
   " check help buffer
   let helptaglist = []
-  for filepath in s:lib.searchvimhelps()
-    let Observer = s:checkglobal(filepath, 'help')
+  for filepath in files
+    let Observer = s:check(filepath, 'help')
     let helptaglist += get(Observer.shelf.buffertag, 'wordlist', [])
   endfor
   if helptaglist != []
@@ -162,7 +177,7 @@ function! s:checkglobalshelp() dict abort "{{{
   let keymapwordlist = []
   let commandlist = []
   for filepath in s:lib.searchvimscripts()
-    let Observer = s:checkglobal(filepath, 'vim')
+    let Observer = s:check(filepath, 'vim')
     let varlist += filter(copy(get(Observer.shelf.buffervar, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^[bgtw]:\h\k*''')
     let funclist += filter(copy(get(Observer.shelf.bufferfunc, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^\%([A-Z]\k*\|\h\k\%(#\h\k*\)\+\)''')
     let keymapwordlist += filter(copy(get(Observer.shelf.bufferkeymap, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^<Plug>''')
@@ -187,12 +202,10 @@ function! s:checkglobalshelp() dict abort "{{{
   endif
 endfunction
 "}}}
-function! s:checkglobal(filepath, kind) abort "{{{
+function! s:check(filepath, kind) abort "{{{
   if bufloaded(a:filepath)
     let Observer = Verdin#Observer#get(a:filepath)
-    if Observer.changedtick == -1
-      call Observer.inspect()
-    endif
+    call Observer.inspect()
     if has_key(s:cache, a:filepath)
       unlet s:cache[a:filepath]
     endif
@@ -206,11 +219,23 @@ function! s:checkglobal(filepath, kind) abort "{{{
   return Observer
 endfunction
 "}}}
+function! s:changed(vimscripts) abort "{{{
+  for filepath in a:vimscripts
+    if bufloaded(filepath)
+      let Observer = Verdin#Observer#get(filepath)
+      if Observer.changed()
+        return 1
+      endif
+    endif
+  endfor
+  return 0
+endfunction
+"}}}
 function! s:inspectvim() dict abort "{{{
-  if self.changedtick == b:changedtick
+  if !self.changed()
     return
   endif
-  let self.changedtick = b:changedtick
+  let self.changedtick = self.b.changedtick
 
   " NOTE: The second condition is for tests
   if bufloaded(self.bufexpr) || self.bufexpr is# ''
@@ -303,10 +328,10 @@ function! s:inspectvim() dict abort "{{{
 endfunction
 "}}}
 function! s:inspecthelp() dict abort "{{{
-  if self.changedtick == b:changedtick
+  if !self.changed()
     return
   endif
-  let self.changedtick = b:changedtick
+  let self.changedtick = self.b.changedtick
 
   if bufloaded(self.bufexpr)
     let doc = s:get_buffer_string(self.bufexpr)
@@ -559,8 +584,10 @@ endfunction
 "}}}
 
 function! s:Observer(target, kind) abort
+  let bufinfo = get(getbufinfo(a:target), 0, {})
   let Observer = deepcopy(s:Observer)
   let Observer.bufexpr = a:target
+  let Observer.b = get(bufinfo, 'variables', {'changedtick': 0})
   if a:kind ==# 'vim'
     let Observer.inspect = function('s:inspectvim')
     let Observer.checkglobals = function('s:checkglobalsvim')
