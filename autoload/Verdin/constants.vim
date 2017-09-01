@@ -40,6 +40,7 @@ let s:CAMELCASEWORDREGEX = '\m\C\(\h\)[0-9a-z]\+' . repeat('\%(\(\u\)\u*[0-9a-z]
 let s:HELPTAGREGEX = '\m\*\zs[^*]\+\ze\*'
 
 let s:constants = {}
+" control constants
 let s:constants.PATHSEPARATOR = has('win32') && !&shellslash ? '\' : '/'
 let s:constants.LONGESTWORDLEN = 100
 let s:constants.SEARCHTIMEOUT = 100
@@ -48,6 +49,7 @@ let s:constants.ITEMLISTTHRESHOLD = 20
 let s:constants.FUZZYMATCHINTERVAL = 5.0
 let s:constants.FUZZYMATCHTHRESHOLD = 0.88
 let s:constants.DOCPATHSMAX = 20
+" regular expressions
 let s:constants.VARNAME = '\m\C' . s:VARNAME
 let s:constants.VARREGEX = s:VARREGEX
 let s:constants.GLOBALVARNAME = '\m\C' . s:GLOBALVARNAME
@@ -68,6 +70,119 @@ let s:constants.HIGROUPREGEX = s:HIGROUPREGEX
 let s:constants.SNAKECASEWORDREGEX = s:SNAKECASEWORDREGEX
 let s:constants.CAMELCASEWORDREGEX = s:CAMELCASEWORDREGEX
 let s:constants.HELPTAGREGEX = s:HELPTAGREGEX
+" constants for Dictionary
+let s:constants.COMMANDCONDITIONLIST = [
+      \   {'cursor_at': '\m\C\%(^\s*\|[^|]|\s\+\)\%(\%(sil\%[ent!]\|noa\%[utocmd]\|undoj\%[oin]\|vert\%[ical]\|lefta\%[bove]\|abo\%[veleft]\|rightb\%[elow]\|bel\%[owright]\|to\%[pleft]\|bo\%[tright]\)\s\+\)*\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#', 'priority': 256},
+      \   {'cursor_at': '\m\C\%(^\s*\|[^|]|\s\+\)au\%[tocmd]\s\+\%(\S\+\s\+\)\{2,3}\%(nested\s\+\)\?:\?\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#', 'priority': 256},
+      \   {'cursor_at': '\m\C\%(^\s*\|[^|]|\s\+\)com\%[mand!]\s\+\%(\S\+\s\+\)\+:\?\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#', 'priority': 256},
+      \   {'cursor_at': '\m\C\<exists([''"]:\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#', 'priority': 256},
+      \   {'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*\S\+\s\+:\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#', 'priority': 256},
+      \   {'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\w\{5,}\%#', 'in_comment': 1, 'priority': 0},
+      \   {'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\w\{5,}\%#', 'in_string': 1, 'priority': 0},
+      \ ]
+let s:constants.FUNCCONDITIONLIST = [
+      \   {'cursor_at': '\m\C^\s*call\s\+\zs\<\%([gs]:\)\?\k*\%#', 'priority': 256},
+      \   {'cursor_at': '\m\C^\s*call\s\+.*\zs\<\%([gs]:\)\?\k*\%#', 'not_in_string': 1, 'not_in_comment': 1, 'priority': 128},
+      \   {'cursor_at': '\m\C<[Cc]-[Rr]>=\zs\%([gs]:\|\%([gs]:\)\?\h\k*\)\?\%#', 'priority': 256},
+      \   {'cursor_at': '\m\C\<\%(call([''"]\|exists([''"]\*\)\zs\<\%([gs]:\|\%([gs]:\)\?\h\k*\)\?\%#', 'priority': 256},
+      \   {'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*<expr>\s*\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*\S\+\s\+\zs\%(\S*\)\?\%#', 'not_in_string': 1, 'not_in_comment': 1, 'priority': 256},
+      \   {'cursor_at': '\m\C^\s*let\s\+[^=]\{-}=\%(.*[^.:]\)\?\zs\<\%([gs]:\)\?\k*\%#', 'not_in_string': 1, 'not_in_comment': 1, 'priority': 128},
+      \   {'cursor_at': '\m\C^\s*\%(if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.&]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#', 'not_in_string': 1, 'not_in_comment': 1, 'priority': 128},
+      \   {'cursor_at': '\m\C^\s*[A-Z]\w*!\?\s.*[:.&]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#', 'not_in_string': 1, 'not_in_comment': 1, 'priority': 0,},
+      \   {'cursor_at': '\m\C\<\%([gs]:\h\k\{5,}\|\%([gs]:\)\?\h\k\{5,}\)\%#', 'in_string': 1, 'priority': 0},
+      \   {'cursor_at': '\m\C\<\%([gs]:\h\k\{5,}\|\%([gs]:\)\?\h\k\{5,}\)\%#', 'in_comment': 1, 'priority': 0},
+      \ ]
+let s:constants.OPTIONCONDITIONLIST = [
+      \   {'cursor_at': '\m\C&\%(l:\)\?\zs\a*\%#', 'priority': 256},
+      \   {'cursor_at': '\m\C^\s*set\%[local]\s\+\zs\a*\%#', 'priority': 256},
+      \   {'cursor_at': '\m\C\<exists([''"][&+]\zs\a*\%#', 'priority': 256},
+      \   {'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#', 'in_string': 1, 'priority': 0},
+      \   {'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#', 'in_comment': 1, 'priority': 0},
+      \ ]
+let s:constants.EVENTCONDITIONLIST = [
+      \   {'cursor_at': '\m\C^\s*au\%[tocmd]\s\+\%(\S\+\s\+\)\?\%([A-Z]\a*,\)*\zs\%([A-Z]\a*\)\?\%#', 'priority': 256},
+      \   {'cursor_at': '\m\C\<exists([''"]##\?\zs\%([A-Z]\a*\)\?\%#', 'priority': 256},
+      \   {'cursor_at': '\m\C^\s*do\%[autocmd]\s\+\%(<nomodeline>\s\+\)\?\%(\S\+\s\+\)\?\zs\%([A-Z]\a*\)\?\%#', 'priority': 256},
+      \   {'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#', 'in_string': 1, 'priority': 0},
+      \   {'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#', 'in_comment': 1, 'priority': 0},
+      \ ]
+let s:constants.HIGROUPCONDITIONLIST = [
+      \   {'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(\%(clear\|default\)\s\+\)\?\zs\%(\h\w*\)\?\%#', 'priority': 128},
+      \   {'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(default\s\+\)\?link\s\+\%(\h\w*\s\+\)\?\zs\%(\h\w*\)\?\%#', 'priority': 128},
+      \   {'cursor_at': '\m\C\<matchadd\%(pos\)\?([''"]\zs\%(\h\w*\)\?\%#', 'priority': 256},
+      \   {'cursor_at': '\m\C^\s*[23]\?mat\%[ch]\s\+\zs\%(\h\w*\)\?\%#', 'priority': 256},
+      \   {'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#', 'in_string': 1, 'priority': 0},
+      \   {'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#', 'in_comment': 1, 'priority': 0},
+      \ ]
+let s:constants.HICMDOPTCONDITIONLIST = [
+      \   {'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\zs\%(\h\w*\)\?\%#', 'priority': 384}
+      \ ]
+let s:constants.HICMDKEYCONDITIONLIST = [
+      \   {'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(\%(clear\|default\)\s\+\)\?\h\w*\s\+\%(\S\+=\S\+\s\+\)*\zs\a*\%#', 'priority': 384}
+      \ ]
+let s:constants.HICMDATTRCONDITIONLIST = [
+      \   {'cursor_at': '\m\C^\s*hi\%[ghlight]!\?\s\+\%(\%(clear\|default\)\s\+\)\?\h\w*\s\+\%(\S\+=\S\+\s\+\)*\%(c\?term\|gui\)=\zs\S*\%#', 'priority': 384}
+      \ ]
+let s:constants.SPECIALKEYCONDITIONLIST = [
+      \   {'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|expr\|unique\)>\s*\)*\%(\S\+\s\+\)\?\zs<[[:alnum:]-]*\%#', 'priority': 128},
+      \   {'cursor_at': '\m\C\<normal!\?\s\+.*\zs<[[:alnum:]-]*\%#', 'priority': 128},
+      \   {'cursor_at': '\m\C\<feedkeys(\%(''\%([^'']*\%(''''\)*\)*[^'']*\|"\%([^"]*\%(\\"\)*\)[^"]*\)\zs<[[:alnum:]-]*\%#', 'in_string': 1, 'priority': 128},
+      \   {'cursor_at': '\m<[[:alnum:]-]\+\%#', 'priority': 128},
+      \ ]
+let s:constants.MAPATTRCONDITIONLIST = [
+      \   {'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|nor\%[emap]\)\|map!\)\s\+\%(<\a\+>\)*\zs\%(<\a*\)\?\%#', 'priority': 256},
+      \   {'cursor_at': '\m<\a\+\%#', 'priority': 128},
+      \ ]
+let s:constants.COMMANDATTRCONDITIONLIST = [
+      \   {'cursor_at': '\m\C^\s*command!\?\s\+\%(-\w\+\s\+\)*\zs\%(-\w*\)\?\%#', 'priority': 256}
+      \ ]
+let s:constants.COMMANDATTRNARGSCONDITIONLIST = [
+      \   {'cursor_at': '\m\C^\s*command!\?\s\+\%(-\w\+\s\+\)*-nargs\zs\%(=[01*?+]\?\)\?\%#', 'priority': 256}
+      \ ]
+let s:constants.COMMANDATTRCOMPLETECONDITIONLIST = [
+      \   {'cursor_at': '\m\C^\s*command!\?\s\+\%(-\w\+\s\+\)*-complete\zs\%(=[a-z_]*\)\?\%#', 'priority': 256}
+      \ ]
+let s:constants.COMMANDATTRADDRCONDITIONLIST = [
+      \   {'cursor_at': '\m\C^\s*command!\?\s\+\%(-\S\+\s\+\)*-addr\zs\%(=[a-z_]*\)\?\%#', 'priority': 256}
+      \ ]
+let s:constants.EXPANDABLECONDITIONLIST = [
+      \   {'cursor_at': '\m\Cexpand([''"]\zs\%(%\|#\d*\|<\a*\)\?\%#', 'priority': 256}
+      \ ]
+let s:constants.EXPANDABLEMODIFIERCONDITIONLIST = [
+      \   {'cursor_at': '\m\Cexpand([''"]\%(%\|#\d*\|<\a*\)\%(:[phtre]\)*\zs:[phtre]\?\%#', 'priority': 256}
+      \ ]
+let s:constants.VIMVARCONDITIONLIST = [
+      \   {'cursor_at': '\m\Cv:\w*\%#', 'priority': 256},
+      \ ]
+let s:constants.EXISTSHELPERCONDITIONLIST = [
+      \   {'cursor_at': '\m\C\<exists([''"]\zs\%([&+$*:]\|##\?\)\?\%#', 'priority': 384}
+      \ ]
+let s:constants.FEATURECONDITIONLSIT = [
+      \   {'cursor_at': '\<has([''"]\zs\w*\%#', 'priority': 384}
+      \ ]
+let s:constants.HELPTAGCONDITIONLIST = [
+      \   {'cursor_at': '\m|[^| 	]\+\%#'}
+      \ ]
+let s:constants.VARCONDITIONLIST = [
+      \   {'cursor_at': '\m\C^\s*call\s\+\zs\%([ablstw]:\|\%([ablstw]:\)\?\<\h\w*\|g:\h[0-9A-Za-z_#]*\)\?\%#', 'priority': 128},
+      \   {'cursor_at': '\m\C^\s*\%(let\|call\?\|if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|fu\%[nction]!\?\|unl\%[et]!\?\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.&+]\@1<!\zs\%(\<[abglstwv]:\h\k*\|\<[abglstwv]:\|\<\k*\)\%#', 'priority': 256},
+      \   {'cursor_at': '\m\C^\s*[A-Z]\w*!\?\s.*[:.&]\@1<!\zs\%(\<[abglstwv]:\h\k*\|\<[abglstwv]:\|\<\k*\)\%#', 'priority': 0},
+      \   {'cursor_at': '\m\C\%(\%([:.&]\@1<![ablstw]:\)\?\<\h\w\{5,}\|g:\h[0-9A-Za-z_#]\{6,}\)\%#', 'priority': 0},
+      \ ]
+let s:constants.MEMBERCONDITIONLIST = [
+      \   {'cursor_at': s:constants.VARNAME . '\.\zs\%(\h\w*\)\?\%#', 'priority': 384},
+      \   {'cursor_at': printf('\m\C\<has_key(\s*%s\s*,\s*[''"]\zs\w*\%%#', s:constants.VARNAME), 'priority': 384},
+      \ ]
+let s:constants.KEYMAPCONDITIONLIST = [
+      \   {'cursor_at': '\m\C<\%(P\%[lug>]\|S\%[ID>]\)\S*\%#', 'priority': 256,},
+      \   {'cursor_at': '\m\C^\s*\%([nvxsoilc]\?map\|map!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|expr\|unique\)>\s*\)*\S\+\s\+\zs\%(<\S*\)\?\%#', 'priority': 256,},
+      \   {'cursor_at': '\m\C^\s*\%([nvxsoilc]\?u\%[map]\|unm\%[ap]!\)\s\+\zs\%(<\S*\)\?\%#', 'priority': 256,},
+      \   {'cursor_at': '\m\C\<normal\s\+.*\zs<\S*\%#', 'priority': 256,},
+      \   {'cursor_at': '\m\C\<feedkeys(\%(''\%([^'']*\%(''''\)*\)*[^'']*\|"\%([^"]*\%(\\"\)*\)[^"]*\)\zs<\S*\%#', 'priority': 256,},
+      \ ]
+let s:constants.FUNCFRAGMENTCONDITIONLIST = insert(map(deepcopy(s:constants.FUNCCONDITIONLIST), 'extend(v:val, {"priority": get(v:val, "priority", 0) + 128}, "force")'), {'cursor_at': '\m\C^\s*fu\%[nction]!\?\s\+\zs\%([gs]:\)\?\k*\%#', 'priority': 384})
+let s:constants.VARFRAGMENTCONDITIONLIST = map(deepcopy(s:constants.VARCONDITIONLIST), 'extend(v:val, {"priority": get(v:val, "priority", 0) + 128}, "force")')
+" default values of options
 let s:constants.option = {}
 let s:constants.option.default = {}
 let s:constants.option.default.autocomplete = 0

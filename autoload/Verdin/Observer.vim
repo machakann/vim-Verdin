@@ -2,38 +2,6 @@
 let s:SEARCHLINES = 200
 let s:const = Verdin#constants#distribute()
 let s:lib = Verdin#lib#distribute()
-let s:varconditionlist = [
-      \   {'cursor_at': '\m\C^\s*call\s\+\zs\%([ablstw]:\|\%([ablstw]:\)\?\<\h\w*\|g:\h[0-9A-Za-z_#]*\)\?\%#', 'priority': 128},
-      \   {'cursor_at': '\m\C^\s*\%(let\|call\?\|if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|fu\%[nction]!\?\|unl\%[et]!\?\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.&+]\@1<!\zs\%(\<[abglstwv]:\h\k*\|\<[abglstwv]:\|\<\k*\)\%#', 'priority': 256},
-      \   {'cursor_at': '\m\C^\s*[A-Z]\w*!\?\s.*[:.&]\@1<!\zs\%(\<[abglstwv]:\h\k*\|\<[abglstwv]:\|\<\k*\)\%#', 'priority': 0},
-      \   {'cursor_at': '\m\C\%(\%([:.&]\@1<![ablstw]:\)\?\<\h\w\{5,}\|g:\h[0-9A-Za-z_#]\{6,}\)\%#', 'priority': 0},
-      \ ]
-let s:memberconditionlist = [
-      \   {'cursor_at': s:const.VARNAME . '\.\zs\%(\h\w*\)\?\%#', 'priority': 384},
-      \   {'cursor_at': printf('\m\C\<has_key(\s*%s\s*,\s*[''"]\zs\w*\%%#', s:const.VARNAME), 'priority': 384},
-      \ ]
-let s:keymapconditionlist = [
-      \   {
-      \     'cursor_at': '\m\C<\%(P\%[lug>]\|S\%[ID>]\)\S*\%#',
-      \     'priority': 256,
-      \   },
-      \   {
-      \     'cursor_at': '\m\C^\s*\%([nvxsoilc]\?map\|map!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|expr\|unique\)>\s*\)*\S\+\s\+\zs\%(<\S*\)\?\%#',
-      \     'priority': 256,
-      \   },
-      \   {
-      \     'cursor_at': '\m\C^\s*\%([nvxsoilc]\?u\%[map]\|unm\%[ap]!\)\s\+\zs\%(<\S*\)\?\%#',
-      \     'priority': 256,
-      \   },
-      \   {
-      \     'cursor_at': '\m\C\<normal\s\+.*\zs<\S*\%#',
-      \     'priority': 256,
-      \   },
-      \   {
-      \     'cursor_at': '\m\C\<feedkeys(\%(''\%([^'']*\%(''''\)*\)*[^'']*\|"\%([^"]*\%(\\"\)*\)[^"]*\)\zs<\S*\%#',
-      \     'priority': 256,
-      \   },
-      \ ]
 let s:cache = {}
 "}}}
 
@@ -118,35 +86,34 @@ function! s:checkglobalsvim() dict abort "{{{
     let higrouplist += get(Observer.shelf.bufferhigroup, 'wordlist', [])
   endfor
 
-  let Completer = Verdin#Completer#get()
   if varlist != []
-    let conditionlist = s:decrementpriority(s:varconditionlist)
+    let conditionlist = s:decrementpriority(s:const.VARCONDITIONLIST)
     let var = Verdin#Dictionary#new('var', conditionlist, varlist, 2)
     call s:inject(self.shelf['globalvar'], var)
   endif
   if funclist != []
-    let conditionlist = s:decrementpriority(Completer.shelf.function.conditionlist)
+    let conditionlist = s:decrementpriority(s:const.FUNCCONDITIONLIST)
     let func = Verdin#Dictionary#new('function', conditionlist, funclist, 1)
     call s:inject(self.shelf['globalfunc'], func)
   endif
   if memberlist != []
     call uniq(sort(memberlist))
-    let conditionlist = s:decrementpriority(s:memberconditionlist)
+    let conditionlist = s:decrementpriority(s:const.MEMBERCONDITIONLIST)
     let member = Verdin#Dictionary#new('member', conditionlist, memberlist, 1)
     call s:inject(self.shelf['globalmember'], member)
   endif
   if keymapwordlist != []
-    let conditionlist = s:decrementpriority(s:keymapconditionlist)
+    let conditionlist = s:decrementpriority(s:const.KEYMAPCONDITIONLIST)
     let keymap = Verdin#Dictionary#new('keymap', conditionlist, keymapwordlist, 2)
     call s:inject(self.shelf['globalkeymap'], keymap)
   endif
   if commandlist != []
-    let conditionlist = s:decrementpriority(Completer.shelf.command.conditionlist)
+    let conditionlist = s:decrementpriority(s:const.COMMANDCONDITIONLIST)
     let command = Verdin#Dictionary#new('command', conditionlist, commandlist, 2)
     call s:inject(self.shelf['globalcommand'], command)
   endif
   if higrouplist != []
-    let conditionlist = s:decrementpriority(Completer.shelf.higroup.conditionlist)
+    let conditionlist = s:decrementpriority(s:const.HIGROUPCONDITIONLIST)
     let higroup = Verdin#Dictionary#new('higroup', conditionlist, higrouplist, 2)
     call s:inject(self.shelf['globalhigroup'], higroup)
   endif
@@ -165,8 +132,7 @@ function! s:checkglobalshelp() dict abort "{{{
     let helptaglist += get(Observer.shelf.buffertag, 'wordlist', [])
   endfor
   if helptaglist != []
-    let Completer = Verdin#Completer#get()
-    let conditionlist = Completer.shelf.tag.conditionlist
+    let conditionlist = s:const.HELPTAGCONDITIONLIST
     let helptag = Verdin#Dictionary#new('tag', conditionlist, helptaglist, 2)
     call s:inject(self.shelf['globaltag'], helptag)
   endif
@@ -269,7 +235,6 @@ function! s:inspectvim() dict abort "{{{
   let commandlist = s:scan(global, s:const.COMMANDREGEX, clock)
   let higrouplist = s:scan(global, s:const.HIGROUPREGEX, clock)
 
-  let Completer = Verdin#Completer#get()
   if varlist != []
     call s:scopecorrectedvaritems(varlist)
     call uniq(sort(varlist))
@@ -277,49 +242,43 @@ function! s:inspectvim() dict abort "{{{
       call add(varlist, 'self')
     endif
     let options = {'delimitermatch': 1}
-    let var = Verdin#Dictionary#new('var', s:varconditionlist, varlist, 2, options)
+    let var = Verdin#Dictionary#new('var', s:const.VARCONDITIONLIST, varlist, 2, options)
     call s:inject(self.shelf['buffervar'], var)
   endif
   if funclist != []
     call s:SIDfuncitems(funclist)
-    let conditionlist = Completer.shelf.function.conditionlist
     let options = {'sortbyoccurrence': 1, 'delimitermatch': 1}
-    let func = Verdin#Dictionary#new('function', conditionlist, funclist, 1, options)
+    let func = Verdin#Dictionary#new('function', s:const.FUNCCONDITIONLIST, funclist, 1, options)
     call s:inject(self.shelf['bufferfunc'], func)
   endif
   if memberlist != []
     let options = {'sortbyoccurrence': 1}
-    let member = Verdin#Dictionary#new('member', s:memberconditionlist, memberlist, 1, options)
+    let member = Verdin#Dictionary#new('member', s:const.MEMBERCONDITIONLIST, memberlist, 1, options)
     call s:inject(self.shelf['buffermember'], member)
   endif
   if keymaplist != []
     let options = {'sortbyoccurrence': 1, 'delimitermatch': 1}
-    let keymap = Verdin#Dictionary#new('keymap', s:keymapconditionlist, keymaplist, 2, options)
+    let keymap = Verdin#Dictionary#new('keymap', s:const.KEYMAPCONDITIONLIST, keymaplist, 2, options)
     call s:inject(self.shelf['bufferkeymap'], keymap)
   endif
   if commandlist != []
     let options = {'delimitermatch': 1}
-    let conditionlist = Completer.shelf.command.conditionlist
-    let command = Verdin#Dictionary#new('command', conditionlist, commandlist, 2, options)
+    let command = Verdin#Dictionary#new('command', s:const.COMMANDCONDITIONLIST, commandlist, 2, options)
     call s:inject(self.shelf['buffercommand'], command)
   endif
   if higrouplist != []
     let options = {'delimitermatch': 1}
-    let conditionlist = Completer.shelf.higroup.conditionlist
-    let higroup = Verdin#Dictionary#new('higroup', conditionlist, higrouplist, 2, options)
+    let higroup = Verdin#Dictionary#new('higroup', s:const.HIGROUPCONDITIONLIST, higrouplist, 2, options)
     call s:inject(self.shelf['bufferhigroup'], higroup)
   endif
   if self.shelf.funcfragment == {}
-    let funcfragmentconditionlist = map(deepcopy(Completer.shelf.function.conditionlist), 'extend(v:val, {"priority": get(v:val, "priority", 0) + 128}, "force")')
-    call insert(funcfragmentconditionlist, {'cursor_at': '\m\C^\s*fu\%[nction]!\?\s\+\zs\%([gs]:\)\?\k*\%#', 'priority': 384})
     let funcfragmentwordlist = s:funcfragmentwordlist()
-    let funcfragment = Verdin#Dictionary#new('funcfragment', funcfragmentconditionlist, funcfragmentwordlist)
+    let funcfragment = Verdin#Dictionary#new('funcfragment', s:const.FUNCFRAGMENTCONDITIONLIST, funcfragmentwordlist)
     call s:inject(self.shelf['funcfragment'], funcfragment)
   endif
   let varfragmentwordlist = s:varfragmentwordlist(varlist)
   if varfragmentwordlist != []
-    let varfragmentconditionlist = map(deepcopy(s:varconditionlist), 'extend(v:val, {"priority": get(v:val, "priority", 0) + 128}, "force")')
-    let varfragment = Verdin#Dictionary#new('varfragment', s:varconditionlist, varfragmentwordlist)
+    let varfragment = Verdin#Dictionary#new('varfragment', s:const.VARFRAGMENTCONDITIONLIST, varfragmentwordlist)
     call s:inject(self.shelf['varfragment'], varfragment)
   endif
   call clock.stop()
@@ -341,9 +300,7 @@ function! s:inspecthelp() dict abort "{{{
   let helptaglist = s:helptagitems(s:scan(doc, s:const.HELPTAGREGEX, clock))
 
   if helptaglist != []
-    let Completer = Verdin#Completer#get()
-    let conditionlist = Completer.shelf.tag.conditionlist
-    let helptag = Verdin#Dictionary#new('tag', conditionlist, helptaglist, 2)
+    let helptag = Verdin#Dictionary#new('tag', s:const.HELPTAGCONDITIONLIST, helptaglist, 2)
     call s:inject(self.shelf['buffertag'], helptag)
   endif
 endfunction
