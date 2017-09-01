@@ -290,7 +290,6 @@ function! s:inspectvim() dict abort "{{{
   endif
   if memberlist != []
     let options = {'sortbyoccurrence': 1}
-    call s:lib.uniq(memberlist)
     let member = Verdin#Dictionary#new('member', s:memberconditionlist, memberlist, 1, options)
     call s:inject(self.shelf['buffermember'], member)
   endif
