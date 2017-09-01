@@ -130,7 +130,7 @@ function! s:checkglobalsvim() dict abort "{{{
     call s:inject(self.shelf['globalfunc'], func)
   endif
   if memberlist != []
-    call s:lib.uniq(memberlist)
+    call uniq(sort(memberlist))
     let conditionlist = s:decrementpriority(s:memberconditionlist)
     let member = Verdin#Dictionary#new('member', conditionlist, memberlist, 1)
     call s:inject(self.shelf['globalmember'], member)
@@ -273,7 +273,7 @@ function! s:inspectvim() dict abort "{{{
   let Completer = Verdin#Completer#get()
   if varlist != []
     call s:scopecorrectedvaritems(varlist)
-    call s:lib.uniq(varlist)
+    call uniq(sort(varlist))
     if local.is_dictfunc
       call add(varlist, 'self')
     endif
