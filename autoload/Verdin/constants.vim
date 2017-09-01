@@ -21,8 +21,11 @@ let s:FUNCNAME = '\%(s:\h\w*\|\%(g:\)\?[A-Z]\w*\|\h[0-9A-Za-z_#]*\)'
 let s:FUNCREGEX = printf('\m\C^fu\%%[nction]!\?\s\+\zs%s\ze(', s:FUNCNAME)
 let s:FUNCBODYREGEX = printf('\m\C^fu\%%[nction]!\?\s\+\zs%s([^)]*)', s:FUNCNAME)
 let s:FUNCDEFINITIONREGEX = printf('\m\C\%%(^\|\n\)\s*\zsfu\%%[nction]!\?\s\+%s([^)]*)', s:FUNCNAME)
-let s:KEYREGEX = '\m[{,]\%(\_s*\\\)\?\s*\%(''\zs\h\w*\ze''\|\"\zs\h\w*\ze\"\)\s*:'
-let s:HASKEYREGEX = printf('\<has_key(\s*%s\s*, \%%(''\zs\h\w*\ze''\|\"\zs\h\w*\ze\"\))', s:VARNAME)
+let s:KEYREGEX = join(['\m\C\%(', join([
+      \   '[{,]\%(\_s*\\\)\?\s*\%(''\zs\h\w*\ze''\|\"\zs\h\w*\ze\"\)\s*:',
+      \   printf('\<has_key(\s*%s\s*, \%%(''\zs\h\w*\ze''\|\"\zs\h\w*\ze\"\))', s:VARNAME),
+      \   '\%([abglstw]:\)\?\h\w*\zs\%(\.\h\w*\)\+(\?',
+      \ ], '\|'), '\)'], '')
 let s:METHODREGEX = printf('\m\C\%%(^\|\n\)\s*fu\%%[nction!]\s\+%s\.\zs\%(\h\w*\.\)*\h\w*([^)]*)', s:VARNAME)
 let s:KEYMAPREGEX = printf('\m\C\%%(^\|\n\)\s*\%%([nvxsoilc]\?\%%(m\%%[ap]\|nor\%%[emap]\)\|map!\)\s\+\%%(%s\)*\s*\zs\%%(%s\)\S\+',
       \   join(['<buffer>', '<nowait>', '<silent>', '<special>', '<script>', '<expr>', '<unique>',], '\|'),
@@ -56,7 +59,6 @@ let s:constants.FUNCREGEX = s:FUNCREGEX
 let s:constants.FUNCBODYREGEX = s:FUNCBODYREGEX
 let s:constants.FUNCDEFINITIONREGEX = s:FUNCDEFINITIONREGEX
 let s:constants.KEYREGEX = s:KEYREGEX
-let s:constants.HASKEYREGEX = s:HASKEYREGEX
 let s:constants.METHODREGEX = s:METHODREGEX
 let s:constants.KEYMAPREGEX = s:KEYMAPREGEX
 let s:constants.ARGNAME = '\m\C' . s:ARGNAME

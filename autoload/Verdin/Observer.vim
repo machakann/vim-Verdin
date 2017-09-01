@@ -260,8 +260,7 @@ function! s:inspectvim() dict abort "{{{
   let varlist += s:splitargvarname(s:scan(local, s:const.ARGREGEX, clock))
   let [_, amemberlist] = s:splitvarname(s:scan(local, s:const.ARGNAME, clock))
   let memberlist = lmemberlist + gmemberlist + amemberlist
-  let memberlist += s:scan(global, s:const.KEYREGEX, clock)
-  let memberlist += s:scan(global, s:const.HASKEYREGEX, clock)
+  let memberlist += s:splitmembername(s:scan(global, s:const.KEYREGEX, clock))
 
   call uniq(sort(memberlist))
   let memberlist += s:splitmethodname(s:scan(global, s:const.METHODREGEX, clock))
@@ -470,6 +469,14 @@ function! s:splitargvarname(varblocklist) abort "{{{
     let varlist += ['a:000', 'a:0', 'a:1', 'a:2', 'a:3']
   endif
   return varlist
+endfunction
+"}}}
+function! s:splitmembername(memberlist) abort "{{{
+  let wordlist = []
+  for string in a:memberlist
+    let wordlist += split(string, '\.')
+  endfor
+  return filter(wordlist, 'v:val !~# ''($''')
 endfunction
 "}}}
 function! s:splitmethodname(identifierlist) abort "{{{
