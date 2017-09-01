@@ -1,5 +1,5 @@
 *Verdin.txt*	An omni completion function for Vim script.
-						Last change:07-Jun-2017.
+						Last change:01-Sep-2017.
 
 Author  : machakann <https://github.com/machakann>
 License : NYSL license
@@ -12,7 +12,7 @@ Requirement:	Vim 8.0 or higher
 USAGE					*Verdin-usage*
 
 *Verdin* is an implementation of omni completion |compl-omni| function for Vim
-script. If this plugin has been appropriately installed, it automatically sets
+script. If this plugin is appropriately installed, it automatically sets
 |'omnifunc'|. User can call the functionality by the key sequence <C-x><C-o>
 in insert mode. |i_CTRL-X_CTRL-O| If you don't want to set |'omnifunc'|
 option, add the line into your vimrc.
@@ -23,8 +23,9 @@ option, add the line into your vimrc.
 
 ------------------------------------------------------------------------------
 
-This plugin has a simple fuzzy matching engine. If a non-zero value is set to
-|g:Verdin_fuzzymatch|, similar items may also be listed to popup window.
+This plugin has a simple fuzzy matching engine. If a non-zero value is
+assigned to |g:Verdin_fuzzymatch|, not exactly but similarly matched items may
+also be listed to popup window.
 					*g:Verdin_fuzzymatch*
 >
 	let g:Verdin_fuzzymatch = 1
