@@ -182,24 +182,6 @@ let s:constants.KEYMAPCONDITIONLIST = [
       \ ]
 let s:constants.FUNCFRAGMENTCONDITIONLIST = insert(map(deepcopy(s:constants.FUNCCONDITIONLIST), 'extend(v:val, {"priority": get(v:val, "priority", 0) + 128}, "force")'), {'cursor_at': '\m\C^\s*fu\%[nction]!\?\s\+\zs\%([gs]:\)\?\k*\%#', 'priority': 384})
 let s:constants.VARFRAGMENTCONDITIONLIST = map(deepcopy(s:constants.VARCONDITIONLIST), 'extend(v:val, {"priority": get(v:val, "priority", 0) + 128}, "force")')
-" default values of options
-let s:constants.option = {}
-let s:constants.option.default = {}
-let s:constants.option.default.autocomplete = 0
-let s:constants.option.default.autocompletedelay = 100
-let s:constants.option.default.donotsetomnifunc = 0
-let s:constants.option.default.fuzzymatch = 0
-let s:constants.option.default.loadpath = [
-      \   '*.vim',
-      \   join(['autoload', '*.vim'], s:constants.PATHSEPARATOR),
-      \   join(['autoload', '**', '*.vim'], s:constants.PATHSEPARATOR),
-      \   join(['plugin', '*.vim'], s:constants.PATHSEPARATOR),
-      \   join(['plugin', '**', '*.vim'], s:constants.PATHSEPARATOR),
-      \   join(['ftplugin', '*.vim'], s:constants.PATHSEPARATOR),
-      \   join(['ftplugin', '**', '*.vim'], s:constants.PATHSEPARATOR),
-      \ ]
-let s:constants.option.default.autobraketinsert = 0
-let s:constants.option.default.debugmodeon = 0
 lockvar! s:constants
 
 " vim:set ts=2 sts=2 sw=2 tw=0:

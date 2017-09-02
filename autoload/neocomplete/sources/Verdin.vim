@@ -1,8 +1,3 @@
-let s:save_cpo = &cpo
-set cpo&vim
-
-let s:lib = Verdin#lib#distribute()
-let s:const = Verdin#constants#distribute()
 let s:GIVEUPIFSHORT = 1
 
 let s:source = {
@@ -20,21 +15,11 @@ let s:source = {
       \}
 
 function! s:source.hooks.on_init(context) dict abort "{{{
-  for bufinfo in s:lib.getbufinfo()
-    if has_key(bufinfo.variables, 'Verdin')
-      let Event = Verdin#Event#get(bufinfo.bufnr)
-      call Event.startbufferinspection()
-    endif
-  endfor
+  call Verdin#Verdin#startbufferinspection('!')
 endfunction
 "}}}
 function! s:source.hooks.on_final(context) dict abort "{{{
-  for bufinfo in s:lib.getbufinfo()
-    if has_key(bufinfo.variables, 'Verdin')
-      let Event = Verdin#Event#get(bufinfo.bufnr)
-      call Event.stopbufferinspection()
-    endif
-  endfor
+  call Verdin#Verdin#stopbufferinspection('!')
 endfunction
 "}}}
 function! s:source.get_complete_position(context) dict abort "{{{
@@ -51,7 +36,7 @@ function! s:source.gather_candidates(context) dict abort "{{{
   for candidate in Completer.candidatelist
     let itemlist += candidate.itemlist
   endfor
-  let fuzzymatch = s:lib.getoption('fuzzymatch')
+  let fuzzymatch = Verdin#getoption('fuzzymatch')
   if fuzzymatch && strchars(a:context.complete_str) >= 3
     let itemlist += Completer.fuzzycandidatelist
   endif
@@ -66,9 +51,6 @@ endfunction
 function! neocomplete#sources#Verdin#define() abort
   return s:source
 endfunction
-
-let &cpo = s:save_cpo
-unlet s:save_cpo
 
 " vim:set ts=2 sts=2 sw=2 tw=0:
 " vim:set foldmethod=marker: commentstring="%s:

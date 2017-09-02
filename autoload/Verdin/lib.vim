@@ -1,5 +1,4 @@
 let s:const = Verdin#constants#distribute()
-let s:default = s:const.option.default
 
 function! Verdin#lib#distribute() abort
   return s:lib
@@ -80,33 +79,12 @@ function! s:lib.escape(string) dict abort "{{{
   return escape(a:string, '~"\.^$[]*')
 endfunction
 "}}}
-function! s:lib.getoption(name) dict abort "{{{
-  let name = 'Verdin_' . a:name
-  if exists('b:' . name)
-    return b:[name]
-  endif
-  if exists('g:' . name)
-    return g:[name]
-  endif
-  return s:default[a:name]
-endfunction
-"}}}
-function! s:lib.getbufinfo(...) dict abort "{{{
-  let filetype = get(a:000, 0, &filetype)
-  if filetype ==# 'vim'
-    return filter(getbufinfo({'buflisted':1}), 'getbufvar(v:val.bufnr, "&filetype") ==# "vim"')
-  elseif filetype ==# 'help'
-    return filter(getbufinfo({'buflisted':1}), 'getbufvar(v:val.bufnr, "&filetype") ==# "help" && getbufvar(v:val.bufnr, "&buftype") !=# "help"')
-  endif
-  return []
-endfunction
-"}}}
 function! s:lib.pathjoin(parts) dict abort "{{{
   return join(a:parts, s:const.PATHSEPARATOR)
 endfunction
 "}}}
 function! s:lib.searchvimscripts() dict abort "{{{
-  let searchpaths = s:lib.getoption('loadpath')
+  let searchpaths = Verdin#getoption('loadpath')
   let scriptpaths = []
   for path in searchpaths
     call extend(scriptpaths, glob(path, 0, 1))

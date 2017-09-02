@@ -84,7 +84,7 @@ function! s:Event.startautocomplete() abort "{{{
   let self.autocomplete = s:ON
   augroup Verdin-autocomplete
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
-    execute printf('autocmd CursorMovedI <buffer=%d> call Verdin#triggercomplete()', self.bufnr)
+    execute printf('autocmd CursorMovedI <buffer=%d> call Verdin#Verdin#triggercomplete()', self.bufnr)
   augroup END
 endfunction
 "}}}
