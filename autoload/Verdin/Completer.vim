@@ -223,6 +223,7 @@ function! s:Completer.aftercomplete(event, autocomplete) dict abort "{{{
     let self.savedoptions = {}
     let Event = Verdin#Event#get()
     call Event.startautocomplete()
+    call Event.unsetCompleteDone()
   endif
 endfunction
 "}}}

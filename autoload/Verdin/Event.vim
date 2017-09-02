@@ -155,9 +155,6 @@ function! s:checkglobals() abort "{{{
 endfunction
 "}}}
 function! s:aftercomplete(event, autocomplete) abort "{{{
-  let Event = Verdin#Event#get()
-  call Event.unsetCompleteDone()
-
   let Completer = Verdin#Completer#get()
   call Completer.aftercomplete(a:event, a:autocomplete)
 endfunction
