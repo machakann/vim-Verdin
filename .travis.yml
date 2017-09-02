@@ -46,8 +46,8 @@ install:
         fi
         if [ "${need_build}" = "1" ]; then
           ./configure --prefix="$PWD/build" --with-features=huge \
-            --enable-perlinterp --enable-pythoninterp --enable-python3interp \
-            --enable-rubyinterp --enable-luainterp --enable-fail-if-missing
+            --enable-pythoninterp --enable-python3interp \
+            --enable-luainterp --enable-fail-if-missing
           make -j2
           make install
         fi
