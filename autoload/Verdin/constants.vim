@@ -81,8 +81,8 @@ let s:constants.COMMANDCONDITIONLIST = [
       \   {'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\w\{5,}\%#', 'in_string': 1, 'priority': 0},
       \ ]
 let s:constants.FUNCCONDITIONLIST = [
-      \   {'cursor_at': '\m\C^\s*call\s\+\zs\<\%([gs]:\)\?\k*\%#', 'priority': 256},
-      \   {'cursor_at': '\m\C^\s*call\s\+.*\zs\<\%([gs]:\)\?\k*\%#', 'not_in_string': 1, 'not_in_comment': 1, 'priority': 128},
+      \   {'cursor_at': '\m\C\<call\s\+\zs\<\%([gs]:\)\?\k*\%#', 'not_in_string': 1, 'not_in_comment': 1, 'priority': 384},
+      \   {'cursor_at': '\m\C\<call\s\+.*\zs\<\%([gs]:\)\?\k*\%#', 'not_in_string': 1, 'not_in_comment': 1, 'priority': 128},
       \   {'cursor_at': '\m\C<[Cc]-[Rr]>=\zs\%([gs]:\|\%([gs]:\)\?\h\k*\)\?\%#', 'priority': 256},
       \   {'cursor_at': '\m\C\<\%(call([''"]\|exists([''"]\*\)\zs\<\%([gs]:\|\%([gs]:\)\?\h\k*\)\?\%#', 'priority': 256},
       \   {'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*<expr>\s*\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*\S\+\s\+\zs\%(\S*\)\?\%#', 'not_in_string': 1, 'not_in_comment': 1, 'priority': 256},
