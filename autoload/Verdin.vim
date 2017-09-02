@@ -15,8 +15,12 @@ let g:Verdin_autocomplete = get(g:, 'Verdin_autocomplete', s:default.autocomplet
 let g:Verdin_autocompletedelay = get(g:, 'Verdin_autocompletedelay', s:default.autocompletedelay)
 let g:Verdin_donotsetomnifunc = get(g:, 'Verdin_donotsetomnifunc', s:default.donotsetomnifunc)
 let g:Verdin_fuzzymatch = get(g:, 'Verdin_fuzzymatch', s:default.fuzzymatch)
+let g:Verdin_loadpath = get(g:, 'Verdin_loadpath', s:default.loadpath)
 let g:Verdin_autobraketinsert = get(g:, 'Verdin_autobraketinsert', s:default.autobraketinsert)
 let g:Verdin_debugmodeon = get(g:, 'Verdin_autobraketinsert', s:default.debugmodeon)
+
+let g:Verdin#default#loadpath = s:default.loadpath
+lockvar! g:Verdin#default#loadpath
 "}}}
 
 function! Verdin#startautocomplete(...) abort "{{{

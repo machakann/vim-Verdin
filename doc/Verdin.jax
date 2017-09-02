@@ -1,5 +1,5 @@
 *Verdin.txt*	Vim script 用オムニ補完関数
-						Last change:07-Jun-2017.
+						Last change:02-Sep-2017.
 
 書いた人   : machakann <https://github.com/machakann>
 ライセンス : NYSL license
@@ -59,6 +59,29 @@ USAGE					*Verdin-usage*
 100 ~ 200 ミリ秒ぐらいがちょうどよさそうですが、環境や個人の好みに大きく依存す
 るでしょう。デフォルト値は 100 ミリ秒です。
 
+------------------------------------------------------------------------------
+
+以下のディレクトリから関係する Vim script ファイルを検索し、補完候補を走査しま
+す。
+  `*.vim`
+  `autoload/*.vim`
+  `autoload/**/*.vim`
+  `plugin/*.vim`
+  `plugin/**/*.vim`
+  `ftplugin/*.vim`
+  `ftplugin/**/*.vim`
+					*g:Verdin#default#loadpath*
+このパスは |g:Verdin#default#loadpath| に入っています。この変数は変更不可にな
+っており、参照のみ可能です。替わりに |g:Verdin_loadpath| を使ってください。
+
+					*g:Verdin_loadpath*
+上記以外の場所を検索したい場合は、 |g:Verdin_loadpath| を使います。これはパス
+文字列のリストで、それぞれの要素は |glob()| 関数に渡されて展開されます。
+|wildcard| の項も確認してください。
+>
+	let g:Verdin_loadpath = g:Verdin#default#loadpath +
+	                            \ ['test/.testrc', 'test/*.vim']
+<
 ------------------------------------------------------------------------------
 
 |g:Verdin_autobraketinsert| が 1 か 2 の時、関数名のあとの括弧が自動的に入力さ

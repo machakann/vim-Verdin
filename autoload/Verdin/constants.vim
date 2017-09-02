@@ -189,6 +189,15 @@ let s:constants.option.default.autocomplete = 0
 let s:constants.option.default.autocompletedelay = 100
 let s:constants.option.default.donotsetomnifunc = 0
 let s:constants.option.default.fuzzymatch = 0
+let s:constants.option.default.loadpath = [
+      \   '*.vim',
+      \   join(['autoload', '*.vim'], s:constants.PATHSEPARATOR),
+      \   join(['autoload', '**', '*.vim'], s:constants.PATHSEPARATOR),
+      \   join(['plugin', '*.vim'], s:constants.PATHSEPARATOR),
+      \   join(['plugin', '**', '*.vim'], s:constants.PATHSEPARATOR),
+      \   join(['ftplugin', '*.vim'], s:constants.PATHSEPARATOR),
+      \   join(['ftplugin', '**', '*.vim'], s:constants.PATHSEPARATOR),
+      \ ]
 let s:constants.option.default.autobraketinsert = 0
 let s:constants.option.default.debugmodeon = 0
 lockvar! s:constants

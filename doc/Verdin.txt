@@ -1,5 +1,5 @@
 *Verdin.txt*	An omni completion function for Vim script.
-						Last change:01-Sep-2017.
+						Last change:02-Sep-2017.
 
 Author  : machakann <https://github.com/machakann>
 License : NYSL license
@@ -56,6 +56,28 @@ This plugin waits a next user input for the period, and if not then update
 the popup window. For me 100 ~ 200 works comfortably, but it would depend on
 environments and, of course, personal preference. The default value is 100.
 
+------------------------------------------------------------------------------
+
+This plugin searches and scans the project files in the following directory.
+  `*.vim`
+  `autoload/*.vim`
+  `autoload/**/*.vim`
+  `plugin/*.vim`
+  `plugin/**/*.vim`
+  `ftplugin/*.vim`
+  `ftplugin/**/*.vim`
+					*g:Verdin#default#loadpath*
+Those paths are in |g:Verdin#default#loadpath|. This is locked, thus it cannot
+be changed. Use |g:Verdin_loadpath| instead.
+
+					*g:Verdin_loadpath*
+If user wants to add extra project files, use |g:Verdin_loadpath| to point the
+location of the files. It is a list of strings. Each string would be passed to
+|glob()| function. See |wildcard| also.
+>
+	let g:Verdin_loadpath = g:Verdin#default#loadpath +
+	                            \ ['test/.testrc', 'test/*.vim']
+<
 ------------------------------------------------------------------------------
 
 If |g:Verdin_autobraketinsert| is 1 or 2, braket may be added after a
