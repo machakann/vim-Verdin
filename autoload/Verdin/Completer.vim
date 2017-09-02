@@ -169,11 +169,12 @@ function! s:Completer.fuzzymatch(base, ...) dict abort "{{{
     let item = self.fuzzycandidatelist[0]
     let __text__ = s:lib.__text__(item)
     let difflen = strchars(__text__) - nbase
-    if a:base ==? __text__ || difflen < -2 || (type(item) == v:t_dict && get(item, '__delimitermatch__', 0))
+    let texthead = strcharpart(__text__, 0, nbase)
+    if a:base ==? texthead || difflen < -2 || (type(item) == v:t_dict && get(item, '__delimitermatch__', 0))
       call remove(self.fuzzycandidatelist, 0)
       continue
     endif
-    let d = s:strcmp(a:base, strcharpart(__text__, 0, nbase))
+    let d = s:strcmp(a:base, texthead)
     if d >= s:const.FUZZYMATCHTHRESHOLD
       call add(candidatelist, s:fuzzyitem(item, a:base, d, difflen))
     endif
