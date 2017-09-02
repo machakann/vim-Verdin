@@ -188,7 +188,7 @@ function! s:Completer.modify(candidatelist, ...) dict abort "{{{
     call s:autobrainsert(a:candidatelist, self.last.postcursor)
   endif
   if match(modifiers, '\m\C^snip$') > -1
-    call s:addsnippeditems(a:candidatelist, self.last.postcursor, 0)
+    call s:addsnippeditems(a:candidatelist, self.last.postcursor)
   endif
   return a:candidatelist
 endfunction
@@ -342,12 +342,11 @@ function! s:capitalize(words, base) abort "{{{
 endfunction
 "}}}
 function! s:addsnippeditems(candidatelist, postcursor, ...) abort "{{{
-  let postcursor = s:lib.escape(matchstr(a:postcursor, '^\k\+\>'))
+  let postcursor = s:lib.escape(matchstr(a:postcursor, '^\%(\k\+()\?\|\k\+\>\)'))
   if postcursor ==# ''
     return a:candidatelist
   endif
 
-  let dup = get(a:000, 0, 1)
   let pattern = '\m\C' . postcursor . '$'
   let i = len(a:candidatelist) - 1
   while i >= 0
@@ -359,17 +358,18 @@ function! s:addsnippeditems(candidatelist, postcursor, ...) abort "{{{
         let snipped = deepcopy(candidate)
         let snipped.word = snipped.word[: idx-1]
         let snipped.menu .= ' snipped'
-        let snipped.dup = dup
+        let snipped.dup = 1
         if !has_key(snipped, 'abbr')
           let snipped.abbr = candidate.word
         endif
+        let snipped.__func__ = v:false
         let entire = deepcopy(candidate)
         let entire.menu .= ' entire'
-        let entire.dup = dup
+        let entire.dup = 1
       else
         let snipped = {'word': candidate[: idx-1], 'abbr': candidate,
-                    \  'menu': 'snipped', 'dup': dup}
-        let entire = {'word': candidate, 'menu': 'entire', 'dup': dup}
+                    \  'menu': 'snipped', 'dup': 1}
+        let entire = {'word': candidate, 'menu': 'entire', 'dup': 1}
       endif
       call remove(a:candidatelist, i)
       call insert(a:candidatelist, entire, i)
