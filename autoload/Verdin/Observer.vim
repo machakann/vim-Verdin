@@ -144,25 +144,28 @@ function! s:checkglobalshelp() dict abort "{{{
   let commandlist = []
   for filepath in s:lib.searchvimscripts()
     let Observer = s:check(filepath, 'vim')
-    let varlist += filter(copy(get(Observer.shelf.buffervar, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^[bgtw]:\h\k*''')
-    let funclist += filter(copy(get(Observer.shelf.bufferfunc, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^\%([A-Z]\k*\|\h\k\%(#\h\k*\)\+\)''')
+    let varlist += filter(copy(get(Observer.shelf.buffervar, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^[bgtw]:\h[A-Za-z0-9_#]*''')
+    let funclist += filter(copy(get(Observer.shelf.bufferfunc, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^\%([A-Z]\w*\|\h\w\%(#\h\w*\)\+\)''')
     let keymapwordlist += filter(copy(get(Observer.shelf.bufferkeymap, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^<Plug>''')
     let commandlist += get(Observer.shelf.buffercommand, 'wordlist', [])
   endfor
-  let conditionlist = [{'cursor_at': '\m\%(\<\%([bgtw]:\|:\)\?\h\S*\|<P\%[lug>]\S*\)\%#'}]
   if varlist != []
+    let conditionlist = [{'cursor_at': '\m\C\<[bgtw]:\h[A-Za-z0-9_#]*\%#'}]
     let var = Verdin#Dictionary#new('var', conditionlist, varlist, 3)
     call s:inject(self.shelf['globalvar'], var)
   endif
   if funclist != []
+    let conditionlist = [{'cursor_at': '\m\C\<\%([A-Z]\w*\|\h\w*\%(#\h\w*\)*\)\%#'}]
     let func = Verdin#Dictionary#new('function', conditionlist, funclist, 3)
     call s:inject(self.shelf['globalfunc'], func)
   endif
   if keymapwordlist != []
+    let conditionlist = [{'cursor_at': '\m\C\%(<Pl\%[ug>]\|<Plug>\S*\)\%#'}]
     let keymap = Verdin#Dictionary#new('keymap', conditionlist, keymapwordlist, 3)
     call s:inject(self.shelf['globalkeymap'], keymap)
   endif
   if commandlist != []
+    let conditionlist = [{'cursor_at': '\m\C\<[A-Z]\w*\%#'}]
     let command = Verdin#Dictionary#new('command', conditionlist, commandlist, 3)
     call s:inject(self.shelf['globalcommand'], command)
   endif
