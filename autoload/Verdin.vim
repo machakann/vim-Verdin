@@ -24,9 +24,6 @@ let g:Verdin#fuzzymatch = get(g:, 'Verdin#fuzzymatch', s:default.fuzzymatch)
 let g:Verdin#loadpath = get(g:, 'Verdin#loadpath', s:default.loadpath)
 let g:Verdin#autobraketinsert = get(g:, 'Verdin#autobraketinsert', s:default.autobraketinsert)
 let g:Verdin#debugmodeon = get(g:, 'Verdin#autobraketinsert', s:default.debugmodeon)
-
-let g:Verdin#default_loadpath = s:default.loadpath
-lockvar! g:Verdin#default_loadpath
 "}}}
 
 function! Verdin#omnifunc(findstart, base) abort "{{{

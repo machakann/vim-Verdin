@@ -70,17 +70,13 @@ USAGE					*Verdin-usage*
   `plugin/**/*.vim`
   `ftplugin/*.vim`
   `ftplugin/**/*.vim`
-					*g:Verdin#default#loadpath*
-このパスは |g:Verdin#default#loadpath| に入っています。この変数は変更不可にな
-っており、参照のみ可能です。替わりに |g:Verdin#loadpath| を使ってください。
 
 					*g:Verdin#loadpath*
 上記以外の場所を検索したい場合は、 |g:Verdin#loadpath| を使います。これはパス
 文字列のリストで、それぞれの要素は |glob()| 関数に渡されて展開されます。
 |wildcard| の項も確認してください。
 >
-	let g:Verdin#loadpath = g:Verdin#default#loadpath +
-	                            \ ['test/.testrc', 'test/*.vim']
+	let g:Verdin#loadpath += ['test/.testrc', 'test/*.vim']
 <
 ------------------------------------------------------------------------------
 

@@ -66,17 +66,13 @@ This plugin searches and scans the project files in the following directory.
   `plugin/**/*.vim`
   `ftplugin/*.vim`
   `ftplugin/**/*.vim`
-					*g:Verdin#default#loadpath*
-Those paths are in |g:Verdin#default#loadpath|. This is locked, thus it cannot
-be changed. Use |g:Verdin#loadpath| instead.
 
 					*g:Verdin#loadpath*
 If user wants to add extra project files, use |g:Verdin#loadpath| to point the
 location of the files. It is a list of strings. Each string would be passed to
 |glob()| function. See |wildcard| also.
 >
-	let g:Verdin#loadpath = g:Verdin#default#loadpath +
-	                            \ ['test/.testrc', 'test/*.vim']
+	let g:Verdin#loadpath += ['test/.testrc', 'test/*.vim']
 <
 ------------------------------------------------------------------------------
 
