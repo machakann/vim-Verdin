@@ -17,28 +17,28 @@ USAGE					*Verdin-usage*
 入力することで機能を呼び出すことができます。 |i_CTRL-X_CTRL-O|
 もし、 |'omnifunc'| が自動的に設定されるのを防ぎたい場合は次の一行を vimrc に
 加えてください。
-					*g:Verdin_donotsetomnifunc*
+					*g:Verdin#donotsetomnifunc*
 >
-	let g:Verdin_donotsetomnifunc = 1
+	let g:Verdin#donotsetomnifunc = 1
 <
 
 ------------------------------------------------------------------------------
 
 このプラグインは簡単な「あいまい」マッチ機能を持っています。補完の候補を表示
 するときに正確には一致しないが、よく似た候補も選択肢に加えます。
-|g:Verdin_fuzzymatch| に非ゼロ値が与えられた場合にこの機能が有効になります。
-					*g:Verdin_fuzzymatch*
+|g:Verdin#fuzzymatch| に非ゼロ値が与えられた場合にこの機能が有効になります。
+					*g:Verdin#fuzzymatch*
 >
-	let g:Verdin_fuzzymatch = 1
+	let g:Verdin#fuzzymatch = 1
 <
 ------------------------------------------------------------------------------
 
 このプラグインはまた、自動補完機能も提供します。何か補完の候補がある場合に自動
 的にポップアップウィンドウを表示します。
-|g:Verdin_autocomplete| が非ゼロ値のときにこの機能が有効になります。
-					*g:Verdin_autocomplete*
+|g:Verdin#autocomplete| が非ゼロ値のときにこの機能が有効になります。
+					*g:Verdin#autocomplete*
 >
-	let g:Verdin_autocomplete = 1
+	let g:Verdin#autocomplete = 1
 <
 他の補完プラグインを使っている場合は衝突する恐れがあるので、この機能を使わない
 ようにしてください。
@@ -50,9 +50,9 @@ USAGE					*Verdin-usage*
 自動補完は時に画面を頻繁に再描画するので、ちらつきが気になる場合があります。
 これを軽減するために補完候補を表示するまで一定の待機時間を設定することができま
 す。
-					*g:Verdin_autocompletedelay*
+					*g:Verdin#autocompletedelay*
 >
-	let g:Verdin_autocompletedelay = 100
+	let g:Verdin#autocompletedelay = 100
 <
 単位はミリ秒です。上記の例でいえば、ユーザーの最後の入力から次の入力が来ないか
 約 100 ミリ秒ほど待って、入力がなければ補完候補を表示するようになります。
@@ -72,30 +72,30 @@ USAGE					*Verdin-usage*
   `ftplugin/**/*.vim`
 					*g:Verdin#default#loadpath*
 このパスは |g:Verdin#default#loadpath| に入っています。この変数は変更不可にな
-っており、参照のみ可能です。替わりに |g:Verdin_loadpath| を使ってください。
+っており、参照のみ可能です。替わりに |g:Verdin#loadpath| を使ってください。
 
-					*g:Verdin_loadpath*
-上記以外の場所を検索したい場合は、 |g:Verdin_loadpath| を使います。これはパス
+					*g:Verdin#loadpath*
+上記以外の場所を検索したい場合は、 |g:Verdin#loadpath| を使います。これはパス
 文字列のリストで、それぞれの要素は |glob()| 関数に渡されて展開されます。
 |wildcard| の項も確認してください。
 >
-	let g:Verdin_loadpath = g:Verdin#default#loadpath +
+	let g:Verdin#loadpath = g:Verdin#default#loadpath +
 	                            \ ['test/.testrc', 'test/*.vim']
 <
 ------------------------------------------------------------------------------
 
-|g:Verdin_autobraketinsert| が 1 か 2 の時、関数名のあとの括弧が自動的に入力さ
+|g:Verdin#autobraketinsert| が 1 か 2 の時、関数名のあとの括弧が自動的に入力さ
 れます。
 
-  * |g:Verdin_autobraketinsert| が 1 の時は、引数が 0 個の関数の開き・閉じ括弧
+  * |g:Verdin#autobraketinsert| が 1 の時は、引数が 0 個の関数の開き・閉じ括弧
     の両方を入力します。引数を 1 個以上もつ関数の場合は開き括弧のみを入力しま
     す。
 
-  * |g:Verdin_autocompletedelay| が 2 の時は、開き・閉じ括弧の両方を入力しま
+  * |g:Verdin#autocompletedelay| が 2 の時は、開き・閉じ括弧の両方を入力しま
     す。
-					*g:Verdin_autobraketinsert*
+					*g:Verdin#autobraketinsert*
 >
-	let g:Verdin_autobraketinsert = 2
+	let g:Verdin#autobraketinsert = 2
 <
 
 ==============================================================================

@@ -16,28 +16,28 @@ script. If this plugin is appropriately installed, it automatically sets
 |'omnifunc'|. User can call the functionality by the key sequence <C-x><C-o>
 in insert mode. |i_CTRL-X_CTRL-O| If you don't want to set |'omnifunc'|
 option, add the line into your vimrc.
-					*g:Verdin_donotsetomnifunc*
+					*g:Verdin#donotsetomnifunc*
 >
-	let g:Verdin_donotsetomnifunc = 1
+	let g:Verdin#donotsetomnifunc = 1
 <
 
 ------------------------------------------------------------------------------
 
 This plugin has a simple fuzzy matching engine. If a non-zero value is
-assigned to |g:Verdin_fuzzymatch|, not exactly but similarly matched items may
+assigned to |g:Verdin#fuzzymatch|, not exactly but similarly matched items may
 also be listed to popup window.
-					*g:Verdin_fuzzymatch*
+					*g:Verdin#fuzzymatch*
 >
-	let g:Verdin_fuzzymatch = 1
+	let g:Verdin#fuzzymatch = 1
 <
 ------------------------------------------------------------------------------
 
 This plugin also provides an additional feature, autocompletion. It
 automatically calls the completion function when the it can suggest items. If
 you want to try this, add the line into your vimrc.
-					*g:Verdin_autocomplete*
+					*g:Verdin#autocomplete*
 >
-	let g:Verdin_autocomplete = 1
+	let g:Verdin#autocomplete = 1
 <
 It may conflict with other autocompletion plugin, thus do not turn on if you
 are using them. The autocompletion feature does not depends on |'omnifunc'|.
@@ -48,9 +48,9 @@ So not necessarily to set it.
 The autocompletion could update your display too frequent, and it may cause
 annoying flickers. In that case, optimize the delay to refresh display in
 millisecond.
-					*g:Verdin_autocompletedelay*
+					*g:Verdin#autocompletedelay*
 >
-	let g:Verdin_autocompletedelay = 100
+	let g:Verdin#autocompletedelay = 100
 <
 This plugin waits a next user input for the period, and if not then update
 the popup window. For me 100 ~ 200 works comfortably, but it would depend on
@@ -68,30 +68,30 @@ This plugin searches and scans the project files in the following directory.
   `ftplugin/**/*.vim`
 					*g:Verdin#default#loadpath*
 Those paths are in |g:Verdin#default#loadpath|. This is locked, thus it cannot
-be changed. Use |g:Verdin_loadpath| instead.
+be changed. Use |g:Verdin#loadpath| instead.
 
-					*g:Verdin_loadpath*
-If user wants to add extra project files, use |g:Verdin_loadpath| to point the
+					*g:Verdin#loadpath*
+If user wants to add extra project files, use |g:Verdin#loadpath| to point the
 location of the files. It is a list of strings. Each string would be passed to
 |glob()| function. See |wildcard| also.
 >
-	let g:Verdin_loadpath = g:Verdin#default#loadpath +
+	let g:Verdin#loadpath = g:Verdin#default#loadpath +
 	                            \ ['test/.testrc', 'test/*.vim']
 <
 ------------------------------------------------------------------------------
 
-If |g:Verdin_autobraketinsert| is 1 or 2, braket may be added after a
+If |g:Verdin#autobraketinsert| is 1 or 2, braket may be added after a
 completed function name.
 
-  * If |g:Verdin_autobraketinsert| is 1, both bra and ket are added for
+  * If |g:Verdin#autobraketinsert| is 1, both bra and ket are added for
     functions without argments and only bra is added for functions with
     1 or more arguments.
 
-  * If |g:Verdin_autocompletedelay| is 2, both bra and ket are added.
+  * If |g:Verdin#autocompletedelay| is 2, both bra and ket are added.
 
-					*g:Verdin_autobraketinsert*
+					*g:Verdin#autobraketinsert*
 >
-	let g:Verdin_autobraketinsert = 2
+	let g:Verdin#autobraketinsert = 2
 <
 
 ==============================================================================
