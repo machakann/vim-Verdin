@@ -240,7 +240,6 @@ function! s:inspectvim() dict abort "{{{
 
   if varlist != []
     call s:scopecorrectedvaritems(varlist)
-    call uniq(sort(varlist))
     if local.is_dictfunc
       call add(varlist, 'self')
     endif
