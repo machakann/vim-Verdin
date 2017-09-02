@@ -105,10 +105,12 @@ endfunction
 "}}}
 function! s:inspect() abort "{{{
   let Observer = Verdin#Observer#get()
-  let checkglobalnow = Observer.changedtick == -1 ? 1 : 0
+  if Observer.changedtick == -1
+    call s:checkglobals()
+  endif
+
   call Observer.inspect()
   let Completer = Verdin#Completer#get()
-
   if &filetype ==# 'vim'
     if !has_key(Completer.shelf, 'buffervar')
       call Completer.addDictionary('buffervar', Observer.shelf.buffervar)
@@ -123,10 +125,6 @@ function! s:inspect() abort "{{{
     if !has_key(Completer.shelf, 'buffertag')
       call Completer.addDictionary('buffertag', Observer.shelf.buffertag)
     endif
-  endif
-
-  if checkglobalnow
-    call s:checkglobals()
   endif
 endfunction
 "}}}
