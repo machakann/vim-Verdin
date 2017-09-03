@@ -309,18 +309,17 @@ function! s:helptagitems(helptaglist) abort
   let helptaglist = copy(a:helptaglist)
   call filter(a:helptaglist, 0)
   for [helptag, file, _] in helptaglist
-    let word = printf('|%s|', helptag)
     let menu = ' ' . file
-    call add(a:helptaglist, {'word': word, 'menu': menu, 'abbr': helptag, '__text__': word})
+    call add(a:helptaglist, {'word': helptag, 'menu': menu, 'abbr': helptag, '__text__': helptag})
     if helptag =~# '^''[^'']\+''$'
-      let __text__ = printf('|%s|', matchstr(helptag, '^''\zs[^'']\+\ze''$'))
-      call add(a:helptaglist, {'word': word, 'menu': menu, 'abbr': helptag, '__text__': __text__})
+      let __text__ = printf('%s', matchstr(helptag, '^''\zs[^'']\+\ze''$'))
+      call add(a:helptaglist, {'word': helptag, 'menu': menu, 'abbr': helptag, '__text__': __text__})
     elseif helptag =~# '^<\w\+>$'
-      let __text__ = printf('|%s|', matchstr(helptag, '^<\zs\w\+\ze>$'))
-      call add(a:helptaglist, {'word': word, 'menu': menu, 'abbr': helptag, '__text__': __text__})
+      let __text__ = printf('%s', matchstr(helptag, '^<\zs\w\+\ze>$'))
+      call add(a:helptaglist, {'word': helptag, 'menu': menu, 'abbr': helptag, '__text__': __text__})
     elseif helptag =~# '^\$\a\+$'
-      let __text__ = printf('|%s|', matchstr(helptag, '^\$\zs\a\+$'))
-      call add(a:helptaglist, {'word': word, 'menu': menu, 'abbr': helptag, '__text__': __text__})
+      let __text__ = printf('%s', matchstr(helptag, '^\$\zs\a\+$'))
+      call add(a:helptaglist, {'word': helptag, 'menu': menu, 'abbr': helptag, '__text__': __text__})
     endif
   endfor
   return a:helptaglist

@@ -161,7 +161,7 @@ let s:constants.FEATURECONDITIONLSIT = [
       \   {'cursor_at': '\<has([''"]\zs\w*\%#', 'priority': 384}
       \ ]
 let s:constants.HELPTAGCONDITIONLIST = [
-      \   {'cursor_at': '\m|[^| 	]\+\%#'}
+      \   {'cursor_at': '\m|\zs[^| 	]\+\%#'}
       \ ]
 let s:constants.VARCONDITIONLIST = [
       \   {'cursor_at': '\m\C^\s*call\s\+\zs\%([ablstw]:\|\%([ablstw]:\)\?\<\h\w*\|g:\h[0-9A-Za-z_#]*\)\?\%#', 'priority': 128},
