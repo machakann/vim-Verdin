@@ -31,12 +31,11 @@ function! Verdin#omnifunc(findstart, base) abort "{{{
 endfunction
 "}}}
 function! Verdin#getoption(name) abort "{{{
-  let name = 'Verdin#' . a:name
-  if exists('b:' . name)
-    return b:[name]
+  if exists('b:Verdin_' . a:name)
+    return b:['Verdin_' . a:name]
   endif
-  if exists('g:' . name)
-    return g:[name]
+  if exists('g:Verdin#' . a:name)
+    return g:['Verdin#' . a:name]
   endif
   return s:default[a:name]
 endfunction

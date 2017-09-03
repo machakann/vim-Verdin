@@ -1,5 +1,5 @@
 *Verdin.txt*	Vim script 用オムニ補完関数
-						Last change:02-Sep-2017.
+						Last change:03-Sep-2017.
 
 書いた人   : machakann <https://github.com/machakann>
 ライセンス : NYSL license
@@ -21,6 +21,8 @@ USAGE					*Verdin-usage*
 >
 	let g:Verdin#donotsetomnifunc = 1
 <
+`b:Verdin_donotsetomnifunc` も使用できます。そのバッファでのみ有効であり、
+|g:Verdin#donotsetomnifunc| よりも優先されます。
 
 ------------------------------------------------------------------------------
 
@@ -31,6 +33,9 @@ USAGE					*Verdin-usage*
 >
 	let g:Verdin#fuzzymatch = 1
 <
+`b:Verdin_fuzzymatch` も使用できます。そのバッファでのみ有効であり、
+|g:Verdin#fuzzymatch| よりも優先されます。
+
 ------------------------------------------------------------------------------
 
 このプラグインはまた、自動補完機能も提供します。何か補完の候補がある場合に自動
@@ -45,6 +50,9 @@ USAGE					*Verdin-usage*
 この機能は |'omnifunc'| に依存していないので、必ずしもこれを設定している必要は
 ありません。
 
+`b:Verdin_autocomplete` も使用できます。そのバッファでのみ有効であり、
+|g:Verdin#autocomplete| よりも優先されます。
+
 ------------------------------------------------------------------------------
 
 自動補完は時に画面を頻繁に再描画するので、ちらつきが気になる場合があります。
@@ -58,6 +66,9 @@ USAGE					*Verdin-usage*
 約 100 ミリ秒ほど待って、入力がなければ補完候補を表示するようになります。
 100 ~ 200 ミリ秒ぐらいがちょうどよさそうですが、環境や個人の好みに大きく依存す
 るでしょう。デフォルト値は 100 ミリ秒です。
+
+`b:Verdin_autocompletedelay` も使用できます。そのバッファでのみ有効であり、
+|g:Verdin#autocompletedelay| よりも優先されます。
 
 ------------------------------------------------------------------------------
 
@@ -78,6 +89,9 @@ USAGE					*Verdin-usage*
 >
 	let g:Verdin#loadpath += ['test/.testrc', 'test/*.vim']
 <
+`b:Verdin_loadpath` も使用できます。そのバッファでのみ有効であり、
+|g:Verdin#loadpath| よりも優先されます。
+
 ------------------------------------------------------------------------------
 
 |g:Verdin#autobraketinsert| が 1 か 2 の時、関数名のあとの括弧が自動的に入力さ
@@ -93,6 +107,8 @@ USAGE					*Verdin-usage*
 >
 	let g:Verdin#autobraketinsert = 2
 <
+`b:Verdin_autobraketinsert` も使用できます。そのバッファでのみ有効であり、
+|g:Verdin#autobraketinsert| よりも優先されます。
 
 ==============================================================================
 COMMANDS				*Verdin-commands*

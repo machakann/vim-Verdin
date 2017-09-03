@@ -1,5 +1,5 @@
 *Verdin.txt*	An omni completion function for Vim script.
-						Last change:02-Sep-2017.
+						Last change:03-Sep-2017.
 
 Author  : machakann <https://github.com/machakann>
 License : NYSL license
@@ -20,6 +20,8 @@ option, add the line into your vimrc.
 >
 	let g:Verdin#donotsetomnifunc = 1
 <
+`b:Verdin_donotsetomnifunc` works buffer-locally prior to
+|g:Verdin#donotsetomnifunc|.
 
 ------------------------------------------------------------------------------
 
@@ -30,6 +32,8 @@ also be listed to popup window.
 >
 	let g:Verdin#fuzzymatch = 1
 <
+`b:Verdin_fuzzymatch` works buffer-locally prior to |g:Verdin#fuzzymatch|.
+
 ------------------------------------------------------------------------------
 
 This plugin also provides an additional feature, autocompletion. It
@@ -43,6 +47,8 @@ It may conflict with other autocompletion plugin, thus do not turn on if you
 are using them. The autocompletion feature does not depends on |'omnifunc'|.
 So not necessarily to set it.
 
+`b:Verdin_autocomplete` works buffer-locally prior to |g:Verdin#autocomplete|.
+
 ------------------------------------------------------------------------------
 
 The autocompletion could update your display too frequent, and it may cause
@@ -55,6 +61,9 @@ millisecond.
 This plugin waits a next user input for the period, and if not then update
 the popup window. For me 100 ~ 200 works comfortably, but it would depend on
 environments and, of course, personal preference. The default value is 100.
+
+`b:Verdin_autocompletedelay` works buffer-locally prior to
+|g:Verdin#autocompletedelay|.
 
 ------------------------------------------------------------------------------
 
@@ -74,6 +83,8 @@ location of the files. It is a list of strings. Each string would be passed to
 >
 	let g:Verdin#loadpath += ['test/.testrc', 'test/*.vim']
 <
+`b:Verdin_loadpath` works buffer-locally prior to |g:Verdin#loadpath|.
+
 ------------------------------------------------------------------------------
 
 If |g:Verdin#autobraketinsert| is 1 or 2, braket may be added after a
@@ -89,6 +100,8 @@ completed function name.
 >
 	let g:Verdin#autobraketinsert = 2
 <
+`b:Verdin_autobraketinsert` works buffer-locally prior to
+|g:Verdin#autobraketinsert|.
 
 ==============================================================================
 COMMANDS				*Verdin-commands*
