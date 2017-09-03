@@ -89,6 +89,7 @@ let s:constants.FUNCCONDITIONLIST = [
       \   {'cursor_at': '\m\C^\s*let\s\+[^=]\{-}=\%(.*[^.:]\)\?\zs\<\%([gs]:\)\?\k*\%#', 'not_in_string': 1, 'not_in_comment': 1, 'priority': 128},
       \   {'cursor_at': '\m\C^\s*\%(if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.&]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#', 'not_in_string': 1, 'not_in_comment': 1, 'priority': 128},
       \   {'cursor_at': '\m\C^\s*[A-Z]\w*!\?\s.*[:.&]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#', 'not_in_string': 1, 'not_in_comment': 1, 'priority': 0,},
+      \   {'cursor_at': '\m\C\%(<S\%[ID>]\|<SID>\h\w*\)\%#', 'priority': 0},
       \   {'cursor_at': '\m\C\<\%([gs]:\h\k\{5,}\|\%([gs]:\)\?\h\k\{5,}\)\%#', 'in_string': 1, 'priority': 0},
       \   {'cursor_at': '\m\C\<\%([gs]:\h\k\{5,}\|\%([gs]:\)\?\h\k\{5,}\)\%#', 'in_comment': 1, 'priority': 0},
       \ ]
