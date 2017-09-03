@@ -43,6 +43,7 @@ let s:Observer = {
       \   'bufnr': -1,
       \   'b': {},
       \   'changedtick': -1,
+      \   'globalcheckstarted': 0,
       \   'shelf': {
       \     'buffervar': {},
       \     'bufferfunc': {},
@@ -68,10 +69,11 @@ function! s:Observer.changed() dict abort "{{{
 endfunction
 "}}}
 function! s:checkglobalsvim() dict abort "{{{
-  let files = s:lib.searchvimscripts()
-  if !s:changed(files)
+  let files = filter(s:lib.searchvimscripts(), 'bufnr(v:val) != self.bufnr')
+  if self.globalcheckstarted && !s:changed(files)
     return
   endif
+  let self.globalcheckstarted = 1
 
   let varlist = []
   let funclist = []
@@ -123,10 +125,11 @@ function! s:checkglobalsvim() dict abort "{{{
 endfunction
 "}}}
 function! s:checkglobalshelp() dict abort "{{{
-  let files = s:lib.searchvimhelps()
-  if !s:changed(files)
+  let files = filter(s:lib.searchvimhelps(), 'bufnr(v:val) != self.bufnr')
+  if self.globalcheckstarted && !s:changed(files)
     return
   endif
+  let self.globalcheckstarted = 1
 
   " check help buffer
   let helptaglist = []
@@ -554,7 +557,11 @@ endfunction
 function! s:Observer(target, kind, testmode) abort
   let bufinfo = get(getbufinfo(a:target), 0, {})
   let Observer = deepcopy(s:Observer)
-  let Observer.bufname = fnamemodify(bufname(a:target), ':p')
+  if type(a:target) == v:t_number
+    let Observer.bufname = fnamemodify(bufname(a:target), ':p')
+  else
+    let Observer.bufname = fnamemodify(a:target, ':p')
+  endif
   let Observer.bufnr = bufnr(a:target)
   let Observer.b = get(bufinfo, 'variables', {'changedtick': 0})
   let Observer.testmode = a:testmode
