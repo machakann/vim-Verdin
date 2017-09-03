@@ -6,15 +6,16 @@ let s:cache = {}
 "}}}
 
 
-function! Verdin#Observer#new(target, kind) abort "{{{
-  return s:Observer(a:target, a:kind)
+function! Verdin#Observer#new(target, kind, ...) abort "{{{
+  let testmode = get(a:000, 0, 0)
+  return s:Observer(a:target, a:kind, testmode)
 endfunction
 "}}}
 function! Verdin#Observer#get(...) abort "{{{
-  let target = get(a:000, 0, bufname('%'))
+  let target = get(a:000, 0, '%')
   let bufinfo = get(getbufinfo(target), 0, {})
   if bufinfo == {}
-    echoerr 'Verdin: Invalid bufexpr is given for Verdin#Observer#get()'
+    echoerr printf('Verdin: Invalid target is given for Verdin#Observer#get(): %s', target)
   endif
 
   if !has_key(bufinfo.variables, 'Verdin')
@@ -38,7 +39,8 @@ endfunction
 
 " Observer object {{{
 let s:Observer = {
-      \   'bufexpr': '',
+      \   'bufname': '',
+      \   'bufnr': -1,
       \   'b': {},
       \   'changedtick': -1,
       \   'shelf': {
@@ -59,6 +61,7 @@ let s:Observer = {
       \     'varfragment': {},
       \     'funcfragment': {},
       \   },
+      \   'testmode': 0,
       \ }
 function! s:Observer.changed() dict abort "{{{
   return self.b.changedtick != self.changedtick
@@ -207,15 +210,15 @@ function! s:inspectvim() dict abort "{{{
   let self.changedtick = self.b.changedtick
 
   " NOTE: The second condition is for tests
-  if bufloaded(self.bufexpr) || self.bufexpr is# ''
-    let global = s:get_buffer_string(self.bufexpr)
-    if bufnr(self.bufexpr) == bufnr('%')
+  if bufloaded(self.bufnr) || self.testmode
+    let global = s:get_buffer_string(self.bufnr)
+    if self.bufnr == bufnr('%')
       let cursoridx = line2byte(line('.')) + col('.') - 1
     else
       let cursoridx = -1
     endif
   else
-    let global = s:get_file_string(self.bufexpr)
+    let global = s:get_file_string(self.bufname)
     let cursoridx = -1
   endif
   let local = s:get_local_string(global, cursoridx)
@@ -292,10 +295,10 @@ function! s:inspecthelp() dict abort "{{{
   endif
   let self.changedtick = self.b.changedtick
 
-  if bufloaded(self.bufexpr)
-    let doc = s:get_buffer_string(self.bufexpr)
+  if bufloaded(self.bufnr)
+    let doc = s:get_buffer_string(self.bufnr)
   else
-    let doc = s:get_file_string(self.bufexpr)
+    let doc = s:get_file_string(self.bufname)
   endif
   let clock = Verdin#clock#new()
   call clock.start()
@@ -548,11 +551,13 @@ function! s:decrementpriority(conditionlist) abort "{{{
 endfunction
 "}}}
 
-function! s:Observer(target, kind) abort
+function! s:Observer(target, kind, testmode) abort
   let bufinfo = get(getbufinfo(a:target), 0, {})
   let Observer = deepcopy(s:Observer)
-  let Observer.bufexpr = a:target
+  let Observer.bufname = fnamemodify(bufname(a:target), ':p')
+  let Observer.bufnr = bufnr(a:target)
   let Observer.b = get(bufinfo, 'variables', {'changedtick': 0})
+  let Observer.testmode = a:testmode
   if a:kind ==# 'vim'
     let Observer.inspect = function('s:inspectvim')
     let Observer.checkglobals = function('s:checkglobalsvim')

@@ -158,7 +158,7 @@ function! s:suite.inspect() dict abort "{{{
     call append(0, test.buffer)
     let startline = get(test, 'startline', 1)
     execute printf('normal! %dG', startline)
-    let Observer = Verdin#Observer#new('', 'vim')
+    let Observer = Verdin#Observer#new('', 'vim', 1)
     call Observer.inspect()
     if has_key(expect, 'buffervar')
       let got = Observer.shelf.buffervar.wordlist
