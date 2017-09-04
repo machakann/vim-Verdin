@@ -4,7 +4,7 @@ let s:default = {}
 let s:default.autocomplete = 0
 let s:default.autocompletedelay = 200
 let s:default.donotsetomnifunc = 0
-let s:default.fuzzymatch = 0
+let s:default.fuzzymatch = 1
 let s:default.loadpath = [
       \   '*.vim',
       \   join(['autoload', '*.vim'], s:PATHSEPARATOR),

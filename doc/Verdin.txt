@@ -27,10 +27,11 @@ option, add the line into your vimrc.
 
 This plugin has a simple fuzzy matching engine. If a non-zero value is
 assigned to |g:Verdin#fuzzymatch|, not exactly but similarly matched items may
-also be listed to popup window.
+also be listed to popup window. This option is ON in default, user can disable
+by assigning zero to |g:Verdin#fuzzymatch|.
 					*g:Verdin#fuzzymatch*
 >
-	let g:Verdin#fuzzymatch = 1
+	let g:Verdin#fuzzymatch = 0
 <
 `b:Verdin_fuzzymatch` works buffer-locally prior to |g:Verdin#fuzzymatch|.
 
