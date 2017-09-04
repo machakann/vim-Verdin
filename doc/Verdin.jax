@@ -1,5 +1,5 @@
 *Verdin.txt*	Vim script 用オムニ補完関数
-						Last change:03-Sep-2017.
+						Last change:04-Sep-2017.
 
 書いた人   : machakann <https://github.com/machakann>
 ライセンス : NYSL license
@@ -60,12 +60,12 @@ USAGE					*Verdin-usage*
 す。
 					*g:Verdin#autocompletedelay*
 >
-	let g:Verdin#autocompletedelay = 100
+	let g:Verdin#autocompletedelay = 200
 <
 単位はミリ秒です。上記の例でいえば、ユーザーの最後の入力から次の入力が来ないか
 約 100 ミリ秒ほど待って、入力がなければ補完候補を表示するようになります。
-100 ~ 200 ミリ秒ぐらいがちょうどよさそうですが、環境や個人の好みに大きく依存す
-るでしょう。デフォルト値は 100 ミリ秒です。
+200 ~ 300 ミリ秒ぐらいがちょうどよさそうですが、環境や個人の好みに大きく依存す
+るでしょう。デフォルト値は 200 ミリ秒です。
 
 `b:Verdin_autocompletedelay` も使用できます。そのバッファでのみ有効であり、
 |g:Verdin#autocompletedelay| よりも優先されます。

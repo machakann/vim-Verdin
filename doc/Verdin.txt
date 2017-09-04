@@ -1,5 +1,5 @@
 *Verdin.txt*	An omni completion function for Vim script.
-						Last change:03-Sep-2017.
+						Last change:04-Sep-2017.
 
 Author  : machakann <https://github.com/machakann>
 License : NYSL license
@@ -56,11 +56,11 @@ annoying flickers. In that case, optimize the delay to refresh display in
 millisecond.
 					*g:Verdin#autocompletedelay*
 >
-	let g:Verdin#autocompletedelay = 100
+	let g:Verdin#autocompletedelay = 200
 <
 This plugin waits a next user input for the period, and if not then update
-the popup window. For me 100 ~ 200 works comfortably, but it would depend on
-environments and, of course, personal preference. The default value is 100.
+the popup window. For me 200 ~ 300 works comfortably, but it would depend on
+environments and, of course, personal preference. The default value is 200.
 
 `b:Verdin_autocompletedelay` works buffer-locally prior to
 |g:Verdin#autocompletedelay|.

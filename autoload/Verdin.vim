@@ -2,7 +2,7 @@
 let s:PATHSEPARATOR = has('win32') && !&shellslash ? '\' : '/'
 let s:default = {}
 let s:default.autocomplete = 0
-let s:default.autocompletedelay = 100
+let s:default.autocompletedelay = 200
 let s:default.donotsetomnifunc = 0
 let s:default.fuzzymatch = 0
 let s:default.loadpath = [
