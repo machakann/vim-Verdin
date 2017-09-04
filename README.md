@@ -5,12 +5,11 @@
 
 Open Vim script source code and press `<C-x><C-o>` in insert mode.
 
-## Fuzzy matching
-```vim
-let g:Verdin#fuzzymatch = 1
-```
-
 ## Auto-completion
+
+Do *not* enable this option if you are using another auto-complete plugin.
+
 ```vim
 let g:Verdin#autocomplete = 1
 ```
+
