@@ -137,19 +137,14 @@ function! s:Completer.match(base) dict abort "{{{
   call sort(self.candidatelist, {a, b -> b.priority - a.priority})
   let pattern = '\m^' . s:lib.escape(a:base)
   let candidatelist = []
-  let filterlist = [['v:val.__text__ =~# pattern', 'v:val =~# pattern'],
-                  \ ['v:val.__text__ =~? pattern && v:val.__text__ !~# pattern', 'v:val =~? pattern && v:val !~# pattern']]
-  for [filter, wordfilter] in filterlist
+  let filterlist = ['v:val.__text__ =~# pattern',
+                  \ 'v:val.__text__ =~? pattern && v:val.__text__ !~# pattern']
+  for filter in filterlist
     for candidate in self.candidatelist
       if candidate.itemlist == []
         continue
       endif
-      if type(candidate.itemlist[0]) == v:t_dict
-        let candidatelist += filter(copy(candidate.itemlist), filter)
-      else
-        let words = filter(copy(candidate.itemlist), wordfilter)
-        let candidatelist += s:capitalize(words, a:base)
-      endif
+      let candidatelist += filter(copy(candidate.itemlist), filter)
     endfor
   endfor
   return candidatelist
@@ -333,13 +328,6 @@ function! s:cursor_is_in(condition, cursor_is_in) abort "{{{
     endif
   endif
   return flags == [] || eval(join(flags, '&&')) ? 1 : 0
-endfunction
-"}}}
-function! s:capitalize(words, base) abort "{{{
-  if a:base !~# '^\u'
-    return a:words
-  endif
-  return map(a:words, 'substitute(v:val, ''^\(\l\)\(.*\)'', ''\u\1\2'', "")')
 endfunction
 "}}}
 function! s:addsnippeditems(candidatelist, postcursor, ...) abort "{{{
