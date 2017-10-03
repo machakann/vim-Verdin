@@ -283,6 +283,15 @@ let s:vimvarwordlist = getcompletion('v:', 'var')
 let s:existshelperwordlist = [
     \   '&', '+', '$', '*', ':', '#', '##',
     \ ]
+let s:existshelperwordlist = [
+    \   {'word': '&', 'menu': '[exists] &existing-option', '__text__': '&'},
+    \   {'word': '+', 'menu': '[exists] +available-option', '__text__': '+'},
+    \   {'word': '$', 'menu': '[exists] $ENVNAME', '__text__': '$'},
+    \   {'word': '*', 'menu': '[exists] *funcname', '__text__': '*'},
+    \   {'word': ':', 'menu': '[exists] :cmdname', '__text__': ':'},
+    \   {'word': '#', 'menu': '[exists] #Event/#Group', '__text__': '#'},
+    \   {'word': '##', 'menu': '[exists] ##SupportedEvent', '__text__': '##'},
+    \ ]
 "}}}
 " Feature dictionary{{{
 function! s:featurelist() abort
@@ -352,7 +361,7 @@ function! s:rebuildvimbasedict() abort "{{{
   let basedict.expandable = Verdin#Dictionary#new('expand', s:const.EXPANDABLECONDITIONLIST, s:expandablewordlist, 1, options)
   let basedict.expandablemodifier = Verdin#Dictionary#new('expand', s:const.EXPANDABLEMODIFIERCONDITIONLIST, s:expandablemodifierwordlist, 1, options)
   let basedict.vimvar = Verdin#Dictionary#new('vimvar', s:const.VIMVARCONDITIONLIST, s:vimvarwordlist, 3, options)
-  let basedict.exists = Verdin#Dictionary#new('exists', s:const.EXISTSHELPERCONDITIONLIST, s:existshelperwordlist, 1, options)
+  let basedict.exists = Verdin#Dictionary#new('exists', s:const.EXISTSHELPERCONDITIONLIST, s:existshelperwordlist, 0, options)
   let basedict.feature = Verdin#Dictionary#new('feature', s:const.FEATURECONDITIONLIST, s:featurewordlist, 1)
   return basedict
 endfunction

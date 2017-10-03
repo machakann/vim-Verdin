@@ -2966,42 +2966,42 @@ let s:exists = {
 \       'priority': 384,
 \     },],
 \   'index': {
-\     '#': [{
-\         '__text__': '#',
-\         'menu': '[exists]',
-\         'word': '#',
-\       },{
-\         '__text__': '##',
-\         'menu': '[exists]',
-\         'word': '##',
-\       },],
-\     '$': [{
-\         '__text__': '$',
-\         'menu': '[exists]',
-\         'word': '$',
-\       },],
 \     '&': [{
 \         '__text__': '&',
-\         'menu': '[exists]',
+\         'menu': '[exists] &existing-option',
 \         'word': '&',
-\       },],
-\     '*': [{
-\         '__text__': '*',
-\         'menu': '[exists]',
-\         'word': '*',
 \       },],
 \     '+': [{
 \         '__text__': '+',
-\         'menu': '[exists]',
+\         'menu': '[exists] +available-option',
 \         'word': '+',
+\       },],
+\     '$': [{
+\         '__text__': '$',
+\         'menu': '[exists] $ENVNAME',
+\         'word': '$',
+\       },],
+\     '*': [{
+\         '__text__': '*',
+\         'menu': '[exists] *funcname',
+\         'word': '*',
 \       },],
 \     ':': [{
 \         '__text__': ':',
-\         'menu': '[exists]',
+\         'menu': '[exists] :cmdname',
 \         'word': ':',
 \       },],
+\     '#': [{
+\         '__text__': '#',
+\         'menu': '[exists] #Event/#Group',
+\         'word': '#',
+\       },{
+\         '__text__': '##',
+\         'menu': '[exists] ##SupportedEvent',
+\         'word': '##',
+\       },],
 \   },
-\   'indexlen': 1,
+\   'indexlen': 0,
 \   'name': 'exists',
 \   'wordlist': ['&','+','$','*',':','#','##',],
 \ }
