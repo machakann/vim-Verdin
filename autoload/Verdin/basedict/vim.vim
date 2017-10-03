@@ -162,7 +162,7 @@ let s:command = {
 \       'cursor_at': '\m\C\%(^\s*\|[^|]|\s\+\)au\%[tocmd]\s\+\%(\S\+\s\+\)\{2,3}\%(nested\s\+\)\?:\?\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#',
 \       'priority': 256,
 \     },{
-\       'cursor_at': '\m\C\%(^\s*\|[^|]|\s\+\)com\%[mand!]\s\+\%(\S\+\s\+\)\+:\?\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#',
+\       'cursor_at': '\m\C\%(^\s*\|[^|]|\s\+\)com\%[mand!]\s\+\%(\%(-nargs=[01*?+]\|-complete=\h\w*\%(,\S\+\)\?\|-range\%(=[%[:digit:]]\)\?\|-count=\d\+\|-addr=\h\w*\|-bang\|-bar\|-register\|-buffer\)\s\+\)*[A-Z]\w*\s\+:\?\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#',
 \       'priority': 256,
 \     },{
 \       'cursor_at': '\m\C\<exists([''"]:\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#',
@@ -4142,7 +4142,7 @@ let s:feature = {
 lockvar! s:feature
 let s:commandattrnargs = {
 \   'conditionlist': [{
-\       'cursor_at': '\m\C^\s*command!\?\s\+\%(-\w\+\s\+\)*-nargs\zs\%(=[01*?+]\?\)\?\%#',
+\       'cursor_at': '\m\C^\s*command!\?\s\+\%(\%(-complete=\h\w*\%(,\S\+\)\?\|-range\%(=[%[:digit:]]\)\?\|-count=\d\+\|-addr=\h\w*\|-bang\|-bar\|-register\|-buffer\)\s\+\)*-nargs\zs\%(=[01*?+]\?\)\?\%#',
 \       'priority': 256,
 \     },],
 \   'index': {
@@ -4198,6 +4198,9 @@ let s:function = {
 \       'not_in_comment': 1,
 \       'not_in_string': 1,
 \       'priority': 128,
+\     },{
+\       'cursor_at': '\m\C\%(^\s*\|[^|]|\s\+\)com\%[mand!]\s\+\%(\%(-nargs=[01*?+]\|-range\%(=[%[:digit:]]\)\?\|-count=\d\+\|-addr=\h\w*\|-bang\|-bar\|-register\|-buffer\)\s\+\)*-complete=custom\%(list\)\?,\zs\S*\%#',
+\       'priority': 256
 \     },{
 \       'cursor_at': '\m\C^\s*\%(if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.&]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#',
 \       'not_in_comment': 1,
@@ -8508,7 +8511,7 @@ let s:function = {
 lockvar! s:function
 let s:commandattr = {
 \   'conditionlist': [{
-\       'cursor_at': '\m\C^\s*command!\?\s\+\%(-\w\+\s\+\)*\zs\%(-\w*\)\?\%#',
+\       'cursor_at': '\m\C^\s*command!\?\s\+\%(\%(-nargs=[01*?+]\|-complete=\h\w*\%(,\S\+\)\?\|-range\%(=[%[:digit:]]\)\?\|-count=\d\+\|-addr=\h\w*\|-bang\|-bar\|-register\|-buffer\)\s\+\)*\zs\%(-\w*\)\?\%#',
 \       'priority': 256,
 \     },],
 \   'index': {
@@ -10810,7 +10813,7 @@ let s:keys = {
 lockvar! s:keys
 let s:commandattraddr = {
 \   'conditionlist': [{
-\       'cursor_at': '\m\C^\s*command!\?\s\+\%(-\S\+\s\+\)*-addr\zs\%(=[a-z_]*\)\?\%#',
+\       'cursor_at': '\m\C^\s*command!\?\s\+\%(\%(-nargs=[01*?+]\|-complete=\h\w*\%(,\S\+\)\?\|-range\%(=[%[:digit:]]\)\?\|-count=\d\+\|-bang\|-bar\|-register\|-buffer\)\s\+\)*-addr\zs\%(=[a-z_]*\)\?\%#',
 \       'priority': 256,
 \     },],
 \   'index': {
@@ -10847,7 +10850,7 @@ let s:commandattraddr = {
 lockvar! s:commandattraddr
 let s:commandattrcomplete = {
 \   'conditionlist': [{
-\       'cursor_at': '\m\C^\s*command!\?\s\+\%(-\w\+\s\+\)*-complete\zs\%(=[a-z_]*\)\?\%#',
+\       'cursor_at': '\m\C^\s*command!\?\s\+\%(\%(-nargs=[01*?+]\|-range\%(=[%[:digit:]]\)\?\|-count=\d\+\|-addr=\h\w*\|-bang\|-bar\|-register\|-buffer\)\s\+\)*-complete\zs\%(=[a-z_]*\)\?\%#',
 \       'priority': 256,
 \     },],
 \   'index': {
