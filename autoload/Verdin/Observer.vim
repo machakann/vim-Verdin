@@ -1,5 +1,6 @@
 " script local variables {{{
 let s:SEARCHLINES = 200
+let s:DEFAULT_ORDER = ['var', 'func', 'keymap', 'command', 'higroup']
 let s:const = Verdin#constants#distribute()
 let s:lib = Verdin#lib#distribute()
 let s:cache = {}
@@ -206,7 +207,7 @@ function! s:changed(vimscripts) abort "{{{
   return 0
 endfunction
 "}}}
-function! s:inspectvim() dict abort "{{{
+function! s:inspectvim(...) dict abort "{{{
   if !self.changed()
     return
   endif
@@ -226,23 +227,40 @@ function! s:inspectvim() dict abort "{{{
   endif
   let local = s:get_local_string(global, cursoridx)
 
+  let order = get(a:000, 0, s:DEFAULT_ORDER)
   let clock = Verdin#clock#new()
   call clock.start()
-  let [lvarlist, lmemberlist] = s:splitvarname(s:scan(local, s:const.LOCALVARREGEX, clock))
-  let [gvarlist, gmemberlist] = s:splitvarname(s:scan(global, s:const.GLOBALVARREGEX, clock))
-  let varlist = lvarlist + gvarlist
-  call s:lib.sortbyoccurrence(varlist)
-  let varlist += s:splitargvarname(s:scan(local, s:const.ARGREGEX, clock))
-  let [_, amemberlist] = s:splitvarname(s:scan(local, s:const.ARGNAME, clock))
-  let memberlist = lmemberlist + gmemberlist + amemberlist
-  let memberlist += s:splitmembername(s:scan(global, s:const.KEYREGEX, clock))
 
-  call uniq(sort(memberlist))
-  let memberlist += s:splitmethodname(s:scan(global, s:const.METHODREGEX, clock))
-  let funclist = s:functionitems(s:scan(global, s:const.FUNCDEFINITIONREGEX, clock))
-  let keymaplist = s:scan(global, s:const.KEYMAPREGEX, clock)
-  let commandlist = s:scan(global, s:const.COMMANDREGEX, clock)
-  let higrouplist = s:scan(global, s:const.HIGROUPREGEX, clock)
+  let varlist = []
+  let memberlist = []
+  let funclist = []
+  let keymaplist = []
+  let commandlist = []
+  let higrouplist = []
+  if match(order, '\m\C^var$') >= 0
+    let [lvarlist, lmemberlist] = s:splitvarname(s:scan(local, s:const.LOCALVARREGEX, clock))
+    let [gvarlist, gmemberlist] = s:splitvarname(s:scan(global, s:const.GLOBALVARREGEX, clock))
+    let varlist += lvarlist + gvarlist
+    call s:lib.sortbyoccurrence(varlist)
+    let varlist += s:splitargvarname(s:scan(local, s:const.ARGREGEX, clock))
+    let [_, amemberlist] = s:splitvarname(s:scan(local, s:const.ARGNAME, clock))
+    let memberlist = lmemberlist + gmemberlist + amemberlist
+    let memberlist += s:splitmembername(s:scan(global, s:const.KEYREGEX, clock))
+    call uniq(sort(memberlist))
+    let memberlist += s:splitmethodname(s:scan(global, s:const.METHODREGEX, clock))
+  endif
+  if match(order, '\m\C^func$') >= 0
+    let funclist = s:functionitems(s:scan(global, s:const.FUNCDEFINITIONREGEX, clock))
+  endif
+  if match(order, '\m\C^keymap$') >= 0
+    let keymaplist = s:scan(global, s:const.KEYMAPREGEX, clock)
+  endif
+  if match(order, '\m\C^command$') >= 0
+    let commandlist = s:scan(global, s:const.COMMANDREGEX, clock)
+  endif
+  if match(order, '\m\C^higroup$') >= 0
+    let higrouplist = s:scan(global, s:const.HIGROUPREGEX, clock)
+  endif
 
   if varlist != []
     call s:scopecorrectedvaritems(varlist)
@@ -292,7 +310,7 @@ function! s:inspectvim() dict abort "{{{
   call clock.stop()
 endfunction
 "}}}
-function! s:inspecthelp() dict abort "{{{
+function! s:inspecthelp(...) dict abort "{{{
   if !self.changed()
     return
   endif

@@ -161,19 +161,17 @@ function! s:Completer.fuzzymatch(base, ...) dict abort "{{{
   let s:MEMO_fuzzymatch = {}
   let candidatelist = []
   while self.fuzzycandidatelist != [] && self.clock.elapsed() < timelimit
-    let item = self.fuzzycandidatelist[0]
+    let item = remove(self.fuzzycandidatelist, 0)
     let __text__ = s:lib.__text__(item)
     let difflen = strchars(__text__) - nbase
     let texthead = strcharpart(__text__, 0, nbase)
     if a:base ==? texthead || difflen < -2 || (type(item) == v:t_dict && get(item, '__delimitermatch__', 0))
-      call remove(self.fuzzycandidatelist, 0)
       continue
     endif
     let d = s:strcmp(a:base, texthead)
     if d >= s:const.FUZZYMATCHTHRESHOLD
       call add(candidatelist, s:fuzzyitem(item, a:base, d, difflen))
     endif
-    call remove(self.fuzzycandidatelist, 0)
   endwhile
   return candidatelist
 endfunction
@@ -238,6 +236,14 @@ let s:NOTHING_FOUND = [-1, {}, {}]
 function! s:lookup(Dictionary, precursor, minstartcol, cursor_is_in, giveupifshort, fuzzymatch) abort  "{{{
   if a:Dictionary == {}
     return s:NOTHING_FOUND
+  endif
+
+  " for reactive dictionaries
+  if has_key(a:Dictionary, 'compile')
+    let success = a:Dictionary.compile(a:precursor)
+    if !success
+      return s:NOTHING_FOUND
+    endif
   endif
 
   let candidate = {}

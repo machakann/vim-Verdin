@@ -1,4 +1,5 @@
 scriptencoding utf-8
+let s:lib = Verdin#lib#distribute()
 function! Verdin#basedict#vim#distribute() abort
   let basedict = {}
   let basedict.mapattr = s:mapattr
@@ -20,6 +21,7 @@ function! Verdin#basedict#vim#distribute() abort
   let basedict.keys = s:keys
   let basedict.commandattraddr = s:commandattraddr
   let basedict.commandattrcomplete = s:commandattrcomplete
+  let basedict.autoload = s:autoload
   return basedict
 endfunction
 let s:mapattr = {
@@ -10997,3 +10999,62 @@ let s:commandattrcomplete = {
 \   'wordlist': ['=augroup','=buffer','=behave','=color','=command','=compiler','=cscope','=dir','=environment','=event','=expression','=file','=file_in_path','=filetype','=function','=help','=highlight','=history','=locale','=mapping','=menu','=messages','=option','=packadd','=shellcmd','=sign','=syntax','=syntime','=tag','=tag_listfiles','=user','=var','=custom,','=customlist,',],
 \ }
 lockvar! s:commandattrcomplete
+let s:autoload = {
+\   'conditionlist': [{
+\       'cursor_at': '\m\C\<\h\w*\%(#\h\w*\)*#\%(\h\w*\)\?\%#',
+\       'priority': 384,
+\     },],
+\   'index': {},
+\   'indexlen': 0,
+\   'name': 'autoload',
+\   'wordlist': [],
+\ }
+function! s:autoload.compile(precursor) dict abort
+  let funcname = matchstr(a:precursor, '\<\h\w*\%(#\h\w*\)*#\%(\h\w*\)\?$')
+  if funcname ==# ''
+    return 0
+  endif
+
+  let pathitems = split(funcname, '#', 1)
+  if pathitems == []
+    return 0
+  endif
+
+  let pathitems[-1] .= '*'
+  let path = join([getcwd(), &runtimepath, &packpath], ',')
+  let expr = join(['autoload'] + pathitems[: -2], '/') . '.vim'
+  let filepath = get(globpath(path, expr, 0, 1), 0, '')
+  let expr = join(['autoload'] + pathitems, '/')
+  let pathlist = globpath(path, expr, 0, 1)
+  let basenamelist = map(copy(pathlist), 'fnamemodify(v:val, ":t")')
+  if filepath ==# '' && basenamelist == []
+    return 0
+  endif
+
+  let funclist = []
+  if filepath !=# ''
+    let Observer = Verdin#Observer#new(filepath, 'vim')
+    call Observer.inspect(['func'])
+    let funclist += filter(get(Observer.shelf.bufferfunc, 'wordlist', []), 's:lib.word(v:val) =~# ''\m\C^\h\k*\%(#\h\k*\)\+''')
+    let menu = {'menu': '[autoload]'}
+    call map(funclist, 'extend(v:val, menu, "force")')
+  else
+    let number_of_file = len(filter(copy(basenamelist), 'v:val =~# ''\m\C^\h\w*\.vim$'''))
+    if number_of_file == 1
+      let idx = match(basenamelist, '\m\C^\h\w*\.vim$')
+      let filepath = pathlist[idx]
+      let Observer = Verdin#Observer#new(filepath, 'vim')
+      call Observer.inspect(['func'])
+      let funclist += filter(get(Observer.shelf.bufferfunc, 'wordlist', []), 's:lib.word(v:val) =~# ''\m\C^\h\k*\%(#\h\k*\)\+''')
+      let menu = {'menu': '[autoload]'}
+      call map(funclist, 'extend(v:val, menu, "force")')
+    endif
+  endif
+
+  call uniq(sort(map(basenamelist, 'matchstr(v:val, ''\m\C^\h\w*'')')))
+  let cap = join(pathitems[: -2], '#') . '#'
+  call map(basenamelist, 'cap . v:val')
+  let self.wordlist = basenamelist + funclist
+  let self.index = Verdin#Dictionary#makeindex(self.name, self.wordlist, 1)
+  return 1
+endfunction

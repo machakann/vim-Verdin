@@ -7,6 +7,28 @@ function! Verdin#Dictionary#new(name, conditionlist, wordlist, ...) abort "{{{
   return s:Dictionary(a:name, a:conditionlist, a:wordlist, indexlen, options)
 endfunction
 "}}}
+function! Verdin#Dictionary#makeindex(name, wordlist, indexlen, ...) abort "{{{
+  let options = get(a:000, 0, {})
+  let sortbyoccurrence = get(options, 'sortbyoccurrence', 0)
+  let sortbylength = get(options, 'sortbylength', 0)
+  let menustr = a:name ==# '' ? '' : printf('[%s]', a:name)
+  let initials = uniq(sort(map(copy(a:wordlist), 'strcharpart(s:lib.__text__(v:val), 0, a:indexlen)')))
+  let wordlist = copy(a:wordlist)
+  let index = {}
+  for c in sort(initials, {a, b -> strchars(b) - strchars(a)})
+    let pattern = '^' . s:lib.escape(c)
+    let matched = s:extract(wordlist, pattern)
+    if sortbyoccurrence
+      call s:lib.sortbyoccurrence(matched)
+    endif
+    if sortbylength
+      call s:lib.sortbylength(matched)
+    endif
+    let index[c] = map(copy(matched), 's:completeitem(v:val, menustr)')
+  endfor
+  return index
+endfunction
+"}}}
 
 " Dictionary object {{{
 let s:Dictionary = {
@@ -26,7 +48,8 @@ function! s:Dictionary(name, conditionlist, wordlist, indexlen, options) abort
     let Dictionary.wordlist += s:delimitermatcheditemlist(a:name, a:wordlist)
   endif
   let Dictionary.indexlen = a:indexlen
-  let Dictionary.index = s:makeindex(Dictionary, a:options)
+  let Dictionary.index = Verdin#Dictionary#makeindex(
+        \ Dictionary.name, Dictionary.wordlist, Dictionary.indexlen, a:options)
   return Dictionary
 endfunction
 function! s:delimitermatcheditemlist(name, itemlist) abort "{{{
@@ -62,28 +85,6 @@ function! s:delimitermatcheditem(original, match, menustr) abort "{{{
     let new = {'word': a:original, 'menu': a:menustr . tolower(join(a:match[1:], '')), 'dup': 1, '__text__': join(a:match[1:], ''), '__delimitermatch__': 1}
   endif
   return new
-endfunction
-"}}}
-function! s:makeindex(Dictionary, options) abort "{{{
-  let sortbyoccurrence = get(a:options, 'sortbyoccurrence', 0)
-  let sortbylength = get(a:options, 'sortbylength', 0)
-  let menustr = a:Dictionary.name ==# '' ? '' : printf('[%s]', a:Dictionary.name)
-  let indexlen = a:Dictionary.indexlen
-  let initials = uniq(sort(map(copy(a:Dictionary.wordlist), 'strcharpart(s:lib.__text__(v:val), 0, indexlen)')))
-  let wordlist = copy(a:Dictionary.wordlist)
-  let index = {}
-  for c in sort(initials, {a, b -> strchars(b) - strchars(a)})
-    let pattern = '^' . s:lib.escape(c)
-    let matched = s:extract(wordlist, pattern)
-    if sortbyoccurrence
-      call s:lib.sortbyoccurrence(matched)
-    endif
-    if sortbylength
-      call s:lib.sortbylength(matched)
-    endif
-    let index[c] = map(copy(matched), 's:completeitem(v:val, menustr)')
-  endfor
-  return index
 endfunction
 "}}}
 function! s:extract(list, pattern) abort "{{{
