@@ -90,6 +90,10 @@ function! s:Event.startautocomplete() abort "{{{
 endfunction
 "}}}
 function! s:Event.stopautocomplete() abort "{{{
+  if self.CompleteDone is s:ON
+    call s:aftercomplete('', 1)
+  endif
+
   let self.autocomplete = s:OFF
   augroup Verdin-autocomplete
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
@@ -106,7 +110,12 @@ endfunction
 "}}}
 function! s:aftercomplete(event, autocomplete) abort "{{{
   let Completer = Verdin#Completer#get()
-  call Completer.aftercomplete(a:event, a:autocomplete)
+  let success = Completer.aftercomplete(a:event, a:autocomplete)
+  if success
+    let Event = Verdin#Event#get()
+    call Event.startautocomplete()
+    call Event.unsetCompleteDone()
+  endif
 endfunction
 "}}}
 

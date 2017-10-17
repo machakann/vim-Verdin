@@ -202,23 +202,24 @@ function! s:Completer.complete(startcol, itemlist) dict abort "{{{
 endfunction
 "}}}
 function! s:Completer.aftercomplete(event, autocomplete) dict abort "{{{
+  if self.is.in_completion
+    return 0
+  endif
   if a:event ==# 'CompleteDone' && get(v:completed_item, 'abbr', '') =~# s:FUNCABBR
     call s:autoketinsert(v:completed_item)
   endif
   if !a:autocomplete
-    return
+    return 1
   endif
   if a:event ==# 'InsertCharPre' && pumvisible()
     " refresh popup always
     call feedkeys("\<C-e>", 'in')
   endif
-  if self.savedoptions != {} && !self.is.in_completion
+  if self.savedoptions != {}
     let &completeopt = self.savedoptions.completeopt
     let self.savedoptions = {}
-    let Event = Verdin#Event#get()
-    call Event.startautocomplete()
-    call Event.unsetCompleteDone()
   endif
+  return 1
 endfunction
 "}}}
 function! s:Completer.addDictionary(name, new) dict abort "{{{
