@@ -3,6 +3,8 @@
 " script local variables {{{
 let s:const = Verdin#constants#distribute()
 let s:lib = Verdin#lib#distribute()
+let s:TRUE = 1
+let s:FALSE = 0
 let s:FUNCABBR = printf('^%s([^)]*)$', s:const.FUNCNAME)
 let s:FUNCARG = printf('^%s(\zs[^)]*\ze)$', s:const.FUNCNAME)
 function! s:SID() abort
@@ -67,8 +69,8 @@ let s:Completer = {
       \   'clock': Verdin#clock#new(),
       \   'savedoptions': {},
       \   'is': {
-      \     'in_completion': v:false,
-      \     'lazyredraw_changed': v:false,
+      \     'in_completion': s:FALSE,
+      \     'lazyredraw_changed': s:FALSE,
       \   },
       \   'last': {
       \     'lnum': 0,
@@ -84,7 +86,7 @@ let s:CURRENTLNUM = 0
 let s:CURRENTCOL = 0
 let s:CURRENTLINE = ''
 function! s:Completer.startcol(...) dict abort "{{{
-  let giveupifshort = get(a:000, 0, v:false)
+  let giveupifshort = get(a:000, 0, s:FALSE)
   let fuzzymatch = Verdin#getoption('fuzzymatch')
   let s:CURRENTLNUM = line('.')
   let s:CURRENTCOL = col('.')
@@ -196,9 +198,9 @@ function! s:Completer.complete(startcol, itemlist) dict abort "{{{
   call Event.pauseautocomplete()
 
   " NOTE: It seems 'CompleteDone' event is triggered even inside complete() function.
-  let self.is.in_completion = v:true
+  let self.is.in_completion = s:TRUE
   call complete(a:startcol+1, a:itemlist)
-  let self.is.in_completion = v:false
+  let self.is.in_completion = s:FALSE
 endfunction
 "}}}
 function! s:Completer.aftercomplete(event, autocomplete) dict abort "{{{
@@ -251,7 +253,7 @@ function! s:lookup(Dictionary, precursor, minstartcol, cursor_is_in, giveupifsho
   let candidate.name = a:Dictionary.name
   let candidate.itemlist = []
   let fuzzycandidate = {}
-  let notyetmatched = v:true
+  let notyetmatched = s:TRUE
   let savedstartcol = -1
   for condition in a:Dictionary.conditionlist
     let [matched, str] = s:matchstr(a:precursor, condition.cursor_at)
@@ -266,7 +268,7 @@ function! s:lookup(Dictionary, precursor, minstartcol, cursor_is_in, giveupifsho
     if a:fuzzymatch && notyetmatched
       let fuzzycandidate = a:Dictionary.index
       let savedstartcol = startcol
-      let notyetmatched = v:false
+      let notyetmatched = s:FALSE
     endif
 
     let c = strcharpart(str, 0, a:Dictionary.indexlen)
@@ -294,9 +296,9 @@ endfunction
 function! s:matchstr(precursor, pat) abort "{{{
   let [lnum, col] = searchpos(a:pat, 'bcnW', s:CURRENTLNUM)
   if lnum != 0
-    return [v:true, a:precursor[col-1 :]]
+    return [s:TRUE, a:precursor[col-1 :]]
   endif
-  return  [v:false, '']
+  return  [s:FALSE, '']
 endfunction
 "}}}
 function! s:cursor_not_at(condition) abort "{{{
@@ -358,7 +360,7 @@ function! s:addsnippeditems(candidatelist, postcursor, ...) abort "{{{
         if !has_key(snipped, 'abbr')
           let snipped.abbr = candidate.word
         endif
-        let snipped.__func__ = v:false
+        let snipped.__func__ = s:FALSE
         let entire = deepcopy(candidate)
         let entire.menu .= ' entire'
         let entire.dup = 1
@@ -456,7 +458,7 @@ function! s:autobrainsert(candidatelist, postcursor) abort "{{{
   if autobraketinsert
     for i in range(len(a:candidatelist))
       let candidate = a:candidatelist[i]
-      if type(candidate) == v:t_dict && get(candidate, '__func__', v:false)
+      if type(candidate) == v:t_dict && get(candidate, '__func__', s:FALSE)
         let new = copy(candidate)
         if matchstr(candidate.abbr, s:FUNCARG) ==# ''
           let new.word = candidate.word . '()'

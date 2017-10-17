@@ -1,5 +1,7 @@
 " script local variables {{{
 let s:const = Verdin#constants#distribute()
+let s:TRUE = 1
+let s:FALSE = 0
 let s:ON  = 1
 let s:OFF = 0
 function! s:SID() abort
@@ -171,7 +173,7 @@ function! Verdin#Verdin#triggercomplete() abort "{{{
   " to update cursor
   if &lazyredraw
     set nolazyredraw
-    let Completer.is.lazyredraw_changed = v:true
+    let Completer.is.lazyredraw_changed = s:TRUE
   endif
   call feedkeys(s:VerdinCompletionTrigger, 'im')
   return ''
@@ -205,10 +207,11 @@ function! s:complete() abort "{{{
   " restore the 'lazyredraw' option changed in Verdin#Verdin#triggercomplete()
   if Completer.is.lazyredraw_changed
     set lazyredraw
-    let Completer.is.lazyredraw_changed = v:false
+    let Completer.is.lazyredraw_changed = s:FALSE
   endif
 
-  let startcol = Completer.startcol(v:true)
+  let giveupifshort = s:TRUE
+  let startcol = Completer.startcol(giveupifshort)
   if startcol < 0
     return ''
   endif
