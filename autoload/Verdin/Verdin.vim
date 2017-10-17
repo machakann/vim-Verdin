@@ -1,5 +1,7 @@
 " script local variables {{{
 let s:const = Verdin#constants#distribute()
+let s:ON  = 1
+let s:OFF = 0
 function! s:SID() abort
   return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$')
 endfunction
@@ -12,6 +14,7 @@ inoremap <silent> <SID>(VerdinCompletionTrigger) <C-r>=<SID>complete()<CR>
 function! Verdin#Verdin#startbufferinspection(bang) abort "{{{
   call s:checkfiletype()
   if a:bang ==# '!'
+    let g:Verdin#autocomplete = s:ON
     for bufinfo in s:getbufinfo()
       let Event = Verdin#Event#get(bufinfo.bufnr)
       call Event.startbufferinspection()
@@ -24,6 +27,7 @@ endfunction
 "}}}
 function! Verdin#Verdin#stopbufferinspection(bang) abort "{{{
   if a:bang ==# '!'
+    let g:Verdin#autocomplete = s:OFF
     for bufinfo in s:getbufinfo()
       if has_key(bufinfo.variables, 'Verdin')
         let Event = Verdin#Event#get(bufinfo.bufnr)
