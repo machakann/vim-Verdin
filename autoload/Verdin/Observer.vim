@@ -1,6 +1,5 @@
 " script local variables {{{
 let s:SEARCHLINES = 200
-let s:DEFAULT_ORDER = ['var', 'func', 'keymap', 'command', 'higroup']
 let s:const = Verdin#constants#distribute()
 let s:lib = Verdin#lib#distribute()
 let s:cache = {}
@@ -37,6 +36,61 @@ function! Verdin#Observer#get(...) abort "{{{
   return bufinfo.variables.Verdin.Observer
 endfunction
 "}}}
+function! Verdin#Observer#inspect(...) abort "{{{
+  let timeout = get(a:000, 0, s:const.SEARCHTIMEOUT)
+  let order = get(a:000, 1, s:const.DEFAULTORDER)
+  let forcescan = get(a:000, 2, 0)
+  let Observer = Verdin#Observer#get()
+  if Observer.changedtick == -1
+    call Verdin#Observer#checkglobals(timeout, order, forcescan)
+  endif
+
+  call Observer.inspect(timeout, order, forcescan)
+  let Completer = Verdin#Completer#get()
+  if &filetype ==# 'vim'
+    if !has_key(Completer.shelf, 'buffervar')
+      call Completer.addDictionary('buffervar', Observer.shelf.buffervar)
+      call Completer.addDictionary('bufferfunc', Observer.shelf.bufferfunc)
+      call Completer.addDictionary('buffermember', Observer.shelf.buffermember)
+      call Completer.addDictionary('bufferkeymap', Observer.shelf.bufferkeymap)
+      call Completer.addDictionary('buffercommand', Observer.shelf.buffercommand)
+      call Completer.addDictionary('funcfragment', Observer.shelf.funcfragment)
+      call Completer.addDictionary('varfragment', Observer.shelf.varfragment)
+    endif
+  elseif &filetype ==# 'help'
+    if !has_key(Completer.shelf, 'buffertag')
+      call Completer.addDictionary('buffertag', Observer.shelf.buffertag)
+    endif
+  endif
+endfunction
+"}}}
+function! Verdin#Observer#checkglobals(...) abort "{{{
+  let timeout = get(a:000, 0, s:const.SEARCHTIMEOUT)
+  let order = get(a:000, 1, s:const.DEFAULTORDER)
+  let forcescan = get(a:000, 2, 0)
+  let Observer = Verdin#Observer#get()
+  call Observer.checkglobals(timeout, order, forcescan)
+  let Completer = Verdin#Completer#get()
+
+  if &filetype ==# 'vim'
+    if !has_key(Completer.shelf, 'globalvar')
+      call Completer.addDictionary('globalvar', Observer.shelf.globalvar)
+      call Completer.addDictionary('globalfunc', Observer.shelf.globalfunc)
+      call Completer.addDictionary('globalmember', Observer.shelf.globalmember)
+      call Completer.addDictionary('globalkeymap', Observer.shelf.globalkeymap)
+      call Completer.addDictionary('globalcommand', Observer.shelf.globalcommand)
+    endif
+  elseif &filetype ==# 'help'
+    if !has_key(Completer.shelf, 'globaltag')
+      call Completer.addDictionary('globalvar', Observer.shelf.globalvar)
+      call Completer.addDictionary('globalfunc', Observer.shelf.globalfunc)
+      call Completer.addDictionary('globalkeymap', Observer.shelf.globalkeymap)
+      call Completer.addDictionary('globalcommand', Observer.shelf.globalcommand)
+      call Completer.addDictionary('globaltag', Observer.shelf.globaltag)
+    endif
+  endif
+endfunction
+"}}}
 
 " Observer object {{{
 let s:Observer = {
@@ -69,12 +123,14 @@ function! s:Observer.changed() dict abort "{{{
   return self.b.changedtick != self.changedtick
 endfunction
 "}}}
-function! s:checkglobalsvim() dict abort "{{{
+function! s:checkglobalsvim(...) dict abort "{{{
   let files = filter(s:lib.searchvimscripts(), 'bufnr(v:val) != self.bufnr')
   if self.globalcheckstarted && !s:changed(files)
     return
   endif
   let self.globalcheckstarted = 1
+  let timeout = get(a:000, 0, s:const.SEARCHTIMEOUT)
+  let order = get(a:000, 1, s:const.DEFAULTORDER)
 
   let varlist = []
   let funclist = []
@@ -83,7 +139,7 @@ function! s:checkglobalsvim() dict abort "{{{
   let commandlist = []
   let higrouplist = []
   for filepath in files
-    let Observer = s:check(filepath, 'vim')
+    let Observer = s:check(filepath, 'vim', timeout, order)
     let varlist += filter(copy(get(Observer.shelf.buffervar, 'wordlist', [])), 's:lib.word(v:val) =~# ''\m\C^[bgtw]:\h\k*''')
     let funclist += filter(copy(get(Observer.shelf.bufferfunc, 'wordlist', [])), 's:lib.word(v:val) =~# ''\m\C^\%([A-Z]\k*\|\h\k*\%(#\h\k*\)\+\)''')
     let memberlist += copy(get(Observer.shelf.buffermember, 'wordlist', []))
@@ -125,17 +181,19 @@ function! s:checkglobalsvim() dict abort "{{{
   endif
 endfunction
 "}}}
-function! s:checkglobalshelp() dict abort "{{{
+function! s:checkglobalshelp(...) dict abort "{{{
   let files = filter(s:lib.searchvimhelps(), 'bufnr(v:val) != self.bufnr')
   if self.globalcheckstarted && !s:changed(files)
     return
   endif
   let self.globalcheckstarted = 1
+  let timeout = get(a:000, 0, s:const.SEARCHTIMEOUT)
+  let order = []  " dummy
 
   " check help buffer
   let helptaglist = []
   for filepath in files
-    let Observer = s:check(filepath, 'help')
+    let Observer = s:check(filepath, 'help', timeout, order)
     let helptaglist += get(Observer.shelf.buffertag, 'wordlist', [])
   endfor
   if helptaglist != []
@@ -150,7 +208,7 @@ function! s:checkglobalshelp() dict abort "{{{
   let keymapwordlist = []
   let commandlist = []
   for filepath in s:lib.searchvimscripts()
-    let Observer = s:check(filepath, 'vim')
+    let Observer = s:check(filepath, 'vim', timeout, order)
     let varlist += filter(copy(get(Observer.shelf.buffervar, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^[bgtw]:\h[A-Za-z0-9_#]*''')
     let funclist += filter(copy(get(Observer.shelf.bufferfunc, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^\%([A-Z]\w*\|\h\w\%(#\h\w*\)\+\)''')
     let keymapwordlist += filter(copy(get(Observer.shelf.bufferkeymap, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^<Plug>''')
@@ -178,16 +236,16 @@ function! s:checkglobalshelp() dict abort "{{{
   endif
 endfunction
 "}}}
-function! s:check(filepath, kind) abort "{{{
+function! s:check(filepath, kind, timeout, order) abort "{{{
   if bufloaded(a:filepath)
     let Observer = Verdin#Observer#get(a:filepath)
-    call Observer.inspect()
+    call Observer.inspect(a:timeout, a:order)
     if has_key(s:cache, a:filepath)
       unlet s:cache[a:filepath]
     endif
   elseif !has_key(s:cache, a:filepath)
     let Observer = Verdin#Observer#new(a:filepath, a:kind)
-    call Observer.inspect()
+    call Observer.inspect(a:timeout, a:order)
     let s:cache[a:filepath] = Observer
   else
     let Observer = s:cache[a:filepath]
@@ -208,10 +266,13 @@ function! s:changed(vimscripts) abort "{{{
 endfunction
 "}}}
 function! s:inspectvim(...) dict abort "{{{
-  if !self.changed()
+  let forcescan = get(a:000, 2, 0)
+  if !forcescan && !self.changed()
     return
   endif
   let self.changedtick = self.b.changedtick
+  let timeout = get(a:000, 0, s:const.SEARCHTIMEOUT)
+  let order = get(a:000, 1, s:const.DEFAULTORDER)
 
   " NOTE: The second condition is for tests
   if bufloaded(self.bufnr) || self.testmode
@@ -227,7 +288,6 @@ function! s:inspectvim(...) dict abort "{{{
   endif
   let local = s:get_local_string(global, cursoridx)
 
-  let order = get(a:000, 0, s:DEFAULT_ORDER)
   let clock = Verdin#clock#new()
   call clock.start()
 
@@ -238,28 +298,28 @@ function! s:inspectvim(...) dict abort "{{{
   let commandlist = []
   let higrouplist = []
   if match(order, '\m\C^var$') >= 0
-    let [lvarlist, lmemberlist] = s:splitvarname(s:scan(local, s:const.LOCALVARREGEX, clock))
-    let [gvarlist, gmemberlist] = s:splitvarname(s:scan(global, s:const.GLOBALVARREGEX, clock))
+    let [lvarlist, lmemberlist] = s:splitvarname(s:scan(local, s:const.LOCALVARREGEX, clock, timeout))
+    let [gvarlist, gmemberlist] = s:splitvarname(s:scan(global, s:const.GLOBALVARREGEX, clock, timeout))
     let varlist += lvarlist + gvarlist
     call s:lib.sortbyoccurrence(varlist)
-    let varlist += s:splitargvarname(s:scan(local, s:const.ARGREGEX, clock))
-    let [_, amemberlist] = s:splitvarname(s:scan(local, s:const.ARGNAME, clock))
+    let varlist += s:splitargvarname(s:scan(local, s:const.ARGREGEX, clock, timeout))
+    let [_, amemberlist] = s:splitvarname(s:scan(local, s:const.ARGNAME, clock, timeout))
     let memberlist = lmemberlist + gmemberlist + amemberlist
-    let memberlist += s:splitmembername(s:scan(global, s:const.KEYREGEX, clock))
+    let memberlist += s:splitmembername(s:scan(global, s:const.KEYREGEX, clock, timeout))
     call uniq(sort(memberlist))
-    let memberlist += s:splitmethodname(s:scan(global, s:const.METHODREGEX, clock))
+    let memberlist += s:splitmethodname(s:scan(global, s:const.METHODREGEX, clock, timeout))
   endif
   if match(order, '\m\C^func$') >= 0
-    let funclist = s:functionitems(s:scan(global, s:const.FUNCDEFINITIONREGEX, clock))
+    let funclist = s:functionitems(s:scan(global, s:const.FUNCDEFINITIONREGEX, clock, timeout))
   endif
   if match(order, '\m\C^keymap$') >= 0
-    let keymaplist = s:scan(global, s:const.KEYMAPREGEX, clock)
+    let keymaplist = s:scan(global, s:const.KEYMAPREGEX, clock, timeout)
   endif
   if match(order, '\m\C^command$') >= 0
-    let commandlist = s:scan(global, s:const.COMMANDREGEX, clock)
+    let commandlist = s:scan(global, s:const.COMMANDREGEX, clock, timeout)
   endif
   if match(order, '\m\C^higroup$') >= 0
-    let higrouplist = s:scan(global, s:const.HIGROUPREGEX, clock)
+    let higrouplist = s:scan(global, s:const.HIGROUPREGEX, clock, timeout)
   endif
 
   if varlist != []
@@ -311,10 +371,13 @@ function! s:inspectvim(...) dict abort "{{{
 endfunction
 "}}}
 function! s:inspecthelp(...) dict abort "{{{
-  if !self.changed()
+  let forcescan = get(a:000, 2, 0)
+  if !forcescan && !self.changed()
     return
   endif
   let self.changedtick = self.b.changedtick
+  let timeout = get(a:000, 0, s:const.SEARCHTIMEOUT)
+  let order = get(a:000, 1, ['tag'])
 
   if bufloaded(self.bufnr)
     let doc = s:get_buffer_string(self.bufnr)
@@ -323,7 +386,11 @@ function! s:inspecthelp(...) dict abort "{{{
   endif
   let clock = Verdin#clock#new()
   call clock.start()
-  let helptaglist = s:helptagitems(s:scan(doc, s:const.HELPTAGREGEX, clock))
+
+  let helptaglist = []
+  if match(order, '\m\C^tag$') >= 0
+    let helptaglist += s:helptagitems(s:scan(doc, s:const.HELPTAGREGEX, clock, timeout))
+  endif
 
   if helptaglist != []
     let helptag = Verdin#Dictionary#new('tag', s:const.HELPTAGCONDITIONLIST, helptaglist, 2)
@@ -393,7 +460,7 @@ function! s:is_dict_function(local) abort "{{{
   return match(a:local, '\m\C^\s*fu\%[nction]!\?\s\+\%([gs]:\)\?\h\k*\%(\.\%(\h\k*\)\|([^)]*)\%(\s*\%(range\|abort\|closure\)\)*\s*dict\)') >= 0
 endfunction
 "}}}
-function! s:scan(text, pat, clock) abort "{{{
+function! s:scan(text, pat, clock, timeout) abort "{{{
   if a:text.str ==# ''
     return []
   endif
@@ -403,7 +470,7 @@ function! s:scan(text, pat, clock) abort "{{{
   let counts = range(s:const.SEARCHINTERVAL)
   let wordlist = []
   while alive
-    if a:clock.elapsed() >= s:const.SEARCHTIMEOUT
+    if a:clock.elapsed() >= a:timeout
       break
     endif
 

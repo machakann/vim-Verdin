@@ -5,7 +5,7 @@ let s:ON = 1
 let s:OFF = 0
 "}}}
 
-function! Verdin#Event#get(...) abort
+function! Verdin#Event#get(...) abort "{{{
   let bufnr = get(a:000, 0, bufnr('%'))
   let bufinfo = get(getbufinfo(bufnr), 0, {})
   if bufinfo == {}
@@ -20,6 +20,7 @@ function! Verdin#Event#get(...) abort
   endif
   return bufinfo.variables.Verdin.Event
 endfunction
+"}}}
 
 let s:Event = {
       \   'bufnr': 0,
@@ -35,11 +36,11 @@ function! s:Event.startbufferinspection() abort "{{{
   let self.bufferinspection = s:ON
   call Verdin#Completer#get(self.bufnr)
   call Verdin#Observer#get(self.bufnr)
-  call s:inspect()
+  call Verdin#Observer#inspect()
   augroup Verdin-bufferinspection
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
-    execute printf('autocmd InsertEnter <buffer=%d> call s:inspect()', self.bufnr)
-    execute printf('autocmd BufEnter    <buffer=%d> call s:checkglobals()', self.bufnr)
+    execute printf('autocmd InsertEnter <buffer=%d> call Verdin#Observer#inspect()', self.bufnr)
+    execute printf('autocmd BufEnter    <buffer=%d> call Verdin#Observer#checkglobals()', self.bufnr)
   augroup END
 endfunction
 "}}}
@@ -101,55 +102,6 @@ function! s:Event.pauseautocomplete() abort "{{{
   endif
   call self.stopautocomplete()
   call self.setCompleteDone(1)
-endfunction
-"}}}
-function! s:inspect() abort "{{{
-  let Observer = Verdin#Observer#get()
-  if Observer.changedtick == -1
-    call s:checkglobals()
-  endif
-
-  call Observer.inspect()
-  let Completer = Verdin#Completer#get()
-  if &filetype ==# 'vim'
-    if !has_key(Completer.shelf, 'buffervar')
-      call Completer.addDictionary('buffervar', Observer.shelf.buffervar)
-      call Completer.addDictionary('bufferfunc', Observer.shelf.bufferfunc)
-      call Completer.addDictionary('buffermember', Observer.shelf.buffermember)
-      call Completer.addDictionary('bufferkeymap', Observer.shelf.bufferkeymap)
-      call Completer.addDictionary('buffercommand', Observer.shelf.buffercommand)
-      call Completer.addDictionary('funcfragment', Observer.shelf.funcfragment)
-      call Completer.addDictionary('varfragment', Observer.shelf.varfragment)
-    endif
-  elseif &filetype ==# 'help'
-    if !has_key(Completer.shelf, 'buffertag')
-      call Completer.addDictionary('buffertag', Observer.shelf.buffertag)
-    endif
-  endif
-endfunction
-"}}}
-function! s:checkglobals() abort "{{{
-  let Observer = Verdin#Observer#get()
-  call Observer.checkglobals()
-  let Completer = Verdin#Completer#get()
-
-  if &filetype ==# 'vim'
-    if !has_key(Completer.shelf, 'globalvar')
-      call Completer.addDictionary('globalvar', Observer.shelf.globalvar)
-      call Completer.addDictionary('globalfunc', Observer.shelf.globalfunc)
-      call Completer.addDictionary('globalmember', Observer.shelf.globalmember)
-      call Completer.addDictionary('globalkeymap', Observer.shelf.globalkeymap)
-      call Completer.addDictionary('globalcommand', Observer.shelf.globalcommand)
-    endif
-  elseif &filetype ==# 'help'
-    if !has_key(Completer.shelf, 'globaltag')
-      call Completer.addDictionary('globalvar', Observer.shelf.globalvar)
-      call Completer.addDictionary('globalfunc', Observer.shelf.globalfunc)
-      call Completer.addDictionary('globalkeymap', Observer.shelf.globalkeymap)
-      call Completer.addDictionary('globalcommand', Observer.shelf.globalcommand)
-      call Completer.addDictionary('globaltag', Observer.shelf.globaltag)
-    endif
-  endif
 endfunction
 "}}}
 function! s:aftercomplete(event, autocomplete) abort "{{{

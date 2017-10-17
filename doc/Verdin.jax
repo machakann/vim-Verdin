@@ -1,5 +1,5 @@
 *Verdin.txt*	Vim script 用オムニ補完関数
-						Last change:04-Sep-2017.
+						Last change:17-Oct-2017.
 
 書いた人   : machakann <https://github.com/machakann>
 ライセンス : NYSL license
@@ -121,6 +121,26 @@ COMMANDS				*Verdin-commands*
 :VerdinStopAutocompletion[!]		*:VerdinStopAutocompletion*
 	現在のバッファで自動補完を停止します。 ! をつけた場合はリストされたす
 	べての Vim script バッファで自動補完を停止します。
+
+:VerdinScanBuffer [target]		*:VerdinScanBuffer*
+	実行するとバッファ全体をスキャンし、識別子を収集します。通常、スキャン
+	は自動的に行われているので、基本的には手動で実行する必要はありません。
+	ただし、大きなファイルを編集している場合などに自動スキャンはタイムアウ
+	トする場合があります。このような場合に補完ポップアップウィンドウに表示
+	されない候補に気が付けば、このコマンドを試してみてください。
+
+	[target] はスキャンで探す対象です。以下の要素を空白区切りで与えてくだ
+	さい。
+		var    : 変数名とメンバ
+		func   : 関数名
+		keymap : キーマッピング
+		command: Ex コマンド名
+		higroup: ハイライトグループ名
+>
+	" 変数名と関数名のみ収集する
+	:VerdinScanBuffer var func
+<
+	[target] が省略された場合、上記のすべての対象を検索します。
 
 ==============================================================================
 FUNCTIONS				*Verdin-functions*

@@ -49,6 +49,7 @@ let s:constants.ITEMLISTTHRESHOLD = 20
 let s:constants.FUZZYMATCHINTERVAL = 5.0
 let s:constants.FUZZYMATCHTHRESHOLD = 0.88
 let s:constants.DOCPATHSMAX = 20
+let s:constants.DEFAULTORDER = ['var', 'func', 'keymap', 'command', 'higroup']
 " regular expressions
 let s:constants.VARNAME = '\m\C' . s:VARNAME
 let s:constants.VARREGEX = s:VARREGEX

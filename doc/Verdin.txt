@@ -1,5 +1,5 @@
 *Verdin.txt*	An omni completion function for Vim script.
-						Last change:04-Sep-2017.
+						Last change:17-Oct-2017.
 
 Author  : machakann <https://github.com/machakann>
 License : NYSL license
@@ -108,12 +108,32 @@ completed function name.
 COMMANDS				*Verdin-commands*
 
 :VerdinStartAutocompletion[!]		*:VerdinStartAutocompletion*
-	The command starts auto-completion in the current buffer. If ! is
+	This command starts auto-completion in the current buffer. If ! is
 	specified, it launchs auto-completion all over the listed buffers.
 
 :VerdinStopAutocompletion[!]		*:VerdinStopAutocompletion*
-	The command stops auto-completion in the current buffer. If ! is
+	This command stops auto-completion in the current buffer. If ! is
 	specified, it stops auto-completion all over the listed buffers.
+
+:VerdinScanBuffer [target]		*:VerdinScanBuffer*
+	This command enables to scan the entire buffer manually. Usually, it
+	doesn't required to do manually since the buffer scan is running
+	automatically. However, the automatic scan may be timed out when
+	editing a huge file; use this command if you find missing items in
+	complete pop-up window from buffers.
+
+	The [target] is space-separated target items. The available targets
+	are listed below.
+		var    : variable names and members
+		func   : function names
+		keymap : keymaps
+		command: Ex command names
+		higroup: hilight group names
+>
+	" update the cache of variables and functions
+	:VerdinScanBuffer var func
+<
+	If [target] is omitted, this command scans all the available targets.
 
 ==============================================================================
 FUNCTIONS				*Verdin-functions*
