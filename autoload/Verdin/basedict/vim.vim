@@ -11035,7 +11035,7 @@ function! s:autoload.compile(precursor) dict abort
   let funclist = []
   if filepath !=# ''
     let Observer = Verdin#Observer#new(filepath, 'vim')
-    call Observer.inspect(s:const.SEARCHTIMEOUT, ['func'])
+    call Observer.inspect(s:const.SCANTIMEOUT, ['func'])
     let funclist += filter(get(Observer.shelf.bufferfunc, 'wordlist', []), 's:lib.word(v:val) =~# ''\m\C^\h\k*\%(#\h\k*\)\+''')
     let menu = {'menu': '[autoload]'}
     call map(funclist, 'extend(v:val, menu, "force")')
@@ -11045,7 +11045,7 @@ function! s:autoload.compile(precursor) dict abort
       let idx = match(basenamelist, '\m\C^\h\w*\.vim$')
       let filepath = pathlist[idx]
       let Observer = Verdin#Observer#new(filepath, 'vim')
-      call Observer.inspect(s:const.SEARCHTIMEOUT, ['func'])
+      call Observer.inspect(s:const.SCANTIMEOUT, ['func'])
       let funclist += filter(get(Observer.shelf.bufferfunc, 'wordlist', []), 's:lib.word(v:val) =~# ''\m\C^\h\k*\%(#\h\k*\)\+''')
       let menu = {'menu': '[autoload]'}
       call map(funclist, 'extend(v:val, menu, "force")')

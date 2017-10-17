@@ -37,7 +37,7 @@ function! Verdin#Observer#get(...) abort "{{{
 endfunction
 "}}}
 function! Verdin#Observer#inspect(...) abort "{{{
-  let timeout = get(a:000, 0, s:const.SEARCHTIMEOUT)
+  let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
   let order = get(a:000, 1, s:const.DEFAULTORDER)
   let forcescan = get(a:000, 2, 0)
   let Observer = Verdin#Observer#get()
@@ -65,7 +65,7 @@ function! Verdin#Observer#inspect(...) abort "{{{
 endfunction
 "}}}
 function! Verdin#Observer#checkglobals(...) abort "{{{
-  let timeout = get(a:000, 0, s:const.SEARCHTIMEOUT)
+  let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
   let order = get(a:000, 1, s:const.DEFAULTORDER)
   let forcescan = get(a:000, 2, 0)
   let Observer = Verdin#Observer#get()
@@ -129,7 +129,7 @@ function! s:checkglobalsvim(...) dict abort "{{{
     return
   endif
   let self.globalcheckstarted = 1
-  let timeout = get(a:000, 0, s:const.SEARCHTIMEOUT)
+  let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
   let order = get(a:000, 1, s:const.DEFAULTORDER)
 
   let varlist = []
@@ -187,7 +187,7 @@ function! s:checkglobalshelp(...) dict abort "{{{
     return
   endif
   let self.globalcheckstarted = 1
-  let timeout = get(a:000, 0, s:const.SEARCHTIMEOUT)
+  let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
   let order = []  " dummy
 
   " check help buffer
@@ -271,7 +271,7 @@ function! s:inspectvim(...) dict abort "{{{
     return
   endif
   let self.changedtick = self.b.changedtick
-  let timeout = get(a:000, 0, s:const.SEARCHTIMEOUT)
+  let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
   let order = get(a:000, 1, s:const.DEFAULTORDER)
 
   " NOTE: The second condition is for tests
@@ -376,7 +376,7 @@ function! s:inspecthelp(...) dict abort "{{{
     return
   endif
   let self.changedtick = self.b.changedtick
-  let timeout = get(a:000, 0, s:const.SEARCHTIMEOUT)
+  let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
   let order = get(a:000, 1, ['tag'])
 
   if bufloaded(self.bufnr)
