@@ -23,7 +23,7 @@ let g:Verdin#donotsetomnifunc = get(g:, 'Verdin#donotsetomnifunc', s:default.don
 let g:Verdin#fuzzymatch = get(g:, 'Verdin#fuzzymatch', s:default.fuzzymatch)
 let g:Verdin#loadpath = get(g:, 'Verdin#loadpath', s:default.loadpath)
 let g:Verdin#autobraketinsert = get(g:, 'Verdin#autobraketinsert', s:default.autobraketinsert)
-let g:Verdin#debugmodeon = get(g:, 'Verdin#autobraketinsert', s:default.debugmodeon)
+let g:Verdin#debugmodeon = get(g:, 'Verdin#debugmodeon', s:default.debugmodeon)
 "}}}
 
 function! Verdin#omnifunc(findstart, base) abort "{{{
