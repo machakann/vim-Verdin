@@ -44,6 +44,7 @@ let s:constants = {}
 let s:constants.PATHSEPARATOR = has('win32') && !&shellslash ? '\' : '/'
 let s:constants.LONGESTWORDLEN = 100
 let s:constants.SCANTIMEOUT = 100
+let s:constants.SCANTIMEOUTLONG = 500
 let s:constants.SEARCHINTERVAL = 50
 let s:constants.ITEMLISTTHRESHOLD = 20
 let s:constants.FUZZYMATCHINTERVAL = 5.0

@@ -1,6 +1,7 @@
 " function library specialized for managing autocommands
 
 " script local variables {{{
+let s:const = Verdin#constants#distribute()
 let s:ON = 1
 let s:OFF = 0
 "}}}
@@ -39,8 +40,9 @@ function! s:Event.startbufferinspection() abort "{{{
   call Verdin#Observer#inspect()
   augroup Verdin-bufferinspection
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
-    execute printf('autocmd InsertEnter <buffer=%d> call Verdin#Observer#inspect()', self.bufnr)
-    execute printf('autocmd BufEnter    <buffer=%d> call Verdin#Observer#checkglobals()', self.bufnr)
+    execute printf('autocmd InsertEnter  <buffer=%d> call Verdin#Observer#inspect()', self.bufnr)
+    execute printf('autocmd BufWritePost <buffer=%d> call Verdin#Observer#inspect(%d)', self.bufnr, s:const.SCANTIMEOUTLONG)
+    execute printf('autocmd BufEnter     <buffer=%d> call Verdin#Observer#checkglobals()', self.bufnr)
   augroup END
 endfunction
 "}}}
