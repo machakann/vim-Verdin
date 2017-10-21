@@ -120,7 +120,7 @@ let s:Observer = {
       \   'testmode': 0,
       \ }
 function! s:Observer.changed() dict abort "{{{
-  return self.b.changedtick != self.changedtick
+  return getbufvar(self.bufnr, 'changedtick', 0) != self.changedtick
 endfunction
 "}}}
 function! s:checkglobalsvim(...) dict abort "{{{
@@ -270,7 +270,7 @@ function! s:inspectvim(...) dict abort "{{{
   if !forcescan && !self.changed()
     return
   endif
-  let self.changedtick = self.b.changedtick
+  let self.changedtick = getbufvar(self.bufnr, 'changedtick', 0)
   let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
   let order = get(a:000, 1, s:const.DEFAULTORDER)
 
@@ -375,7 +375,7 @@ function! s:inspecthelp(...) dict abort "{{{
   if !forcescan && !self.changed()
     return
   endif
-  let self.changedtick = self.b.changedtick
+  let self.changedtick = getbufvar(self.bufnr, 'changedtick', 0)
   let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
   let order = get(a:000, 1, ['tag'])
 
@@ -648,7 +648,6 @@ function! s:Observer(target, kind, testmode) abort
     let Observer.bufname = fnamemodify(a:target, ':p')
   endif
   let Observer.bufnr = bufnr(a:target)
-  let Observer.b = get(bufinfo, 'variables', {'changedtick': 0})
   let Observer.testmode = a:testmode
   if a:kind ==# 'vim'
     let Observer.inspect = function('s:inspectvim')
