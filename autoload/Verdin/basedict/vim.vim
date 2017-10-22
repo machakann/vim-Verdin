@@ -11021,7 +11021,7 @@ function! s:autoload.compile(precursor) dict abort
     return 0
   endif
 
-  let pathitems[-1] .= '*'
+  let pathitems[-1] .= '*.vim'
   let path = join([getcwd(), &runtimepath, &packpath], ',')
   let expr = join(['autoload'] + pathitems[: -2], '/') . '.vim'
   let filepath = get(globpath(path, expr, 0, 1), 0, '')
