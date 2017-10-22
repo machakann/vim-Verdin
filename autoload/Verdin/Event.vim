@@ -37,12 +37,12 @@ function! s:Event.startbufferinspection() abort "{{{
   let self.bufferinspection = s:ON
   call Verdin#Completer#get(self.bufnr)
   call Verdin#Observer#get(self.bufnr)
-  call Verdin#Observer#inspect()
+  call Verdin#Observer#inspect(self.bufnr)
   augroup Verdin-bufferinspection
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
-    execute printf('autocmd InsertEnter  <buffer=%d> call Verdin#Observer#inspect()', self.bufnr)
-    execute printf('autocmd BufWritePost <buffer=%d> call Verdin#Observer#inspect(%d)', self.bufnr, s:const.SCANTIMEOUTLONG)
-    execute printf('autocmd BufEnter     <buffer=%d> call Verdin#Observer#checkglobals()', self.bufnr)
+    execute printf('autocmd InsertEnter  <buffer=%d> call Verdin#Observer#inspect(%d)', self.bufnr, self.bufnr)
+    execute printf('autocmd BufWritePost <buffer=%d> call Verdin#Observer#inspect(%d, %d)', self.bufnr, self.bufnr, s:const.SCANTIMEOUTLONG)
+    execute printf('autocmd BufEnter     <buffer=%d> call Verdin#Observer#checkglobals(%d)', self.bufnr, self.bufnr)
   augroup END
 endfunction
 "}}}

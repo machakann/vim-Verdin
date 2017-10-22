@@ -122,8 +122,9 @@ function! Verdin#Verdin#scanbuffer(args) abort "{{{
       return
     endif
   endif
-  call Verdin#Observer#checkglobals(1/0, order)
-  call Verdin#Observer#inspect(1/0, order)
+  let bufnr = bufnr('%')
+  call Verdin#Observer#checkglobals(bufnr, 1/0, order)
+  call Verdin#Observer#inspect(bufnr, 1/0, order)
 endfunction
 "}}}
 function! Verdin#Verdin#scanbuffer_compl(ArgLead, CmdLine, CursorPos) abort "{{{

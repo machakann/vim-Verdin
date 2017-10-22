@@ -36,13 +36,13 @@ function! Verdin#Observer#get(...) abort "{{{
   return bufinfo.variables.Verdin.Observer
 endfunction
 "}}}
-function! Verdin#Observer#inspect(...) abort "{{{
+function! Verdin#Observer#inspect(bufnr, ...) abort "{{{
   let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
   let order = get(a:000, 1, s:const.DEFAULTORDER)
   let forcescan = get(a:000, 2, 0)
   let Observer = Verdin#Observer#get()
   if Observer.changedtick == -1
-    call Verdin#Observer#checkglobals(timeout, order, forcescan)
+    call Verdin#Observer#checkglobals(a:bufnr, timeout, order, forcescan)
   endif
 
   call Observer.inspect(timeout, order, forcescan)
@@ -64,7 +64,7 @@ function! Verdin#Observer#inspect(...) abort "{{{
   endif
 endfunction
 "}}}
-function! Verdin#Observer#checkglobals(...) abort "{{{
+function! Verdin#Observer#checkglobals(bufnr, ...) abort "{{{
   let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
   let order = get(a:000, 1, s:const.DEFAULTORDER)
   let forcescan = get(a:000, 2, 0)
