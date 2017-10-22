@@ -4,6 +4,7 @@
 let s:const = Verdin#constants#distribute()
 let s:ON = 1
 let s:OFF = 0
+let s:PAUSE = -1
 "}}}
 
 function! Verdin#Event#get(...) abort "{{{
@@ -106,14 +107,19 @@ function! s:Event.pauseautocomplete() abort "{{{
   if self.autocomplete is s:OFF
     return
   endif
-  call self.stopautocomplete()
+
+  let self.autocomplete = s:PAUSE
+  augroup Verdin-autocomplete
+    execute printf('autocmd! * <buffer=%d>', self.bufnr)
+  augroup END
   call self.setCompleteDone(1)
 endfunction
 "}}}
 function! s:Event.resumeautocomplete() dict abort "{{{
-  if self.autocomplete is s:OFF
+  if self.autocomplete isnot s:PAUSE
     return
   endif
+
   call self.startautocomplete()
 endfunction
 "}}}
