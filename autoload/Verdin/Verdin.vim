@@ -16,7 +16,6 @@ inoremap <silent> <SID>(VerdinCompletionTrigger) <C-r>=<SID>complete()<CR>
 function! Verdin#Verdin#startbufferinspection(bang) abort "{{{
   call s:checkfiletype()
   if a:bang ==# '!'
-    let g:Verdin#autocomplete = s:ON
     for bufinfo in s:getbufinfo()
       let Event = Verdin#Event#get(bufinfo.bufnr)
       call Event.startbufferinspection()
@@ -29,7 +28,6 @@ endfunction
 "}}}
 function! Verdin#Verdin#stopbufferinspection(bang) abort "{{{
   if a:bang ==# '!'
-    let g:Verdin#autocomplete = s:OFF
     for bufinfo in s:getbufinfo()
       if has_key(bufinfo.variables, 'Verdin')
         let Event = Verdin#Event#get(bufinfo.bufnr)
@@ -45,6 +43,7 @@ endfunction
 function! Verdin#Verdin#startautocomplete(bang) abort "{{{
   call s:checkfiletype()
   if a:bang ==# '!'
+    let g:Verdin#autocomplete = s:ON
     for bufinfo in s:getbufinfo()
       let Event = Verdin#Event#get(bufinfo.bufnr)
       call Event.startbufferinspection()
@@ -59,6 +58,7 @@ endfunction
 "}}}
 function! Verdin#Verdin#stopautocomplete(bang) abort "{{{
   if a:bang ==# '!'
+    let g:Verdin#autocomplete = s:OFF
     for bufinfo in s:getbufinfo()
       if has_key(bufinfo.variables, 'Verdin')
         let Event = Verdin#Event#get(bufinfo.bufnr)

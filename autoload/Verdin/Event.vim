@@ -110,12 +110,19 @@ function! s:Event.pauseautocomplete() abort "{{{
   call self.setCompleteDone(1)
 endfunction
 "}}}
+function! s:Event.resumeautocomplete() dict abort "{{{
+  if self.autocomplete is s:OFF
+    return
+  endif
+  call self.startautocomplete()
+endfunction
+"}}}
 function! s:aftercomplete(event, autocomplete) abort "{{{
   let Completer = Verdin#Completer#get()
   let success = Completer.aftercomplete(a:event, a:autocomplete)
   if success
     let Event = Verdin#Event#get()
-    call Event.startautocomplete()
+    call Event.resumeautocomplete()
     call Event.unsetCompleteDone()
   endif
 endfunction
