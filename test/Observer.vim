@@ -12,12 +12,10 @@ function! s:scopecorrectedvaritems(varlist) abort "{{{
     endif
   endfor
   return a:varlist
-endfunction
-"}}}
+endfunction "}}}
 function! s:funcitem(name, body, ...) abort "{{{
   return extend({'word': a:name, 'abbr': a:body, '__text__': a:name, '__func__': 1}, get(a:000, 0, {'menu': '[function]'}))
-endfunction
-"}}}
+endfunction "}}}
 
 function! s:suite.inspect() dict abort "{{{
   " testset{{{
@@ -204,8 +202,7 @@ function! s:suite.inspect() dict abort "{{{
     endif
     %delete
   endfor
-endfunction
-"}}}
+endfunction "}}}
 
 " vim:set foldmethod=marker:
 " vim:set commentstring="%s:

@@ -5,8 +5,7 @@ function! Verdin#Dictionary#new(name, conditionlist, wordlist, ...) abort "{{{
   let indexlen = max([get(a:000, 0, 1), 1])
   let options = get(a:000, 1, {})
   return s:Dictionary(a:name, a:conditionlist, a:wordlist, indexlen, options)
-endfunction
-"}}}
+endfunction "}}}
 function! Verdin#Dictionary#makeindex(name, wordlist, indexlen, ...) abort "{{{
   let options = get(a:000, 0, {})
   let sortbyoccurrence = get(options, 'sortbyoccurrence', 0)
@@ -27,8 +26,7 @@ function! Verdin#Dictionary#makeindex(name, wordlist, indexlen, ...) abort "{{{
     let index[c] = map(copy(matched), 's:completeitem(v:val, menustr)')
   endfor
   return index
-endfunction
-"}}}
+endfunction "}}}
 
 " Dictionary object {{{
 let s:Dictionary = {
@@ -72,8 +70,7 @@ function! s:delimitermatcheditemlist(name, itemlist) abort "{{{
     let done[word] = 1
   endfor
   return itemlist
-endfunction
-"}}}
+endfunction "}}}
 function! s:delimitermatcheditem(original, match, menustr) abort "{{{
   if type(a:original) == v:t_dict
     let new = deepcopy(a:original)
@@ -85,8 +82,7 @@ function! s:delimitermatcheditem(original, match, menustr) abort "{{{
     let new = {'word': a:original, 'menu': a:menustr . tolower(join(a:match[1:], '')), 'dup': 1, '__text__': join(a:match[1:], ''), '__delimitermatch__': 1}
   endif
   return new
-endfunction
-"}}}
+endfunction "}}}
 function! s:extract(list, pattern) abort "{{{
   let extracted = []
   for i in reverse(range(len(a:list)))
@@ -95,8 +91,7 @@ function! s:extract(list, pattern) abort "{{{
     endif
   endfor
   return extracted
-endfunction
-"}}}
+endfunction "}}}
 function! s:completeitem(item, menustr) abort "{{{
   let itemtype = type(a:item)
   if itemtype == v:t_string
@@ -115,8 +110,7 @@ function! s:completeitem(item, menustr) abort "{{{
   else
     return {}
   endif
-endfunction
-"}}}
+endfunction "}}}
 "}}}
 
 " vim:set ts=2 sts=2 sw=2 tw=0:

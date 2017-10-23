@@ -19,8 +19,7 @@ function! s:matcher.filter(context) dict abort "{{{
     endwhile
   endif
   return itemlist
-endfunction
-"}}}
+endfunction "}}}
 
 function! neocomplete#filters#matcher_Verdin#define() abort
   return s:matcher

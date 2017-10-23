@@ -23,14 +23,12 @@ function! s:suite.before_each() abort "{{{
   %delete
   set virtualedit=onemore
   set filetype=
-endfunction
-"}}}
+endfunction "}}}
 function! s:suite.after() abort "{{{
   call s:suite.before_each()
   iunmap <Plug>(TestMap)
   set virtualedit&
-endfunction
-"}}}
+endfunction "}}}
 
 function! s:suite.basedict() dict abort "{{{
    " testset{{{
@@ -568,8 +566,7 @@ function! s:suite.basedict() dict abort "{{{
       call g:assert.false(match(s:itemlist, printf('\m\C^%s$', s:lib.escape(expect.not_match))) > -1, message)
     endif
   endfor
-endfunction
-"}}}
+endfunction "}}}
 
 " vim:set foldmethod=marker:
 " vim:set commentstring="%s:

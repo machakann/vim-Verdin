@@ -7,8 +7,7 @@ let s:has_reltime_and_float = has('reltime') && has('float')
 
 function! Verdin#clock#new() abort  "{{{
   return deepcopy(s:clock)
-endfunction
-"}}}
+endfunction "}}}
 
 " s:clock "{{{
 let s:clock = {
@@ -29,13 +28,11 @@ function! s:clock.start() dict abort  "{{{
       let self.started  = 1
     endif
   endif
-endfunction
-"}}}
+endfunction "}}}
 function! s:clock.pause() dict abort "{{{
   let self.stoptime = reltime()
   let self.paused   = 1
-endfunction
-"}}}
+endfunction "}}}
 function! s:clock.elapsed() dict abort "{{{
   if self.started
     let total = str2float(reltimestr(reltime(self.zerotime)))
@@ -43,14 +40,12 @@ function! s:clock.elapsed() dict abort "{{{
   else
     return 0.0
   endif
-endfunction
-"}}}
+endfunction "}}}
 function! s:clock.stop() dict abort  "{{{
   let self.started  = 0
   let self.paused   = 0
   let self.losstime = 0
-endfunction
-"}}}
+endfunction "}}}
 
 
 " vim:set foldmethod=marker:

@@ -26,8 +26,7 @@ function! s:lib.word(item) dict abort "{{{
     return a:item[1]
   endif
   return ''
-endfunction
-"}}}
+endfunction "}}}
 function! s:lib.__text__(item) dict abort "{{{
   let itemtype = type(a:item)
   if itemtype == v:t_string
@@ -38,8 +37,7 @@ function! s:lib.__text__(item) dict abort "{{{
     return a:item[0]
   endif
   return ''
-endfunction
-"}}}
+endfunction "}}}
 function! s:lib.abbr(item) dict abort "{{{
   let itemtype = type(a:item)
   if itemtype == v:t_string
@@ -50,8 +48,7 @@ function! s:lib.abbr(item) dict abort "{{{
     return a:item[1]
   endif
   return ''
-endfunction
-"}}}
+endfunction "}}}
 function! s:lib.names(item) dict abort "{{{
   let itemtype = type(a:item)
   if itemtype == v:t_string
@@ -62,27 +59,22 @@ function! s:lib.names(item) dict abort "{{{
     return [a:item[1], a:item[0], a:item[1]]
   endif
   return ''
-endfunction
-"}}}
+endfunction "}}}
 function! s:lib.sortbyoccurrence(list) dict abort "{{{
   let original = copy(a:list)
   call uniq(sort(a:list))
   call sort(a:list, {a, b -> count(original, b) - count(original, a)})
   return a:list
-endfunction
-"}}}
+endfunction "}}}
 function! s:lib.sortbylength(list) dict abort "{{{
   return sort(a:list, {a, b -> strchars(s:lib.word(a)) - strchars(s:lib.word(b))})
-endfunction
-"}}}
+endfunction "}}}
 function! s:lib.escape(string) dict abort "{{{
   return escape(a:string, '~"\.^$[]*')
-endfunction
-"}}}
+endfunction "}}}
 function! s:lib.pathjoin(parts) dict abort "{{{
   return join(a:parts, s:const.PATHSEPARATOR)
-endfunction
-"}}}
+endfunction "}}}
 function! s:lib.searchvimscripts() dict abort "{{{
   let searchpaths = Verdin#getoption('loadpath')
   let scriptpaths = []
@@ -90,8 +82,7 @@ function! s:lib.searchvimscripts() dict abort "{{{
     call extend(scriptpaths, glob(path, 0, 1))
   endfor
   return uniq(sort(scriptpaths))
-endfunction
-"}}}
+endfunction "}}}
 function! s:lib.searchvimhelps() dict abort "{{{
   let docpaths = glob(self.pathjoin(['doc', '*.txt']), 0, 1)
   if len(docpaths) > s:const.DOCPATHSMAX
@@ -99,8 +90,7 @@ function! s:lib.searchvimhelps() dict abort "{{{
     let docpaths = docpaths[: s:const.DOCPATHSMAX]
   endif
   return docpaths
-endfunction
-"}}}
+endfunction "}}}
 
 " fuzzy match
 function! s:lib.Damerau_Levenshtein_distance(a, b, threshold) dict abort "{{{
@@ -124,8 +114,7 @@ function! s:lib.Damerau_Levenshtein_distance(a, b, threshold) dict abort "{{{
     endfor
   endfor
   return d[na][nb]
-endfunction
-"}}}
+endfunction "}}}
 function! s:lib.DL_threshold(strlen) dict abort "{{{
   " NOTE: for Damerau_Levenshtein_distance()
   if a:strlen <= 4
@@ -136,8 +125,7 @@ function! s:lib.DL_threshold(strlen) dict abort "{{{
     let threshold = 3
   endif
   return threshold
-endfunction
-"}}}
+endfunction "}}}
 function! s:lib.Jaro_Winkler_distance(a, b) dict abort "{{{
   " NOTE: Cannot apply for multi-byte strings
   if a:a ==# '' || a:b ==# ''
@@ -159,8 +147,7 @@ function! s:lib.Jaro_Winkler_distance(a, b) dict abort "{{{
   let l = s:commonprefix(a:a, a:b, na, nb)
   let djw = dj + l*0.1*(1.0 - dj)
   return djw
-endfunction
-"}}}
+endfunction "}}}
 
 function! s:commonchar(a, b, na, nb) abort "{{{
   " NOTE: Cannot apply for multi-byte strings
@@ -192,8 +179,7 @@ function! s:commonchar(a, b, na, nb) abort "{{{
     endif
   endfor
   return [c, acommons, map(sort(bindexes), 'a:b[v:val]')]
-endfunction
-"}}}
+endfunction "}}}
 function! s:transposechar(acommons, bcommons) abort "{{{
   let n = len(a:acommons)
   if n <= 1
@@ -206,8 +192,7 @@ function! s:transposechar(acommons, bcommons) abort "{{{
     endif
   endfor
   return t/2
-endfunction
-"}}}
+endfunction "}}}
 function! s:commonprefix(a, b, na, nb) abort "{{{
   " NOTE: Cannot apply for multi-byte strings
   let l = 0
@@ -218,8 +203,7 @@ function! s:commonprefix(a, b, na, nb) abort "{{{
     let l += 1
   endwhile
   return l > 4 ? 4 : l
-endfunction
-"}}}
+endfunction "}}}
 
 " vim:set ts=2 sts=2 sw=2 tw=0:
 " vim:set foldmethod=marker: commentstring="%s:

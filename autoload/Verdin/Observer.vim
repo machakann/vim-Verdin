@@ -9,8 +9,7 @@ let s:cache = {}
 function! Verdin#Observer#new(target, kind, ...) abort "{{{
   let testmode = get(a:000, 0, 0)
   return s:Observer(a:target, a:kind, testmode)
-endfunction
-"}}}
+endfunction "}}}
 function! Verdin#Observer#get(...) abort "{{{
   let target = get(a:000, 0, '%')
   let bufinfo = get(getbufinfo(target), 0, {})
@@ -34,8 +33,7 @@ function! Verdin#Observer#get(...) abort "{{{
     let bufinfo.variables.Verdin.Observer = Verdin#Observer#new(target, kind)
   endif
   return bufinfo.variables.Verdin.Observer
-endfunction
-"}}}
+endfunction "}}}
 function! Verdin#Observer#inspect(bufnr, ...) abort "{{{
   let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
   let order = get(a:000, 1, s:const.DEFAULTORDER)
@@ -62,8 +60,7 @@ function! Verdin#Observer#inspect(bufnr, ...) abort "{{{
       call Completer.addDictionary('buffertag', Observer.shelf.buffertag)
     endif
   endif
-endfunction
-"}}}
+endfunction "}}}
 function! Verdin#Observer#checkglobals(bufnr, ...) abort "{{{
   let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
   let order = get(a:000, 1, s:const.DEFAULTORDER)
@@ -89,8 +86,7 @@ function! Verdin#Observer#checkglobals(bufnr, ...) abort "{{{
       call Completer.addDictionary('globaltag', Observer.shelf.globaltag)
     endif
   endif
-endfunction
-"}}}
+endfunction "}}}
 
 " Observer object {{{
 let s:Observer = {
@@ -121,8 +117,7 @@ let s:Observer = {
       \ }
 function! s:Observer.changed() dict abort "{{{
   return getbufvar(self.bufnr, 'changedtick', 0) != self.changedtick
-endfunction
-"}}}
+endfunction "}}}
 function! s:checkglobalsvim(...) dict abort "{{{
   let files = filter(s:lib.searchvimscripts(), 'bufnr(v:val) != self.bufnr')
   if self.globalcheckstarted && !s:changed(files)
@@ -179,8 +174,7 @@ function! s:checkglobalsvim(...) dict abort "{{{
     let higroup = Verdin#Dictionary#new('higroup', conditionlist, higrouplist, 2)
     call s:inject(self.shelf['globalhigroup'], higroup)
   endif
-endfunction
-"}}}
+endfunction "}}}
 function! s:checkglobalshelp(...) dict abort "{{{
   let files = filter(s:lib.searchvimhelps(), 'bufnr(v:val) != self.bufnr')
   if self.globalcheckstarted && !s:changed(files)
@@ -234,8 +228,7 @@ function! s:checkglobalshelp(...) dict abort "{{{
     let command = Verdin#Dictionary#new('command', conditionlist, commandlist, 3)
     call s:inject(self.shelf['globalcommand'], command)
   endif
-endfunction
-"}}}
+endfunction "}}}
 function! s:check(filepath, kind, timeout, order) abort "{{{
   if bufloaded(a:filepath)
     let Observer = Verdin#Observer#get(a:filepath)
@@ -251,8 +244,7 @@ function! s:check(filepath, kind, timeout, order) abort "{{{
     let Observer = s:cache[a:filepath]
   endif
   return Observer
-endfunction
-"}}}
+endfunction "}}}
 function! s:changed(vimscripts) abort "{{{
   for filepath in a:vimscripts
     if bufloaded(filepath)
@@ -263,8 +255,7 @@ function! s:changed(vimscripts) abort "{{{
     endif
   endfor
   return 0
-endfunction
-"}}}
+endfunction "}}}
 function! s:inspectvim(...) dict abort "{{{
   let forcescan = get(a:000, 2, 0)
   if !forcescan && !self.changed()
@@ -368,8 +359,7 @@ function! s:inspectvim(...) dict abort "{{{
     call s:inject(self.shelf['varfragment'], varfragment)
   endif
   call clock.stop()
-endfunction
-"}}}
+endfunction "}}}
 function! s:inspecthelp(...) dict abort "{{{
   let forcescan = get(a:000, 2, 0)
   if !forcescan && !self.changed()
@@ -396,8 +386,7 @@ function! s:inspecthelp(...) dict abort "{{{
     let helptag = Verdin#Dictionary#new('tag', s:const.HELPTAGCONDITIONLIST, helptaglist, 2)
     call s:inject(self.shelf['buffertag'], helptag)
   endif
-endfunction
-"}}}
+endfunction "}}}
 function! s:get_line_break() abort "{{{
   if &fileformat ==# 'unix'
     let linebreak = "\n"
@@ -407,24 +396,21 @@ function! s:get_line_break() abort "{{{
     let linebreak = "\r"
   endif
   return linebreak
-endfunction
-"}}}
+endfunction "}}}
 function! s:get_buffer_string(bufnr) abort "{{{
   let linebreak = s:get_line_break()
   let buffer = getbufline(a:bufnr, 1, line('$'))
   let string = join(buffer, linebreak)
   let length = strlen(string)
   return {'str': string, 'len': length}
-endfunction
-"}}}
+endfunction "}}}
 function! s:get_file_string(filepath) abort "{{{
   let linebreak = s:get_line_break()
   let file = readfile(a:filepath)
   let string = join(file, linebreak)
   let length = strlen(string)
   return {'str': string, 'len': length}
-endfunction
-"}}}
+endfunction "}}}
 function! s:get_local_string(global, cursoridx) abort "{{{
   if a:cursoridx < 0
     return {'str': '', 'len': 0, 'is_dictfunc': 0}
@@ -451,15 +437,13 @@ function! s:get_local_string(global, cursoridx) abort "{{{
   let length = strlen(string)
   let is_dictfunc = s:is_dict_function(string)
   return {'str': string, 'len': length, 'is_dictfunc': is_dictfunc}
-endfunction
-"}}}
+endfunction "}}}
 function! s:is_dict_function(local) abort "{{{
   if a:local ==# ''
     return 0
   endif
   return match(a:local, '\m\C^\s*fu\%[nction]!\?\s\+\%([gs]:\)\?\h\k*\%(\.\%(\h\k*\)\|([^)]*)\%(\s*\%(range\|abort\|closure\)\)*\s*dict\)') >= 0
-endfunction
-"}}}
+endfunction "}}}
 function! s:scan(text, pat, clock, timeout) abort "{{{
   if a:text.str ==# ''
     return []
@@ -489,8 +473,7 @@ function! s:scan(text, pat, clock, timeout) abort "{{{
     endfor
   endwhile
   return wordlist
-endfunction
-"}}}
+endfunction "}}}
 function! s:splitvarname(varblocklist) abort "{{{
   let varlist = []
   let memberlist = []
@@ -504,8 +487,7 @@ function! s:splitvarname(varblocklist) abort "{{{
     endfor
   endfor
   return [varlist, memberlist]
-endfunction
-"}}}
+endfunction "}}}
 function! s:splitargvarname(varblocklist) abort "{{{
   let varlist = []
   for varblock in a:varblocklist
@@ -519,16 +501,14 @@ function! s:splitargvarname(varblocklist) abort "{{{
     let varlist += ['a:000', 'a:0', 'a:1', 'a:2', 'a:3']
   endif
   return varlist
-endfunction
-"}}}
+endfunction "}}}
 function! s:splitmembername(memberlist) abort "{{{
   let wordlist = []
   for string in a:memberlist
     let wordlist += split(string, '\.')
   endfor
   return filter(wordlist, 'v:val !~# ''($''')
-endfunction
-"}}}
+endfunction "}}}
 function! s:splitmethodname(identifierlist) abort "{{{
   let memberlist = []
   for identfier in a:identifierlist
@@ -543,8 +523,7 @@ function! s:splitmethodname(identifierlist) abort "{{{
     call add(memberlist, s:funcitem(methodname, methodbody, {'menu': '[member]', 'dup': 1}))
   endfor
   return memberlist
-endfunction
-"}}}
+endfunction "}}}
 function! s:functionitems(funcdefinitions) abort "{{{
   let funcitemlist = []
   let funclist = map(copy(a:funcdefinitions), '[
@@ -558,12 +537,10 @@ function! s:functionitems(funcdefinitions) abort "{{{
     endif
   endfor
   return funcitemlist
-endfunction
-"}}}
+endfunction "}}}
 function! s:funcitem(name, body, ...) abort "{{{
   return extend({'word': a:name, 'abbr': a:body, '__text__': a:name, '__func__': 1}, get(a:000, 0, {'menu': '[function]'}))
-endfunction
-"}}}
+endfunction "}}}
 function! s:scopecorrectedvaritems(varlist) abort "{{{
   let varlist = copy(a:varlist)
   for var in varlist
@@ -575,8 +552,7 @@ function! s:scopecorrectedvaritems(varlist) abort "{{{
     endif
   endfor
   return a:varlist
-endfunction
-"}}}
+endfunction "}}}
 function! s:SIDfuncitems(funclist) abort "{{{
   let funclist = copy(a:funclist)
   for func in funclist
@@ -591,8 +567,7 @@ function! s:SIDfuncitems(funclist) abort "{{{
     endif
   endfor
   return a:funclist
-endfunction
-"}}}
+endfunction "}}}
 function! s:funcfragmentwordlist() abort "{{{
   let funcfragmentwordlist = []
   let fragment = ''
@@ -602,8 +577,7 @@ function! s:funcfragmentwordlist() abort "{{{
     call add(funcfragmentwordlist, item)
   endfor
   return funcfragmentwordlist
-endfunction
-"}}}
+endfunction "}}}
 function! s:varfragmentwordlist(varlist) abort "{{{
   let varfragmentwordlist = []
   for varf in uniq(sort(filter(map(copy(a:varlist), 'matchstr(s:lib.word(v:val), ''\m\C^\zs\%([abglstw]:\)\?\h[[:alnum:]]*[#_]'')'), 'v:val !=# ""')))
@@ -611,8 +585,7 @@ function! s:varfragmentwordlist(varlist) abort "{{{
     call add(varfragmentwordlist, item)
   endfor
   return varfragmentwordlist
-endfunction
-"}}}
+endfunction "}}}
 function! s:helptagitems(helptaglist) abort "{{{
   let helptagitems = []
   let file = ' ' . expand('%:t')
@@ -621,13 +594,11 @@ function! s:helptagitems(helptaglist) abort "{{{
     call add(helptagitems, {'word': word, 'menu': file, 'abbr': helptag, '__text__': word})
   endfor
   return helptagitems
-endfunction
-"}}}
+endfunction "}}}
 function! s:inject(destination, Dictionary) abort "{{{
   call filter(a:destination, 0)
   return extend(a:destination, a:Dictionary)
-endfunction
-"}}}
+endfunction "}}}
 function! s:decrementpriority(conditionlist) abort "{{{
   let newlist = deepcopy(a:conditionlist)
   for condition in newlist
@@ -636,8 +607,7 @@ function! s:decrementpriority(conditionlist) abort "{{{
     endif
   endfor
   return newlist
-endfunction
-"}}}
+endfunction "}}}
 
 function! s:Observer(target, kind, testmode) abort
   let bufinfo = get(getbufinfo(a:target), 0, {})
@@ -659,8 +629,7 @@ function! s:Observer(target, kind, testmode) abort
     echoerr 'Verdin: Unanticipated arguments are passed to s:Observer().'
   endif
   return Observer
-endfunction
-"}}}
+endfunction "}}}
 
 " vim:set ts=2 sts=2 sw=2 tw=0:
 " vim:set foldmethod=marker: commentstring="%s:

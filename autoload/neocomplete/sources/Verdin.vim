@@ -16,19 +16,16 @@ let s:source = {
 
 function! s:source.hooks.on_init(context) dict abort "{{{
   call Verdin#Verdin#startbufferinspection('!')
-endfunction
-"}}}
+endfunction "}}}
 function! s:source.hooks.on_final(context) dict abort "{{{
   call Verdin#Verdin#stopbufferinspection('!')
-endfunction
-"}}}
+endfunction "}}}
 function! s:source.get_complete_position(context) dict abort "{{{
   let Event = Verdin#Event#get()
   call Event.startbufferinspection()
   let Completer = Verdin#Completer#get()
   return Completer.startcol(s:GIVEUPIFSHORT)
-endfunction
-"}}}
+endfunction "}}}
 function! s:source.gather_candidates(context) dict abort "{{{
   let Completer = Verdin#Completer#get()
   let itemlist = []
@@ -45,8 +42,7 @@ function! s:source.gather_candidates(context) dict abort "{{{
     call Event.setpersistentCompleteDone(0)
   endif
   return map(itemlist, 'type(v:val) == v:t_dict ? v:val : {"word": v:val}')
-endfunction
-"}}}
+endfunction "}}}
 
 function! neocomplete#sources#Verdin#define() abort
   return s:source

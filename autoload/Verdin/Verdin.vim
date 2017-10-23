@@ -24,8 +24,7 @@ function! Verdin#Verdin#startbufferinspection(bang) abort "{{{
     let Event = Verdin#Event#get()
     call Event.startbufferinspection()
   endif
-endfunction
-"}}}
+endfunction "}}}
 function! Verdin#Verdin#stopbufferinspection(bang) abort "{{{
   if a:bang ==# '!'
     for bufinfo in s:getbufinfo()
@@ -38,8 +37,7 @@ function! Verdin#Verdin#stopbufferinspection(bang) abort "{{{
     let Event = Verdin#Event#get()
     call Event.stopbufferinspection()
   endif
-endfunction
-"}}}
+endfunction "}}}
 function! Verdin#Verdin#startautocomplete(bang) abort "{{{
   call s:checkfiletype()
   if a:bang ==# '!'
@@ -54,8 +52,7 @@ function! Verdin#Verdin#startautocomplete(bang) abort "{{{
     call Event.startbufferinspection()
     call Event.startautocomplete()
   endif
-endfunction
-"}}}
+endfunction "}}}
 function! Verdin#Verdin#stopautocomplete(bang) abort "{{{
   if a:bang ==# '!'
     let g:Verdin#autocomplete = s:OFF
@@ -71,8 +68,7 @@ function! Verdin#Verdin#stopautocomplete(bang) abort "{{{
     call Event.stopbufferinspection()
     call Event.stopautocomplete()
   endif
-endfunction
-"}}}
+endfunction "}}}
 function! Verdin#Verdin#refreshautocomplete(bang) abort "{{{
   if a:bang ==# '!'
     for bufinfo in s:getbufinfo()
@@ -83,8 +79,7 @@ function! Verdin#Verdin#refreshautocomplete(bang) abort "{{{
   else
     call s:refresh(bufnr('%'))
   endif
-endfunction
-"}}}
+endfunction "}}}
 function! Verdin#Verdin#finishautocomplete(bang) abort "{{{
   if a:bang ==# '!'
     for bufinfo in s:getbufinfo()
@@ -101,8 +96,7 @@ function! Verdin#Verdin#finishautocomplete(bang) abort "{{{
     call Event.stopautocomplete()
     unlet! b:Verdin
   endif
-endfunction
-"}}}
+endfunction "}}}
 function! Verdin#Verdin#scanbuffer(args) abort "{{{
   if a:args ==# ''
     let order = s:const.DEFAULTORDER
@@ -125,12 +119,10 @@ function! Verdin#Verdin#scanbuffer(args) abort "{{{
   let bufnr = bufnr('%')
   call Verdin#Observer#checkglobals(bufnr, 1/0, order)
   call Verdin#Observer#inspect(bufnr, 1/0, order)
-endfunction
-"}}}
+endfunction "}}}
 function! Verdin#Verdin#scanbuffer_compl(ArgLead, CmdLine, CursorPos) abort "{{{
   return join(s:const.DEFAULTORDER, "\n")
-endfunction
-"}}}
+endfunction "}}}
 function! Verdin#Verdin#omnifunc(findstart, base) abort "{{{
   let Event = Verdin#Event#get()
   call Event.startbufferinspection()
@@ -163,8 +155,7 @@ function! Verdin#Verdin#omnifunc(findstart, base) abort "{{{
     endfor
   endwhile
   return []
-endfunction
-"}}}
+endfunction "}}}
 function! Verdin#Verdin#triggercomplete() abort "{{{
   let Completer = Verdin#Completer#get()
   if s:nothingchanged(Completer)
@@ -178,8 +169,7 @@ function! Verdin#Verdin#triggercomplete() abort "{{{
   endif
   call feedkeys(s:VerdinCompletionTrigger, 'im')
   return ''
-endfunction
-"}}}
+endfunction "}}}
 function! s:checkfiletype() abort "{{{
   if &filetype !=# 'vim' && &filetype !=# 'help'
     echoerr 'Verdin: This is *not* vim buffer!'
@@ -188,8 +178,7 @@ function! s:checkfiletype() abort "{{{
   if &filetype ==# 'help' && &buftype ==# 'help'
     return
   endif
-endfunction
-"}}}
+endfunction "}}}
 function! s:getbufinfo() abort "{{{
   if &filetype ==# 'vim'
     return filter(getbufinfo({'buflisted':1}), 'getbufvar(v:val.bufnr, "&filetype") ==# "vim"')
@@ -197,8 +186,7 @@ function! s:getbufinfo() abort "{{{
     return filter(getbufinfo({'buflisted':1}), 'getbufvar(v:val.bufnr, "&filetype") ==# "help" && getbufvar(v:val.bufnr, "&buftype") !=# "help"')
   endif
   return []
-endfunction
-"}}}
+endfunction "}}}
 function! s:complete() abort "{{{
   let Completer = Verdin#Completer#get()
   call Completer.clock.start()
@@ -257,12 +245,10 @@ function! s:complete() abort "{{{
     endif
   endwhile
   return ''
-endfunction
-"}}}
+endfunction "}}}
 function! s:nothingchanged(Completer) abort "{{{
   return a:Completer.last.lnum == line('.') && a:Completer.last.col == col('.') && a:Completer.last.line ==# getline('.')
-endfunction
-"}}}
+endfunction "}}}
 function! s:refresh(bufnr) abort "{{{
   let Event = Verdin#Event#get(a:bufnr)
   unlet! b:Verdin
@@ -270,8 +256,7 @@ function! s:refresh(bufnr) abort "{{{
   call Verdin#Observer#get()
   let b:Verdin.Event = Event
   call Event.startbufferinspection()
-endfunction
-"}}}
+endfunction "}}}
 function! s:compare_fuzzyitem(i1, i2) abort "{{{
   let diffdifflen = abs(a:i1.__difflen__) - abs(a:i2.__difflen__)
   if diffdifflen != 0
@@ -283,8 +268,7 @@ function! s:compare_fuzzyitem(i1, i2) abort "{{{
     return 1
   endif
   return 0
-endfunction
-"}}}
+endfunction "}}}
 
 " vim:set ts=2 sts=2 sw=2 tw=0:
 " vim:set foldmethod=marker: commentstring="%s:

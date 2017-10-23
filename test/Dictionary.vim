@@ -127,8 +127,7 @@ function! s:suite.index() dict abort "{{{
           \ printf("name: %s,\nindexlen: %d,\nwordlist: %s",
           \         input.name, input.indexlen, string(input.wordlist)))
   endfor
-endfunction
-"}}}
+endfunction "}}}
 function! s:suite.sortbylength() dict abort "{{{
   " testset {{{
   let testset = [
@@ -169,8 +168,7 @@ function! s:suite.sortbylength() dict abort "{{{
           \ printf("name: %s,\nindexlen: %d,\nwordlist: %s,\noption: %s",
           \         input.name, input.indexlen, string(input.wordlist), string(input.options)))
   endfor
-endfunction
-"}}}
+endfunction "}}}
 function! s:suite.sortbyoccurrence() dict abort "{{{
   " testset {{{
   let testset = [
@@ -214,8 +212,7 @@ function! s:suite.sortbyoccurrence() dict abort "{{{
           \ printf("name: %s,\nindexlen: %d,\nwordlist: %s,\noptions: %s",
           \         input.name, input.indexlen, string(input.wordlist), string(input.options)))
   endfor
-endfunction
-"}}}
+endfunction "}}}
 function! s:suite.delimitermatch() dict abort "{{{
   " testset {{{
   let testset = [
@@ -254,8 +251,7 @@ function! s:suite.delimitermatch() dict abort "{{{
           \ printf("name: %s,\nindexlen: %d,\nwordlist: %s,\noptions: %s",
           \         input.name, input.indexlen, string(input.wordlist), string(input.options)))
   endfor
-endfunction
-"}}}
+endfunction "}}}
 
 " vim:set foldmethod=marker:
 " vim:set commentstring="%s:

@@ -21,8 +21,7 @@ function! Verdin#Event#get(...) abort "{{{
     let bufinfo.variables.Verdin.Event = s:Event()
   endif
   return bufinfo.variables.Verdin.Event
-endfunction
-"}}}
+endfunction "}}}
 
 let s:Event = {
       \   'bufnr': 0,
@@ -45,15 +44,13 @@ function! s:Event.startbufferinspection() abort "{{{
     execute printf('autocmd BufWritePost <buffer=%d> call Verdin#Observer#inspect(%d, %d)', self.bufnr, self.bufnr, s:const.SCANTIMEOUTLONG)
     execute printf('autocmd BufEnter     <buffer=%d> call Verdin#Observer#checkglobals(%d)', self.bufnr, self.bufnr)
   augroup END
-endfunction
-"}}}
+endfunction "}}}
 function! s:Event.stopbufferinspection() abort "{{{
   let self.bufferinspection = s:OFF
   augroup Verdin-bufferinspection
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
   augroup END
-endfunction
-"}}}
+endfunction "}}}
 function! s:Event.setCompleteDone(autocomplete) dict abort "{{{
   let self.CompleteDone = s:ON
   augroup Verdin-aftercomplete
@@ -63,23 +60,20 @@ function! s:Event.setCompleteDone(autocomplete) dict abort "{{{
     execute printf('autocmd InsertLeave   <buffer=%d> call s:aftercomplete("InsertLeave",   %d)', self.bufnr, a:autocomplete)
     execute printf('autocmd CursorMovedI  <buffer=%d> call s:aftercomplete("CursorMovedI",  %d)', self.bufnr, a:autocomplete)
   augroup END
-endfunction
-"}}}
+endfunction "}}}
 function! s:Event.unsetCompleteDone() dict abort "{{{
   augroup Verdin-aftercomplete
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
   augroup END
   let self.CompleteDone = s:OFF
-endfunction
-"}}}
+endfunction "}}}
 function! s:Event.setpersistentCompleteDone(autocomplete) dict abort "{{{
   let self.CompleteDone = s:ON
   augroup Verdin-aftercomplete
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
     execute printf('autocmd CompleteDone <buffer=%d> call s:aftercomplete("CompleteDone", %d)', self.bufnr, a:autocomplete)
   augroup END
-endfunction
-"}}}
+endfunction "}}}
 function! s:Event.startautocomplete() abort "{{{
   if self.autocomplete is s:ON
     return
@@ -90,8 +84,7 @@ function! s:Event.startautocomplete() abort "{{{
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
     execute printf('autocmd CursorMovedI <buffer=%d> call Verdin#Verdin#triggercomplete()', self.bufnr)
   augroup END
-endfunction
-"}}}
+endfunction "}}}
 function! s:Event.stopautocomplete() abort "{{{
   if self.CompleteDone is s:ON
     call s:aftercomplete('', 1)
@@ -101,8 +94,7 @@ function! s:Event.stopautocomplete() abort "{{{
   augroup Verdin-autocomplete
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
   augroup END
-endfunction
-"}}}
+endfunction "}}}
 function! s:Event.pauseautocomplete() abort "{{{
   if self.autocomplete is s:OFF
     return
@@ -113,16 +105,14 @@ function! s:Event.pauseautocomplete() abort "{{{
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
   augroup END
   call self.setCompleteDone(1)
-endfunction
-"}}}
+endfunction "}}}
 function! s:Event.resumeautocomplete() dict abort "{{{
   if self.autocomplete isnot s:PAUSE
     return
   endif
 
   call self.startautocomplete()
-endfunction
-"}}}
+endfunction "}}}
 function! s:aftercomplete(event, autocomplete) abort "{{{
   let Completer = Verdin#Completer#get()
   let success = Completer.aftercomplete(a:event, a:autocomplete)
@@ -131,8 +121,7 @@ function! s:aftercomplete(event, autocomplete) abort "{{{
     call Event.resumeautocomplete()
     call Event.unsetCompleteDone()
   endif
-endfunction
-"}}}
+endfunction "}}}
 
 function! s:Event(...) abort
   let Event = deepcopy(s:Event)

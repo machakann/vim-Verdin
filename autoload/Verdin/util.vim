@@ -30,21 +30,18 @@ function! Verdin#util#exportbasedict(path, ...) abort "{{{
     let lines += ['lockvar! ' . valname]
   endfor
   call writefile(lines, expand(a:path))
-endfunction
-"}}}
+endfunction "}}}
 function! Verdin#util#export(val, path, ...) abort "{{{
   let lines = s:val2str(a:val, get(a:000, 0, 'val'))
   call writefile(lines, expand(a:path))
-endfunction
-"}}}
+endfunction "}}}
 function! s:val2str(item, ...) abort "{{{
   let lines = [printf('let %s = ', get(a:000, 0, 'val'))]
   let indentlevel = 0
   call s:export(a:item, lines, indentlevel)
   let lines[-1] = substitute(lines[-1], ',\s*$', '', '')
   return lines
-endfunction
-"}}}
+endfunction "}}}
 function! s:export(item, lines, indentlevel) abort "{{{
   if type(a:item) == v:t_number
     call s:export_num(a:item, a:lines, a:indentlevel)
@@ -57,26 +54,22 @@ function! s:export(item, lines, indentlevel) abort "{{{
   elseif type(a:item) == v:t_float
     call s:export_float(a:item, a:lines, a:indentlevel)
   endif
-endfunction
-"}}}
+endfunction "}}}
 function! s:export_num(num, lines, indentlevel) abort "{{{
   let a:lines[-1] .= printf('%d,', a:num)
   return a:indentlevel
-endfunction
-"}}}
+endfunction "}}}
 function! s:export_str(str, lines, indentlevel) abort "{{{
   let a:lines[-1] .= printf('''%s'',', s:escapesinglequote(a:str))
   return a:indentlevel
-endfunction
-"}}}
+endfunction "}}}
 function! s:export_list(list, lines, indentlevel) abort "{{{
   let a:lines[-1] .= '['
   for item in a:list
     call s:export(item, a:lines, a:indentlevel+1)
   endfor
   let a:lines[-1] .= '],'
-endfunction
-"}}}
+endfunction "}}}
 function! s:export_dict(dict, lines, indentlevel) abort "{{{
   let a:lines[-1] .= '{'
   let keylist = sort(keys(a:dict))
@@ -86,16 +79,13 @@ function! s:export_dict(dict, lines, indentlevel) abort "{{{
     call s:export(value, a:lines, a:indentlevel+1)
   endfor
   call add(a:lines, printf('\%s },', repeat('  ', a:indentlevel)))
-endfunction
-"}}}
+endfunction "}}}
 function! s:export_float(float, lines, indentlevel) abort "{{{
   let a:lines[-1] .= printf('%f,', a:float)
-endfunction
-"}}}
+endfunction "}}}
 function! s:escapesinglequote(str) abort "{{{
   return substitute(a:str, "'", "''", 'g')
-endfunction
-"}}}
+endfunction "}}}
 
 function! Verdin#util#countoccurrence(...) abort "{{{
   let need_rebuild = get(a:000, 0, 0)
@@ -122,8 +112,7 @@ function! Verdin#util#countoccurrence(...) abort "{{{
     call s:scan(bufnr, report)
   endfor
   return report
-endfunction
-"}}}
+endfunction "}}}
 function! s:scan(bufnr, report) abort "{{{
   if !bufexists(a:bufnr)
     return
@@ -137,8 +126,7 @@ function! s:scan(bufnr, report) abort "{{{
   for item in a:report
     let item.n += s:count(item.pat)
   endfor
-endfunction
-"}}}
+endfunction "}}}
 function! s:count(pat) abort "{{{
   normal! gg
   let n = 0
@@ -151,8 +139,7 @@ function! s:count(pat) abort "{{{
     let lnum = search(a:pat, 'W')
   endwhile
   return n
-endfunction
-"}}}
+endfunction "}}}
 function! Verdin#util#wordlist(name, ...) abort "{{{
   if a:0 > 0
     let report = a:1
@@ -162,8 +149,7 @@ function! Verdin#util#wordlist(name, ...) abort "{{{
   let partiallist = filter(copy(report), 'v:val.name ==# a:name')
   call sort(partiallist, {a, b -> b.n - a.n})
   return map(partiallist, 'v:val.word')
-endfunction
-"}}}
+endfunction "}}}
 
 " base dictionaries
 " Command dictionary{{{
@@ -339,8 +325,7 @@ let s:helptagwordlist = s:helptagitems(map(readfile(s:helptagspath), 'split(v:va
 function! Verdin#util#rebuildbasedict(...) abort "{{{
   let filetype = get(a:000, 0, 'vim')
   return s:rebuild{filetype}basedict()
-endfunction
-"}}}
+endfunction "}}}
 function! s:rebuildvimbasedict() abort "{{{
   let options = {'sortbylength': 1}
   let basedict = {}
@@ -364,14 +349,12 @@ function! s:rebuildvimbasedict() abort "{{{
   let basedict.exists = Verdin#Dictionary#new('exists', s:const.EXISTSHELPERCONDITIONLIST, s:existshelperwordlist, 0, options)
   let basedict.feature = Verdin#Dictionary#new('feature', s:const.FEATURECONDITIONLIST, s:featurewordlist, 1)
   return basedict
-endfunction
-"}}}
+endfunction "}}}
 function! s:rebuildhelpbasedict() abort "{{{
   let basedict = {}
   let basedict.tag = Verdin#Dictionary#new('tag', s:const.HELPTAGCONDITIONLIST, s:helptagwordlist, 2)
   return basedict
-endfunction
-"}}}
+endfunction "}}}
 
 " vim:set ts=2 sts=2 sw=2 tw=0:
 " vim:set foldmethod=marker: commentstring="%s:

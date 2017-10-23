@@ -4,8 +4,7 @@ let s:converter = {
 function! s:converter.filter(context) dict abort "{{{
   let Completer = Verdin#Completer#get()
   return Completer.modify(a:context.candidates)
-endfunction
-"}}}
+endfunction "}}}
 
 function! neocomplete#filters#converter_Verdin#define() abort
   return s:converter

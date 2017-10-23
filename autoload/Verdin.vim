@@ -28,8 +28,7 @@ let g:Verdin#debugmodeon = get(g:, 'Verdin#debugmodeon', s:default.debugmodeon)
 
 function! Verdin#omnifunc(findstart, base) abort "{{{
   return Verdin#Verdin#omnifunc(a:findstart, a:base)
-endfunction
-"}}}
+endfunction "}}}
 function! Verdin#getoption(name) abort "{{{
   if exists('b:Verdin_' . a:name)
     return b:['Verdin_' . a:name]
@@ -38,8 +37,7 @@ function! Verdin#getoption(name) abort "{{{
     return g:['Verdin#' . a:name]
   endif
   return s:default[a:name]
-endfunction
-"}}}
+endfunction "}}}
 
 " vim:set ts=2 sts=2 sw=2 tw=0:
 " vim:set foldmethod=marker: commentstring="%s:

@@ -36,13 +36,11 @@ function! s:VerdinInsertKet(mode) abort
     return "a)\<Esc>"
   endif
   return ''
-endfunction
-"}}}
+endfunction "}}}
 
 function! Verdin#Completer#new(Dictionaries) abort "{{{
   return s:Completer(a:Dictionaries)
-endfunction
-"}}}
+endfunction "}}}
 function! Verdin#Completer#get(...) abort "{{{
   let bufexpr = get(a:000, 0, '%')
   let bufinfo = get(getbufinfo(bufexpr), 0, {})
@@ -58,8 +56,7 @@ function! Verdin#Completer#get(...) abort "{{{
     let bufinfo.variables.Verdin.Completer = s:Completer(Dictionaries)
   endif
   return bufinfo.variables.Verdin.Completer
-endfunction
-"}}}
+endfunction "}}}
 
 " Completer object {{{
 let s:Completer = {
@@ -129,8 +126,7 @@ function! s:Completer.startcol(...) dict abort "{{{
   let self.last.startcol = minstartcol
   let self.last.base = base
   return minstartcol
-endfunction
-"}}}
+endfunction "}}}
 function! s:Completer.match(base) dict abort "{{{
   if self.candidatelist == []
     return []
@@ -150,8 +146,7 @@ function! s:Completer.match(base) dict abort "{{{
     endfor
   endfor
   return candidatelist
-endfunction
-"}}}
+endfunction "}}}
 let s:MEMO_fuzzymatch = {}
 function! s:Completer.fuzzymatch(base, ...) dict abort "{{{
   if self.fuzzycandidatelist == []
@@ -176,8 +171,7 @@ function! s:Completer.fuzzymatch(base, ...) dict abort "{{{
     endif
   endwhile
   return candidatelist
-endfunction
-"}}}
+endfunction "}}}
 function! s:Completer.modify(candidatelist, ...) dict abort "{{{
   let modifiers = get(a:000, 0, ['braket', 'snip'])
   if match(modifiers, '\m\C^braket$') > -1
@@ -187,8 +181,7 @@ function! s:Completer.modify(candidatelist, ...) dict abort "{{{
     call s:addsnippeditems(a:candidatelist, self.last.postcursor)
   endif
   return a:candidatelist
-endfunction
-"}}}
+endfunction "}}}
 function! s:Completer.complete(startcol, itemlist) dict abort "{{{
   if self.savedoptions == {}
     let self.savedoptions.completeopt = &completeopt
@@ -201,8 +194,7 @@ function! s:Completer.complete(startcol, itemlist) dict abort "{{{
   let self.is.in_completion = s:TRUE
   call complete(a:startcol+1, a:itemlist)
   let self.is.in_completion = s:FALSE
-endfunction
-"}}}
+endfunction "}}}
 function! s:Completer.aftercomplete(event, autocomplete) dict abort "{{{
   if self.is.in_completion
     return 0
@@ -222,19 +214,16 @@ function! s:Completer.aftercomplete(event, autocomplete) dict abort "{{{
     let self.savedoptions = {}
   endif
   return 1
-endfunction
-"}}}
+endfunction "}}}
 function! s:Completer.addDictionary(name, new) dict abort "{{{
   let self.shelf[a:name] = a:new
-endfunction
-"}}}
+endfunction "}}}
 function! s:Completer.dropduplicates(wordlist, namelist) dict abort "{{{
   for name in a:namelist
     call filter(a:wordlist, 'count(self.shelf[name]["wordlist"], v:val) == 0')
   endfor
   return a:wordlist
-endfunction
-"}}}
+endfunction "}}}
 let s:NOTHING_FOUND = [-1, {}, {}]
 function! s:lookup(Dictionary, precursor, minstartcol, cursor_is_in, giveupifshort, fuzzymatch) abort  "{{{
   if a:Dictionary == {}
@@ -291,21 +280,18 @@ function! s:lookup(Dictionary, precursor, minstartcol, cursor_is_in, giveupifsho
     return [savedstartcol, {}, fuzzycandidate]
   endif
   return s:NOTHING_FOUND
-endfunction
-"}}}
+endfunction "}}}
 function! s:matchstr(precursor, pat) abort "{{{
   let [lnum, col] = searchpos(a:pat, 'bcnW', s:CURRENTLNUM)
   if lnum != 0
     return [s:TRUE, a:precursor[col-1 :]]
   endif
   return  [s:FALSE, '']
-endfunction
-"}}}
+endfunction "}}}
 function! s:cursor_not_at(condition) abort "{{{
   let cursor_not_at = get(a:condition, 'cursor_not_at', '')
   return cursor_not_at !=# '' && (search(cursor_not_at, 'bcnW', s:CURRENTLNUM) != 0 || search(cursor_not_at, 'cn', s:CURRENTLNUM) != 0)
-endfunction
-"}}}
+endfunction "}}}
 function! s:cursor_is_in(condition, cursor_is_in) abort "{{{
   let flags = []
   if has_key(a:condition, 'in_string')
@@ -337,8 +323,7 @@ function! s:cursor_is_in(condition, cursor_is_in) abort "{{{
     endif
   endif
   return flags == [] || eval(join(flags, '&&')) ? 1 : 0
-endfunction
-"}}}
+endfunction "}}}
 function! s:addsnippeditems(candidatelist, postcursor, ...) abort "{{{
   let postcursor = s:lib.escape(matchstr(a:postcursor, '^\%(\k\+()\?\|\k\+\>\)'))
   if postcursor ==# ''
@@ -376,12 +361,10 @@ function! s:addsnippeditems(candidatelist, postcursor, ...) abort "{{{
     let i -= 1
   endwhile
   return a:candidatelist
-endfunction
-"}}}
+endfunction "}}}
 function! s:is_started() abort "{{{
   return exists('b:Verdin')
-endfunction
-"}}}
+endfunction "}}}
 function! s:flatten(candidatelist, base) abort "{{{
   let nbase = strchars(a:base)
   if nbase < 3
@@ -394,8 +377,7 @@ function! s:flatten(candidatelist, base) abort "{{{
     let flattened += itemlist
   endfor
   return flattened
-endfunction
-"}}}
+endfunction "}}}
 function! s:similarlist(candidatelist, base) abort "{{{
   let pat = join(['\m^\%(', strcharpart(a:base, 0, 1), '\|', substitute(a:base, '\m^\(.\)\(.\).*', '\2\1', ''), '\)'], '')
   let similarlist = []
@@ -416,8 +398,7 @@ function! s:similarlist(candidatelist, base) abort "{{{
     endfor
   endfor
   return similarlist
-endfunction
-"}}}
+endfunction "}}}
 function! s:fuzzyitem(item, base, score, difflen) abort "{{{
   let itemtype = type(a:item)
   let fuzzymenu = ' *fuzzy*'
@@ -437,8 +418,7 @@ function! s:fuzzyitem(item, base, score, difflen) abort "{{{
                   \  '__text__': a:base, '__score__': a:score, '__difflen__': a:difflen}
   endif
   return candidate
-endfunction
-"}}}
+endfunction "}}}
 function! s:strcmp(base, text) abort "{{{
   if has_key(s:MEMO_fuzzymatch, a:text)
     let d = s:MEMO_fuzzymatch[a:text]
@@ -447,8 +427,7 @@ function! s:strcmp(base, text) abort "{{{
     let s:MEMO_fuzzymatch[a:text] = d
   endif
   return d
-endfunction
-"}}}
+endfunction "}}}
 function! s:autobrainsert(candidatelist, postcursor) abort "{{{
   if a:postcursor[0] ==# '('
     return a:candidatelist
@@ -471,8 +450,7 @@ function! s:autobrainsert(candidatelist, postcursor) abort "{{{
     endfor
   endif
   return a:candidatelist
-endfunction
-"}}}
+endfunction "}}}
 function! s:autoketinsert(item) abort "{{{
   let autobraketinsert = Verdin#getoption('autobraketinsert')
   if autobraketinsert == 2
@@ -480,8 +458,7 @@ function! s:autoketinsert(item) abort "{{{
       call feedkeys(s:VerdinInsertKet, 'im')
     endif
   endif
-endfunction
-"}}}
+endfunction "}}}
 function! s:whereishere(precursor, lnum, col) abort "{{{
   if synIDattr(synIDtrans(synID(a:lnum, a:col-1, 1)), 'name') ==# 'Comment'
     return {'comment': 1, 'string': 0}
@@ -490,15 +467,13 @@ function! s:whereishere(precursor, lnum, col) abort "{{{
     return {'comment': 0, 'string': 1}
   endif
   return {'comment': 0, 'string': 0}
-endfunction
-"}}}
+endfunction "}}}
 
 function! s:Completer(Dictionaries) abort
   let Completer = deepcopy(s:Completer)
   let Completer.shelf = copy(a:Dictionaries)
   return Completer
-endfunction
-"}}}
+endfunction "}}}
 
 " vim:set ts=2 sts=2 sw=2 tw=0:
 " vim:set foldmethod=marker: commentstring="%s:
