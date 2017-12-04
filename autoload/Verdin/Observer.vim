@@ -58,6 +58,8 @@ function! Verdin#Observer#inspect(bufnr, ...) abort "{{{
       call Completer.addDictionary('buffermember', Observer.shelf.buffermember)
       call Completer.addDictionary('bufferkeymap', Observer.shelf.bufferkeymap)
       call Completer.addDictionary('buffercommand', Observer.shelf.buffercommand)
+      call Completer.addDictionary('buffercommand', Observer.shelf.buffercommand)
+      call Completer.addDictionary('bufferhigroup', Observer.shelf.bufferhigroup)
       call Completer.addDictionary('funcfragment', Observer.shelf.funcfragment)
       call Completer.addDictionary('varfragment', Observer.shelf.varfragment)
     endif
@@ -88,6 +90,7 @@ function! Verdin#Observer#checkglobals(bufnr, ...) abort "{{{
       call Completer.addDictionary('globalmember', Observer.shelf.globalmember)
       call Completer.addDictionary('globalkeymap', Observer.shelf.globalkeymap)
       call Completer.addDictionary('globalcommand', Observer.shelf.globalcommand)
+      call Completer.addDictionary('globalhigroup', Observer.shelf.globalhigroup)
     endif
   elseif &filetype ==# 'help'
     if !has_key(Completer.shelf, 'globaltag')
@@ -95,6 +98,7 @@ function! Verdin#Observer#checkglobals(bufnr, ...) abort "{{{
       call Completer.addDictionary('globalfunc', Observer.shelf.globalfunc)
       call Completer.addDictionary('globalkeymap', Observer.shelf.globalkeymap)
       call Completer.addDictionary('globalcommand', Observer.shelf.globalcommand)
+      call Completer.addDictionary('globalhigroup', Observer.shelf.globalhigroup)
       call Completer.addDictionary('globaltag', Observer.shelf.globaltag)
     endif
   endif
@@ -104,7 +108,6 @@ endfunction "}}}
 let s:Observer = {
       \   'bufname': '',
       \   'bufnr': -1,
-      \   'b': {},
       \   'changedtick': -1,
       \   'globalcheckstarted': 0,
       \   'shelf': {
@@ -213,12 +216,14 @@ function! s:checkglobalshelp(...) dict abort "{{{
   let funclist = []
   let keymapwordlist = []
   let commandlist = []
+  let higrouplist = []
   for filepath in s:lib.searchvimscripts()
-    let Observer = s:check(filepath, 'vim', timeout, ['var', 'func', 'keymap', 'command'])
+    let Observer = s:check(filepath, 'vim', timeout, ['var', 'func', 'keymap', 'command', 'higroup'])
     let varlist += filter(copy(get(Observer.shelf.buffervar, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^[bgtw]:\h[A-Za-z0-9_#]*''')
     let funclist += filter(copy(get(Observer.shelf.bufferfunc, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^\%([A-Z]\w*\|\h\w\%(#\h\w*\)\+\)''')
     let keymapwordlist += filter(copy(get(Observer.shelf.bufferkeymap, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^<Plug>''')
     let commandlist += get(Observer.shelf.buffercommand, 'wordlist', [])
+    let higrouplist += get(Observer.shelf.bufferhigroup, 'wordlist', [])
   endfor
   if varlist != []
     let conditionlist = [{'cursor_at': '\m\C\<[bgtw]:\h[A-Za-z0-9_#]*\%#'}]
@@ -236,9 +241,16 @@ function! s:checkglobalshelp(...) dict abort "{{{
     call s:inject(self.shelf['globalkeymap'], keymap)
   endif
   if commandlist != []
-    let conditionlist = [{'cursor_at': '\m\C\<[A-Z]\w*\%#'}]
+    let conditionlist = [{'cursor_at': '\m\C:\?\<[A-Z]\w*\%#'}, ]
+    let commandlist += map(filter(copy(commandlist), 'type(v:val) == v:t_string'), '":" . v:val')
     let command = Verdin#Dictionary#new('command', conditionlist, commandlist, 3)
     call s:inject(self.shelf['globalcommand'], command)
+  endif
+  if higrouplist != []
+    let conditionlist = [{'cursor_at': '\m\C\zs\<\%(hl-\)\?[A-Z]\w*\%#'}]
+    let higrouplist += map(filter(copy(higrouplist), 'type(v:val) == v:t_string'), '"hl-" . v:val')
+    let higroup = Verdin#Dictionary#new('higroup', conditionlist, higrouplist, 3)
+    call s:inject(self.shelf['globalhigroup'], higroup)
   endif
 endfunction "}}}
 function! s:check(filepath, kind, timeout, order) abort "{{{
@@ -599,13 +611,8 @@ function! s:varfragmentwordlist(varlist) abort "{{{
   return varfragmentwordlist
 endfunction "}}}
 function! s:helptagitems(helptaglist) abort "{{{
-  let helptagitems = []
   let file = ' ' . expand('%:t')
-  for helptag in a:helptaglist
-    let word = printf('|%s|', helptag)
-    call add(helptagitems, {'word': word, 'menu': file, 'abbr': helptag, '__text__': word})
-  endfor
-  return helptagitems
+  return map(a:helptaglist, "{'word': v:val, 'menu': file, 'abbr': v:val, '__text__': v:val}")
 endfunction "}}}
 function! s:inject(destination, Dictionary) abort "{{{
   call filter(a:destination, 0)
