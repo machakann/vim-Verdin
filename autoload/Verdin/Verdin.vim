@@ -98,11 +98,18 @@ function! Verdin#Verdin#finishautocomplete(bang) abort "{{{
   endif
 endfunction "}}}
 function! Verdin#Verdin#scanbuffer(args) abort "{{{
+  if &filetype ==# 'vim'
+    let defaultorder = s:const.DEFAULTORDERVIM
+  elseif &filetype ==# 'help'
+    let defaultorder = s:const.DEFAULTORDERHELP
+  else
+    return
+  endif
   if a:args ==# ''
-    let order = s:const.DEFAULTORDER
+    let order = defaultorder
   else
     let order = split(a:args, '[[:blank:],]')
-    let validpat = join(['^\%(', join(s:const.DEFAULTORDER, '\|'), '\)$'], '')
+    let validpat = join(['^\%(', join(defaultorder, '\|'), '\)$'], '')
     let invalids = filter(copy(order), {idx, val -> val !~# validpat})
     if invalids != []
       echohl ErrorMsg
@@ -111,7 +118,7 @@ function! Verdin#Verdin#scanbuffer(args) abort "{{{
       elseif len(invalids) == 1
         echomsg printf('Verdin: The input item %s is invalid.', '"' . invalids[0] . '"')
       endif
-      echomsg printf('Verdin: The available items are %s. Please try again.', join(map(copy(s:const.DEFAULTORDER), {idx, val -> '"' . val . '"'}), ', '))
+      echomsg printf('Verdin: The available items are %s. Please try again.', join(map(copy(defaultorder), {idx, val -> '"' . val . '"'}), ', '))
       echohl NONE
       return
     endif
@@ -121,7 +128,14 @@ function! Verdin#Verdin#scanbuffer(args) abort "{{{
   call Verdin#Observer#inspect(bufnr, 1/0, order)
 endfunction "}}}
 function! Verdin#Verdin#scanbuffer_compl(ArgLead, CmdLine, CursorPos) abort "{{{
-  return join(s:const.DEFAULTORDER, "\n")
+  if &filetype ==# 'vim'
+    let defaultorder = s:const.DEFAULTORDERVIM
+  elseif &filetype ==# 'help'
+    let defaultorder = s:const.DEFAULTORDERHELP
+  else
+    return []
+  endif
+  return join(defaultorder, "\n")
 endfunction "}}}
 function! Verdin#Verdin#omnifunc(findstart, base) abort "{{{
   let Event = Verdin#Event#get()
