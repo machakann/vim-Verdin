@@ -35,8 +35,14 @@ function! Verdin#Observer#get(...) abort "{{{
   return bufinfo.variables.Verdin.Observer
 endfunction "}}}
 function! Verdin#Observer#inspect(bufnr, ...) abort "{{{
+  if &filetype ==# 'vim'
+    let order = get(a:000, 1, s:const.DEFAULTORDERVIM)
+  elseif &filetype ==# 'help'
+    let order = get(a:000, 1, s:const.DEFAULTORDERHELP)
+  else
+    return
+  endif
   let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
-  let order = get(a:000, 1, s:const.DEFAULTORDER)
   let forcescan = get(a:000, 2, 0)
   let Observer = Verdin#Observer#get()
   if Observer.changedtick == -1
@@ -62,8 +68,14 @@ function! Verdin#Observer#inspect(bufnr, ...) abort "{{{
   endif
 endfunction "}}}
 function! Verdin#Observer#checkglobals(bufnr, ...) abort "{{{
+  if &filetype ==# 'vim'
+    let order = get(a:000, 1, s:const.DEFAULTORDERVIM)
+  elseif &filetype ==# 'help'
+    let order = get(a:000, 1, s:const.DEFAULTORDERHELP)
+  else
+    return
+  endif
   let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
-  let order = get(a:000, 1, s:const.DEFAULTORDER)
   let forcescan = get(a:000, 2, 0)
   let Observer = Verdin#Observer#get()
   call Observer.checkglobals(timeout, order, forcescan)
@@ -125,7 +137,7 @@ function! s:checkglobalsvim(...) dict abort "{{{
   endif
   let self.globalcheckstarted = 1
   let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
-  let order = get(a:000, 1, s:const.DEFAULTORDER)
+  let order = get(a:000, 1, s:const.DEFAULTORDERVIM)
 
   let varlist = []
   let funclist = []
@@ -182,7 +194,7 @@ function! s:checkglobalshelp(...) dict abort "{{{
   endif
   let self.globalcheckstarted = 1
   let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
-  let order = []  " dummy
+  let order = get(a:000, 1, s:const.DEFAULTORDERHELP)
 
   " check help buffer
   let helptaglist = []
@@ -202,7 +214,7 @@ function! s:checkglobalshelp(...) dict abort "{{{
   let keymapwordlist = []
   let commandlist = []
   for filepath in s:lib.searchvimscripts()
-    let Observer = s:check(filepath, 'vim', timeout, order)
+    let Observer = s:check(filepath, 'vim', timeout, ['var', 'func', 'keymap', 'command'])
     let varlist += filter(copy(get(Observer.shelf.buffervar, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^[bgtw]:\h[A-Za-z0-9_#]*''')
     let funclist += filter(copy(get(Observer.shelf.bufferfunc, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^\%([A-Z]\w*\|\h\w\%(#\h\w*\)\+\)''')
     let keymapwordlist += filter(copy(get(Observer.shelf.bufferkeymap, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^<Plug>''')
@@ -263,7 +275,7 @@ function! s:inspectvim(...) dict abort "{{{
   endif
   let self.changedtick = getbufvar(self.bufnr, 'changedtick', 0)
   let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
-  let order = get(a:000, 1, s:const.DEFAULTORDER)
+  let order = get(a:000, 1, s:const.DEFAULTORDERVIM)
 
   " NOTE: The second condition is for tests
   if bufloaded(self.bufnr) || self.testmode
@@ -367,7 +379,7 @@ function! s:inspecthelp(...) dict abort "{{{
   endif
   let self.changedtick = getbufvar(self.bufnr, 'changedtick', 0)
   let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
-  let order = get(a:000, 1, ['tag'])
+  let order = get(a:000, 1, s:const.DEFAULTORDERHELP)
 
   if bufloaded(self.bufnr)
     let doc = s:get_buffer_string(self.bufnr)

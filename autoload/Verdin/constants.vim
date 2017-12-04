@@ -37,7 +37,7 @@ let s:COMMANDREGEX = '\m\C\%(^\|\n\)\s*com\%[mand]!\?\s\+\%(\%(-nargs=[01*?+]\|-
 let s:HIGROUPREGEX = '\m\C\%(^\|\n\)\s*hi\%[ghlight]!\?\s\+\%(default\s\+\)\?\%(link\s\+\)\?\zs\h\w*'
 let s:SNAKECASEWORDREGEX = '\m\C\(\h\)[0-9A-Za-z]*' . repeat('\%([_#\-]\+\(\h\)[0-9A-Za-z]*\)\?', 8)
 let s:CAMELCASEWORDREGEX = '\m\C\(\h\)[0-9a-z]\+' . repeat('\%(\(\u\)\u*[0-9a-z]\+\)\?', 8)
-let s:HELPTAGREGEX = '\m\*\zs[^*[:spaces:]]\+\ze\*'
+let s:HELPTAGREGEX = '\m\*\zs[^*[:space:]]\+\ze\*'
 
 let s:constants = {}
 " control constants
@@ -50,7 +50,8 @@ let s:constants.ITEMLISTTHRESHOLD = 20
 let s:constants.FUZZYMATCHINTERVAL = 5.0
 let s:constants.FUZZYMATCHTHRESHOLD = 0.88
 let s:constants.DOCPATHSMAX = 20
-let s:constants.DEFAULTORDER = ['var', 'func', 'keymap', 'command', 'higroup']
+let s:constants.DEFAULTORDERVIM = ['var', 'func', 'keymap', 'command', 'higroup']
+let s:constants.DEFAULTORDERHELP = ['tag']
 " regular expressions
 let s:constants.VARNAME = '\m\C' . s:VARNAME
 let s:constants.VARREGEX = s:VARREGEX
