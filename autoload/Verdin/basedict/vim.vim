@@ -8566,7 +8566,7 @@ let s:option = {
 \       'cursor_at': '\m\C&\%(l:\)\?\zs\a*\%#',
 \       'priority': 256,
 \     },{
-\       'cursor_at': '\m\C^\s*set\%[local]\s\+\zs\a*\%#',
+\       'cursor_at': '\m\C^\s*set\%[local]\s\+\%(no\)\?\zs\a*\%#',
 \       'priority': 256,
 \     },{
 \       'cursor_at': '\m\C\<exists([''"][&+]\zs\a*\%#',

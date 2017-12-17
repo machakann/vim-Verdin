@@ -22,7 +22,7 @@ function! s:source.hooks.on_final(context) dict abort "{{{
 endfunction "}}}
 function! s:source.get_complete_position(context) dict abort "{{{
   let Event = Verdin#Event#get()
-  call Event.startbufferinspection()
+  call Event.bufferinspection_on()
   let Completer = Verdin#Completer#get()
   return Completer.startcol(s:GIVEUPIFSHORT)
 endfunction "}}}
@@ -39,7 +39,7 @@ function! s:source.gather_candidates(context) dict abort "{{{
   endif
   if itemlist != []
     let Event = Verdin#Event#get()
-    call Event.setpersistentCompleteDone(0)
+    call Event.aftercomplete_setCompleteDone(function(Completer.aftercomplete, [0], Completer))
   endif
   return map(itemlist, 'type(v:val) == v:t_dict ? v:val : {"word": v:val}')
 endfunction "}}}

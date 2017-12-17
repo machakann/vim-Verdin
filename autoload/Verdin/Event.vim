@@ -2,9 +2,8 @@
 
 " script local variables {{{
 let s:const = Verdin#constants#distribute()
-let s:ON = 1
+let s:ON  = 1
 let s:OFF = 0
-let s:PAUSE = -1
 "}}}
 
 function! Verdin#Event#get(...) abort "{{{
@@ -24,12 +23,12 @@ function! Verdin#Event#get(...) abort "{{{
 endfunction "}}}
 
 let s:Event = {
-      \   'bufnr': 0,
-      \   'bufferinspection': 0,
-      \   'autocomplete': 0,
-      \   'CompleteDone': 0,
-      \ }
-function! s:Event.startbufferinspection() abort "{{{
+  \   'bufnr': 0,
+  \   'bufferinspection': s:OFF,
+  \   'autocomplete': s:OFF,
+  \   'todolist': [],
+  \ }
+function! s:Event.bufferinspection_on(...) abort "{{{
   if self.bufferinspection is s:ON
     return
   endif
@@ -45,36 +44,13 @@ function! s:Event.startbufferinspection() abort "{{{
     execute printf('autocmd BufEnter     <buffer=%d> call Verdin#Observer#checkglobals(%d)', self.bufnr, self.bufnr)
   augroup END
 endfunction "}}}
-function! s:Event.stopbufferinspection() abort "{{{
+function! s:Event.bufferinspection_off(...) abort "{{{
   let self.bufferinspection = s:OFF
   augroup Verdin-bufferinspection
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
   augroup END
 endfunction "}}}
-function! s:Event.setCompleteDone(autocomplete) dict abort "{{{
-  let self.CompleteDone = s:ON
-  augroup Verdin-aftercomplete
-    execute printf('autocmd! * <buffer=%d>', self.bufnr)
-    execute printf('autocmd CompleteDone  <buffer=%d> call s:aftercomplete("CompleteDone",  %d)', self.bufnr, a:autocomplete)
-    execute printf('autocmd InsertCharPre <buffer=%d> call s:aftercomplete("InsertCharPre", %d)', self.bufnr, a:autocomplete)
-    execute printf('autocmd InsertLeave   <buffer=%d> call s:aftercomplete("InsertLeave",   %d)', self.bufnr, a:autocomplete)
-    execute printf('autocmd CursorMovedI  <buffer=%d> call s:aftercomplete("CursorMovedI",  %d)', self.bufnr, a:autocomplete)
-  augroup END
-endfunction "}}}
-function! s:Event.unsetCompleteDone() dict abort "{{{
-  augroup Verdin-aftercomplete
-    execute printf('autocmd! * <buffer=%d>', self.bufnr)
-  augroup END
-  let self.CompleteDone = s:OFF
-endfunction "}}}
-function! s:Event.setpersistentCompleteDone(autocomplete) dict abort "{{{
-  let self.CompleteDone = s:ON
-  augroup Verdin-aftercomplete
-    execute printf('autocmd! * <buffer=%d>', self.bufnr)
-    execute printf('autocmd CompleteDone <buffer=%d> call s:aftercomplete("CompleteDone", %d)', self.bufnr, a:autocomplete)
-  augroup END
-endfunction "}}}
-function! s:Event.startautocomplete() abort "{{{
+function! s:Event.autocomplete_on(...) abort "{{{
   if self.autocomplete is s:ON
     return
   endif
@@ -85,42 +61,46 @@ function! s:Event.startautocomplete() abort "{{{
     execute printf('autocmd CursorMovedI <buffer=%d> call Verdin#Verdin#triggercomplete()', self.bufnr)
   augroup END
 endfunction "}}}
-function! s:Event.stopautocomplete() abort "{{{
-  if self.CompleteDone is s:ON
-    call s:aftercomplete('', 1)
-  endif
-
+function! s:Event.autocomplete_off(...) abort "{{{
   let self.autocomplete = s:OFF
   augroup Verdin-autocomplete
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
   augroup END
 endfunction "}}}
-function! s:Event.pauseautocomplete() abort "{{{
-  if self.autocomplete is s:OFF
-    return
-  endif
-
-  let self.autocomplete = s:PAUSE
-  augroup Verdin-autocomplete
+function! s:Event.aftercomplete_set(Funcref) dict abort "{{{
+  call add(self.todolist, a:Funcref)
+  augroup Verdin-aftercomplete
+    execute printf('autocmd! * <buffer=%d>', self.bufnr)
+    execute printf('autocmd CompleteDone  <buffer=%d> call s:aftercomplete("CompleteDone")',  self.bufnr)
+    execute printf('autocmd InsertCharPre <buffer=%d> call s:aftercomplete("InsertCharPre")', self.bufnr)
+    execute printf('autocmd InsertLeave   <buffer=%d> call s:aftercomplete("InsertLeave")',   self.bufnr)
+    execute printf('autocmd CursorMovedI  <buffer=%d> call s:aftercomplete("CursorMovedI")',  self.bufnr)
+  augroup END
+endfunction "}}}
+function! s:Event.aftercomplete_setCompleteDone(Funcref) dict abort "{{{
+  call add(self.todolist, a:Funcref)
+  augroup Verdin-aftercomplete
+    execute printf('autocmd! * <buffer=%d>', self.bufnr)
+    execute printf('autocmd CompleteDone <buffer=%d> call s:aftercomplete("CompleteDone")', self.bufnr)
+  augroup END
+endfunction "}}}
+function! s:Event.aftercomplete_done(event) abort "{{{
+  for F in self.todolist
+    call F(a:event)
+  endfor
+  call filter(self.todolist, 0)
+  augroup Verdin-aftercomplete
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
   augroup END
-  call self.setCompleteDone(1)
 endfunction "}}}
-function! s:Event.resumeautocomplete() dict abort "{{{
-  if self.autocomplete isnot s:PAUSE
+function! s:aftercomplete(event) abort "{{{
+  let Completer = Verdin#Completer#get()
+  if Completer.is.in_completion
     return
   endif
 
-  call self.startautocomplete()
-endfunction "}}}
-function! s:aftercomplete(event, autocomplete) abort "{{{
-  let Completer = Verdin#Completer#get()
-  let success = Completer.aftercomplete(a:event, a:autocomplete)
-  if success
-    let Event = Verdin#Event#get()
-    call Event.resumeautocomplete()
-    call Event.unsetCompleteDone()
-  endif
+  let Event = Verdin#Event#get()
+  call Event.aftercomplete_done(a:event)
 endfunction "}}}
 
 function! s:Event(...) abort

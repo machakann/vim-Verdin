@@ -99,7 +99,7 @@ let s:constants.FUNCCONDITIONLIST = [
       \ ]
 let s:constants.OPTIONCONDITIONLIST = [
       \   {'cursor_at': '\m\C&\%(l:\)\?\zs\a*\%#', 'priority': 256},
-      \   {'cursor_at': '\m\C^\s*set\%[local]\s\+\zs\a*\%#', 'priority': 256},
+      \   {'cursor_at': '\m\C^\s*set\%[local]\s\+\%(no\)\?\zs\a*\%#', 'priority': 256},
       \   {'cursor_at': '\m\C\<exists([''"][&+]\zs\a*\%#', 'priority': 256},
       \   {'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#', 'in_string': 1, 'priority': 0},
       \   {'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\{6,}\%#', 'in_comment': 1, 'priority': 0},

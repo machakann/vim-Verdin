@@ -18,11 +18,11 @@ function! Verdin#Verdin#startbufferinspection(bang) abort "{{{
   if a:bang ==# '!'
     for bufinfo in s:getbufinfo()
       let Event = Verdin#Event#get(bufinfo.bufnr)
-      call Event.startbufferinspection()
+      call Event.bufferinspection_on()
     endfor
   else
     let Event = Verdin#Event#get()
-    call Event.startbufferinspection()
+    call Event.bufferinspection_on()
   endif
 endfunction "}}}
 function! Verdin#Verdin#stopbufferinspection(bang) abort "{{{
@@ -30,12 +30,12 @@ function! Verdin#Verdin#stopbufferinspection(bang) abort "{{{
     for bufinfo in s:getbufinfo()
       if has_key(bufinfo.variables, 'Verdin')
         let Event = Verdin#Event#get(bufinfo.bufnr)
-        call Event.stopbufferinspection()
+        call Event.bufferinspection_off()
       endif
     endfor
   else
     let Event = Verdin#Event#get()
-    call Event.stopbufferinspection()
+    call Event.bufferinspection_off()
   endif
 endfunction "}}}
 function! Verdin#Verdin#startautocomplete(bang) abort "{{{
@@ -44,13 +44,13 @@ function! Verdin#Verdin#startautocomplete(bang) abort "{{{
     let g:Verdin#autocomplete = s:ON
     for bufinfo in s:getbufinfo()
       let Event = Verdin#Event#get(bufinfo.bufnr)
-      call Event.startbufferinspection()
-      call Event.startautocomplete()
+      call Event.bufferinspection_on()
+      call Event.autocomplete_on()
     endfor
   else
     let Event = Verdin#Event#get()
-    call Event.startbufferinspection()
-    call Event.startautocomplete()
+    call Event.bufferinspection_on()
+    call Event.autocomplete_on()
   endif
 endfunction "}}}
 function! Verdin#Verdin#stopautocomplete(bang) abort "{{{
@@ -59,14 +59,14 @@ function! Verdin#Verdin#stopautocomplete(bang) abort "{{{
     for bufinfo in s:getbufinfo()
       if has_key(bufinfo.variables, 'Verdin')
         let Event = Verdin#Event#get(bufinfo.bufnr)
-        call Event.stopbufferinspection()
-        call Event.stopautocomplete()
+        call Event.bufferinspection_off()
+        call Event.autocomplete_off()
       endif
     endfor
   else
     let Event = Verdin#Event#get()
-    call Event.stopbufferinspection()
-    call Event.stopautocomplete()
+    call Event.bufferinspection_off()
+    call Event.autocomplete_off()
   endif
 endfunction "}}}
 function! Verdin#Verdin#refreshautocomplete(bang) abort "{{{
@@ -85,15 +85,15 @@ function! Verdin#Verdin#finishautocomplete(bang) abort "{{{
     for bufinfo in s:getbufinfo()
       if has_key(bufinfo.variables, 'Verdin')
         let Event = Verdin#Event#get(bufinfo.bufnr)
-        call Event.stopbufferinspection()
-        call Event.stopautocomplete()
+        call Event.bufferinspection_off()
+        call Event.autocomplete_off()
         unlet! bufinfo.variables.Verdin
       endif
     endfor
   else
     let Event = Verdin#Event#get()
-    call Event.stopbufferinspection()
-    call Event.stopautocomplete()
+    call Event.bufferinspection_off()
+    call Event.autocomplete_off()
     unlet! b:Verdin
   endif
 endfunction "}}}
@@ -139,7 +139,7 @@ function! Verdin#Verdin#scanbuffer_compl(ArgLead, CmdLine, CursorPos) abort "{{{
 endfunction "}}}
 function! Verdin#Verdin#omnifunc(findstart, base) abort "{{{
   let Event = Verdin#Event#get()
-  call Event.startbufferinspection()
+  call Event.bufferinspection_on()
 
   let Completer = Verdin#Completer#get()
   if a:findstart == 1
@@ -151,7 +151,7 @@ function! Verdin#Verdin#omnifunc(findstart, base) abort "{{{
   for item in Completer.modify(Completer.match(a:base))
     call complete_add(item)
   endfor
-  call Event.setCompleteDone(0)
+  call Event.aftercomplete_set(function(Completer.aftercomplete, [0], Completer))
 
   " fuzzy matching
   let fuzzymatch = Verdin#getoption('fuzzymatch')
@@ -269,7 +269,7 @@ function! s:refresh(bufnr) abort "{{{
   call Verdin#Completer#get()
   call Verdin#Observer#get()
   let b:Verdin.Event = Event
-  call Event.startbufferinspection()
+  call Event.bufferinspection_on()
 endfunction "}}}
 function! s:compare_fuzzyitem(i1, i2) abort "{{{
   let diffdifflen = abs(a:i1.__difflen__) - abs(a:i2.__difflen__)

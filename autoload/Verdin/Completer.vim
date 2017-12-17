@@ -188,14 +188,16 @@ function! s:Completer.complete(startcol, itemlist) dict abort "{{{
   endif
   set completeopt=menuone,noselect,noinsert
   let Event = Verdin#Event#get()
-  call Event.pauseautocomplete()
+  call Event.aftercomplete_set(function(self.aftercomplete, [1], self))
+  call Event.aftercomplete_set(function(Event.autocomplete_on, [], Event))
+  call Event.autocomplete_off()
 
   " NOTE: It seems 'CompleteDone' event is triggered even inside complete() function.
   let self.is.in_completion = s:TRUE
   call complete(a:startcol+1, a:itemlist)
   let self.is.in_completion = s:FALSE
 endfunction "}}}
-function! s:Completer.aftercomplete(event, autocomplete) dict abort "{{{
+function! s:Completer.aftercomplete(autocomplete, event) dict abort "{{{
   if self.is.in_completion
     return 0
   endif
