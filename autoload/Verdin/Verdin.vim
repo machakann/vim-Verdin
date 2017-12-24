@@ -15,7 +15,6 @@ inoremap <silent> <SID>(VerdinCompletionTrigger) <C-r>=<SID>complete()<CR>
 
 function! Verdin#Verdin#startbufferinspection(bang) abort "{{{
   if &filetype !=# 'vim' && &filetype !=# 'help'
-    echoerr 'Verdin: This is *not* vim buffer!'
     return
   endif
   if &filetype ==# 'help' && &buftype ==# 'help'
@@ -47,7 +46,6 @@ function! Verdin#Verdin#stopbufferinspection(bang) abort "{{{
 endfunction "}}}
 function! Verdin#Verdin#startautocomplete(bang) abort "{{{
   if &filetype !=# 'vim' && &filetype !=# 'help'
-    echoerr 'Verdin: This is *not* vim buffer!'
     return
   endif
   if &filetype ==# 'help' && &buftype ==# 'help'
