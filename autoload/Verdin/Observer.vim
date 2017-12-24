@@ -150,6 +150,9 @@ function! s:checkglobalsvim(...) dict abort "{{{
   let higrouplist = []
   for filepath in files
     let Observer = s:check(filepath, 'vim', timeout, order)
+    if empty(Observer)
+      continue
+    endif
     let varlist += filter(copy(get(Observer.shelf.buffervar, 'wordlist', [])), 's:lib.word(v:val) =~# ''\m\C^[bgtw]:\h\k*''')
     let funclist += filter(copy(get(Observer.shelf.bufferfunc, 'wordlist', [])), 's:lib.word(v:val) =~# ''\m\C^\%([A-Z]\k*\|\h\k*\%(#\h\k*\)\+\)''')
     let memberlist += copy(get(Observer.shelf.buffermember, 'wordlist', []))
@@ -256,6 +259,9 @@ endfunction "}}}
 function! s:check(filepath, kind, timeout, order) abort "{{{
   if bufloaded(a:filepath)
     let Observer = Verdin#Observer#get(a:filepath)
+    if empty(Observer)
+      return {}
+    endif
     call Observer.inspect(a:timeout, a:order)
     if has_key(s:cache, a:filepath)
       unlet s:cache[a:filepath]
@@ -273,6 +279,9 @@ function! s:changed(vimscripts) abort "{{{
   for filepath in a:vimscripts
     if bufloaded(filepath)
       let Observer = Verdin#Observer#get(filepath)
+      if empty(Observer)
+        continue
+      endif
       if Observer.changed()
         return 1
       endif
