@@ -14,7 +14,14 @@ inoremap <silent> <SID>(VerdinCompletionTrigger) <C-r>=<SID>complete()<CR>
 "}}}
 
 function! Verdin#Verdin#startbufferinspection(bang) abort "{{{
-  call s:checkfiletype()
+  if &filetype !=# 'vim' && &filetype !=# 'help'
+    echoerr 'Verdin: This is *not* vim buffer!'
+    return
+  endif
+  if &filetype ==# 'help' && &buftype ==# 'help'
+    return
+  endif
+
   if a:bang ==# '!'
     for bufinfo in s:getbufinfo()
       let Event = Verdin#Event#get(bufinfo.bufnr)
@@ -39,7 +46,14 @@ function! Verdin#Verdin#stopbufferinspection(bang) abort "{{{
   endif
 endfunction "}}}
 function! Verdin#Verdin#startautocomplete(bang) abort "{{{
-  call s:checkfiletype()
+  if &filetype !=# 'vim' && &filetype !=# 'help'
+    echoerr 'Verdin: This is *not* vim buffer!'
+    return
+  endif
+  if &filetype ==# 'help' && &buftype ==# 'help'
+    return
+  endif
+
   if a:bang ==# '!'
     let g:Verdin#autocomplete = s:ON
     for bufinfo in s:getbufinfo()
@@ -183,15 +197,6 @@ function! Verdin#Verdin#triggercomplete() abort "{{{
   endif
   call feedkeys(s:VerdinCompletionTrigger, 'im')
   return ''
-endfunction "}}}
-function! s:checkfiletype() abort "{{{
-  if &filetype !=# 'vim' && &filetype !=# 'help'
-    echoerr 'Verdin: This is *not* vim buffer!'
-    return
-  endif
-  if &filetype ==# 'help' && &buftype ==# 'help'
-    return
-  endif
 endfunction "}}}
 function! s:getbufinfo() abort "{{{
   if &filetype ==# 'vim'
