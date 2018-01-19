@@ -222,6 +222,9 @@ function! s:checkglobalshelp(...) dict abort "{{{
   let higrouplist = []
   for filepath in s:lib.searchvimscripts()
     let Observer = s:check(filepath, 'vim', timeout, ['var', 'func', 'keymap', 'command', 'higroup'])
+    if empty(Observer)
+      continue
+    endif
     let varlist += filter(copy(get(Observer.shelf.buffervar, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^[bgtw]:\h[A-Za-z0-9_#]*''')
     let funclist += filter(copy(get(Observer.shelf.bufferfunc, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^\%([A-Z]\w*\|\h\w\%(#\h\w*\)\+\)''')
     let keymapwordlist += filter(copy(get(Observer.shelf.bufferkeymap, 'wordlist', [])), 's:lib.__text__(v:val) =~# ''\m\C^<Plug>''')
@@ -260,7 +263,7 @@ function! s:check(filepath, kind, timeout, order) abort "{{{
   if bufloaded(a:filepath)
     let Observer = Verdin#Observer#get(a:filepath)
     if empty(Observer)
-      return {}
+      return Observer
     endif
     call Observer.inspect(a:timeout, a:order)
     if has_key(s:cache, a:filepath)
