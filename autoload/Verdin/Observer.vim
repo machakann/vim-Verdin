@@ -206,6 +206,9 @@ function! s:checkglobalshelp(...) dict abort "{{{
   let helptaglist = []
   for filepath in files
     let Observer = s:check(filepath, 'help', timeout, order)
+    if empty(Observer)
+      continue
+    endif
     let helptaglist += get(Observer.shelf.buffertag, 'wordlist', [])
   endfor
   if helptaglist != []
