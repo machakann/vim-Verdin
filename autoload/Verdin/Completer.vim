@@ -207,10 +207,6 @@ function! s:Completer.aftercomplete(autocomplete, event) dict abort "{{{
   if !a:autocomplete
     return 1
   endif
-  if a:event ==# 'InsertCharPre' && pumvisible()
-    " refresh popup always
-    call feedkeys("\<C-e>", 'in')
-  endif
   if self.savedoptions != {}
     let &completeopt = self.savedoptions.completeopt
     let self.savedoptions = {}

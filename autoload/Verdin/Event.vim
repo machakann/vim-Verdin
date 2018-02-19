@@ -72,7 +72,6 @@ function! s:Event.aftercomplete_set(Funcref) dict abort "{{{
   augroup Verdin-aftercomplete
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
     execute printf('autocmd CompleteDone  <buffer=%d> call s:aftercomplete("CompleteDone")',  self.bufnr)
-    execute printf('autocmd InsertCharPre <buffer=%d> call s:aftercomplete("InsertCharPre")', self.bufnr)
     execute printf('autocmd InsertLeave   <buffer=%d> call s:aftercomplete("InsertLeave")',   self.bufnr)
     execute printf('autocmd CursorMovedI  <buffer=%d> call s:aftercomplete("CursorMovedI")',  self.bufnr)
   augroup END
