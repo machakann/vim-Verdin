@@ -327,12 +327,18 @@ function! s:cursor_is_in(condition, cursor_is_in) abort "{{{
   return flags == [] || eval(join(flags, '&&')) ? 1 : 0
 endfunction "}}}
 function! s:addsnippeditems(candidatelist, postcursor, ...) abort "{{{
-  let postcursor = s:lib.escape(matchstr(a:postcursor, '^\%(\k\+()\?\|\k\+\>\)'))
+  let postcursor = matchstr(a:postcursor, '^\S\+')
   if postcursor ==# ''
     return a:candidatelist
   endif
 
-  let pattern = '\m\C' . postcursor . '$'
+  if strchars(postcursor) == 1
+    let pattern = printf('\m\C%s$', s:lib.escape(postcursor))
+  else
+    let header = strcharpart(postcursor, 0, 1)
+    let body = substitute(strcharpart(postcursor, 1, 50), '\([][]\)', '[\1]', 'g')
+    let pattern = printf('\m\C%s\%%[%s]$', s:lib.escape(header), escape(body, '~"\.^$*'))
+  endif
   let i = len(a:candidatelist) - 1
   while i >= 0
     let candidate = a:candidatelist[i]
