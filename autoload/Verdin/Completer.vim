@@ -338,6 +338,11 @@ function! s:addsnippeditems(candidatelist, postcursor, ...) abort "{{{
   let i = len(a:candidatelist) - 1
   while i >= 0
     let candidate = a:candidatelist[i]
+    if get(candidate, '__delimitermatch__', s:FALSE)
+      let i -= 1
+      continue
+    endif
+
     let word = s:lib.word(candidate)
     let idx = match(word, pattern)
     if idx > 0
