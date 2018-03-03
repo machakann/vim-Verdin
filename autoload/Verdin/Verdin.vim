@@ -168,7 +168,7 @@ function! Verdin#Verdin#omnifunc(findstart, base) abort "{{{
   " fuzzy matching
   let fuzzymatch = Verdin#getoption('fuzzymatch')
   if !fuzzymatch || strchars(a:base) < 3
-    return {'words': [], 'refresh': 'always'}
+    return []
   endif
   let timeout = s:const.FUZZYMATCHINTERVAL
   call Completer.clock.start()
@@ -180,7 +180,7 @@ function! Verdin#Verdin#omnifunc(findstart, base) abort "{{{
       call complete_add(item)
     endfor
   endwhile
-  return {'words': [], 'refresh': 'always'}
+  return []
 endfunction "}}}
 function! Verdin#Verdin#triggercomplete() abort "{{{
   let Completer = Verdin#Completer#get()
