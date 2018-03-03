@@ -10,7 +10,7 @@ endfunction
 let s:SID = printf("\<SNR>%s_", s:SID())
 delfunction s:SID
 let s:VerdinCompletionTrigger = s:SID . '(VerdinCompletionTrigger)'
-inoremap <silent> <SID>(VerdinCompletionTrigger) <C-r>=<SID>complete()<CR>
+inoremap <silent> <SID>(VerdinCompletionTrigger) <C-r>=Verdin#Verdin#complete()<CR>
 "}}}
 
 function! Verdin#Verdin#startbufferinspection(bang) abort "{{{
@@ -196,15 +196,7 @@ function! Verdin#Verdin#triggercomplete() abort "{{{
   call feedkeys(s:VerdinCompletionTrigger, 'im')
   return ''
 endfunction "}}}
-function! s:getbufinfo() abort "{{{
-  if &filetype ==# 'vim'
-    return filter(getbufinfo({'buflisted':1}), 'getbufvar(v:val.bufnr, "&filetype") ==# "vim"')
-  elseif &filetype ==# 'help'
-    return filter(getbufinfo({'buflisted':1}), 'getbufvar(v:val.bufnr, "&filetype") ==# "help" && getbufvar(v:val.bufnr, "&buftype") !=# "help"')
-  endif
-  return []
-endfunction "}}}
-function! s:complete() abort "{{{
+function! Verdin#Verdin#complete() abort "{{{
   let Completer = Verdin#Completer#get()
   call Completer.clock.start()
 
@@ -262,6 +254,14 @@ function! s:complete() abort "{{{
     endif
   endwhile
   return ''
+endfunction "}}}
+function! s:getbufinfo() abort "{{{
+  if &filetype ==# 'vim'
+    return filter(getbufinfo({'buflisted':1}), 'getbufvar(v:val.bufnr, "&filetype") ==# "vim"')
+  elseif &filetype ==# 'help'
+    return filter(getbufinfo({'buflisted':1}), 'getbufvar(v:val.bufnr, "&filetype") ==# "help" && getbufvar(v:val.bufnr, "&buftype") !=# "help"')
+  endif
+  return []
 endfunction "}}}
 function! s:nothingchanged(Completer) abort "{{{
   return a:Completer.last.lnum == line('.') && a:Completer.last.col == col('.') && a:Completer.last.line ==# getline('.')

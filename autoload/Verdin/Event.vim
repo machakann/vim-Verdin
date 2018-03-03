@@ -59,6 +59,9 @@ function! s:Event.autocomplete_on(...) abort "{{{
   augroup Verdin-autocomplete
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
     execute printf('autocmd CursorMovedI <buffer=%d> call Verdin#Verdin#triggercomplete()', self.bufnr)
+    if exists('##TextChangeP')
+      execute printf('autocmd TextChangedP <buffer=%d> call Verdin#Verdin#complete()', self.bufnr)
+    endif
   augroup END
 endfunction "}}}
 function! s:Event.autocomplete_off(...) abort "{{{
