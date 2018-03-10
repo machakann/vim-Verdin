@@ -162,7 +162,7 @@ let s:constants.VIMVARCONDITIONLIST = [
 let s:constants.EXISTSHELPERCONDITIONLIST = [
       \   {'cursor_at': '\m\C\<exists([''"]\zs\%([&+$*:]\|##\?\)\?\%#', 'priority': 384}
       \ ]
-let s:constants.FEATURECONDITIONLSIT = [
+let s:constants.FEATURECONDITIONLIST = [
       \   {'cursor_at': '\<has([''"]\zs\w*\%#', 'priority': 384}
       \ ]
 let s:constants.HELPTAGCONDITIONLIST = [

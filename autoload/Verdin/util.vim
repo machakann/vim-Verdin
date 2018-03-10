@@ -216,10 +216,11 @@ let s:higroupwordlist = [
     \   'PmenuSel', 'PmenuThumb', 'PreCondit', 'PreProc', 'Question', 'Repeat',
     \   'Scrollbar', 'Search', 'SignColumn', 'Special', 'SpecialChar',
     \   'SpecialComment', 'SpecialKey', 'SpellBad', 'SpellCap', 'SpellLocal',
-    \   'SpellRare', 'Statement', 'StatusLine', 'StatusLineNC', 'StorageClass',
-    \   'String', 'Structure', 'TabLine', 'TabLineFill', 'TabLineSel', 'Tag',
-    \   'Title', 'Todo', 'Tooltip', 'Type', 'Typedef', 'Underlined',
-    \   'VertSplit', 'Visual', 'VisualNOS', 'WarningMsg', 'WildMenu', 'lCursor',
+    \   'SpellRare', 'Statement', 'StatusLine', 'StatusLineNC',
+    \   'StatusLineTerm', 'StatusLineTermNC', 'StorageClass', 'String',
+    \   'Structure', 'TabLine', 'TabLineFill', 'TabLineSel', 'Tag', 'Title',
+    \   'Todo', 'Tooltip', 'Type', 'Typedef', 'Underlined', 'VertSplit',
+    \   'Visual', 'VisualNOS', 'WarningMsg', 'WildMenu', 'lCursor',
     \ ]
 "}}}
 " Helper dictionary for :highlight command {{{
@@ -229,12 +230,24 @@ let s:hicmdattrwordlist = ['bold', 'underline', 'undercurl', 'reverse', 'inverse
 "}}}
 " Special keys dictionary{{{
 let s:specialkeywordlist = [
-      \   '<BS>', '<Tab>', '<CR>', '<Return>', '<Enter>', '<Esc>', '<Space>', '<lt>', '<Bslash>', '<Bar>', '<Del>', '<Up>', '<Down>', '<Left>', '<Right>', '<F1>', '<F2>', '<F3>', '<F4>', '<F5>', '<F6>', '<F7>', '<F8>', '<F9>', '<F10>', '<F11>', '<F12>', '<S-Up>', '<S-Down>', '<S-Left>', '<S-Right>', '<C-Left>', '<C-Right>', '<S-F1>', '<S-F2>', '<S-F3>', '<S-F4>', '<S-F5>', '<S-F6>', '<S-F7>', '<S-F8>', '<S-F9>', '<S-F10>', '<S-F11>', '<S-F12>', '<Help>', '<Undo>', '<Insert>', '<Home>', '<End>', '<PageUp>', '<PageDown>', '<kHome>', '<kEnd>', '<kPageUp>', '<kPageDown>', '<kPlus>', '<kMinus>', '<kMultiply>', '<kDivide>', '<kEnter>', '<kPoint>', '<k0>', '<k1>', '<k2>', '<k3>', '<k4>', '<k5>', '<k6>', '<k7>', '<k8>', '<k9>', '<EOL>', '<CSI>', '<xCSI>', '<NL>', '<FF>', '<Nul>', '<Nop>', '<Plug>', '<SID>',
+      \   '<BS>', '<Tab>', '<CR>', '<Return>', '<Enter>', '<Esc>', '<Space>',
+      \   '<lt>', '<Bslash>', '<Bar>', '<Del>', '<Up>', '<Down>', '<Left>',
+      \   '<Right>', '<F1>', '<F2>', '<F3>', '<F4>', '<F5>', '<F6>', '<F7>',
+      \   '<F8>', '<F9>', '<F10>', '<F11>', '<F12>', '<S-Up>', '<S-Down>',
+      \   '<S-Left>', '<S-Right>', '<C-Left>', '<C-Right>', '<S-F1>', '<S-F2>',
+      \   '<S-F3>', '<S-F4>', '<S-F5>', '<S-F6>', '<S-F7>', '<S-F8>', '<S-F9>',
+      \   '<S-F10>', '<S-F11>', '<S-F12>', '<Help>', '<Undo>', '<Insert>',
+      \   '<Home>', '<End>', '<PageUp>', '<PageDown>', '<kHome>', '<kEnd>',
+      \   '<kPageUp>', '<kPageDown>', '<kPlus>', '<kMinus>', '<kMultiply>',
+      \   '<kDivide>', '<kEnter>', '<kPoint>', '<k0>', '<k1>', '<k2>', '<k3>',
+      \   '<k4>', '<k5>', '<k6>', '<k7>', '<k8>', '<k9>', '<EOL>', '<CSI>',
+      \   '<xCSI>', '<NL>', '<FF>', '<Nul>', '<Nop>', '<Plug>', '<SID>',
       \ ]
 "}}}
 " Map attribute dictionary {{{
 let s:mapattrwordlist = [
-      \   '<buffer>', '<nowait>', '<silent>', '<special>', '<script>', '<expr>', '<unique>',
+      \   '<buffer>', '<nowait>', '<silent>', '<special>', '<script>', '<expr>',
+      \   '<unique>',
       \ ]
 "}}}
 " Command attribute dictionary {{{
@@ -329,7 +342,7 @@ endfunction "}}}
 function! s:rebuildvimbasedict() abort "{{{
   let options = {'sortbylength': 1}
   let basedict = {}
-  let basedict.command = Verdin#Dictionary#new('command', s:constants.COMMANDCONDITIONLIST, s:commandwordlist, 2)
+  let basedict.command = Verdin#Dictionary#new('command', s:const.COMMANDCONDITIONLIST, s:commandwordlist, 2)
   let basedict.function = Verdin#Dictionary#new('function', s:const.FUNCCONDITIONLIST, s:funcwordlist, 2)
   let basedict.option = Verdin#Dictionary#new('option', s:const.OPTIONCONDITIONLIST, s:optionwordlist, 1, options)
   let basedict.event = Verdin#Dictionary#new('event', s:const.EVENTCONDITIONLIST, s:eventwordlist, 1, options)
