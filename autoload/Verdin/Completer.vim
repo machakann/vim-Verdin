@@ -25,15 +25,17 @@ function! s:VerdinInsertKet(mode) abort
   let startcol = Completer.last.startcol+1
   let funcname = s:lib.escape(v:completed_item.word)
   let postcursor = s:lib.escape(Completer.last.postcursor)
-  let pat = printf('\m\%%%dl\%%%dc%s[^)]*\%%#%s$',
-                  \lnum, startcol, funcname, postcursor)
-  if a:mode ==# 'i' && search(pat, 'bcn', Completer.last.lnum)
-    return ")\<C-g>U\<Left>"
+  if a:mode ==# 'i'
+    let pat = printf('\m\%%%dl\%%%dc%s.*\%%#%s$',
+                    \lnum, startcol, funcname, postcursor)
+    let keyseq = ")\<C-g>U\<Left>"
+  elseif a:mode ==# 'n'
+    let pat = printf('\m\%%%dl\%%%dc%s\%%#(%s$',
+                    \lnum, startcol, funcname[:-2], postcursor)
+    let keyseq = "a)\<Esc>"
   endif
-  let pat = printf('\m\%%%dl\%%%dc%s\%%#(%s$',
-                  \lnum, startcol, funcname[:-2], postcursor)
-  if a:mode ==# 'n' && search(pat, 'bcn', Completer.last.lnum)
-    return "a)\<Esc>"
+  if search(pat, 'bcn', Completer.last.lnum)
+    return keyseq
   endif
   return ''
 endfunction "}}}
@@ -461,7 +463,7 @@ function! s:autobrainsert(candidatelist, postcursor) abort "{{{
   return a:candidatelist
 endfunction "}}}
 function! s:autoketinsert(item) abort "{{{
-  let autobraketinsert = Verdin#getoption('autobraketinsert')
+  let autobraketinsert = Verdin#getoption('autobracketinsert')
   if autobraketinsert == 2
     if matchstr(a:item.abbr, s:FUNCARG) !=# ''
       call feedkeys(s:VerdinInsertKet, 'im')
