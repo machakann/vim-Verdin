@@ -463,7 +463,7 @@ function! s:autobrainsert(candidatelist, postcursor) abort "{{{
   return a:candidatelist
 endfunction "}}}
 function! s:autoketinsert(item) abort "{{{
-  let autobraketinsert = Verdin#getoption('autobracketinsert')
+  let autobraketinsert = Verdin#getoption('autobraketinsert')
   if autobraketinsert == 2
     if matchstr(a:item.abbr, s:FUNCARG) !=# ''
       call feedkeys(s:VerdinInsertKet, 'im')
