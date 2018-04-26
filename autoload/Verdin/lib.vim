@@ -93,7 +93,7 @@ function! s:lib.searchvimhelps() dict abort "{{{
 endfunction "}}}
 
 " fuzzy match
-function! s:lib.Damerau_Levenshtein_distance(a, b, threshold) dict abort "{{{
+function! s:lib.Damerau_Levenshtein_distance(a, b) dict abort "{{{
   " NOTE: Cannot apply for multi-byte strings
   let na = strchars(a:a)
   let nb = strchars(a:b)

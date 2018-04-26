@@ -402,7 +402,7 @@ function! s:similarlist(candidatelist, base) abort "{{{
         continue
       endif
       let threshold = s:lib.DL_threshold(n)
-      let d = s:lib.Damerau_Levenshtein_distance(shortbase, key, threshold)
+      let d = s:lib.Damerau_Levenshtein_distance(shortbase, key)
       if d <= threshold
         call add(similarlist, [d, copy(candidate[key])])
       endif
