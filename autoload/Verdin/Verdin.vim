@@ -1,5 +1,6 @@
 " script local variables {{{
 let s:const = Verdin#constants#distribute()
+let s:lib = Verdin#lib#distribute()
 let s:TRUE = 1
 let s:FALSE = 0
 let s:ON  = 1
@@ -14,10 +15,10 @@ inoremap <silent> <SID>(VerdinCompletionTrigger) <C-r>=Verdin#Verdin#complete()<
 "}}}
 
 function! Verdin#Verdin#startbufferinspection(bang) abort "{{{
-  if &filetype !=# 'vim' && &filetype !=# 'help'
+  if !s:lib.filetypematches('vim') && !s:lib.filetypematches('help')
     return
   endif
-  if &filetype ==# 'help' && &buftype ==# 'help'
+  if s:lib.filetypematches('help') && &buftype ==# 'help'
     return
   endif
 
@@ -45,10 +46,10 @@ function! Verdin#Verdin#stopbufferinspection(bang) abort "{{{
   endif
 endfunction "}}}
 function! Verdin#Verdin#startautocomplete(bang) abort "{{{
-  if &filetype !=# 'vim' && &filetype !=# 'help'
+  if !s:lib.filetypematches('vim') && !s:lib.filetypematches('help')
     return
   endif
-  if &filetype ==# 'help' && &buftype ==# 'help'
+  if s:lib.filetypematches('help') && &buftype ==# 'help'
     return
   endif
 
@@ -110,9 +111,9 @@ function! Verdin#Verdin#finishautocomplete(bang) abort "{{{
   endif
 endfunction "}}}
 function! Verdin#Verdin#scanbuffer(args) abort "{{{
-  if &filetype ==# 'vim'
+  if s:lib.filetypematches('vim')
     let defaultorder = s:const.DEFAULTORDERVIM
-  elseif &filetype ==# 'help'
+  elseif s:lib.filetypematches('help')
     let defaultorder = s:const.DEFAULTORDERHELP
   else
     return
@@ -140,9 +141,9 @@ function! Verdin#Verdin#scanbuffer(args) abort "{{{
   call Verdin#Observer#inspect(bufnr, 1/0, order)
 endfunction "}}}
 function! Verdin#Verdin#scanbuffer_compl(ArgLead, CmdLine, CursorPos) abort "{{{
-  if &filetype ==# 'vim'
+  if s:lib.filetypematches('vim')
     let defaultorder = s:const.DEFAULTORDERVIM
-  elseif &filetype ==# 'help'
+  elseif s:lib.filetypematches('help')
     let defaultorder = s:const.DEFAULTORDERHELP
   else
     return []
@@ -256,10 +257,10 @@ function! Verdin#Verdin#complete() abort "{{{
   return ''
 endfunction "}}}
 function! s:getbufinfo() abort "{{{
-  if &filetype ==# 'vim'
-    return filter(getbufinfo({'buflisted':1}), 'getbufvar(v:val.bufnr, "&filetype") ==# "vim"')
-  elseif &filetype ==# 'help'
-    return filter(getbufinfo({'buflisted':1}), 'getbufvar(v:val.bufnr, "&filetype") ==# "help" && getbufvar(v:val.bufnr, "&buftype") !=# "help"')
+  if s:lib.filetypematches('vim')
+    return filter(getbufinfo({'buflisted':1}), 's:lib.filetypematches("vim", v:val.bufnr)')
+  elseif s:lib.filetypematches('help')
+    return filter(getbufinfo({'buflisted':1}), 's:lib.filetypematches("help", v:val.bufnr) && getbufvar(v:val.bufnr, "&buftype") !=# "help"')
   endif
   return []
 endfunction "}}}

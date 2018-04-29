@@ -91,6 +91,12 @@ function! s:lib.searchvimhelps() dict abort "{{{
   endif
   return docpaths
 endfunction "}}}
+function! s:lib.filetypematches(ft, ...) abort "{{{
+  let bufnr = a:0 > 0 ? a:1 : bufnr('%')
+  let filetype = getbufvar(bufnr, '&filetype')
+  let ftpat = '\C^' . s:lib.escape(a:ft) . '$'
+  return match(split(filetype, '\.'), ftpat) > -1
+endfunction "}}}
 
 " fuzzy match
 function! s:lib.Damerau_Levenshtein_distance(a, b) dict abort "{{{

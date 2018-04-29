@@ -23,9 +23,9 @@ function! Verdin#Observer#get(...) abort "{{{
   if !has_key(bufinfo.variables.Verdin, 'Observer')
     let filetype = getbufvar(target, '&filetype')
     let filename = bufname(target)
-    if filetype ==# 'vim' || filename =~# '\.vim$'
+    if s:lib.filetypematches('vim') || filename =~# '\.vim$'
       let kind = 'vim'
-    elseif filetype ==# 'help' || filename =~# '\.txt'
+    elseif s:lib.filetypematches('help') || filename =~# '\.txt'
       let kind = 'help'
     else
       return {}
@@ -35,9 +35,9 @@ function! Verdin#Observer#get(...) abort "{{{
   return bufinfo.variables.Verdin.Observer
 endfunction "}}}
 function! Verdin#Observer#inspect(bufnr, ...) abort "{{{
-  if &filetype ==# 'vim'
+  if s:lib.filetypematches('vim')
     let order = get(a:000, 1, s:const.DEFAULTORDERVIM)
-  elseif &filetype ==# 'help'
+  elseif s:lib.filetypematches('help')
     let order = get(a:000, 1, s:const.DEFAULTORDERHELP)
   else
     return
@@ -51,7 +51,7 @@ function! Verdin#Observer#inspect(bufnr, ...) abort "{{{
 
   call Observer.inspect(timeout, order, forcescan)
   let Completer = Verdin#Completer#get()
-  if &filetype ==# 'vim'
+  if s:lib.filetypematches('vim')
     if !has_key(Completer.shelf, 'buffervar')
       call Completer.addDictionary('buffervar', Observer.shelf.buffervar)
       call Completer.addDictionary('bufferfunc', Observer.shelf.bufferfunc)
@@ -63,16 +63,16 @@ function! Verdin#Observer#inspect(bufnr, ...) abort "{{{
       call Completer.addDictionary('funcfragment', Observer.shelf.funcfragment)
       call Completer.addDictionary('varfragment', Observer.shelf.varfragment)
     endif
-  elseif &filetype ==# 'help'
+  elseif s:lib.filetypematches('help')
     if !has_key(Completer.shelf, 'buffertag')
       call Completer.addDictionary('buffertag', Observer.shelf.buffertag)
     endif
   endif
 endfunction "}}}
 function! Verdin#Observer#checkglobals(bufnr, ...) abort "{{{
-  if &filetype ==# 'vim'
+  if s:lib.filetypematches('vim')
     let order = get(a:000, 1, s:const.DEFAULTORDERVIM)
-  elseif &filetype ==# 'help'
+  elseif s:lib.filetypematches('vim')
     let order = get(a:000, 1, s:const.DEFAULTORDERHELP)
   else
     return
@@ -83,7 +83,7 @@ function! Verdin#Observer#checkglobals(bufnr, ...) abort "{{{
   call Observer.checkglobals(timeout, order, forcescan)
   let Completer = Verdin#Completer#get()
 
-  if &filetype ==# 'vim'
+  if s:lib.filetypematches('vim')
     if !has_key(Completer.shelf, 'globalvar')
       call Completer.addDictionary('globalvar', Observer.shelf.globalvar)
       call Completer.addDictionary('globalfunc', Observer.shelf.globalfunc)
@@ -92,7 +92,7 @@ function! Verdin#Observer#checkglobals(bufnr, ...) abort "{{{
       call Completer.addDictionary('globalcommand', Observer.shelf.globalcommand)
       call Completer.addDictionary('globalhigroup', Observer.shelf.globalhigroup)
     endif
-  elseif &filetype ==# 'help'
+  elseif s:lib.filetypematches('help')
     if !has_key(Completer.shelf, 'globaltag')
       call Completer.addDictionary('globalvar', Observer.shelf.globalvar)
       call Completer.addDictionary('globalfunc', Observer.shelf.globalfunc)
@@ -444,6 +444,10 @@ function! s:get_buffer_string(bufnr) abort "{{{
   return {'str': string, 'len': length}
 endfunction "}}}
 function! s:get_file_string(filepath) abort "{{{
+  if !filereadable(a:filepath)
+    return {'str': '', 'len': 0}
+  endif
+
   let linebreak = s:get_line_break()
   let file = readfile(a:filepath)
   let string = join(file, linebreak)

@@ -54,7 +54,12 @@ function! Verdin#Completer#get(...) abort "{{{
     let bufinfo.variables.Verdin = {}
   endif
   if !has_key(bufinfo.variables.Verdin, 'Completer')
-    let Dictionaries = Verdin#basedict#{&l:filetype}#distribute()
+    if s:lib.filetypematches('help')
+      let filetype = 'help'
+    else
+      let filetype = 'vim'
+    endif
+    let Dictionaries = Verdin#basedict#{filetype}#distribute()
     let bufinfo.variables.Verdin.Completer = s:Completer(Dictionaries)
   endif
   return bufinfo.variables.Verdin.Completer
