@@ -1,5 +1,5 @@
 *Verdin.txt*	Vim script 用オムニ補完関数
-						Last change:17-Oct-2017.
+						Last change:20-May-2018.
 
 書いた人   : machakann <https://github.com/machakann>
 ライセンス : NYSL license
@@ -37,6 +37,15 @@ USAGE					*Verdin-usage*
 `b:Verdin_fuzzymatch` も使用できます。そのバッファでのみ有効であり、
 |g:Verdin#fuzzymatch| よりも優先されます。
 
+------------------------------------------------------------------------------
+
+YouCompleteMe <http://valloric.github.io/YouCompleteMe/> のような、ほかの自動
+補完プラグインと協調させる場合は |g:Verdin#cooperativemode| に真値を設定してく
+ださい。
+					*g:Verdin#cooperativemode*
+>
+	let g:Verdin#cooperativemode = 1
+<
 ------------------------------------------------------------------------------
 
 このプラグインはまた、自動補完機能も提供します。何か補完の候補がある場合に自動

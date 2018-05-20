@@ -1,5 +1,5 @@
 *Verdin.txt*	An omni completion function for Vim script.
-						Last change:17-Oct-2017.
+						Last change:20-May-2018.
 
 Author  : machakann <https://github.com/machakann>
 License : NYSL license
@@ -35,6 +35,15 @@ by assigning zero to |g:Verdin#fuzzymatch|.
 <
 `b:Verdin_fuzzymatch` works buffer-locally prior to |g:Verdin#fuzzymatch|.
 
+------------------------------------------------------------------------------
+
+If you use this plugin with another auto-complete plugin, such as
+YouCompleteMe <http://valloric.github.io/YouCompleteMe/>, set
+|g:Verdin#cooperativemode| as true.
+					*g:Verdin#cooperativemode*
+>
+	let g:Verdin#cooperativemode = 1
+<
 ------------------------------------------------------------------------------
 
 This plugin also provides an additional feature, autocompletion. It

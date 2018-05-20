@@ -16,6 +16,7 @@ let s:default.loadpath = [
       \ ]
 let s:default.autobraketinsert = 0
 let s:default.debugmodeon = 0
+let s:default.cooperativemode = 0
 
 let g:Verdin#autocomplete = get(g:, 'Verdin#autocomplete', s:default.autocomplete)
 let g:Verdin#autocompletedelay = get(g:, 'Verdin#autocompletedelay', s:default.autocompletedelay)
@@ -24,9 +25,14 @@ let g:Verdin#fuzzymatch = get(g:, 'Verdin#fuzzymatch', s:default.fuzzymatch)
 let g:Verdin#loadpath = get(g:, 'Verdin#loadpath', s:default.loadpath)
 let g:Verdin#autobraketinsert = get(g:, 'Verdin#autobraketinsert', s:default.autobraketinsert)
 let g:Verdin#debugmodeon = get(g:, 'Verdin#debugmodeon', s:default.debugmodeon)
+let g:Verdin#cooperativemode = get(g:, 'Verdin#cooperativemode', s:default.cooperativemode)
 "}}}
 
 function! Verdin#omnifunc(findstart, base) abort "{{{
+  let cooperativemode = Verdin#getoption('cooperativemode')
+  if cooperativemode
+    return Verdin#Verdin#omnifunc_cooperative(a:findstart, a:base)
+  endif
   return Verdin#Verdin#omnifunc(a:findstart, a:base)
 endfunction "}}}
 function! Verdin#getoption(name) abort "{{{

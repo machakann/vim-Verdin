@@ -183,6 +183,29 @@ function! Verdin#Verdin#omnifunc(findstart, base) abort "{{{
   endwhile
   return []
 endfunction "}}}
+function! Verdin#Verdin#omnifunc_cooperative(findstart, base) abort "{{{
+  let Event = Verdin#Event#get()
+  call Event.bufferinspection_on()
+
+  let Completer = Verdin#Completer#get()
+  if a:findstart == 1
+    " first run
+    return Completer.startcol()
+  endif
+
+  " second run
+  let itemlist = Completer.modify(Completer.match(a:base))
+  call Event.aftercomplete_set(function(Completer.aftercomplete, [0], Completer))
+
+  " fuzzy matching
+  let fuzzymatch = Verdin#getoption('fuzzymatch')
+  if !fuzzymatch || strchars(a:base) < 3
+    return itemlist
+  endif
+  let fuzzyitemlist = Completer.modify(Completer.fuzzymatch(a:base, -1))
+  call extend(itemlist, fuzzyitemlist)
+  return itemlist
+endfunction "}}}
 function! Verdin#Verdin#triggercomplete() abort "{{{
   let Completer = Verdin#Completer#get()
   if s:nothingchanged(Completer)
