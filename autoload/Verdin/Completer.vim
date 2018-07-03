@@ -5,6 +5,7 @@ let s:const = Verdin#constants#distribute()
 let s:lib = Verdin#lib#distribute()
 let s:TRUE = 1
 let s:FALSE = 0
+let s:INF = 1/0
 let s:FUNCABBR = printf('^%s([^)]*)$', s:const.FUNCNAME)
 let s:FUNCARG = printf('^%s(\zs[^)]*\ze)$', s:const.FUNCNAME)
 function! s:SID() abort
@@ -38,7 +39,8 @@ function! s:VerdinInsertKet(mode) abort
     return keyseq
   endif
   return ''
-endfunction "}}}
+endfunction
+"}}}
 
 function! Verdin#Completer#new(Dictionaries) abort "{{{
   return s:Completer(a:Dictionaries)
@@ -86,41 +88,27 @@ let s:Completer = {
       \     'base': '',
       \   },
       \ }
-let s:CURRENTLNUM = 0
-let s:CURRENTCOL = 0
-let s:CURRENTLINE = ''
 function! s:Completer.startcol(...) dict abort "{{{
   let giveupifshort = get(a:000, 0, s:FALSE)
   let fuzzymatch = Verdin#getoption('fuzzymatch')
-  let s:CURRENTLNUM = line('.')
-  let s:CURRENTCOL = col('.')
-  let s:CURRENTLINE = getline('.')
-  let precursor = s:CURRENTCOL == 1 ? '' : s:CURRENTLINE[: s:CURRENTCOL-2]
-  let postcursor = s:CURRENTLINE[s:CURRENTCOL-1 :]
-  let cursor_is_in = s:whereishere(precursor, s:CURRENTLNUM, s:CURRENTCOL)
-  let self.last.lnum = s:CURRENTLNUM
-  let self.last.col = s:CURRENTCOL
-  let self.last.line = s:CURRENTLINE
-  let self.last.precursor = precursor
-  let self.last.postcursor = postcursor
+  let context = s:getcontext(line('.'), col('.'), getline('.'), s:INF)
+  let startcol = context.startcol
   let self.candidatelist = []
   let self.fuzzycandidatelist = []
-  let minstartcol = 1/0
-  let startcol = minstartcol
   for Dictionary in values(self.shelf)
-    let [startcol, candidate, fuzzycandidate] = s:lookup(Dictionary, precursor, minstartcol, cursor_is_in, giveupifshort, fuzzymatch)
-    if startcol < 0 || startcol > minstartcol
+    let [startcol, candidate, fuzzycandidate] = s:lookup(Dictionary, context, giveupifshort, fuzzymatch)
+    if startcol < 0 || startcol > context.startcol
       continue
     endif
-    if startcol < minstartcol
-      let minstartcol = startcol
+    if startcol < context.startcol
+      let context.startcol = startcol
       let self.candidatelist = []
       let self.fuzzycandidatelist = []
     endif
     call add(self.candidatelist, candidate)
     call add(self.fuzzycandidatelist, fuzzycandidate)
   endfor
-  if minstartcol == 1/0
+  if context.startcol == s:INF
     return -1
   endif
   call filter(self.candidatelist, 'v:val != {}')
@@ -128,11 +116,10 @@ function! s:Completer.startcol(...) dict abort "{{{
   if self.candidatelist == [] && self.fuzzycandidatelist == []
     return -1
   endif
-  let base = s:CURRENTCOL == 1 ? '' : s:CURRENTLINE[minstartcol : s:CURRENTCOL-2]
-  let self.fuzzycandidatelist = s:flatten(self.fuzzycandidatelist, base)
-  let self.last.startcol = minstartcol
-  let self.last.base = base
-  return minstartcol
+  let context.base = context.col == 1 ? '' : context.line[context.startcol : context.col-2]
+  let self.fuzzycandidatelist = s:flatten(self.fuzzycandidatelist, context.base)
+  let self.last = context
+  return context.startcol
 endfunction "}}}
 function! s:Completer.match(base) dict abort "{{{
   if self.candidatelist == []
@@ -230,14 +217,35 @@ function! s:Completer.dropduplicates(wordlist, namelist) dict abort "{{{
   return a:wordlist
 endfunction "}}}
 let s:NOTHING_FOUND = [-1, {}, {}]
-function! s:lookup(Dictionary, precursor, minstartcol, cursor_is_in, giveupifshort, fuzzymatch) abort  "{{{
+function! s:getcontext(lnum, col, line, startcol) abort "{{{
+  let context = {}
+  let context.lnum = a:lnum
+  let context.col = a:col
+  let context.line = a:line
+  let context.precursor = a:col == 1 ? '' : a:line[: a:col-2]
+  let context.postcursor = a:line[a:col-1 :]
+  let context.syntax = s:getcursorsyntax(context)
+  let context.startcol = a:startcol
+  let context.base = context.precursor
+  return context
+endfunction "}}}
+function! s:getcursorsyntax(context) abort "{{{
+  if synIDattr(synIDtrans(synID(a:context.lnum, a:context.col-1, 1)), 'name') ==# 'Comment'
+    return {'comment': 1, 'string': 0}
+  endif
+  if match(a:context.precursor, '^[^''"]*\%(\%(''[^'']*''\|".\{-}\%(\\\%(\\\\\)*\)\@21<!"\)[^''"]*\)*[''"][^''"]*$') > -1
+    return {'comment': 0, 'string': 1}
+  endif
+  return {'comment': 0, 'string': 0}
+endfunction "}}}
+function! s:lookup(Dictionary, context, giveupifshort, fuzzymatch) abort  "{{{
   if a:Dictionary == {}
     return s:NOTHING_FOUND
   endif
 
   " for reactive dictionaries
   if has_key(a:Dictionary, 'compile')
-    let success = a:Dictionary.compile(a:precursor)
+    let success = a:Dictionary.compile(a:context.precursor)
     if !success
       return s:NOTHING_FOUND
     endif
@@ -250,12 +258,12 @@ function! s:lookup(Dictionary, precursor, minstartcol, cursor_is_in, giveupifsho
   let notyetmatched = s:TRUE
   let savedstartcol = -1
   for condition in a:Dictionary.conditionlist
-    let [matched, str] = s:matchstr(a:precursor, condition.cursor_at)
-    if !matched || (a:giveupifshort && strchars(str) < a:Dictionary.indexlen) || !s:cursor_is_in(condition, a:cursor_is_in) || s:cursor_not_at(condition)
+    let [matched, str] = s:matchstr(a:context, condition.cursor_at)
+    if !matched || (a:giveupifshort && strchars(str) < a:Dictionary.indexlen) || !s:cursor_is_in(condition, a:context) || s:cursor_not_at(condition, a:context)
       continue
     endif
-    let startcol = s:CURRENTCOL - strlen(str) - 1
-    if startcol > a:minstartcol
+    let startcol = a:context.col - strlen(str) - 1
+    if startcol > a:context.startcol
       continue
     endif
 
@@ -281,47 +289,47 @@ function! s:lookup(Dictionary, precursor, minstartcol, cursor_is_in, giveupifsho
       return [startcol, candidate, fuzzycandidate]
     endif
   endfor
-  if savedstartcol >= 0 && savedstartcol <= a:minstartcol
+  if savedstartcol >= 0 && savedstartcol <= a:context.startcol
     return [savedstartcol, {}, fuzzycandidate]
   endif
   return s:NOTHING_FOUND
 endfunction "}}}
-function! s:matchstr(precursor, pat) abort "{{{
-  let [lnum, col] = searchpos(a:pat, 'bcnW', s:CURRENTLNUM)
+function! s:matchstr(context, pat) abort "{{{
+  let [lnum, col] = searchpos(a:pat, 'bcnW', a:context.lnum)
   if lnum != 0
-    return [s:TRUE, a:precursor[col-1 :]]
+    return [s:TRUE, a:context.precursor[col-1 :]]
   endif
   return  [s:FALSE, '']
 endfunction "}}}
-function! s:cursor_not_at(condition) abort "{{{
+function! s:cursor_not_at(condition, context) abort "{{{
   let cursor_not_at = get(a:condition, 'cursor_not_at', '')
-  return cursor_not_at !=# '' && (search(cursor_not_at, 'bcnW', s:CURRENTLNUM) != 0 || search(cursor_not_at, 'cn', s:CURRENTLNUM) != 0)
+  return cursor_not_at !=# '' && (search(cursor_not_at, 'bcnW', a:context.lnum) != 0 || search(cursor_not_at, 'cn', a:context.lnum) != 0)
 endfunction "}}}
-function! s:cursor_is_in(condition, cursor_is_in) abort "{{{
+function! s:cursor_is_in(condition, context) abort "{{{
   let flags = []
   if has_key(a:condition, 'in_string')
-    if !!a:cursor_is_in.string == !!a:condition.in_string
+    if !!a:context.syntax.string == !!a:condition.in_string
       call add(flags, 1)
     else
       call add(flags, 0)
     endif
   endif
   if has_key(a:condition, 'in_comment')
-    if !!a:cursor_is_in.comment == !!a:condition.in_comment
+    if !!a:context.syntax.comment == !!a:condition.in_comment
       call add(flags, 1)
     else
       call add(flags, 0)
     endif
   endif
   if has_key(a:condition, 'not_in_string')
-    if !!a:cursor_is_in.string != !!a:condition.not_in_string
+    if !!a:context.syntax.string != !!a:condition.not_in_string
       call add(flags, 1)
     else
       call add(flags, 0)
     endif
   endif
   if has_key(a:condition, 'not_in_comment')
-    if !!a:cursor_is_in.comment != !!a:condition.not_in_comment
+    if !!a:context.syntax.comment != !!a:condition.not_in_comment
       call add(flags, 1)
     else
       call add(flags, 0)
@@ -474,15 +482,6 @@ function! s:autoketinsert(item) abort "{{{
       call feedkeys(s:VerdinInsertKet, 'im')
     endif
   endif
-endfunction "}}}
-function! s:whereishere(precursor, lnum, col) abort "{{{
-  if synIDattr(synIDtrans(synID(a:lnum, a:col-1, 1)), 'name') ==# 'Comment'
-    return {'comment': 1, 'string': 0}
-  endif
-  if match(a:precursor, '^[^''"]*\%(\%(''[^'']*''\|".\{-}\%(\\\%(\\\\\)*\)\@21<!"\)[^''"]*\)*[''"][^''"]*$') > -1
-    return {'comment': 0, 'string': 1}
-  endif
-  return {'comment': 0, 'string': 0}
 endfunction "}}}
 
 function! s:Completer(Dictionaries) abort
