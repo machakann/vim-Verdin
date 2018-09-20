@@ -179,7 +179,7 @@ let s:constants.MEMBERCONDITIONLIST = [
       \   {'cursor_at': printf('\m\C\<has_key(\s*%s\s*,\s*[''"]\zs\w*\%%#', s:constants.VARNAME), 'priority': 384},
       \ ]
 let s:constants.KEYMAPCONDITIONLIST = [
-      \   {'cursor_at': '\m\C<\%(P\%[lug>]\|S\%[ID>]\)\S*\%#', 'priority': 256,},
+      \   {'cursor_at': '\m\C<\%(P\%[lug>]\|S\%[ID>]\)[^<[:blank:]]\%#', 'priority': 256,},
       \   {'cursor_at': '\m\C^\s*\%([nvxsoilc]\?map\|map!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|expr\|unique\)>\s*\)*\S\+\s\+\zs\%(<\S*\)\?\%#', 'priority': 256,},
       \   {'cursor_at': '\m\C^\s*\%([nvxsoilc]\?u\%[map]\|unm\%[ap]!\)\s\+\zs\%(<\S*\)\?\%#', 'priority': 256,},
       \   {'cursor_at': '\m\C\<normal\s\+.*\zs<\S*\%#', 'priority': 256,},
