@@ -6,6 +6,7 @@ let s:ON  = 1
 let s:OFF = 0
 "}}}
 
+
 function! Verdin#Event#get(...) abort "{{{
   let bufnr = get(a:000, 0, bufnr('%'))
   let bufinfo = get(getbufinfo(bufnr), 0, {})
@@ -22,12 +23,20 @@ function! Verdin#Event#get(...) abort "{{{
   return bufinfo.variables.Verdin.Event
 endfunction "}}}
 
+
 let s:Event = {
   \   'bufnr': 0,
   \   'bufferinspection': s:OFF,
   \   'autocomplete': s:OFF,
   \   'todolist': [],
   \ }
+
+function! s:Event(...) abort
+  let Event = deepcopy(s:Event)
+  let Event.bufnr = get(a:000, 0, bufnr('%'))
+  return Event
+endfunction
+
 function! s:Event.bufferinspection_on(...) abort "{{{
   if self.bufferinspection is s:ON
     return
@@ -44,12 +53,14 @@ function! s:Event.bufferinspection_on(...) abort "{{{
     execute printf('autocmd BufEnter     <buffer=%d> call Verdin#Observer#checkglobals(%d)', self.bufnr, self.bufnr)
   augroup END
 endfunction "}}}
+
 function! s:Event.bufferinspection_off(...) abort "{{{
   let self.bufferinspection = s:OFF
   augroup Verdin-bufferinspection
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
   augroup END
 endfunction "}}}
+
 function! s:Event.autocomplete_on(...) abort "{{{
   if self.autocomplete is s:ON
     return
@@ -64,12 +75,14 @@ function! s:Event.autocomplete_on(...) abort "{{{
     endif
   augroup END
 endfunction "}}}
+
 function! s:Event.autocomplete_off(...) abort "{{{
   let self.autocomplete = s:OFF
   augroup Verdin-autocomplete
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
   augroup END
 endfunction "}}}
+
 function! s:Event.aftercomplete_set(Funcref) dict abort "{{{
   call add(self.todolist, a:Funcref)
   augroup Verdin-aftercomplete
@@ -79,6 +92,7 @@ function! s:Event.aftercomplete_set(Funcref) dict abort "{{{
     execute printf('autocmd CursorMovedI  <buffer=%d> call s:aftercomplete("CursorMovedI")',  self.bufnr)
   augroup END
 endfunction "}}}
+
 function! s:Event.aftercomplete_setCompleteDone(Funcref) dict abort "{{{
   call add(self.todolist, a:Funcref)
   augroup Verdin-aftercomplete
@@ -86,6 +100,7 @@ function! s:Event.aftercomplete_setCompleteDone(Funcref) dict abort "{{{
     execute printf('autocmd CompleteDone <buffer=%d> call s:aftercomplete("CompleteDone")', self.bufnr)
   augroup END
 endfunction "}}}
+
 function! s:Event.aftercomplete_done(event) abort "{{{
   for F in self.todolist
     call F(a:event)
@@ -95,6 +110,8 @@ function! s:Event.aftercomplete_done(event) abort "{{{
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
   augroup END
 endfunction "}}}
+
+
 function! s:aftercomplete(event) abort "{{{
   let Completer = Verdin#Completer#get()
   if Completer.is.in_completion
@@ -104,12 +121,6 @@ function! s:aftercomplete(event) abort "{{{
   let Event = Verdin#Event#get()
   call Event.aftercomplete_done(a:event)
 endfunction "}}}
-
-function! s:Event(...) abort
-  let Event = deepcopy(s:Event)
-  let Event.bufnr = get(a:000, 0, bufnr('%'))
-  return Event
-endfunction
 
 " vim:set ts=2 sts=2 sw=2 tw=0:
 " vim:set foldmethod=marker: commentstring="%s:

@@ -1,4 +1,12 @@
 " FIXME: CR to close popup and break at once
+" script ID {{{
+function! s:SID() abort
+  return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$')
+endfunction
+let s:SID = printf("\<SNR>%s_", s:SID())
+delfunction s:SID
+"}}}
+
 
 " script local variables {{{
 let s:const = Verdin#constants#distribute()
@@ -8,43 +16,17 @@ let s:FALSE = 0
 let s:INF = 1/0
 let s:FUNCABBR = printf('^%s([^)]*)$', s:const.FUNCNAME)
 let s:FUNCARG = printf('^%s(\zs[^)]*\ze)$', s:const.FUNCNAME)
-function! s:SID() abort
-  return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$')
-endfunction
-let s:SID = printf("\<SNR>%s_", s:SID())
-delfunction s:SID
-let s:VerdinInsertKet = s:SID . '(VerdinInsertKet)'
-inoremap <silent> <SID>(VerdinInsertKet) <C-r>=<SID>VerdinInsertKet('i')<CR>
-cnoremap <silent> <SID>(VerdinInsertKet) <Nop>
-nnoremap <silent><expr> <SID>(VerdinInsertKet) <SID>VerdinInsertKet('n')
-function! s:VerdinInsertKet(mode) abort
-  let Completer = Verdin#Completer#get()
-  if Completer.last.postcursor[0] ==# '('
-    return ''
-  endif
-  let lnum = Completer.last.lnum
-  let startcol = Completer.last.startcol+1
-  let funcname = s:lib.escape(v:completed_item.word)
-  let postcursor = s:lib.escape(Completer.last.postcursor)
-  if a:mode ==# 'i'
-    let pat = printf('\m\%%%dl\%%%dc%s.*\%%#%s$',
-                    \lnum, startcol, funcname, postcursor)
-    let keyseq = ")\<C-g>U\<Left>"
-  elseif a:mode ==# 'n'
-    let pat = printf('\m\%%%dl\%%%dc%s\%%#(%s$',
-                    \lnum, startcol, funcname[:-2], postcursor)
-    let keyseq = "a)\<Esc>"
-  endif
-  if search(pat, 'bcn', Completer.last.lnum)
-    return keyseq
-  endif
-  return ''
-endfunction
 "}}}
 
+
+" public constructor of Completer object
 function! Verdin#Completer#new(Dictionaries) abort "{{{
   return s:Completer(a:Dictionaries)
 endfunction "}}}
+
+
+" return a Completer object in a specified buffer
+" NOTE: return the Completer object in the current buffer without argument
 function! Verdin#Completer#get(...) abort "{{{
   let bufexpr = get(a:000, 0, '%')
   let bufinfo = get(getbufinfo(bufexpr), 0, {})
@@ -67,6 +49,7 @@ function! Verdin#Completer#get(...) abort "{{{
   return bufinfo.variables.Verdin.Completer
 endfunction "}}}
 
+
 " Completer object {{{
 let s:Completer = {
       \   'shelf': {},
@@ -88,6 +71,15 @@ let s:Completer = {
       \     'base': '',
       \   },
       \ }
+
+" (private) constructor of Completer object
+function! s:Completer(Dictionaries) abort
+  let Completer = deepcopy(s:Completer)
+  let Completer.shelf = copy(a:Dictionaries)
+  return Completer
+endfunction
+
+" return the column where the completion starts
 function! s:Completer.startcol(...) dict abort "{{{
   let giveupifshort = get(a:000, 0, s:FALSE)
   let fuzzymatch = Verdin#_getoption('fuzzymatch')
@@ -121,6 +113,8 @@ function! s:Completer.startcol(...) dict abort "{{{
   let self.last = context
   return context.startcol
 endfunction "}}}
+
+" return the list of complete items matched with a:base
 function! s:Completer.match(base) dict abort "{{{
   if self.candidatelist == []
     return []
@@ -141,6 +135,8 @@ function! s:Completer.match(base) dict abort "{{{
   endfor
   return candidatelist
 endfunction "}}}
+
+" return the list of complete items fuzzy-matched with a:base
 let s:MEMO_fuzzymatch = {}
 function! s:Completer.fuzzymatch(base, ...) dict abort "{{{
   if self.fuzzycandidatelist == []
@@ -166,6 +162,7 @@ function! s:Completer.fuzzymatch(base, ...) dict abort "{{{
   endwhile
   return candidatelist
 endfunction "}}}
+
 function! s:Completer.modify(candidatelist, ...) dict abort "{{{
   let modifiers = get(a:000, 0, ['braket', 'snip'])
   if match(modifiers, '\m\C^braket$') > -1
@@ -479,16 +476,40 @@ function! s:autoketinsert(item) abort "{{{
   let autobraketinsert = Verdin#_getoption('autobraketinsert')
   if autobraketinsert == 2
     if matchstr(a:item.abbr, s:FUNCARG) !=# ''
-      call feedkeys(s:VerdinInsertKet, 'im')
+      call feedkeys(s:InsertKetKey, 'im')
     endif
   endif
-endfunction "}}}
+endfunction
 
-function! s:Completer(Dictionaries) abort
-  let Completer = deepcopy(s:Completer)
-  let Completer.shelf = copy(a:Dictionaries)
-  return Completer
-endfunction "}}}
+let s:InsertKetKey = s:SID . '(InsertKet)'
+inoremap <silent> <SID>(InsertKet) <C-r>=<SID>InsertKet('i')<CR>
+cnoremap <silent> <SID>(InsertKet) <Nop>
+nnoremap <silent><expr> <SID>(InsertKet) <SID>InsertKet('n')
+function! s:InsertKet(mode) abort
+  let Completer = Verdin#Completer#get()
+  if Completer.last.postcursor[0] ==# '('
+    return ''
+  endif
+  let lnum = Completer.last.lnum
+  let startcol = Completer.last.startcol+1
+  let funcname = s:lib.escape(v:completed_item.word)
+  let postcursor = s:lib.escape(Completer.last.postcursor)
+  if a:mode ==# 'i'
+    let pat = printf('\m\%%%dl\%%%dc%s.*\%%#%s$',
+                    \lnum, startcol, funcname, postcursor)
+    let keyseq = ")\<C-g>U\<Left>"
+  elseif a:mode ==# 'n'
+    let pat = printf('\m\%%%dl\%%%dc%s\%%#(%s$',
+                    \lnum, startcol, funcname[:-2], postcursor)
+    let keyseq = "a)\<Esc>"
+  endif
+  if search(pat, 'bcn', Completer.last.lnum)
+    return keyseq
+  endif
+  return ''
+endfunction
+"}}}
+"}}}
 
 " vim:set ts=2 sts=2 sw=2 tw=0:
 " vim:set foldmethod=marker: commentstring="%s:

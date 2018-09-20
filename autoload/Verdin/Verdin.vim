@@ -1,3 +1,12 @@
+" script ID{{{
+function! s:SID() abort
+  return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$')
+endfunction
+let s:SID = printf("\<SNR>%s_", s:SID())
+delfunction s:SID
+"}}}
+
+
 " script local variables {{{
 let s:const = Verdin#constants#distribute()
 let s:lib = Verdin#lib#distribute()
@@ -5,15 +14,11 @@ let s:TRUE = 1
 let s:FALSE = 0
 let s:ON  = 1
 let s:OFF = 0
-function! s:SID() abort
-  return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$')
-endfunction
-let s:SID = printf("\<SNR>%s_", s:SID())
-delfunction s:SID
-let s:VerdinCompletionTrigger = s:SID . '(VerdinCompletionTrigger)'
-inoremap <silent> <SID>(VerdinCompletionTrigger) <C-r>=Verdin#Verdin#complete()<CR>
 "}}}
 
+
+" Start continuous buffer observation to gather completion items
+" NOTE: If a:bang is '!', applied for all the buffer opened
 function! Verdin#Verdin#startbufferinspection(bang) abort "{{{
   if !s:lib.filetypematches('vim') && !s:lib.filetypematches('help')
     return
@@ -32,6 +37,10 @@ function! Verdin#Verdin#startbufferinspection(bang) abort "{{{
     call Event.bufferinspection_on()
   endif
 endfunction "}}}
+
+
+" Stop continuous buffer observation
+" NOTE: If a:bang is '!', applied for all the buffer observing currently
 function! Verdin#Verdin#stopbufferinspection(bang) abort "{{{
   if a:bang ==# '!'
     for bufinfo in s:getbufinfo()
@@ -45,6 +54,11 @@ function! Verdin#Verdin#stopbufferinspection(bang) abort "{{{
     call Event.bufferinspection_off()
   endif
 endfunction "}}}
+
+
+" Start triggering omni-completion automatically in insert mode
+" NOTE: If a:bang is '!', applied for all the buffer opened
+" NOTE: Connected to `:VerdinStartAutocompletion`
 function! Verdin#Verdin#startautocomplete(bang) abort "{{{
   if !s:lib.filetypematches('vim') && !s:lib.filetypematches('help')
     return
@@ -66,6 +80,11 @@ function! Verdin#Verdin#startautocomplete(bang) abort "{{{
     call Event.autocomplete_on()
   endif
 endfunction "}}}
+
+
+" Stop automatic omni-completion in insert mode
+" NOTE: If a:bang is '!', applied for all the buffer
+" NOTE: Connected to `:VerdinStopAutocompletion`
 function! Verdin#Verdin#stopautocomplete(bang) abort "{{{
   if a:bang ==# '!'
     let g:Verdin#autocomplete = s:OFF
@@ -82,6 +101,11 @@ function! Verdin#Verdin#stopautocomplete(bang) abort "{{{
     call Event.autocomplete_off()
   endif
 endfunction "}}}
+
+
+" Clear and re-create buffer-local information for omni-completion
+" NOTE: If a:bang is '!', refresh all the buffer
+" NOTE: Connected to `:VerdinRefreshAutocompletion`
 function! Verdin#Verdin#refreshautocomplete(bang) abort "{{{
   if a:bang ==# '!'
     for bufinfo in s:getbufinfo()
@@ -93,6 +117,12 @@ function! Verdin#Verdin#refreshautocomplete(bang) abort "{{{
     call s:refresh(bufnr('%'))
   endif
 endfunction "}}}
+
+
+" Abandon buffer-local information for omni-completion and
+" stop auto-completion and buffer inspection
+" NOTE: If a:bang is '!', applied for all the buffer
+" NOTE: Connected to `:VerdinFinishAutocompletion`
 function! Verdin#Verdin#finishautocomplete(bang) abort "{{{
   if a:bang ==# '!'
     for bufinfo in s:getbufinfo()
@@ -110,6 +140,13 @@ function! Verdin#Verdin#finishautocomplete(bang) abort "{{{
     unlet! b:Verdin
   endif
 endfunction "}}}
+
+
+" Scan the current buffer to gather completion items
+" NOTE: Connected to `VerdinScanBuffer`
+" NOTE: a:args is a list of strings delimited by spaces or comma
+"       Check s:const.DEFAULTORDERVIM or s:const.DEFAULTORDERHELP for
+"       available options
 function! Verdin#Verdin#scanbuffer(args) abort "{{{
   if s:lib.filetypematches('vim')
     let defaultorder = s:const.DEFAULTORDERVIM
@@ -140,6 +177,9 @@ function! Verdin#Verdin#scanbuffer(args) abort "{{{
   call Verdin#Observer#checkglobals(bufnr, 1/0, order)
   call Verdin#Observer#inspect(bufnr, 1/0, order)
 endfunction "}}}
+
+
+" Complete options for `:VerdinScanBuffer` in command line mode
 function! Verdin#Verdin#scanbuffer_compl(ArgLead, CmdLine, CursorPos) abort "{{{
   if s:lib.filetypematches('vim')
     let defaultorder = s:const.DEFAULTORDERVIM
@@ -150,6 +190,9 @@ function! Verdin#Verdin#scanbuffer_compl(ArgLead, CmdLine, CursorPos) abort "{{{
   endif
   return join(defaultorder, "\n")
 endfunction "}}}
+
+
+" Concrete implementation of `Verdin#omnifunc()`
 function! Verdin#Verdin#omnifunc(findstart, base) abort "{{{
   let Event = Verdin#Event#get()
   call Event.bufferinspection_on()
@@ -183,6 +226,9 @@ function! Verdin#Verdin#omnifunc(findstart, base) abort "{{{
   endwhile
   return []
 endfunction "}}}
+
+
+" Concrete implementation of `Verdin#omnifunc()` in cooperative mode
 function! Verdin#Verdin#omnifunc_cooperative(findstart, base) abort "{{{
   let Event = Verdin#Event#get()
   call Event.bufferinspection_on()
@@ -206,6 +252,10 @@ function! Verdin#Verdin#omnifunc_cooperative(findstart, base) abort "{{{
   call extend(itemlist, fuzzyitemlist)
   return itemlist
 endfunction "}}}
+
+
+" Popup completion window in insert mode
+" NOTE: call this func like `<C-r>=Verdin#Verdin#triggercomplete()<CR>`
 function! Verdin#Verdin#triggercomplete() abort "{{{
   let Completer = Verdin#Completer#get()
   if s:nothingchanged(Completer)
@@ -219,7 +269,14 @@ function! Verdin#Verdin#triggercomplete() abort "{{{
   endif
   call feedkeys(s:VerdinCompletionTrigger, 'im')
   return ''
-endfunction "}}}
+endfunction
+
+let s:VerdinCompletionTrigger = s:SID . '(VerdinCompletionTrigger)'
+inoremap <silent> <SID>(VerdinCompletionTrigger) <C-r>=Verdin#Verdin#complete()<CR>
+"}}}
+
+
+" The function for auto-complete feature
 function! Verdin#Verdin#complete() abort "{{{
   let Completer = Verdin#Completer#get()
   call Completer.clock.start()
@@ -279,6 +336,8 @@ function! Verdin#Verdin#complete() abort "{{{
   endwhile
   return ''
 endfunction "}}}
+
+
 function! s:getbufinfo() abort "{{{
   if s:lib.filetypematches('vim')
     return filter(getbufinfo({'buflisted':1}), 's:lib.filetypematches("vim", v:val.bufnr)')
@@ -287,9 +346,13 @@ function! s:getbufinfo() abort "{{{
   endif
   return []
 endfunction "}}}
+
+
 function! s:nothingchanged(Completer) abort "{{{
   return a:Completer.last.lnum == line('.') && a:Completer.last.col == col('.') && a:Completer.last.line ==# getline('.')
 endfunction "}}}
+
+
 function! s:refresh(bufnr) abort "{{{
   let Event = Verdin#Event#get(a:bufnr)
   unlet! b:Verdin
@@ -298,6 +361,8 @@ function! s:refresh(bufnr) abort "{{{
   let b:Verdin.Event = Event
   call Event.bufferinspection_on()
 endfunction "}}}
+
+
 function! s:compare_fuzzyitem(i1, i2) abort "{{{
   let diffdifflen = abs(a:i1.__difflen__) - abs(a:i2.__difflen__)
   if diffdifflen != 0
