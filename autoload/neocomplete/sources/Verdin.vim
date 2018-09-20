@@ -33,7 +33,7 @@ function! s:source.gather_candidates(context) dict abort "{{{
   for candidate in Completer.candidatelist
     let itemlist += candidate.itemlist
   endfor
-  let fuzzymatch = Verdin#getoption('fuzzymatch')
+  let fuzzymatch = Verdin#_getoption('fuzzymatch')
   if fuzzymatch && strchars(a:context.complete_str) >= 3
     let itemlist += Completer.fuzzycandidatelist
   endif

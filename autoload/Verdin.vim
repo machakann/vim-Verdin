@@ -28,14 +28,18 @@ let g:Verdin#debugmodeon = get(g:, 'Verdin#debugmodeon', s:default.debugmodeon)
 let g:Verdin#cooperativemode = get(g:, 'Verdin#cooperativemode', s:default.cooperativemode)
 "}}}
 
+" The omni-completion function for Vim script
+" NOTE: To be used as 'omnifunc'; `:set omnifunc=Verdin#omnifunc`
 function! Verdin#omnifunc(findstart, base) abort "{{{
-  let cooperativemode = Verdin#getoption('cooperativemode')
+  let cooperativemode = Verdin#_getoption('cooperativemode')
   if cooperativemode
     return Verdin#Verdin#omnifunc_cooperative(a:findstart, a:base)
   endif
   return Verdin#Verdin#omnifunc(a:findstart, a:base)
 endfunction "}}}
-function! Verdin#getoption(name) abort "{{{
+
+" Returns a option value of `'g:Verdin#' . a:name`
+function! Verdin#_getoption(name) abort "{{{
   if exists('b:Verdin_' . a:name)
     return b:['Verdin_' . a:name]
   endif

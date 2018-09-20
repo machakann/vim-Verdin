@@ -6,10 +6,10 @@ let s:matcher = {
 function! s:matcher.filter(context) dict abort "{{{
   let Completer = Verdin#Completer#get()
   let itemlist = Completer.match(a:context.complete_str)
-  let fuzzymatch = Verdin#getoption('fuzzymatch')
+  let fuzzymatch = Verdin#_getoption('fuzzymatch')
   if fuzzymatch && strchars(a:context.complete_str) >= 3
     let timeout = s:const.FUZZYMATCHINTERVAL
-    let totaltimeout = Verdin#getoption('autocompletedelay')
+    let totaltimeout = Verdin#_getoption('autocompletedelay')
     call Completer.clock.start()
     while Completer.fuzzycandidatelist != [] && Completer.clock.elapsed() < totaltimeout
       if getchar(1) isnot# 0 || len(itemlist) > s:const.ITEMLISTTHRESHOLD

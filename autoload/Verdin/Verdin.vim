@@ -167,7 +167,7 @@ function! Verdin#Verdin#omnifunc(findstart, base) abort "{{{
   call Event.aftercomplete_set(function(Completer.aftercomplete, [0], Completer))
 
   " fuzzy matching
-  let fuzzymatch = Verdin#getoption('fuzzymatch')
+  let fuzzymatch = Verdin#_getoption('fuzzymatch')
   if !fuzzymatch || strchars(a:base) < 3
     return []
   endif
@@ -198,7 +198,7 @@ function! Verdin#Verdin#omnifunc_cooperative(findstart, base) abort "{{{
   call Event.aftercomplete_set(function(Completer.aftercomplete, [0], Completer))
 
   " fuzzy matching
-  let fuzzymatch = Verdin#getoption('fuzzymatch')
+  let fuzzymatch = Verdin#_getoption('fuzzymatch')
   if !fuzzymatch || strchars(a:base) < 3
     return itemlist
   endif
@@ -244,8 +244,8 @@ function! Verdin#Verdin#complete() abort "{{{
 
   " wait & fuzzy matching (1st stage)
   let timeout = s:const.FUZZYMATCHINTERVAL
-  let autocompletedelay = Verdin#getoption('autocompletedelay')
-  let fuzzymatch = Verdin#getoption('fuzzymatch') && nbase >= 3
+  let autocompletedelay = Verdin#_getoption('autocompletedelay')
+  let fuzzymatch = Verdin#_getoption('fuzzymatch') && nbase >= 3
   let fuzzyitemlist = []
   while Completer.clock.elapsed() < autocompletedelay
     if getchar(1) isnot# 0

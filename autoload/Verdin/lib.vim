@@ -76,7 +76,7 @@ function! s:lib.pathjoin(parts) dict abort "{{{
   return join(a:parts, s:const.PATHSEPARATOR)
 endfunction "}}}
 function! s:lib.searchvimscripts() dict abort "{{{
-  let searchpaths = Verdin#getoption('loadpath')
+  let searchpaths = Verdin#_getoption('loadpath')
   let scriptpaths = []
   for path in searchpaths
     call extend(scriptpaths, glob(path, 0, 1))

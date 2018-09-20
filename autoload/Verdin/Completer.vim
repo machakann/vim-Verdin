@@ -90,7 +90,7 @@ let s:Completer = {
       \ }
 function! s:Completer.startcol(...) dict abort "{{{
   let giveupifshort = get(a:000, 0, s:FALSE)
-  let fuzzymatch = Verdin#getoption('fuzzymatch')
+  let fuzzymatch = Verdin#_getoption('fuzzymatch')
   let context = s:getcontext(line('.'), col('.'), getline('.'), s:INF)
   let startcol = context.startcol
   let self.candidatelist = []
@@ -457,7 +457,7 @@ function! s:autobrainsert(candidatelist, postcursor) abort "{{{
     return a:candidatelist
   endif
 
-  let autobraketinsert = Verdin#getoption('autobraketinsert')
+  let autobraketinsert = Verdin#_getoption('autobraketinsert')
   if autobraketinsert
     for i in range(len(a:candidatelist))
       let candidate = a:candidatelist[i]
@@ -476,7 +476,7 @@ function! s:autobrainsert(candidatelist, postcursor) abort "{{{
   return a:candidatelist
 endfunction "}}}
 function! s:autoketinsert(item) abort "{{{
-  let autobraketinsert = Verdin#getoption('autobraketinsert')
+  let autobraketinsert = Verdin#_getoption('autobraketinsert')
   if autobraketinsert == 2
     if matchstr(a:item.abbr, s:FUNCARG) !=# ''
       call feedkeys(s:VerdinInsertKet, 'im')
