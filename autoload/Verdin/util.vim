@@ -102,7 +102,7 @@ function! Verdin#util#countoccurrence(...) abort "{{{
     if Dictionary.name ==# 'command'
       let report += map(copy(Dictionary.wordlist), '{"name": Dictionary.name, "word": s:lib.word(v:val), "pat": printf(''\m\C^\s*%s\>'', s:lib.word(v:val)), "n": 0}')
     elseif Dictionary.name ==# 'function'
-      let report += map(copy(Dictionary.wordlist), '{"name": Dictionary.name, "word": s:lib.word(v:val), "pat": printf(''\m\C^\s*\S.*\<%s\>'', s:lib.word(v:val)), "n": 0}')
+      let report += map(copy(Dictionary.wordlist), '{"name": Dictionary.name, "word": s:lib.word(v:val), "pat": printf(''\m\C\<%s('', s:lib.word(v:val)), "n": 0}')
     else
       let report += map(copy(Dictionary.wordlist), '{"name": Dictionary.name, "word": s:lib.word(v:val), "pat": printf(''\m\C\<%s\>'', s:lib.word(v:val)), "n": 0}')
     endif
@@ -152,13 +152,119 @@ function! Verdin#util#wordlist(name, ...) abort "{{{
 endfunction "}}}
 
 " base dictionaries
+" priority sort {{{
+let s:priordict = {
+\   'command': [
+\     ['autocmd', 128],
+\     ['call', 128],
+\     ['catch', 128],
+\     ['cnoremap', 128],
+\     ['cmap', 127],
+\     ['command', 128],
+\     ['continue', 128],
+\     ['echo', 128],
+\     ['echomsg', 127],
+\     ['echoerr', 126],
+\     ['echohl', 125],
+\     ['echon', 124],
+\     ['execute', 128],
+\     ['endif', 128],
+\     ['endfor', 127],
+\     ['endfunction', 126],
+\     ['endwhile', 125],
+\     ['endtry', 124],
+\     ['finish', 128],
+\     ['finally', 127],
+\     ['for', 128],
+\     ['highlight', 128],
+\     ['inoremap', 128],
+\     ['imap', 127],
+\     ['let', 128],
+\     ['lnoremap', 128],
+\     ['lmap', 127],
+\     ['map', 128],
+\     ['normal', 128],
+\     ['noremap', 127],
+\     ['nnoremap', 126],
+\     ['nmap', 125],
+\     ['onoremap', 128],
+\     ['omap', 127],
+\     ['return', 128],
+\     ['set', 128],
+\     ['setlocal', 127],
+\     ['silent', 128],
+\     ['snoremap', 128],
+\     ['smap', 127],
+\     ['source', 128],
+\     ['tnoremap', 128],
+\     ['tmap', 127],
+\     ['try', 128],
+\     ['unlet', 128],
+\     ['vnoremap', 128],
+\     ['vmap', 127],
+\     ['xnoremap', 128],
+\     ['xmap', 127],
+\   ],
+\   'function': [
+\     ['copy', 128],
+\     ['get', 128],
+\     ['deepcopy', 128],
+\     ['getpos', 128],
+\     ['has_key', 128],
+\     ['filter', 128],
+\     ['printf', 128],
+\     ['type', 128],
+\     ['len', 128],
+\     ['setpos', 128],
+\     ['exists', 128],
+\     ['map', 128],
+\     ['has', 128],
+\     ['searchpos', 128],
+\     ['empty', 128],
+\     ['range', 128],
+\     ['add', 128],
+\     ['cursor', 128],
+\     ['function', 128],
+\     ['col', 128],
+\     ['strlen', 128],
+\     ['match', 128],
+\     ['winsaveview', 128],
+\     ['call', 128],
+\     ['extend', 128],
+\     ['remove', 128],
+\     ['split', 128],
+\     ['matchstr', 128],
+\     ['remove', 128],
+\   ],
+\ }
+
+function! s:sortitems(wordlist, kind) abort "{{{
+  call map(a:wordlist, '{"word": v:val, "n": 0}')
+  for [key, value] in s:priordict[a:kind]
+    for item in a:wordlist
+      if item.word ==# key
+        let item.n += value
+        break
+      endif
+    endfor
+  endfor
+  call sort(a:wordlist, {a, b -> b.n - a.n})
+  return map(a:wordlist, 'v:val.word')
+endfunction "}}}
+"}}}
 " Command dictionary{{{
-let s:commandwordlist = filter(getcompletion('', 'command'), 'v:val =~# ''\m\C^\%([[:lower:]]\|Next\)''')
+let s:commandwordlist = getcompletion('', 'command')
+call filter(s:commandwordlist, 'v:val =~# ''\m\C^\%([[:lower:]]\|Next\)''')
+call s:sortitems(s:commandwordlist, 'command')
 " let s:commandwordlist = Verdin#util#wordlist('command', g:report)
 " let g:commandwordlist = s:commandwordlist
 "}}}
 " Function dictionary {{{
-let s:funcwordlist = map(filter(getcompletion('', 'function'), 'v:val =~# ''\m\C^[[:lower:]]\w*\%[()]$'''), 'matchstr(v:val, ''\h\k*\ze(\?'')')
+let s:funcwordlist = getcompletion('', 'function')
+call filter(s:funcwordlist, 'v:val =~# ''\m\C^[[:lower:]]\w*\%[()]$''')
+call map(s:funcwordlist, 'matchstr(v:val, ''\h\k*\ze(\?'')')
+call s:sortitems(s:funcwordlist, 'function')
+
 " let s:funcwordlist = Verdin#util#wordlist('function', g:report)
 " let g:funcwordlist = s:funcwordlist
 function! s:funcitems(funcwordlist) abort
@@ -368,6 +474,7 @@ function! s:rebuildhelpbasedict() abort "{{{
   let basedict.tag = Verdin#Dictionary#new('tag', s:const.HELPTAGCONDITIONLIST, s:helptagwordlist, 2)
   return basedict
 endfunction "}}}
+
 
 " vim:set ts=2 sts=2 sw=2 tw=0:
 " vim:set foldmethod=marker: commentstring="%s:
