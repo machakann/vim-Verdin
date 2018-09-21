@@ -5,95 +5,14 @@ let s:const = Verdin#constants#distribute()
 
 " utilities
 function! Verdin#util#exportbasedict(path, ...) abort "{{{
-  let need_rebuild = get(a:000, 0, 0)
-  let filetype = get(a:000, 1, 'vim')
-  if need_rebuild
-    let basedict = Verdin#util#rebuildbasedict(filetype)
-  else
-    let basedict = b:Verdin.Completer.Dictionary
-  endif
-  let memberlist = filter(keys(basedict), 'v:val !~# ''^\%(buffer\|scope\)''')
-
-  let lines = []
-  let lines += ['scriptencoding utf-8']
-  let lines += [printf('function! Verdin#basedict#%s#distribute() abort', filetype)]
-  let lines += ['  let basedict = {}']
-  for member in memberlist
-    let lines += [printf('  let basedict.%s = s:%s', member, member)]
-  endfor
-  let lines += ['  return basedict']
-  let lines += ['endfunction']
-
-  for member in memberlist
-    let valname = 's:' . member
-    let lines += s:val2str(basedict[member], valname)
-    let lines += ['lockvar! ' . valname]
-  endfor
-  call writefile(lines, expand(a:path))
-endfunction "}}}
-function! Verdin#util#export(val, path, ...) abort "{{{
-  let lines = s:val2str(a:val, get(a:000, 0, 'val'))
-  call writefile(lines, expand(a:path))
-endfunction "}}}
-function! s:val2str(item, ...) abort "{{{
-  let lines = [printf('let %s = ', get(a:000, 0, 'val'))]
-  let indentlevel = 0
-  call s:export(a:item, lines, indentlevel)
-  let lines[-1] = substitute(lines[-1], ',\s*$', '', '')
-  return lines
-endfunction "}}}
-function! s:export(item, lines, indentlevel) abort "{{{
-  if type(a:item) == v:t_number
-    call s:export_num(a:item, a:lines, a:indentlevel)
-  elseif type(a:item) == v:t_string
-    call s:export_str(a:item, a:lines, a:indentlevel)
-  elseif type(a:item) == v:t_list
-    call s:export_list(a:item, a:lines, a:indentlevel)
-  elseif type(a:item) == v:t_dict
-    call s:export_dict(a:item, a:lines, a:indentlevel)
-  elseif type(a:item) == v:t_float
-    call s:export_float(a:item, a:lines, a:indentlevel)
-  endif
-endfunction "}}}
-function! s:export_num(num, lines, indentlevel) abort "{{{
-  let a:lines[-1] .= printf('%d,', a:num)
-  return a:indentlevel
-endfunction "}}}
-function! s:export_str(str, lines, indentlevel) abort "{{{
-  let a:lines[-1] .= printf('''%s'',', s:escapesinglequote(a:str))
-  return a:indentlevel
-endfunction "}}}
-function! s:export_list(list, lines, indentlevel) abort "{{{
-  let a:lines[-1] .= '['
-  for item in a:list
-    call s:export(item, a:lines, a:indentlevel+1)
-  endfor
-  let a:lines[-1] .= '],'
-endfunction "}}}
-function! s:export_dict(dict, lines, indentlevel) abort "{{{
-  let a:lines[-1] .= '{'
-  let keylist = sort(keys(a:dict))
-  for key in keylist
-    call add(a:lines, printf('\%s ''%s'': ', repeat('  ', a:indentlevel+1), s:escapesinglequote(key)))
-    let value = a:dict[key]
-    call s:export(value, a:lines, a:indentlevel+1)
-  endfor
-  call add(a:lines, printf('\%s },', repeat('  ', a:indentlevel)))
-endfunction "}}}
-function! s:export_float(float, lines, indentlevel) abort "{{{
-  let a:lines[-1] .= printf('%f,', a:float)
-endfunction "}}}
-function! s:escapesinglequote(str) abort "{{{
-  return substitute(a:str, "'", "''", 'g')
+  let filetype = get(a:000, 0, 'vim')
+  let basedict = Verdin#util#rebuildbasedict(filetype)
+  let json = json_encode(basedict)
+  call writefile(split(json, '\n'), expand(a:path))
 endfunction "}}}
 
 function! Verdin#util#countoccurrence(...) abort "{{{
-  let need_rebuild = get(a:000, 0, 0)
-  if need_rebuild
-    let basedict = Verdin#util#rebuildbasedict()
-  else
-    let basedict = b:Verdin.Completer.shelf
-  endif
+  let basedict = Verdin#util#rebuildbasedict()
   let report = []
   for Dictionary in values(basedict)
     if !has_key(Dictionary, 'name') || Dictionary.name ==# 'symbol'

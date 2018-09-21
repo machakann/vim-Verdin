@@ -25,6 +25,14 @@ function! Verdin#Completer#new(Dictionaries) abort "{{{
 endfunction "}}}
 
 
+let s:basedict = {}
+function! s:getbasedict(filetype) abort "{{{
+  let filename = a:filetype . '.json'
+  let dictpath = s:lib.pathjoin([s:const.VERDINTOPDIR, 'dict', filename])
+  return json_decode(join(readfile(dictpath), ''))
+endfunction "}}}
+
+
 " return a Completer object in a specified buffer
 " NOTE: return the Completer object in the current buffer without argument
 function! Verdin#Completer#get(...) abort "{{{
@@ -43,7 +51,7 @@ function! Verdin#Completer#get(...) abort "{{{
     else
       let filetype = 'vim'
     endif
-    let Dictionaries = Verdin#basedict#{filetype}#distribute()
+    let Dictionaries = s:getbasedict(filetype)
     let bufinfo.variables.Verdin.Completer = s:Completer(Dictionaries)
   endif
   return bufinfo.variables.Verdin.Completer
