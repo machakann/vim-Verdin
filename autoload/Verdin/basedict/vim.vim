@@ -257,13 +257,13 @@ let s:command = {
 \         'word': 'ascii',
 \       },],
 \     'au': [{
-\         '__text__': 'augroup',
-\         'menu': '[command]',
-\         'word': 'augroup',
-\       },{
 \         '__text__': 'autocmd',
 \         'menu': '[command]',
 \         'word': 'autocmd',
+\       },{
+\         '__text__': 'augroup',
+\         'menu': '[command]',
+\         'word': 'augroup',
 \       },{
 \         '__text__': 'aunmenu',
 \         'menu': '[command]',
@@ -563,10 +563,6 @@ let s:command = {
 \         'menu': '[command]',
 \         'word': 'continue',
 \       },{
-\         '__text__': 'compiler',
-\         'menu': '[command]',
-\         'word': 'compiler',
-\       },{
 \         '__text__': 'colder',
 \         'menu': '[command]',
 \         'word': 'colder',
@@ -578,6 +574,10 @@ let s:command = {
 \         '__text__': 'comclear',
 \         'menu': '[command]',
 \         'word': 'comclear',
+\       },{
+\         '__text__': 'compiler',
+\         'menu': '[command]',
+\         'word': 'compiler',
 \       },{
 \         '__text__': 'confirm',
 \         'menu': '[command]',
@@ -638,10 +638,6 @@ let s:command = {
 \         'word': 'cwindow',
 \       },],
 \     'de': [{
-\         '__text__': 'delfunction',
-\         'menu': '[command]',
-\         'word': 'delfunction',
-\       },{
 \         '__text__': 'debug',
 \         'menu': '[command]',
 \         'word': 'debug',
@@ -657,6 +653,10 @@ let s:command = {
 \         '__text__': 'delete',
 \         'menu': '[command]',
 \         'word': 'delete',
+\       },{
+\         '__text__': 'delfunction',
+\         'menu': '[command]',
+\         'word': 'delfunction',
 \       },{
 \         '__text__': 'delmarks',
 \         'menu': '[command]',
@@ -738,14 +738,6 @@ let s:command = {
 \         'word': 'earlier',
 \       },],
 \     'ec': [{
-\         '__text__': 'echohl',
-\         'menu': '[command]',
-\         'word': 'echohl',
-\       },{
-\         '__text__': 'echoerr',
-\         'menu': '[command]',
-\         'word': 'echoerr',
-\       },{
 \         '__text__': 'echo',
 \         'menu': '[command]',
 \         'word': 'echo',
@@ -753,6 +745,14 @@ let s:command = {
 \         '__text__': 'echomsg',
 \         'menu': '[command]',
 \         'word': 'echomsg',
+\       },{
+\         '__text__': 'echoerr',
+\         'menu': '[command]',
+\         'word': 'echoerr',
+\       },{
+\         '__text__': 'echohl',
+\         'menu': '[command]',
+\         'word': 'echohl',
 \       },{
 \         '__text__': 'echon',
 \         'menu': '[command]',
@@ -782,13 +782,13 @@ let s:command = {
 \         'menu': '[command]',
 \         'word': 'endif',
 \       },{
-\         '__text__': 'endfunction',
-\         'menu': '[command]',
-\         'word': 'endfunction',
-\       },{
 \         '__text__': 'endfor',
 \         'menu': '[command]',
 \         'word': 'endfor',
+\       },{
+\         '__text__': 'endfunction',
+\         'menu': '[command]',
+\         'word': 'endfunction',
 \       },{
 \         '__text__': 'endwhile',
 \         'menu': '[command]',
@@ -828,10 +828,6 @@ let s:command = {
 \         'menu': '[command]',
 \         'word': 'finally',
 \       },{
-\         '__text__': 'filetype',
-\         'menu': '[command]',
-\         'word': 'filetype',
-\       },{
 \         '__text__': 'file',
 \         'menu': '[command]',
 \         'word': 'file',
@@ -839,6 +835,10 @@ let s:command = {
 \         '__text__': 'files',
 \         'menu': '[command]',
 \         'word': 'files',
+\       },{
+\         '__text__': 'filetype',
+\         'menu': '[command]',
+\         'word': 'filetype',
 \       },{
 \         '__text__': 'filter',
 \         'menu': '[command]',
@@ -861,10 +861,6 @@ let s:command = {
 \         'menu': '[command]',
 \         'word': 'for',
 \       },{
-\         '__text__': 'foldopen',
-\         'menu': '[command]',
-\         'word': 'foldopen',
-\       },{
 \         '__text__': 'fold',
 \         'menu': '[command]',
 \         'word': 'fold',
@@ -880,6 +876,10 @@ let s:command = {
 \         '__text__': 'folddoopen',
 \         'menu': '[command]',
 \         'word': 'folddoopen',
+\       },{
+\         '__text__': 'foldopen',
+\         'menu': '[command]',
+\         'word': 'foldopen',
 \       },],
 \     'fu': [{
 \         '__text__': 'function',
@@ -1022,13 +1022,13 @@ let s:command = {
 \         'word': 'isplit',
 \       },],
 \     'iu': [{
-\         '__text__': 'iunmap',
-\         'menu': '[command]',
-\         'word': 'iunmap',
-\       },{
 \         '__text__': 'iunabbrev',
 \         'menu': '[command]',
 \         'word': 'iunabbrev',
+\       },{
+\         '__text__': 'iunmap',
+\         'menu': '[command]',
+\         'word': 'iunmap',
 \       },{
 \         '__text__': 'iunmenu',
 \         'menu': '[command]',
@@ -1050,13 +1050,13 @@ let s:command = {
 \         'word': 'k',
 \       },],
 \     'ke': [{
-\         '__text__': 'keepjumps',
-\         'menu': '[command]',
-\         'word': 'keepjumps',
-\       },{
 \         '__text__': 'keepalt',
 \         'menu': '[command]',
 \         'word': 'keepalt',
+\       },{
+\         '__text__': 'keepjumps',
+\         'menu': '[command]',
+\         'word': 'keepjumps',
 \       },{
 \         '__text__': 'keepmarks',
 \         'menu': '[command]',
@@ -1076,10 +1076,6 @@ let s:command = {
 \         'word': 'lNfile',
 \       },],
 \     'la': [{
-\         '__text__': 'language',
-\         'menu': '[command]',
-\         'word': 'language',
-\       },{
 \         '__text__': 'laddbuffer',
 \         'menu': '[command]',
 \         'word': 'laddbuffer',
@@ -1091,6 +1087,10 @@ let s:command = {
 \         '__text__': 'laddfile',
 \         'menu': '[command]',
 \         'word': 'laddfile',
+\       },{
+\         '__text__': 'language',
+\         'menu': '[command]',
+\         'word': 'language',
 \       },{
 \         '__text__': 'last',
 \         'menu': '[command]',
@@ -1210,19 +1210,23 @@ let s:command = {
 \         'word': 'llist',
 \       },],
 \     'lm': [{
-\         '__text__': 'lmake',
-\         'menu': '[command]',
-\         'word': 'lmake',
-\       },{
 \         '__text__': 'lmap',
 \         'menu': '[command]',
 \         'word': 'lmap',
+\       },{
+\         '__text__': 'lmake',
+\         'menu': '[command]',
+\         'word': 'lmake',
 \       },{
 \         '__text__': 'lmapclear',
 \         'menu': '[command]',
 \         'word': 'lmapclear',
 \       },],
 \     'ln': [{
+\         '__text__': 'lnoremap',
+\         'menu': '[command]',
+\         'word': 'lnoremap',
+\       },{
 \         '__text__': 'lnewer',
 \         'menu': '[command]',
 \         'word': 'lnewer',
@@ -1234,16 +1238,8 @@ let s:command = {
 \         '__text__': 'lnfile',
 \         'menu': '[command]',
 \         'word': 'lnfile',
-\       },{
-\         '__text__': 'lnoremap',
-\         'menu': '[command]',
-\         'word': 'lnoremap',
 \       },],
 \     'lo': [{
-\         '__text__': 'lockvar',
-\         'menu': '[command]',
-\         'word': 'lockvar',
-\       },{
 \         '__text__': 'loadkeymap',
 \         'menu': '[command]',
 \         'word': 'loadkeymap',
@@ -1255,6 +1251,10 @@ let s:command = {
 \         '__text__': 'lockmarks',
 \         'menu': '[command]',
 \         'word': 'lockmarks',
+\       },{
+\         '__text__': 'lockvar',
+\         'menu': '[command]',
+\         'word': 'lockvar',
 \       },{
 \         '__text__': 'lolder',
 \         'menu': '[command]',
@@ -1324,10 +1324,6 @@ let s:command = {
 \         'menu': '[command]',
 \         'word': 'map',
 \       },{
-\         '__text__': 'mark',
-\         'menu': '[command]',
-\         'word': 'mark',
-\       },{
 \         '__text__': 'make',
 \         'menu': '[command]',
 \         'word': 'make',
@@ -1335,6 +1331,10 @@ let s:command = {
 \         '__text__': 'mapclear',
 \         'menu': '[command]',
 \         'word': 'mapclear',
+\       },{
+\         '__text__': 'mark',
+\         'menu': '[command]',
+\         'word': 'mark',
 \       },{
 \         '__text__': 'marks',
 \         'menu': '[command]',
@@ -1659,10 +1659,6 @@ let s:command = {
 \         'word': 'pwd',
 \       },],
 \     'py': [{
-\         '__text__': 'python',
-\         'menu': '[command]',
-\         'word': 'python',
-\       },{
 \         '__text__': 'py3',
 \         'menu': '[command]',
 \         'word': 'py3',
@@ -1682,6 +1678,10 @@ let s:command = {
 \         '__text__': 'pyfile',
 \         'menu': '[command]',
 \         'word': 'pyfile',
+\       },{
+\         '__text__': 'python',
+\         'menu': '[command]',
+\         'word': 'python',
 \       },{
 \         '__text__': 'python3',
 \         'menu': '[command]',
@@ -1722,10 +1722,6 @@ let s:command = {
 \         'menu': '[command]',
 \         'word': 'return',
 \       },{
-\         '__text__': 'redraw',
-\         'menu': '[command]',
-\         'word': 'redraw',
-\       },{
 \         '__text__': 'read',
 \         'menu': '[command]',
 \         'word': 'read',
@@ -1741,6 +1737,10 @@ let s:command = {
 \         '__text__': 'redo',
 \         'menu': '[command]',
 \         'word': 'redo',
+\       },{
+\         '__text__': 'redraw',
+\         'menu': '[command]',
+\         'word': 'redraw',
 \       },{
 \         '__text__': 'redrawstatus',
 \         'menu': '[command]',
@@ -1772,10 +1772,6 @@ let s:command = {
 \         'word': 'rightbelow',
 \       },],
 \     'ru': [{
-\         '__text__': 'runtime',
-\         'menu': '[command]',
-\         'word': 'runtime',
-\       },{
 \         '__text__': 'ruby',
 \         'menu': '[command]',
 \         'word': 'ruby',
@@ -1791,6 +1787,10 @@ let s:command = {
 \         '__text__': 'rundo',
 \         'menu': '[command]',
 \         'word': 'rundo',
+\       },{
+\         '__text__': 'runtime',
+\         'menu': '[command]',
+\         'word': 'runtime',
 \       },],
 \     'rv': [{
 \         '__text__': 'rviminfo',
@@ -1870,13 +1870,13 @@ let s:command = {
 \         'word': 'scscope',
 \       },],
 \     'se': [{
-\         '__text__': 'setlocal',
-\         'menu': '[command]',
-\         'word': 'setlocal',
-\       },{
 \         '__text__': 'set',
 \         'menu': '[command]',
 \         'word': 'set',
+\       },{
+\         '__text__': 'setlocal',
+\         'menu': '[command]',
+\         'word': 'setlocal',
 \       },{
 \         '__text__': 'setfiletype',
 \         'menu': '[command]',
@@ -1914,22 +1914,22 @@ let s:command = {
 \         'word': 'simalt',
 \       },],
 \     'sl': [{
-\         '__text__': 'sleep',
-\         'menu': '[command]',
-\         'word': 'sleep',
-\       },{
 \         '__text__': 'slast',
 \         'menu': '[command]',
 \         'word': 'slast',
+\       },{
+\         '__text__': 'sleep',
+\         'menu': '[command]',
+\         'word': 'sleep',
 \       },],
 \     'sm': [{
-\         '__text__': 'smagic',
-\         'menu': '[command]',
-\         'word': 'smagic',
-\       },{
 \         '__text__': 'smap',
 \         'menu': '[command]',
 \         'word': 'smap',
+\       },{
+\         '__text__': 'smagic',
+\         'menu': '[command]',
+\         'word': 'smagic',
 \       },{
 \         '__text__': 'smapclear',
 \         'menu': '[command]',
@@ -1944,6 +1944,10 @@ let s:command = {
 \         'word': 'smile',
 \       },],
 \     'sn': [{
+\         '__text__': 'snoremap',
+\         'menu': '[command]',
+\         'word': 'snoremap',
+\       },{
 \         '__text__': 'snext',
 \         'menu': '[command]',
 \         'word': 'snext',
@@ -1951,10 +1955,6 @@ let s:command = {
 \         '__text__': 'snomagic',
 \         'menu': '[command]',
 \         'word': 'snomagic',
-\       },{
-\         '__text__': 'snoremap',
-\         'menu': '[command]',
-\         'word': 'snoremap',
 \       },{
 \         '__text__': 'snoremenu',
 \         'menu': '[command]',
@@ -2008,10 +2008,6 @@ let s:command = {
 \         'word': 'srewind',
 \       },],
 \     'st': [{
-\         '__text__': 'startinsert',
-\         'menu': '[command]',
-\         'word': 'startinsert',
-\       },{
 \         '__text__': 'stag',
 \         'menu': '[command]',
 \         'word': 'stag',
@@ -2019,6 +2015,10 @@ let s:command = {
 \         '__text__': 'startgreplace',
 \         'menu': '[command]',
 \         'word': 'startgreplace',
+\       },{
+\         '__text__': 'startinsert',
+\         'menu': '[command]',
+\         'word': 'startinsert',
 \       },{
 \         '__text__': 'startreplace',
 \         'menu': '[command]',
@@ -2041,10 +2041,6 @@ let s:command = {
 \         'word': 'stselect',
 \       },],
 \     'su': [{
-\         '__text__': 'sunmap',
-\         'menu': '[command]',
-\         'word': 'sunmap',
-\       },{
 \         '__text__': 'substitute',
 \         'menu': '[command]',
 \         'word': 'substitute',
@@ -2052,6 +2048,10 @@ let s:command = {
 \         '__text__': 'sunhide',
 \         'menu': '[command]',
 \         'word': 'sunhide',
+\       },{
+\         '__text__': 'sunmap',
+\         'menu': '[command]',
+\         'word': 'sunmap',
 \       },{
 \         '__text__': 'sunmenu',
 \         'menu': '[command]',
@@ -2072,13 +2072,13 @@ let s:command = {
 \         'word': 'swapname',
 \       },],
 \     'sy': [{
-\         '__text__': 'syntax',
-\         'menu': '[command]',
-\         'word': 'syntax',
-\       },{
 \         '__text__': 'syncbind',
 \         'menu': '[command]',
 \         'word': 'syncbind',
+\       },{
+\         '__text__': 'syntax',
+\         'menu': '[command]',
+\         'word': 'syntax',
 \       },{
 \         '__text__': 'syntime',
 \         'menu': '[command]',
@@ -2095,10 +2095,6 @@ let s:command = {
 \         'word': 'tNext',
 \       },],
 \     'ta': [{
-\         '__text__': 'tabnew',
-\         'menu': '[command]',
-\         'word': 'tabnew',
-\       },{
 \         '__text__': 'tab',
 \         'menu': '[command]',
 \         'word': 'tab',
@@ -2134,6 +2130,10 @@ let s:command = {
 \         '__text__': 'tabmove',
 \         'menu': '[command]',
 \         'word': 'tabmove',
+\       },{
+\         '__text__': 'tabnew',
+\         'menu': '[command]',
+\         'word': 'tabnew',
 \       },{
 \         '__text__': 'tabnext',
 \         'menu': '[command]',
@@ -2206,10 +2206,6 @@ let s:command = {
 \         'word': 'tlast',
 \       },],
 \     'tm': [{
-\         '__text__': 'tnoremap',
-\         'menu': '[command]',
-\         'word': 'tnoremap',
-\       },{
 \         '__text__': 'tmap',
 \         'menu': '[command]',
 \         'word': 'tmap',
@@ -2223,6 +2219,10 @@ let s:command = {
 \         'word': 'tmenu',
 \       },],
 \     'tn': [{
+\         '__text__': 'tnoremap',
+\         'menu': '[command]',
+\         'word': 'tnoremap',
+\       },{
 \         '__text__': 'tnext',
 \         'menu': '[command]',
 \         'word': 'tnext',
@@ -2265,10 +2265,6 @@ let s:command = {
 \         'menu': '[command]',
 \         'word': 'unlet',
 \       },{
-\         '__text__': 'unlockvar',
-\         'menu': '[command]',
-\         'word': 'unlockvar',
-\       },{
 \         '__text__': 'unabbreviate',
 \         'menu': '[command]',
 \         'word': 'unabbreviate',
@@ -2289,6 +2285,10 @@ let s:command = {
 \         'menu': '[command]',
 \         'word': 'unhide',
 \       },{
+\         '__text__': 'unlockvar',
+\         'menu': '[command]',
+\         'word': 'unlockvar',
+\       },{
 \         '__text__': 'unmap',
 \         'menu': '[command]',
 \         'word': 'unmap',
@@ -2307,17 +2307,17 @@ let s:command = {
 \         'word': 'update',
 \       },],
 \     've': [{
-\         '__text__': 'vertical',
+\         '__text__': 'verbose',
 \         'menu': '[command]',
-\         'word': 'vertical',
+\         'word': 'verbose',
 \       },{
 \         '__text__': 'version',
 \         'menu': '[command]',
 \         'word': 'version',
 \       },{
-\         '__text__': 'verbose',
+\         '__text__': 'vertical',
 \         'menu': '[command]',
-\         'word': 'verbose',
+\         'word': 'vertical',
 \       },],
 \     'vg': [{
 \         '__text__': 'vglobal',
@@ -2510,7 +2510,7 @@ let s:command = {
 \   },
 \   'indexlen': 2,
 \   'name': 'command',
-\   'wordlist': ['Next','abbreviate','abclear','aboveleft','all','amenu','anoremenu','append','argadd','argdelete','argdo','argedit','argglobal','arglocal','args','argument','ascii','augroup','aunmenu','autocmd','bNext','badd','ball','bdelete','behave','belowright','bfirst','blast','bmodified','bnext','botright','bprevious','break','breakadd','breakdel','breaklist','brewind','browse','bufdo','buffer','buffers','bunload','bwipeout','cNext','cNfile','cabbrev','cabclear','caddbuffer','caddexpr','caddfile','call','catch','cbottom','cbuffer','cc','cclose','cd','cdo','center','cexpr','cfdo','cfile','cfirst','cgetbuffer','cgetexpr','cgetfile','change','changes','chdir','checkpath','checktime','chistory','clast','clearjumps','clist','close','cmap','cmapclear','cmenu','cnewer','cnext','cnfile','cnoreabbrev','cnoremap','cnoremenu','colder','colorscheme','comclear','command','compiler','confirm','continue','copen','copy','cpfile','cprevious','cquit','crewind','cscope','cstag','cunabbrev','cunmap','cunmenu','cwindow','debug','debuggreedy','delcommand','delete','delfunction','delmarks','diffget','diffoff','diffpatch','diffput','diffsplit','diffthis','diffupdate','digraphs','display','djump','dlist','doautoall','doautocmd','drop','dsearch','dsplit','earlier','echo','echoerr','echohl','echomsg','echon','edit','else','elseif','emenu','endfor','endfunction','endif','endtry','endwhile','enew','ex','execute','exit','exusage','file','files','filetype','filter','finally','find','finish','first','fixdel','fold','foldclose','folddoclosed','folddoopen','foldopen','for','function','global','goto','grep','grepadd','gui','gvim','hardcopy','help','helpclose','helpfind','helpgrep','helptags','hide','highlight','history','iabbrev','iabclear','if','ijump','ilist','imap','imapclear','imenu','inoreabbrev','inoremap','inoremenu','insert','intro','isearch','isplit','iunabbrev','iunmap','iunmenu','join','jumps','k','keepalt','keepjumps','keepmarks','keeppatterns','lNext','lNfile','laddbuffer','laddexpr','laddfile','language','last','later','lbottom','lbuffer','lcd','lchdir','lclose','lcscope','ldo','left','leftabove','let','lexpr','lfdo','lfile','lfirst','lgetbuffer','lgetexpr','lgetfile','lgrep','lgrepadd','lhelpgrep','lhistory','list','ll','llast','llist','lmake','lmap','lmapclear','lnewer','lnext','lnfile','lnoremap','loadkeymap','loadview','lockmarks','lockvar','lolder','lopen','lpfile','lprevious','lrewind','ls','ltag','lua','luado','luafile','lunmap','lvimgrep','lvimgrepadd','lwindow','make','map','mapclear','mark','marks','match','menu','menutranslate','messages','mkexrc','mksession','mkspell','mkview','mkvimrc','mode','move','mzfile','mzscheme','nbclose','nbkey','nbstart','new','next','nmap','nmapclear','nmenu','nnoremap','nnoremenu','noautocmd','nohlsearch','noreabbrev','noremap','noremenu','normal','noswapfile','number','nunmap','nunmenu','oldfiles','omap','omapclear','omenu','only','onoremap','onoremenu','open','options','ounmap','ounmenu','ownsyntax','packadd','packloadall','pclose','pedit','perl','perldo','pop','popup','ppop','preserve','previous','print','profdel','profile','promptfind','promptrepl','psearch','ptNext','ptag','ptfirst','ptjump','ptlast','ptnext','ptprevious','ptrewind','ptselect','put','pwd','py3','py3do','py3file','pydo','pyfile','python','python3','pythonx','pyx','pyxdo','pyxfile','qall','quit','quitall','read','recover','redir','redo','redraw','redrawstatus','registers','resize','retab','return','rewind','right','rightbelow','ruby','rubydo','rubyfile','rundo','runtime','rviminfo','sNext','sall','sandbox','sargument','saveas','sbNext','sball','sbfirst','sblast','sbmodified','sbnext','sbprevious','sbrewind','sbuffer','scriptencoding','scriptnames','scscope','set','setfiletype','setglobal','setlocal','sfind','sfirst','shell','sign','silent','simalt','slast','sleep','smagic','smap','smapclear','smenu','smile','snext','snomagic','snoremap','snoremenu','sort','source','spelldump','spellgood','spellinfo','spellrepall','spellundo','spellwrong','split','sprevious','srewind','stag','startgreplace','startinsert','startreplace','stjump','stop','stopinsert','stselect','substitute','sunhide','sunmap','sunmenu','suspend','sview','swapname','syncbind','syntax','syntime','t','tNext','tab','tabNext','tabclose','tabdo','tabedit','tabfind','tabfirst','tablast','tabmove','tabnew','tabnext','tabonly','tabprevious','tabrewind','tabs','tag','tags','tcl','tcldo','tclfile','tearoff','terminal','tfirst','throw','tjump','tlast','tmap','tmapclear','tmenu','tnext','tnoremap','topleft','tprevious','trewind','try','tselect','tunmap','tunmenu','unabbreviate','undo','undojoin','undolist','unhide','unlet','unlockvar','unmap','unmenu','unsilent','update','verbose','version','vertical','vglobal','view','vimgrep','vimgrepadd','visual','viusage','vmap','vmapclear','vmenu','vnew','vnoremap','vnoremenu','vsplit','vunmap','vunmenu','wNext','wall','while','wincmd','windo','winpos','winsize','wnext','wprevious','wq','wqall','write','wsverb','wundo','wviminfo','xall','xit','xmap','xmapclear','xmenu','xnoremap','xnoremenu','xunmap','xunmenu','yank','z',],
+\   'wordlist': ['autocmd','call','catch','cnoremap','command','continue','echo','endif','execute','finish','for','highlight','inoremap','let','lnoremap','map','normal','onoremap','return','set','silent','snoremap','source','tnoremap','try','unlet','vnoremap','xnoremap','cmap','echomsg','endfor','finally','imap','lmap','noremap','omap','setlocal','smap','tmap','vmap','xmap','echoerr','endfunction','nnoremap','echohl','endwhile','nmap','echon','endtry','Next','abbreviate','abclear','aboveleft','all','amenu','anoremenu','append','argadd','argdelete','argdo','argedit','argglobal','arglocal','args','argument','ascii','augroup','aunmenu','bNext','badd','ball','bdelete','behave','belowright','bfirst','blast','bmodified','bnext','botright','bprevious','break','breakadd','breakdel','breaklist','brewind','browse','bufdo','buffer','buffers','bunload','bwipeout','cNext','cNfile','cabbrev','cabclear','caddbuffer','caddexpr','caddfile','cbottom','cbuffer','cc','cclose','cd','cdo','center','cexpr','cfdo','cfile','cfirst','cgetbuffer','cgetexpr','cgetfile','change','changes','chdir','checkpath','checktime','chistory','clast','clearjumps','clist','close','cmapclear','cmenu','cnewer','cnext','cnfile','cnoreabbrev','cnoremenu','colder','colorscheme','comclear','compiler','confirm','copen','copy','cpfile','cprevious','cquit','crewind','cscope','cstag','cunabbrev','cunmap','cunmenu','cwindow','debug','debuggreedy','delcommand','delete','delfunction','delmarks','diffget','diffoff','diffpatch','diffput','diffsplit','diffthis','diffupdate','digraphs','display','djump','dlist','doautoall','doautocmd','drop','dsearch','dsplit','earlier','edit','else','elseif','emenu','enew','ex','exit','exusage','file','files','filetype','filter','find','first','fixdel','fold','foldclose','folddoclosed','folddoopen','foldopen','function','global','goto','grep','grepadd','gui','gvim','hardcopy','help','helpclose','helpfind','helpgrep','helptags','hide','history','iabbrev','iabclear','if','ijump','ilist','imapclear','imenu','inoreabbrev','inoremenu','insert','intro','isearch','isplit','iunabbrev','iunmap','iunmenu','join','jumps','k','keepalt','keepjumps','keepmarks','keeppatterns','lNext','lNfile','laddbuffer','laddexpr','laddfile','language','last','later','lbottom','lbuffer','lcd','lchdir','lclose','lcscope','ldo','left','leftabove','lexpr','lfdo','lfile','lfirst','lgetbuffer','lgetexpr','lgetfile','lgrep','lgrepadd','lhelpgrep','lhistory','list','ll','llast','llist','lmake','lmapclear','lnewer','lnext','lnfile','loadkeymap','loadview','lockmarks','lockvar','lolder','lopen','lpfile','lprevious','lrewind','ls','ltag','lua','luado','luafile','lunmap','lvimgrep','lvimgrepadd','lwindow','make','mapclear','mark','marks','match','menu','menutranslate','messages','mkexrc','mksession','mkspell','mkview','mkvimrc','mode','move','mzfile','mzscheme','nbclose','nbkey','nbstart','new','next','nmapclear','nmenu','nnoremenu','noautocmd','nohlsearch','noreabbrev','noremenu','noswapfile','number','nunmap','nunmenu','oldfiles','omapclear','omenu','only','onoremenu','open','options','ounmap','ounmenu','ownsyntax','packadd','packloadall','pclose','pedit','perl','perldo','pop','popup','ppop','preserve','previous','print','profdel','profile','promptfind','promptrepl','psearch','ptNext','ptag','ptfirst','ptjump','ptlast','ptnext','ptprevious','ptrewind','ptselect','put','pwd','py3','py3do','py3file','pydo','pyfile','python','python3','pythonx','pyx','pyxdo','pyxfile','qall','quit','quitall','read','recover','redir','redo','redraw','redrawstatus','registers','resize','retab','rewind','right','rightbelow','ruby','rubydo','rubyfile','rundo','runtime','rviminfo','sNext','sall','sandbox','sargument','saveas','sbNext','sball','sbfirst','sblast','sbmodified','sbnext','sbprevious','sbrewind','sbuffer','scriptencoding','scriptnames','scscope','setfiletype','setglobal','sfind','sfirst','shell','sign','simalt','slast','sleep','smagic','smapclear','smenu','smile','snext','snomagic','snoremenu','sort','spelldump','spellgood','spellinfo','spellrepall','spellundo','spellwrong','split','sprevious','srewind','stag','startgreplace','startinsert','startreplace','stjump','stop','stopinsert','stselect','substitute','sunhide','sunmap','sunmenu','suspend','sview','swapname','syncbind','syntax','syntime','t','tNext','tab','tabNext','tabclose','tabdo','tabedit','tabfind','tabfirst','tablast','tabmove','tabnew','tabnext','tabonly','tabprevious','tabrewind','tabs','tag','tags','tcl','tcldo','tclfile','tearoff','terminal','tfirst','throw','tjump','tlast','tmapclear','tmenu','tnext','topleft','tprevious','trewind','tselect','tunmap','tunmenu','unabbreviate','undo','undojoin','undolist','unhide','unlockvar','unmap','unmenu','unsilent','update','verbose','version','vertical','vglobal','view','vimgrep','vimgrepadd','visual','viusage','vmapclear','vmenu','vnew','vnoremenu','vsplit','vunmap','vunmenu','wNext','wall','while','wincmd','windo','winpos','winsize','wnext','wprevious','wq','wqall','write','wsverb','wundo','wviminfo','xall','xit','xmapclear','xmenu','xnoremenu','xunmap','xunmenu','yank','z',],
 \ }
 lockvar! s:command
 let s:hicmdattr = {
@@ -2899,6 +2899,14 @@ let s:higroup = {
 \         '__text__': 'StorageClass',
 \         'menu': '[higroup]',
 \         'word': 'StorageClass',
+\       },{
+\         '__text__': 'StatusLineTerm',
+\         'menu': '[higroup]',
+\         'word': 'StatusLineTerm',
+\       },{
+\         '__text__': 'StatusLineTermNC',
+\         'menu': '[higroup]',
+\         'word': 'StatusLineTermNC',
 \       },],
 \     'Ta': [{
 \         '__text__': 'Tag',
@@ -2977,7 +2985,7 @@ let s:higroup = {
 \   },
 \   'indexlen': 2,
 \   'name': 'higroup',
-\   'wordlist': ['Boolean','Character','ColorColumn','Comment','Conceal','Conditional','Constant','Cursor','CursorColumn','CursorIM','CursorLine','CursorLineNr','Debug','Define','Delimiter','DiffAdd','DiffChange','DiffDelete','DiffText','Directory','EndOfBuffer','Error','ErrorMsg','Exception','Float','FoldColumn','Folded','Function','Identifier','Ignore','IncSearch','Include','Keyword','Label','LineNr','Macro','MatchParen','Menu','ModeMsg','MoreMsg','NONE','NonText','Normal','Number','Operator','Pmenu','PmenuSbar','PmenuSel','PmenuThumb','PreCondit','PreProc','Question','Repeat','Scrollbar','Search','SignColumn','Special','SpecialChar','SpecialComment','SpecialKey','SpellBad','SpellCap','SpellLocal','SpellRare','Statement','StatusLine','StatusLineNC','StorageClass','String','Structure','TabLine','TabLineFill','TabLineSel','Tag','Title','Todo','Tooltip','Type','Typedef','Underlined','VertSplit','Visual','VisualNOS','WarningMsg','WildMenu','lCursor',],
+\   'wordlist': ['Boolean','Character','ColorColumn','Comment','Conceal','Conditional','Constant','Cursor','CursorColumn','CursorIM','CursorLine','CursorLineNr','Debug','Define','Delimiter','DiffAdd','DiffChange','DiffDelete','DiffText','Directory','EndOfBuffer','Error','ErrorMsg','Exception','Float','FoldColumn','Folded','Function','Identifier','Ignore','IncSearch','Include','Keyword','Label','LineNr','Macro','MatchParen','Menu','ModeMsg','MoreMsg','NONE','NonText','Normal','Number','Operator','Pmenu','PmenuSbar','PmenuSel','PmenuThumb','PreCondit','PreProc','Question','Repeat','Scrollbar','Search','SignColumn','Special','SpecialChar','SpecialComment','SpecialKey','SpellBad','SpellCap','SpellLocal','SpellRare','Statement','StatusLine','StatusLineNC','StatusLineTerm','StatusLineTermNC','StorageClass','String','Structure','TabLine','TabLineFill','TabLineSel','Tag','Title','Todo','Tooltip','Type','Typedef','Underlined','VertSplit','Visual','VisualNOS','WarningMsg','WildMenu','lCursor',],
 \ }
 lockvar! s:higroup
 let s:exists = {
@@ -2986,31 +2994,6 @@ let s:exists = {
 \       'priority': 384,
 \     },],
 \   'index': {
-\     '&': [{
-\         '__text__': '&',
-\         'menu': '[exists] &existing-option',
-\         'word': '&',
-\       },],
-\     '+': [{
-\         '__text__': '+',
-\         'menu': '[exists] +available-option',
-\         'word': '+',
-\       },],
-\     '$': [{
-\         '__text__': '$',
-\         'menu': '[exists] $ENVNAME',
-\         'word': '$',
-\       },],
-\     '*': [{
-\         '__text__': '*',
-\         'menu': '[exists] *funcname',
-\         'word': '*',
-\       },],
-\     ':': [{
-\         '__text__': ':',
-\         'menu': '[exists] :cmdname',
-\         'word': ':',
-\       },],
 \     '#': [{
 \         '__text__': '#',
 \         'menu': '[exists] #Event/#Group',
@@ -3019,6 +3002,31 @@ let s:exists = {
 \         '__text__': '##',
 \         'menu': '[exists] ##SupportedEvent',
 \         'word': '##',
+\       },],
+\     '$': [{
+\         '__text__': '$',
+\         'menu': '[exists] $ENVNAME',
+\         'word': '$',
+\       },],
+\     '&': [{
+\         '__text__': '&',
+\         'menu': '[exists] &existing-option',
+\         'word': '&',
+\       },],
+\     '*': [{
+\         '__text__': '*',
+\         'menu': '[exists] *funcname',
+\         'word': '*',
+\       },],
+\     '+': [{
+\         '__text__': '+',
+\         'menu': '[exists] +available-option',
+\         'word': '+',
+\       },],
+\     ':': [{
+\         '__text__': ':',
+\         'menu': '[exists] :cmdname',
+\         'word': ':',
 \       },],
 \   },
 \   'indexlen': 1,
@@ -3550,6 +3558,10 @@ let s:feature = {
 \         '__text__': 'autocmd',
 \         'menu': '[feature]',
 \         'word': 'autocmd',
+\       },{
+\         '__text__': 'autochdir',
+\         'menu': '[feature]',
+\         'word': 'autochdir',
 \       },{
 \         '__text__': 'autoservername',
 \         'menu': '[feature]',
@@ -4163,6 +4175,10 @@ let s:feature = {
 \         '__text__': 'vreplace',
 \         'menu': '[feature]',
 \         'word': 'vreplace',
+\       },{
+\         '__text__': 'vtp',
+\         'menu': '[feature]',
+\         'word': 'vtp',
 \       },],
 \     'w': [{
 \         '__text__': 'wildignore',
@@ -4172,6 +4188,10 @@ let s:feature = {
 \         '__text__': 'wildmenu',
 \         'menu': '[feature]',
 \         'word': 'wildmenu',
+\       },{
+\         '__text__': 'win16',
+\         'menu': '[feature]',
+\         'word': 'win16',
 \       },{
 \         '__text__': 'win32',
 \         'menu': '[feature]',
@@ -4241,7 +4261,7 @@ let s:feature = {
 \   },
 \   'indexlen': 1,
 \   'name': 'feature',
-\   'wordlist': ['acl','all_builtin_terms','amiga','arabic','arp','autocmd','autoservername','balloon_eval','balloon_multiline','beos','browse','browsefilter','builtin_terms','byte_offset','cindent','clientserver','clipboard','cmdline_compl','cmdline_hist','cmdline_info','comments','compatible','cryptv','cscope','debug','dialog_con','dialog_gui','diff','digraphs','directx','dnd','ebcdic','emacs_tags','eval','ex_extra','extra_search','farsi','file_in_path','filterpipe','find_in_path','float','fname_case','folding','footer','fork','gettext','gui','gui_athena','gui_gnome','gui_gtk','gui_gtk2','gui_gtk3','gui_mac','gui_motif','gui_photon','gui_running','gui_win32','gui_win32s','hangul_input','iconv','insert_expand','jumplist','keymap','lambda','langmap','libcall','linebreak','lispindent','listcmds','localmap','lua','mac','macunix','menu','mksession','modify_fname','mouse','mouse_dec','mouse_gpm','mouse_netterm','mouse_pterm','mouse_sysmouse','mouse_sgr','mouse_urxvt','mouse_xterm','mouseshape','multi_byte','multi_byte_encoding','multi_byte_ime','multi_lang','mzscheme','netbeans_enabled','netbeans_intg','num64','ole','osx','osxdarwin','packages','path_extra','perl','persistent_undo','postscript','printer','profile','python','python_compiled','python_dynamic','python3','python3_compiled','python3_dynamic','pythonx','qnx','quickfix','reltime','rightleft','ruby','scrollbind','showcmd','signs','smartindent','spell','startuptime','statusline','sun_workshop','syntax','syntax_items','system','tag_binary','tag_old_static','tag_any_white','tcl','termguicolors','terminal','terminfo','termresponse','textobjects','tgetent','timers','title','toolbar','ttyin','ttyout','unix','unnamedplus','user_commands','vcon','vertsplit','vim_starting','viminfo','virtualedit','visual','visualextra','vms','vreplace','wildignore','wildmenu','win32','win32unix','win64','win95','winaltkeys','windows','writebackup','xfontset','xim','xpm','xpm_w32','xsmp','xsmp_interact','xterm_clipboard','xterm_save','x11',],
+\   'wordlist': ['acl','all_builtin_terms','amiga','arabic','arp','autocmd','autochdir','autoservername','balloon_eval','balloon_multiline','beos','browse','browsefilter','builtin_terms','byte_offset','cindent','clientserver','clipboard','cmdline_compl','cmdline_hist','cmdline_info','comments','compatible','cryptv','cscope','debug','dialog_con','dialog_gui','diff','digraphs','directx','dnd','ebcdic','emacs_tags','eval','ex_extra','extra_search','farsi','file_in_path','filterpipe','find_in_path','float','fname_case','folding','footer','fork','gettext','gui','gui_athena','gui_gnome','gui_gtk','gui_gtk2','gui_gtk3','gui_mac','gui_motif','gui_photon','gui_running','gui_win32','gui_win32s','hangul_input','iconv','insert_expand','jumplist','keymap','lambda','langmap','libcall','linebreak','lispindent','listcmds','localmap','lua','mac','macunix','menu','mksession','modify_fname','mouse','mouse_dec','mouse_gpm','mouse_netterm','mouse_pterm','mouse_sysmouse','mouse_sgr','mouse_urxvt','mouse_xterm','mouseshape','multi_byte','multi_byte_encoding','multi_byte_ime','multi_lang','mzscheme','netbeans_enabled','netbeans_intg','num64','ole','osx','osxdarwin','packages','path_extra','perl','persistent_undo','postscript','printer','profile','python','python_compiled','python_dynamic','python3','python3_compiled','python3_dynamic','pythonx','qnx','quickfix','reltime','rightleft','ruby','scrollbind','showcmd','signs','smartindent','spell','startuptime','statusline','sun_workshop','syntax','syntax_items','system','tag_binary','tag_old_static','tag_any_white','tcl','termguicolors','terminal','terminfo','termresponse','textobjects','tgetent','timers','title','toolbar','ttyin','ttyout','unix','unnamedplus','user_commands','vcon','vertsplit','vim_starting','viminfo','virtualedit','visual','visualextra','vms','vreplace','vtp','wildignore','wildmenu','win16','win32','win32unix','win64','win95','winaltkeys','windows','writebackup','xfontset','xim','xpm','xpm_w32','xsmp','xsmp_interact','xterm_clipboard','xterm_save','x11',],
 \ }
 lockvar! s:feature
 let s:commandattrnargs = {
@@ -4364,6 +4384,12 @@ let s:function = {
 \         'abbr': 'append({lnum}, {string})',
 \         'menu': '[function]',
 \         'word': 'append',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'appendbufline',
+\         'abbr': 'appendbufline({expr}, {lnum}, {text})',
+\         'menu': '[function]',
+\         'word': 'appendbufline',
 \       },],
 \     'ar': [{
 \         '__func__': 1,
@@ -4488,6 +4514,12 @@ let s:function = {
 \         'abbr': 'balloon_show({expr})',
 \         'menu': '[function]',
 \         'word': 'balloon_show',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'balloon_split',
+\         'abbr': 'balloon_split({msg})',
+\         'menu': '[function]',
+\         'word': 'balloon_split',
 \       },],
 \     'br': [{
 \         '__func__': 1,
@@ -4727,6 +4759,12 @@ let s:function = {
 \         'word': 'col',
 \       },{
 \         '__func__': 1,
+\         '__text__': 'copy',
+\         'abbr': 'copy({expr})',
+\         'menu': '[function]',
+\         'word': 'copy',
+\       },{
+\         '__func__': 1,
 \         '__text__': 'complete',
 \         'abbr': 'complete({startcol}, {matches})',
 \         'menu': '[function]',
@@ -4749,12 +4787,6 @@ let s:function = {
 \         'abbr': 'confirm({msg} [, {choices} [, {default} [, {type}]]])',
 \         'menu': '[function]',
 \         'word': 'confirm',
-\       },{
-\         '__func__': 1,
-\         '__text__': 'copy',
-\         'abbr': 'copy({expr})',
-\         'menu': '[function]',
-\         'word': 'copy',
 \       },{
 \         '__func__': 1,
 \         '__text__': 'cos',
@@ -4800,6 +4832,12 @@ let s:function = {
 \         'abbr': 'delete({fname} [, {flags}])',
 \         'menu': '[function]',
 \         'word': 'delete',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'deletebufline',
+\         'abbr': 'deletebufline({expr}, {first} [, {last}])',
+\         'menu': '[function]',
+\         'word': 'deletebufline',
 \       },],
 \     'di': [{
 \         '__func__': 1,
@@ -4849,6 +4887,18 @@ let s:function = {
 \       },],
 \     'ex': [{
 \         '__func__': 1,
+\         '__text__': 'exists',
+\         'abbr': 'exists({expr})',
+\         'menu': '[function]',
+\         'word': 'exists',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'extend',
+\         'abbr': 'extend({expr1}, {expr2} [, {expr3}])',
+\         'menu': '[function]',
+\         'word': 'extend',
+\       },{
+\         '__func__': 1,
 \         '__text__': 'executable',
 \         'abbr': 'executable({expr})',
 \         'menu': '[function]',
@@ -4867,12 +4917,6 @@ let s:function = {
 \         'word': 'exepath',
 \       },{
 \         '__func__': 1,
-\         '__text__': 'exists',
-\         'abbr': 'exists({expr})',
-\         'menu': '[function]',
-\         'word': 'exists',
-\       },{
-\         '__func__': 1,
 \         '__text__': 'exp',
 \         'abbr': 'exp({expr})',
 \         'menu': '[function]',
@@ -4883,12 +4927,6 @@ let s:function = {
 \         'abbr': 'expand({expr} [, {nosuf} [, {list}]])',
 \         'menu': '[function]',
 \         'word': 'expand',
-\       },{
-\         '__func__': 1,
-\         '__text__': 'extend',
-\         'abbr': 'extend({expr1}, {expr2} [, {expr3}])',
-\         'menu': '[function]',
-\         'word': 'extend',
 \       },],
 \     'fe': [{
 \         '__func__': 1,
@@ -4898,6 +4936,12 @@ let s:function = {
 \         'word': 'feedkeys',
 \       },],
 \     'fi': [{
+\         '__func__': 1,
+\         '__text__': 'filter',
+\         'abbr': 'filter({expr1}, {expr2})',
+\         'menu': '[function]',
+\         'word': 'filter',
+\       },{
 \         '__text__': 'file_readable',
 \         'menu': '[function]',
 \         'word': 'file_readable',
@@ -4913,12 +4957,6 @@ let s:function = {
 \         'abbr': 'filewritable({file})',
 \         'menu': '[function]',
 \         'word': 'filewritable',
-\       },{
-\         '__func__': 1,
-\         '__text__': 'filter',
-\         'abbr': 'filter({expr1}, {expr2})',
-\         'menu': '[function]',
-\         'word': 'filter',
 \       },{
 \         '__func__': 1,
 \         '__text__': 'finddir',
@@ -5004,16 +5042,16 @@ let s:function = {
 \       },],
 \     'fu': [{
 \         '__func__': 1,
-\         '__text__': 'funcref',
-\         'abbr': 'funcref({name} [, {arglist}] [, {dict}])',
-\         'menu': '[function]',
-\         'word': 'funcref',
-\       },{
-\         '__func__': 1,
 \         '__text__': 'function',
 \         'abbr': 'function({name} [, {arglist}] [, {dict}])',
 \         'menu': '[function]',
 \         'word': 'function',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'funcref',
+\         'abbr': 'funcref({name} [, {arglist}] [, {dict}])',
+\         'menu': '[function]',
+\         'word': 'funcref',
 \       },],
 \     'ga': [{
 \         '__func__': 1,
@@ -5028,6 +5066,12 @@ let s:function = {
 \         'abbr': 'get({list}, {idx} [, {def}])',
 \         'menu': '[function]',
 \         'word': 'get',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'getpos',
+\         'abbr': 'getpos({expr})',
+\         'menu': '[function]',
+\         'word': 'getpos',
 \       },{
 \         '__func__': 1,
 \         '__text__': 'getbufinfo',
@@ -5174,12 +5218,6 @@ let s:function = {
 \         'word': 'getpid',
 \       },{
 \         '__func__': 1,
-\         '__text__': 'getpos',
-\         'abbr': 'getpos({expr})',
-\         'menu': '[function]',
-\         'word': 'getpos',
-\       },{
-\         '__func__': 1,
 \         '__text__': 'getqflist',
 \         'abbr': 'getqflist([{what}])',
 \         'menu': '[function]',
@@ -5223,7 +5261,7 @@ let s:function = {
 \       },{
 \         '__func__': 1,
 \         '__text__': 'getwinpos',
-\         'abbr': 'getwinpos([{tmeout}])',
+\         'abbr': 'getwinpos([{timeout}])',
 \         'menu': '[function]',
 \         'word': 'getwinpos',
 \       },{
@@ -5445,7 +5483,7 @@ let s:function = {
 \       },{
 \         '__func__': 1,
 \         '__text__': 'job_info',
-\         'abbr': 'job_info({job})',
+\         'abbr': 'job_info([{job}])',
 \         'menu': '[function]',
 \         'word': 'job_info',
 \       },{
@@ -5573,19 +5611,24 @@ let s:function = {
 \         'menu': '[function]',
 \         'word': 'log10',
 \       },],
-\     'lu': [{
-\         '__func__': 1,
-\         '__text__': 'luaeval',
-\         'abbr': 'luaeval({expr} [, {expr}])',
-\         'menu': '[function]',
-\         'word': 'luaeval',
-\       },],
 \     'ma': [{
 \         '__func__': 1,
 \         '__text__': 'map',
 \         'abbr': 'map({expr1}, {expr2})',
 \         'menu': '[function]',
 \         'word': 'map',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'match',
+\         'abbr': 'match({expr}, {pat} [, {start} [, {count}]])',
+\         'menu': '[function]',
+\         'word': 'match',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'matchstr',
+\         'abbr': 'matchstr({expr}, {pat} [, {start} [, {count}]])',
+\         'menu': '[function]',
+\         'word': 'matchstr',
 \       },{
 \         '__func__': 1,
 \         '__text__': 'maparg',
@@ -5598,12 +5641,6 @@ let s:function = {
 \         'abbr': 'mapcheck({name} [, {mode} [, {abbr}]])',
 \         'menu': '[function]',
 \         'word': 'mapcheck',
-\       },{
-\         '__func__': 1,
-\         '__text__': 'match',
-\         'abbr': 'match({expr}, {pat} [, {start} [, {count}]])',
-\         'menu': '[function]',
-\         'word': 'match',
 \       },{
 \         '__func__': 1,
 \         '__text__': 'matchadd',
@@ -5640,12 +5677,6 @@ let s:function = {
 \         'abbr': 'matchlist({expr}, {pat} [, {start} [, {count}]])',
 \         'menu': '[function]',
 \         'word': 'matchlist',
-\       },{
-\         '__func__': 1,
-\         '__text__': 'matchstr',
-\         'abbr': 'matchstr({expr}, {pat} [, {start} [, {count}]])',
-\         'menu': '[function]',
-\         'word': 'matchstr',
 \       },{
 \         '__func__': 1,
 \         '__text__': 'matchstrpos',
@@ -5717,16 +5748,34 @@ let s:function = {
 \       },],
 \     'pr': [{
 \         '__func__': 1,
+\         '__text__': 'printf',
+\         'abbr': 'printf({fmt}, {expr1}...)',
+\         'menu': '[function]',
+\         'word': 'printf',
+\       },{
+\         '__func__': 1,
 \         '__text__': 'prevnonblank',
 \         'abbr': 'prevnonblank({lnum})',
 \         'menu': '[function]',
 \         'word': 'prevnonblank',
 \       },{
 \         '__func__': 1,
-\         '__text__': 'printf',
-\         'abbr': 'printf({fmt}, {expr1}...)',
+\         '__text__': 'prompt_setcallback',
+\         'abbr': 'prompt_setcallback({buf}, {expr})',
 \         'menu': '[function]',
-\         'word': 'printf',
+\         'word': 'prompt_setcallback',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'prompt_setinterrupt',
+\         'abbr': 'prompt_setinterrupt({buf}, {text})',
+\         'menu': '[function]',
+\         'word': 'prompt_setinterrupt',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'prompt_setprompt',
+\         'abbr': 'prompt_setprompt({buf}, {text})',
+\         'menu': '[function]',
+\         'word': 'prompt_setprompt',
 \       },],
 \     'pu': [{
 \         '__func__': 1,
@@ -5734,25 +5783,6 @@ let s:function = {
 \         'abbr': 'pumvisible()',
 \         'menu': '[function]',
 \         'word': 'pumvisible',
-\       },],
-\     'py': [{
-\         '__func__': 1,
-\         '__text__': 'py3eval',
-\         'abbr': 'py3eval({expr})',
-\         'menu': '[function]',
-\         'word': 'py3eval',
-\       },{
-\         '__func__': 1,
-\         '__text__': 'pyeval',
-\         'abbr': 'pyeval({expr})',
-\         'menu': '[function]',
-\         'word': 'pyeval',
-\       },{
-\         '__func__': 1,
-\         '__text__': 'pyxeval',
-\         'abbr': 'pyxeval({expr})',
-\         'menu': '[function]',
-\         'word': 'pyxeval',
 \       },],
 \     'ra': [{
 \         '__func__': 1,
@@ -5763,10 +5793,28 @@ let s:function = {
 \       },],
 \     're': [{
 \         '__func__': 1,
+\         '__text__': 'remove',
+\         'abbr': 'remove({list}, {idx} [, {end}])',
+\         'menu': '[function]',
+\         'word': 'remove',
+\       },{
+\         '__func__': 1,
 \         '__text__': 'readfile',
 \         'abbr': 'readfile({fname} [, {binary} [, {max}]])',
 \         'menu': '[function]',
 \         'word': 'readfile',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'reg_executing',
+\         'abbr': 'reg_executing()',
+\         'menu': '[function]',
+\         'word': 'reg_executing',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'reg_recording',
+\         'abbr': 'reg_recording()',
+\         'menu': '[function]',
+\         'word': 'reg_recording',
 \       },{
 \         '__func__': 1,
 \         '__text__': 'reltime',
@@ -5821,12 +5869,6 @@ let s:function = {
 \         'abbr': 'remote_startserver({name})',
 \         'menu': '[function]',
 \         'word': 'remote_startserver',
-\       },{
-\         '__func__': 1,
-\         '__text__': 'remove',
-\         'abbr': 'remove({list}, {idx} [, {end}])',
-\         'menu': '[function]',
-\         'word': 'remove',
 \       },{
 \         '__func__': 1,
 \         '__text__': 'rename',
@@ -5886,6 +5928,18 @@ let s:function = {
 \       },],
 \     'se': [{
 \         '__func__': 1,
+\         '__text__': 'searchpos',
+\         'abbr': 'searchpos({pattern} [, {flags} [, {stopline} [, {timeout}]]])',
+\         'menu': '[function]',
+\         'word': 'searchpos',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'setpos',
+\         'abbr': 'setpos({expr}, {list})',
+\         'menu': '[function]',
+\         'word': 'setpos',
+\       },{
+\         '__func__': 1,
 \         '__text__': 'search',
 \         'abbr': 'search({pattern} [, {flags} [, {stopline} [, {timeout}]]])',
 \         'menu': '[function]',
@@ -5908,12 +5962,6 @@ let s:function = {
 \         'abbr': 'searchpairpos({start}, {middle}, {end} [, {flags} [, {skip} [...]]])',
 \         'menu': '[function]',
 \         'word': 'searchpairpos',
-\       },{
-\         '__func__': 1,
-\         '__text__': 'searchpos',
-\         'abbr': 'searchpos({pattern} [, {flags} [, {stopline} [, {timeout}]]])',
-\         'menu': '[function]',
-\         'word': 'searchpos',
 \       },{
 \         '__func__': 1,
 \         '__text__': 'server2client',
@@ -5974,12 +6022,6 @@ let s:function = {
 \         'abbr': 'setmatches({list})',
 \         'menu': '[function]',
 \         'word': 'setmatches',
-\       },{
-\         '__func__': 1,
-\         '__text__': 'setpos',
-\         'abbr': 'setpos({expr}, {list})',
-\         'menu': '[function]',
-\         'word': 'setpos',
 \       },{
 \         '__func__': 1,
 \         '__text__': 'setqflist',
@@ -6064,6 +6106,12 @@ let s:function = {
 \       },],
 \     'sp': [{
 \         '__func__': 1,
+\         '__text__': 'split',
+\         'abbr': 'split({expr} [, {pat} [, {keepempty}]])',
+\         'menu': '[function]',
+\         'word': 'split',
+\       },{
+\         '__func__': 1,
 \         '__text__': 'spellbadword',
 \         'abbr': 'spellbadword()',
 \         'menu': '[function]',
@@ -6074,12 +6122,6 @@ let s:function = {
 \         'abbr': 'spellsuggest({word} [, {max} [, {capital}]])',
 \         'menu': '[function]',
 \         'word': 'spellsuggest',
-\       },{
-\         '__func__': 1,
-\         '__text__': 'split',
-\         'abbr': 'split({expr} [, {pat} [, {keepempty}]])',
-\         'menu': '[function]',
-\         'word': 'split',
 \       },],
 \     'sq': [{
 \         '__func__': 1,
@@ -6089,6 +6131,12 @@ let s:function = {
 \         'word': 'sqrt',
 \       },],
 \     'st': [{
+\         '__func__': 1,
+\         '__text__': 'strlen',
+\         'abbr': 'strlen({expr})',
+\         'menu': '[function]',
+\         'word': 'strlen',
+\       },{
 \         '__func__': 1,
 \         '__text__': 'str2float',
 \         'abbr': 'str2float({expr})',
@@ -6144,12 +6192,6 @@ let s:function = {
 \         'word': 'string',
 \       },{
 \         '__func__': 1,
-\         '__text__': 'strlen',
-\         'abbr': 'strlen({expr})',
-\         'menu': '[function]',
-\         'word': 'strlen',
-\       },{
-\         '__func__': 1,
 \         '__text__': 'strpart',
 \         'abbr': 'strpart({str}, {start} [, {len}])',
 \         'menu': '[function]',
@@ -6185,6 +6227,19 @@ let s:function = {
 \         'abbr': 'substitute({expr}, {pat}, {sub}, {flags})',
 \         'menu': '[function]',
 \         'word': 'substitute',
+\       },],
+\     'sw': [{
+\         '__func__': 1,
+\         '__text__': 'swapinfo',
+\         'abbr': 'swapinfo({fname})',
+\         'menu': '[function]',
+\         'word': 'swapinfo',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'swapname',
+\         'abbr': 'swapname({expr})',
+\         'menu': '[function]',
+\         'word': 'swapname',
 \       },],
 \     'sy': [{
 \         '__func__': 1,
@@ -6304,6 +6359,12 @@ let s:function = {
 \         'word': 'term_getaltscreen',
 \       },{
 \         '__func__': 1,
+\         '__text__': 'term_getansicolors',
+\         'abbr': 'term_getansicolors({buf})',
+\         'menu': '[function]',
+\         'word': 'term_getansicolors',
+\       },{
+\         '__func__': 1,
 \         '__text__': 'term_getattr',
 \         'abbr': 'term_getattr({attr}, {what})',
 \         'menu': '[function]',
@@ -6374,6 +6435,30 @@ let s:function = {
 \         'abbr': 'term_sendkeys({buf}, {keys})',
 \         'menu': '[function]',
 \         'word': 'term_sendkeys',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'term_setansicolors',
+\         'abbr': 'term_setansicolors({buf}, {colors})',
+\         'menu': '[function]',
+\         'word': 'term_setansicolors',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'term_setkill',
+\         'abbr': 'term_setkill({buf}, {how})',
+\         'menu': '[function]',
+\         'word': 'term_setkill',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'term_setrestore',
+\         'abbr': 'term_setrestore({buf}, {command})',
+\         'menu': '[function]',
+\         'word': 'term_setrestore',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'term_setsize',
+\         'abbr': 'term_setsize({buf}, {rows}, {cols})',
+\         'menu': '[function]',
+\         'word': 'term_setsize',
 \       },{
 \         '__func__': 1,
 \         '__text__': 'term_start',
@@ -6454,10 +6539,22 @@ let s:function = {
 \         'word': 'test_null_string',
 \       },{
 \         '__func__': 1,
+\         '__text__': 'test_option_not_set',
+\         'abbr': 'test_option_not_set({name})',
+\         'menu': '[function]',
+\         'word': 'test_option_not_set',
+\       },{
+\         '__func__': 1,
 \         '__text__': 'test_override',
 \         'abbr': 'test_override({expr}, {val})',
 \         'menu': '[function]',
 \         'word': 'test_override',
+\       },{
+\         '__func__': 1,
+\         '__text__': 'test_scrollbar',
+\         'abbr': 'test_scrollbar({which}, {value}, {dragging})',
+\         'menu': '[function]',
+\         'word': 'test_scrollbar',
 \       },{
 \         '__func__': 1,
 \         '__text__': 'test_settime',
@@ -6517,6 +6614,12 @@ let s:function = {
 \         'word': 'tr',
 \       },{
 \         '__func__': 1,
+\         '__text__': 'trim',
+\         'abbr': 'trim({text} [, {mask}])',
+\         'menu': '[function]',
+\         'word': 'trim',
+\       },{
+\         '__func__': 1,
 \         '__text__': 'trunc',
 \         'abbr': 'trunc({expr})',
 \         'menu': '[function]',
@@ -6569,6 +6672,12 @@ let s:function = {
 \         'word': 'visualmode',
 \       },],
 \     'wi': [{
+\         '__func__': 1,
+\         '__text__': 'winsaveview',
+\         'abbr': 'winsaveview()',
+\         'menu': '[function]',
+\         'word': 'winsaveview',
+\       },{
 \         '__func__': 1,
 \         '__text__': 'wildmenumode',
 \         'abbr': 'wildmenumode()',
@@ -6630,6 +6739,12 @@ let s:function = {
 \         'word': 'winheight',
 \       },{
 \         '__func__': 1,
+\         '__text__': 'winlayout',
+\         'abbr': 'winlayout([{tabnr}])',
+\         'menu': '[function]',
+\         'word': 'winlayout',
+\       },{
+\         '__func__': 1,
 \         '__text__': 'winline',
 \         'abbr': 'winline()',
 \         'menu': '[function]',
@@ -6652,12 +6767,6 @@ let s:function = {
 \         'abbr': 'winrestview({dict})',
 \         'menu': '[function]',
 \         'word': 'winrestview',
-\       },{
-\         '__func__': 1,
-\         '__text__': 'winsaveview',
-\         'abbr': 'winsaveview()',
-\         'menu': '[function]',
-\         'word': 'winsaveview',
 \       },{
 \         '__func__': 1,
 \         '__text__': 'winwidth',
@@ -6691,6 +6800,174 @@ let s:function = {
 \   'name': 'function',
 \   'wordlist': [{
 \       '__func__': 1,
+\       '__text__': 'remove',
+\       'abbr': 'remove({list}, {idx} [, {end}])',
+\       'menu': '[function]',
+\       'word': 'remove',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'add',
+\       'abbr': 'add({list}, {item})',
+\       'menu': '[function]',
+\       'word': 'add',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'call',
+\       'abbr': 'call({func}, {arglist} [, {dict}])',
+\       'menu': '[function]',
+\       'word': 'call',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'col',
+\       'abbr': 'col({expr})',
+\       'menu': '[function]',
+\       'word': 'col',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'copy',
+\       'abbr': 'copy({expr})',
+\       'menu': '[function]',
+\       'word': 'copy',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'cursor',
+\       'abbr': 'cursor({lnum}, {col} [, {off}])',
+\       'menu': '[function]',
+\       'word': 'cursor',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'deepcopy',
+\       'abbr': 'deepcopy({expr} [, {noref}])',
+\       'menu': '[function]',
+\       'word': 'deepcopy',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'empty',
+\       'abbr': 'empty({expr})',
+\       'menu': '[function]',
+\       'word': 'empty',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'exists',
+\       'abbr': 'exists({expr})',
+\       'menu': '[function]',
+\       'word': 'exists',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'extend',
+\       'abbr': 'extend({expr1}, {expr2} [, {expr3}])',
+\       'menu': '[function]',
+\       'word': 'extend',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'filter',
+\       'abbr': 'filter({expr1}, {expr2})',
+\       'menu': '[function]',
+\       'word': 'filter',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'function',
+\       'abbr': 'function({name} [, {arglist}] [, {dict}])',
+\       'menu': '[function]',
+\       'word': 'function',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'get',
+\       'abbr': 'get({list}, {idx} [, {def}])',
+\       'menu': '[function]',
+\       'word': 'get',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'getpos',
+\       'abbr': 'getpos({expr})',
+\       'menu': '[function]',
+\       'word': 'getpos',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'has',
+\       'abbr': 'has({feature})',
+\       'menu': '[function]',
+\       'word': 'has',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'has_key',
+\       'abbr': 'has_key({dict}, {key})',
+\       'menu': '[function]',
+\       'word': 'has_key',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'len',
+\       'abbr': 'len({expr})',
+\       'menu': '[function]',
+\       'word': 'len',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'map',
+\       'abbr': 'map({expr1}, {expr2})',
+\       'menu': '[function]',
+\       'word': 'map',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'match',
+\       'abbr': 'match({expr}, {pat} [, {start} [, {count}]])',
+\       'menu': '[function]',
+\       'word': 'match',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'matchstr',
+\       'abbr': 'matchstr({expr}, {pat} [, {start} [, {count}]])',
+\       'menu': '[function]',
+\       'word': 'matchstr',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'printf',
+\       'abbr': 'printf({fmt}, {expr1}...)',
+\       'menu': '[function]',
+\       'word': 'printf',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'range',
+\       'abbr': 'range({expr} [, {max} [, {stride}]])',
+\       'menu': '[function]',
+\       'word': 'range',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'searchpos',
+\       'abbr': 'searchpos({pattern} [, {flags} [, {stopline} [, {timeout}]]])',
+\       'menu': '[function]',
+\       'word': 'searchpos',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'setpos',
+\       'abbr': 'setpos({expr}, {list})',
+\       'menu': '[function]',
+\       'word': 'setpos',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'split',
+\       'abbr': 'split({expr} [, {pat} [, {keepempty}]])',
+\       'menu': '[function]',
+\       'word': 'split',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'strlen',
+\       'abbr': 'strlen({expr})',
+\       'menu': '[function]',
+\       'word': 'strlen',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'type',
+\       'abbr': 'type({name})',
+\       'menu': '[function]',
+\       'word': 'type',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'winsaveview',
+\       'abbr': 'winsaveview()',
+\       'menu': '[function]',
+\       'word': 'winsaveview',
+\     },{
+\       '__func__': 1,
 \       '__text__': 'abs',
 \       'abbr': 'abs({expr})',
 \       'menu': '[function]',
@@ -6703,12 +6980,6 @@ let s:function = {
 \       'word': 'acos',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'add',
-\       'abbr': 'add({list}, {item})',
-\       'menu': '[function]',
-\       'word': 'add',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'and',
 \       'abbr': 'and({expr}, {expr})',
 \       'menu': '[function]',
@@ -6719,6 +6990,12 @@ let s:function = {
 \       'abbr': 'append({lnum}, {string})',
 \       'menu': '[function]',
 \       'word': 'append',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'appendbufline',
+\       'abbr': 'appendbufline({expr}, {lnum}, {text})',
+\       'menu': '[function]',
+\       'word': 'appendbufline',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'argc',
@@ -6841,6 +7118,12 @@ let s:function = {
 \       'word': 'balloon_show',
 \     },{
 \       '__func__': 1,
+\       '__text__': 'balloon_split',
+\       'abbr': 'balloon_split({msg})',
+\       'menu': '[function]',
+\       'word': 'balloon_split',
+\     },{
+\       '__func__': 1,
 \       '__text__': 'browse',
 \       'abbr': 'browse({save}, {title}, {initdir}, {default})',
 \       'menu': '[function]',
@@ -6911,12 +7194,6 @@ let s:function = {
 \       'abbr': 'byteidxcomp({expr}, {nr})',
 \       'menu': '[function]',
 \       'word': 'byteidxcomp',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'call',
-\       'abbr': 'call({func}, {arglist} [, {dict}])',
-\       'menu': '[function]',
-\       'word': 'call',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'ceil',
@@ -7051,12 +7328,6 @@ let s:function = {
 \       'word': 'clearmatches',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'col',
-\       'abbr': 'col({expr})',
-\       'menu': '[function]',
-\       'word': 'col',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'complete',
 \       'abbr': 'complete({startcol}, {matches})',
 \       'menu': '[function]',
@@ -7079,12 +7350,6 @@ let s:function = {
 \       'abbr': 'confirm({msg} [, {choices} [, {default} [, {type}]]])',
 \       'menu': '[function]',
 \       'word': 'confirm',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'copy',
-\       'abbr': 'copy({expr})',
-\       'menu': '[function]',
-\       'word': 'copy',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'cos',
@@ -7111,22 +7376,16 @@ let s:function = {
 \       'word': 'cscope_connection',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'cursor',
-\       'abbr': 'cursor({lnum}, {col} [, {off}])',
-\       'menu': '[function]',
-\       'word': 'cursor',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'deepcopy',
-\       'abbr': 'deepcopy({expr} [, {noref}])',
-\       'menu': '[function]',
-\       'word': 'deepcopy',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'delete',
 \       'abbr': 'delete({fname} [, {flags}])',
 \       'menu': '[function]',
 \       'word': 'delete',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'deletebufline',
+\       'abbr': 'deletebufline({expr}, {first} [, {last}])',
+\       'menu': '[function]',
+\       'word': 'deletebufline',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'did_filetype',
@@ -7145,12 +7404,6 @@ let s:function = {
 \       'abbr': 'diff_hlID({lnum}, {col})',
 \       'menu': '[function]',
 \       'word': 'diff_hlID',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'empty',
-\       'abbr': 'empty({expr})',
-\       'menu': '[function]',
-\       'word': 'empty',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'escape',
@@ -7189,12 +7442,6 @@ let s:function = {
 \       'word': 'exepath',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'exists',
-\       'abbr': 'exists({expr})',
-\       'menu': '[function]',
-\       'word': 'exists',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'exp',
 \       'abbr': 'exp({expr})',
 \       'menu': '[function]',
@@ -7205,12 +7452,6 @@ let s:function = {
 \       'abbr': 'expand({expr} [, {nosuf} [, {list}]])',
 \       'menu': '[function]',
 \       'word': 'expand',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'extend',
-\       'abbr': 'extend({expr1}, {expr2} [, {expr3}])',
-\       'menu': '[function]',
-\       'word': 'extend',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'feedkeys',
@@ -7229,12 +7470,6 @@ let s:function = {
 \       'abbr': 'filewritable({file})',
 \       'menu': '[function]',
 \       'word': 'filewritable',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'filter',
-\       'abbr': 'filter({expr1}, {expr2})',
-\       'menu': '[function]',
-\       'word': 'filter',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'finddir',
@@ -7321,22 +7556,10 @@ let s:function = {
 \       'word': 'funcref',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'function',
-\       'abbr': 'function({name} [, {arglist}] [, {dict}])',
-\       'menu': '[function]',
-\       'word': 'function',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'garbagecollect',
 \       'abbr': 'garbagecollect([{atexit}])',
 \       'menu': '[function]',
 \       'word': 'garbagecollect',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'get',
-\       'abbr': 'get({list}, {idx} [, {def}])',
-\       'menu': '[function]',
-\       'word': 'get',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'getbufinfo',
@@ -7483,12 +7706,6 @@ let s:function = {
 \       'word': 'getpid',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'getpos',
-\       'abbr': 'getpos({expr})',
-\       'menu': '[function]',
-\       'word': 'getpos',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'getqflist',
 \       'abbr': 'getqflist([{what}])',
 \       'menu': '[function]',
@@ -7532,7 +7749,7 @@ let s:function = {
 \     },{
 \       '__func__': 1,
 \       '__text__': 'getwinpos',
-\       'abbr': 'getwinpos([{tmeout}])',
+\       'abbr': 'getwinpos([{timeout}])',
 \       'menu': '[function]',
 \       'word': 'getwinpos',
 \     },{
@@ -7571,18 +7788,6 @@ let s:function = {
 \       'abbr': 'globpath({path}, {expr} [, {nosuf} [, {list} [, {alllinks}]]])',
 \       'menu': '[function]',
 \       'word': 'globpath',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'has',
-\       'abbr': 'has({feature})',
-\       'menu': '[function]',
-\       'word': 'has',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'has_key',
-\       'abbr': 'has_key({dict}, {key})',
-\       'menu': '[function]',
-\       'word': 'has_key',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'haslocaldir',
@@ -7736,7 +7941,7 @@ let s:function = {
 \     },{
 \       '__func__': 1,
 \       '__text__': 'job_info',
-\       'abbr': 'job_info({job})',
+\       'abbr': 'job_info([{job}])',
 \       'menu': '[function]',
 \       'word': 'job_info',
 \     },{
@@ -7801,12 +8006,6 @@ let s:function = {
 \       'word': 'keys',
 \     },'last_buffer_nr',{
 \       '__func__': 1,
-\       '__text__': 'len',
-\       'abbr': 'len({expr})',
-\       'menu': '[function]',
-\       'word': 'len',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'libcall',
 \       'abbr': 'libcall({lib}, {func}, {arg})',
 \       'menu': '[function]',
@@ -7855,18 +8054,6 @@ let s:function = {
 \       'word': 'log10',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'luaeval',
-\       'abbr': 'luaeval({expr} [, {expr}])',
-\       'menu': '[function]',
-\       'word': 'luaeval',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'map',
-\       'abbr': 'map({expr1}, {expr2})',
-\       'menu': '[function]',
-\       'word': 'map',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'maparg',
 \       'abbr': 'maparg({name} [, {mode} [, {abbr} [, {dict}]]])',
 \       'menu': '[function]',
@@ -7877,12 +8064,6 @@ let s:function = {
 \       'abbr': 'mapcheck({name} [, {mode} [, {abbr}]])',
 \       'menu': '[function]',
 \       'word': 'mapcheck',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'match',
-\       'abbr': 'match({expr}, {pat} [, {start} [, {count}]])',
-\       'menu': '[function]',
-\       'word': 'match',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'matchadd',
@@ -7919,12 +8100,6 @@ let s:function = {
 \       'abbr': 'matchlist({expr}, {pat} [, {start} [, {count}]])',
 \       'menu': '[function]',
 \       'word': 'matchlist',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'matchstr',
-\       'abbr': 'matchstr({expr}, {pat} [, {start} [, {count}]])',
-\       'menu': '[function]',
-\       'word': 'matchstr',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'matchstrpos',
@@ -7993,10 +8168,22 @@ let s:function = {
 \       'word': 'prevnonblank',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'printf',
-\       'abbr': 'printf({fmt}, {expr1}...)',
+\       '__text__': 'prompt_setcallback',
+\       'abbr': 'prompt_setcallback({buf}, {expr})',
 \       'menu': '[function]',
-\       'word': 'printf',
+\       'word': 'prompt_setcallback',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'prompt_setinterrupt',
+\       'abbr': 'prompt_setinterrupt({buf}, {text})',
+\       'menu': '[function]',
+\       'word': 'prompt_setinterrupt',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'prompt_setprompt',
+\       'abbr': 'prompt_setprompt({buf}, {text})',
+\       'menu': '[function]',
+\       'word': 'prompt_setprompt',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'pumvisible',
@@ -8005,34 +8192,22 @@ let s:function = {
 \       'word': 'pumvisible',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'py3eval',
-\       'abbr': 'py3eval({expr})',
-\       'menu': '[function]',
-\       'word': 'py3eval',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'pyeval',
-\       'abbr': 'pyeval({expr})',
-\       'menu': '[function]',
-\       'word': 'pyeval',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'pyxeval',
-\       'abbr': 'pyxeval({expr})',
-\       'menu': '[function]',
-\       'word': 'pyxeval',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'range',
-\       'abbr': 'range({expr} [, {max} [, {stride}]])',
-\       'menu': '[function]',
-\       'word': 'range',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'readfile',
 \       'abbr': 'readfile({fname} [, {binary} [, {max}]])',
 \       'menu': '[function]',
 \       'word': 'readfile',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'reg_executing',
+\       'abbr': 'reg_executing()',
+\       'menu': '[function]',
+\       'word': 'reg_executing',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'reg_recording',
+\       'abbr': 'reg_recording()',
+\       'menu': '[function]',
+\       'word': 'reg_recording',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'reltime',
@@ -8087,12 +8262,6 @@ let s:function = {
 \       'abbr': 'remote_startserver({name})',
 \       'menu': '[function]',
 \       'word': 'remote_startserver',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'remove',
-\       'abbr': 'remove({list}, {idx} [, {end}])',
-\       'menu': '[function]',
-\       'word': 'remove',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'rename',
@@ -8173,12 +8342,6 @@ let s:function = {
 \       'word': 'searchpairpos',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'searchpos',
-\       'abbr': 'searchpos({pattern} [, {flags} [, {stopline} [, {timeout}]]])',
-\       'menu': '[function]',
-\       'word': 'searchpos',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'server2client',
 \       'abbr': 'server2client({clientid}, {string})',
 \       'menu': '[function]',
@@ -8237,12 +8400,6 @@ let s:function = {
 \       'abbr': 'setmatches({list})',
 \       'menu': '[function]',
 \       'word': 'setmatches',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'setpos',
-\       'abbr': 'setpos({expr}, {list})',
-\       'menu': '[function]',
-\       'word': 'setpos',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'setqflist',
@@ -8335,12 +8492,6 @@ let s:function = {
 \       'word': 'spellsuggest',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'split',
-\       'abbr': 'split({expr} [, {pat} [, {keepempty}]])',
-\       'menu': '[function]',
-\       'word': 'split',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'sqrt',
 \       'abbr': 'sqrt({expr})',
 \       'menu': '[function]',
@@ -8401,12 +8552,6 @@ let s:function = {
 \       'word': 'string',
 \     },{
 \       '__func__': 1,
-\       '__text__': 'strlen',
-\       'abbr': 'strlen({expr})',
-\       'menu': '[function]',
-\       'word': 'strlen',
-\     },{
-\       '__func__': 1,
 \       '__text__': 'strpart',
 \       'abbr': 'strpart({str}, {start} [, {len}])',
 \       'menu': '[function]',
@@ -8441,6 +8586,18 @@ let s:function = {
 \       'abbr': 'substitute({expr}, {pat}, {sub}, {flags})',
 \       'menu': '[function]',
 \       'word': 'substitute',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'swapinfo',
+\       'abbr': 'swapinfo({fname})',
+\       'menu': '[function]',
+\       'word': 'swapinfo',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'swapname',
+\       'abbr': 'swapname({expr})',
+\       'menu': '[function]',
+\       'word': 'swapname',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'synID',
@@ -8557,6 +8714,12 @@ let s:function = {
 \       'word': 'term_getaltscreen',
 \     },{
 \       '__func__': 1,
+\       '__text__': 'term_getansicolors',
+\       'abbr': 'term_getansicolors({buf})',
+\       'menu': '[function]',
+\       'word': 'term_getansicolors',
+\     },{
+\       '__func__': 1,
 \       '__text__': 'term_getattr',
 \       'abbr': 'term_getattr({attr}, {what})',
 \       'menu': '[function]',
@@ -8627,6 +8790,30 @@ let s:function = {
 \       'abbr': 'term_sendkeys({buf}, {keys})',
 \       'menu': '[function]',
 \       'word': 'term_sendkeys',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'term_setansicolors',
+\       'abbr': 'term_setansicolors({buf}, {colors})',
+\       'menu': '[function]',
+\       'word': 'term_setansicolors',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'term_setkill',
+\       'abbr': 'term_setkill({buf}, {how})',
+\       'menu': '[function]',
+\       'word': 'term_setkill',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'term_setrestore',
+\       'abbr': 'term_setrestore({buf}, {command})',
+\       'menu': '[function]',
+\       'word': 'term_setrestore',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'term_setsize',
+\       'abbr': 'term_setsize({buf}, {rows}, {cols})',
+\       'menu': '[function]',
+\       'word': 'term_setsize',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'term_start',
@@ -8707,10 +8894,22 @@ let s:function = {
 \       'word': 'test_null_string',
 \     },{
 \       '__func__': 1,
+\       '__text__': 'test_option_not_set',
+\       'abbr': 'test_option_not_set({name})',
+\       'menu': '[function]',
+\       'word': 'test_option_not_set',
+\     },{
+\       '__func__': 1,
 \       '__text__': 'test_override',
 \       'abbr': 'test_override({expr}, {val})',
 \       'menu': '[function]',
 \       'word': 'test_override',
+\     },{
+\       '__func__': 1,
+\       '__text__': 'test_scrollbar',
+\       'abbr': 'test_scrollbar({which}, {value}, {dragging})',
+\       'menu': '[function]',
+\       'word': 'test_scrollbar',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'test_settime',
@@ -8767,16 +8966,16 @@ let s:function = {
 \       'word': 'tr',
 \     },{
 \       '__func__': 1,
+\       '__text__': 'trim',
+\       'abbr': 'trim({text} [, {mask}])',
+\       'menu': '[function]',
+\       'word': 'trim',
+\     },{
+\       '__func__': 1,
 \       '__text__': 'trunc',
 \       'abbr': 'trunc({expr})',
 \       'menu': '[function]',
 \       'word': 'trunc',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'type',
-\       'abbr': 'type({name})',
-\       'menu': '[function]',
-\       'word': 'type',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'undofile',
@@ -8875,6 +9074,12 @@ let s:function = {
 \       'word': 'winheight',
 \     },{
 \       '__func__': 1,
+\       '__text__': 'winlayout',
+\       'abbr': 'winlayout([{tabnr}])',
+\       'menu': '[function]',
+\       'word': 'winlayout',
+\     },{
+\       '__func__': 1,
 \       '__text__': 'winline',
 \       'abbr': 'winline()',
 \       'menu': '[function]',
@@ -8897,12 +9102,6 @@ let s:function = {
 \       'abbr': 'winrestview({dict})',
 \       'menu': '[function]',
 \       'word': 'winrestview',
-\     },{
-\       '__func__': 1,
-\       '__text__': 'winsaveview',
-\       'abbr': 'winsaveview()',
-\       'menu': '[function]',
-\       'word': 'winsaveview',
 \     },{
 \       '__func__': 1,
 \       '__text__': 'winwidth',
@@ -9128,6 +9327,10 @@ let s:option = {
 \         '__text__': 'breakindentopt',
 \         'menu': '[option]',
 \         'word': 'breakindentopt',
+\       },{
+\         '__text__': 'balloonevalterm',
+\         'menu': '[option]',
+\         'word': 'balloonevalterm',
 \       },],
 \     'c': [{
 \         '__text__': 'cedit',
@@ -9373,6 +9576,10 @@ let s:option = {
 \         'menu': '[option]',
 \         'word': 'fkmap',
 \       },{
+\         '__text__': 'fsync',
+\         'menu': '[option]',
+\         'word': 'fsync',
+\       },{
 \         '__text__': 'filetype',
 \         'menu': '[option]',
 \         'word': 'filetype',
@@ -9506,6 +9713,10 @@ let s:option = {
 \         'menu': '[option]',
 \         'word': 'guifontwide',
 \       },{
+\         '__text__': 'guiheadroom',
+\         'menu': '[option]',
+\         'word': 'guiheadroom',
+\       },{
 \         '__text__': 'guitablabel',
 \         'menu': '[option]',
 \         'word': 'guitablabel',
@@ -9555,6 +9766,10 @@ let s:option = {
 \         '__text__': 'icon',
 \         'menu': '[option]',
 \         'word': 'icon',
+\       },{
+\         '__text__': 'imstyle',
+\         'menu': '[option]',
+\         'word': 'imstyle',
 \       },{
 \         '__text__': 'include',
 \         'menu': '[option]',
@@ -9628,6 +9843,10 @@ let s:option = {
 \         'menu': '[option]',
 \         'word': 'imstatusfunc',
 \       },{
+\         '__text__': 'imactivatekey',
+\         'menu': '[option]',
+\         'word': 'imactivatekey',
+\       },{
 \         '__text__': 'imactivatefunc',
 \         'menu': '[option]',
 \         'word': 'imactivatefunc',
@@ -9666,10 +9885,6 @@ let s:option = {
 \         '__text__': 'lines',
 \         'menu': '[option]',
 \         'word': 'lines',
-\       },{
-\         '__text__': 'luadll',
-\         'menu': '[option]',
-\         'word': 'luadll',
 \       },{
 \         '__text__': 'langmap',
 \         'menu': '[option]',
@@ -9834,10 +10049,6 @@ let s:option = {
 \         'menu': '[option]',
 \         'word': 'omnifunc',
 \       },{
-\         '__text__': 'opendevice',
-\         'menu': '[option]',
-\         'word': 'opendevice',
-\       },{
 \         '__text__': 'operatorfunc',
 \         'menu': '[option]',
 \         'word': 'operatorfunc',
@@ -9871,6 +10082,10 @@ let s:option = {
 \         'menu': '[option]',
 \         'word': 'patchmode',
 \       },{
+\         '__text__': 'printexpr',
+\         'menu': '[option]',
+\         'word': 'printexpr',
+\       },{
 \         '__text__': 'printfont',
 \         'menu': '[option]',
 \         'word': 'printfont',
@@ -9879,21 +10094,9 @@ let s:option = {
 \         'menu': '[option]',
 \         'word': 'pumheight',
 \       },{
-\         '__text__': 'pythondll',
-\         'menu': '[option]',
-\         'word': 'pythondll',
-\       },{
 \         '__text__': 'paragraphs',
 \         'menu': '[option]',
 \         'word': 'paragraphs',
-\       },{
-\         '__text__': 'pythonhome',
-\         'menu': '[option]',
-\         'word': 'pythonhome',
-\       },{
-\         '__text__': 'pyxversion',
-\         'menu': '[option]',
-\         'word': 'pyxversion',
 \       },{
 \         '__text__': 'pastetoggle',
 \         'menu': '[option]',
@@ -9907,6 +10110,10 @@ let s:option = {
 \         'menu': '[option]',
 \         'word': 'printheader',
 \       },{
+\         '__text__': 'printmbfont',
+\         'menu': '[option]',
+\         'word': 'printmbfont',
+\       },{
 \         '__text__': 'printoptions',
 \         'menu': '[option]',
 \         'word': 'printoptions',
@@ -9919,17 +10126,17 @@ let s:option = {
 \         'menu': '[option]',
 \         'word': 'previewwindow',
 \       },{
+\         '__text__': 'printencoding',
+\         'menu': '[option]',
+\         'word': 'printencoding',
+\       },{
 \         '__text__': 'preserveindent',
 \         'menu': '[option]',
 \         'word': 'preserveindent',
 \       },{
-\         '__text__': 'pythonthreedll',
+\         '__text__': 'printmbcharset',
 \         'menu': '[option]',
-\         'word': 'pythonthreedll',
-\       },{
-\         '__text__': 'pythonthreehome',
-\         'menu': '[option]',
-\         'word': 'pythonthreehome',
+\         'word': 'printmbcharset',
 \       },],
 \     'q': [{
 \         '__text__': 'quoteescape',
@@ -9980,14 +10187,6 @@ let s:option = {
 \         '__text__': 'rightleftcmd',
 \         'menu': '[option]',
 \         'word': 'rightleftcmd',
-\       },{
-\         '__text__': 'renderoptions',
-\         'menu': '[option]',
-\         'word': 'renderoptions',
-\       },{
-\         '__text__': 'restorescreen',
-\         'menu': '[option]',
-\         'word': 'restorescreen',
 \       },{
 \         '__text__': 'relativenumber',
 \         'menu': '[option]',
@@ -10118,10 +10317,6 @@ let s:option = {
 \         'menu': '[option]',
 \         'word': 'shellredir',
 \       },{
-\         '__text__': 'shellslash',
-\         'menu': '[option]',
-\         'word': 'shellslash',
-\       },{
 \         '__text__': 'shiftround',
 \         'menu': '[option]',
 \         'word': 'shiftround',
@@ -10235,10 +10430,6 @@ let s:option = {
 \         'menu': '[option]',
 \         'word': 'tagcase',
 \       },{
-\         '__text__': 'termkey',
-\         'menu': '[option]',
-\         'word': 'termkey',
-\       },{
 \         '__text__': 'tildeop',
 \         'menu': '[option]',
 \         'word': 'tildeop',
@@ -10246,6 +10437,10 @@ let s:option = {
 \         '__text__': 'timeout',
 \         'menu': '[option]',
 \         'word': 'timeout',
+\       },{
+\         '__text__': 'toolbar',
+\         'menu': '[option]',
+\         'word': 'toolbar',
 \       },{
 \         '__text__': 'ttyfast',
 \         'menu': '[option]',
@@ -10262,10 +10457,6 @@ let s:option = {
 \         '__text__': 'termbidi',
 \         'menu': '[option]',
 \         'word': 'termbidi',
-\       },{
-\         '__text__': 'termsize',
-\         'menu': '[option]',
-\         'word': 'termsize',
 \       },{
 \         '__text__': 'textauto',
 \         'menu': '[option]',
@@ -10286,6 +10477,10 @@ let s:option = {
 \         '__text__': 'ttimeout',
 \         'menu': '[option]',
 \         'word': 'ttimeout',
+\       },{
+\         '__text__': 'ttymouse',
+\         'menu': '[option]',
+\         'word': 'ttymouse',
 \       },{
 \         '__text__': 'taglength',
 \         'menu': '[option]',
@@ -10311,6 +10506,10 @@ let s:option = {
 \         'menu': '[option]',
 \         'word': 'tagbsearch',
 \       },{
+\         '__text__': 'termwinkey',
+\         'menu': '[option]',
+\         'word': 'termwinkey',
+\       },{
 \         '__text__': 'timeoutlen',
 \         'menu': '[option]',
 \         'word': 'timeoutlen',
@@ -10323,6 +10522,10 @@ let s:option = {
 \         'menu': '[option]',
 \         'word': 'tagrelative',
 \       },{
+\         '__text__': 'termwinsize',
+\         'menu': '[option]',
+\         'word': 'termwinsize',
+\       },{
 \         '__text__': 'titlestring',
 \         'menu': '[option]',
 \         'word': 'titlestring',
@@ -10334,6 +10537,18 @@ let s:option = {
 \         '__text__': 'termencoding',
 \         'menu': '[option]',
 \         'word': 'termencoding',
+\       },{
+\         '__text__': 'termguicolors',
+\         'menu': '[option]',
+\         'word': 'termguicolors',
+\       },{
+\         '__text__': 'termwinscroll',
+\         'menu': '[option]',
+\         'word': 'termwinscroll',
+\       },{
+\         '__text__': 'toolbariconsize',
+\         'menu': '[option]',
+\         'word': 'toolbariconsize',
 \       },],
 \     'u': [{
 \         '__text__': 'undodir',
@@ -10373,6 +10588,10 @@ let s:option = {
 \         'menu': '[option]',
 \         'word': 'viminfo',
 \       },{
+\         '__text__': 'vartabstop',
+\         'menu': '[option]',
+\         'word': 'vartabstop',
+\       },{
 \         '__text__': 'visualbell',
 \         'menu': '[option]',
 \         'word': 'visualbell',
@@ -10392,6 +10611,10 @@ let s:option = {
 \         '__text__': 'virtualedit',
 \         'menu': '[option]',
 \         'word': 'virtualedit',
+\       },{
+\         '__text__': 'varsofttabstop',
+\         'menu': '[option]',
+\         'word': 'varsofttabstop',
 \       },],
 \     'w': [{
 \         '__text__': 'warn',
@@ -10446,10 +10669,6 @@ let s:option = {
 \         'menu': '[option]',
 \         'word': 'winheight',
 \       },{
-\         '__text__': 'winptydll',
-\         'menu': '[option]',
-\         'word': 'winptydll',
-\       },{
 \         '__text__': 'wildignore',
 \         'menu': '[option]',
 \         'word': 'wildignore',
@@ -10501,7 +10720,7 @@ let s:option = {
 \   },
 \   'indexlen': 1,
 \   'name': 'option',
-\   'wordlist': ['all','termcap','aleph','arabic','arabicshape','allowrevins','altkeymap','ambiwidth','autochdir','autoindent','autoread','autowrite','autowriteall','background','backspace','backup','backupcopy','backupdir','backupext','backupskip','balloondelay','ballooneval','balloonexpr','belloff','binary','bomb','breakat','breakindent','breakindentopt','browsedir','bufhidden','buflisted','buftype','casemap','cdpath','cedit','charconvert','cindent','cinkeys','cinoptions','cinwords','clipboard','cmdheight','cmdwinheight','colorcolumn','columns','comments','commentstring','compatible','complete','concealcursor','conceallevel','completefunc','completeopt','confirm','copyindent','cpoptions','cryptmethod','cscopepathcomp','cscopeprg','cscopequickfix','cscoperelative','cscopetag','cscopetagorder','cscopeverbose','cursorbind','cursorcolumn','cursorline','debug','define','delcombine','dictionary','diff','diffexpr','diffopt','digraph','directory','display','eadirection','edcompatible','emoji','encoding','endofline','equalalways','equalprg','errorbells','errorfile','errorformat','esckeys','eventignore','expandtab','exrc','fileencoding','fileencodings','fileformat','fileformats','fileignorecase','filetype','fillchars','fixendofline','fkmap','foldclose','foldcolumn','foldenable','foldexpr','foldignore','foldlevel','foldlevelstart','foldmarker','foldmethod','foldminlines','foldnestmax','foldopen','foldtext','formatexpr','formatoptions','formatlistpat','formatprg','gdefault','grepformat','grepprg','guicursor','guifont','guifontwide','guioptions','guipty','guitablabel','guitabtooltip','helpfile','helpheight','helplang','hidden','highlight','history','hkmap','hkmapp','hlsearch','icon','iconstring','ignorecase','imactivatefunc','imcmdline','imdisable','iminsert','imsearch','imstatusfunc','include','includeexpr','incsearch','indentexpr','indentkeys','infercase','insertmode','isfname','isident','iskeyword','isprint','joinspaces','key','keymap','keymodel','keywordprg','langmap','langmenu','langnoremap','langremap','laststatus','lazyredraw','linebreak','lines','linespace','lisp','lispwords','list','listchars','loadplugins','luadll','magic','makeef','makeencoding','makeprg','matchpairs','matchtime','maxcombine','maxfuncdepth','maxmapdepth','maxmem','maxmempattern','maxmemtot','menuitems','mkspellmem','modeline','modelines','modifiable','modified','more','mouse','mousefocus','mousehide','mousemodel','mouseshape','mousetime','nrformats','number','numberwidth','omnifunc','opendevice','operatorfunc','packpath','paragraphs','paste','pastetoggle','patchexpr','patchmode','path','preserveindent','previewheight','previewwindow','printdevice','printfont','printheader','printoptions','prompt','pumheight','pumwidth','pythonthreedll','pythonthreehome','pythondll','pythonhome','pyxversion','quoteescape','readonly','redrawtime','regexpengine','relativenumber','remap','renderoptions','report','restorescreen','revins','rightleft','rightleftcmd','ruler','rulerformat','runtimepath','scroll','scrollbind','scrolljump','scrolloff','scrollopt','sections','secure','selection','selectmode','sessionoptions','shell','shellcmdflag','shellpipe','shellquote','shellredir','shellslash','shelltemp','shellxquote','shellxescape','shiftround','shiftwidth','shortmess','shortname','showbreak','showcmd','showfulltag','showmatch','showmode','showtabline','sidescroll','sidescrolloff','signcolumn','smartcase','smartindent','smarttab','softtabstop','spell','spellcapcheck','spellfile','spelllang','spellsuggest','splitbelow','splitright','startofline','statusline','suffixes','suffixesadd','swapfile','swapsync','switchbuf','synmaxcol','syntax','tabline','tabpagemax','tabstop','tagbsearch','tagcase','taglength','tagrelative','tags','tagstack','term','termbidi','termencoding','termkey','termsize','terse','textauto','textmode','textwidth','thesaurus','tildeop','timeout','timeoutlen','title','titlelen','titleold','titlestring','ttimeout','ttimeoutlen','ttybuiltin','ttyfast','ttyscroll','ttytype','undodir','undofile','undolevels','undoreload','updatecount','updatetime','verbose','verbosefile','viewdir','viewoptions','viminfo','viminfofile','virtualedit','visualbell','warn','weirdinvert','whichwrap','wildchar','wildcharm','wildignore','wildignorecase','wildmenu','wildmode','wildoptions','winaltkeys','window','winheight','winfixheight','winfixwidth','winminheight','winminwidth','winptydll','winwidth','wrap','wrapmargin','wrapscan','write','writeany','writebackup','writedelay',],
+\   'wordlist': ['all','termcap','aleph','arabic','arabicshape','allowrevins','altkeymap','ambiwidth','autochdir','autoindent','autoread','autowrite','autowriteall','background','backspace','backup','backupcopy','backupdir','backupext','backupskip','balloondelay','ballooneval','balloonevalterm','balloonexpr','belloff','binary','bomb','breakat','breakindent','breakindentopt','browsedir','bufhidden','buflisted','buftype','casemap','cdpath','cedit','charconvert','cindent','cinkeys','cinoptions','cinwords','clipboard','cmdheight','cmdwinheight','colorcolumn','columns','comments','commentstring','compatible','complete','concealcursor','conceallevel','completefunc','completeopt','confirm','copyindent','cpoptions','cryptmethod','cscopepathcomp','cscopeprg','cscopequickfix','cscoperelative','cscopetag','cscopetagorder','cscopeverbose','cursorbind','cursorcolumn','cursorline','debug','define','delcombine','dictionary','diff','diffexpr','diffopt','digraph','directory','display','eadirection','edcompatible','emoji','encoding','endofline','equalalways','equalprg','errorbells','errorfile','errorformat','esckeys','eventignore','expandtab','exrc','fileencoding','fileencodings','fileformat','fileformats','fileignorecase','filetype','fillchars','fixendofline','fkmap','foldclose','foldcolumn','foldenable','foldexpr','foldignore','foldlevel','foldlevelstart','foldmarker','foldmethod','foldminlines','foldnestmax','foldopen','foldtext','formatexpr','formatoptions','formatlistpat','formatprg','fsync','gdefault','grepformat','grepprg','guicursor','guifont','guifontwide','guiheadroom','guioptions','guipty','guitablabel','guitabtooltip','helpfile','helpheight','helplang','hidden','highlight','history','hkmap','hkmapp','hlsearch','icon','iconstring','ignorecase','imactivatefunc','imactivatekey','imcmdline','imdisable','iminsert','imsearch','imstatusfunc','imstyle','include','includeexpr','incsearch','indentexpr','indentkeys','infercase','insertmode','isfname','isident','iskeyword','isprint','joinspaces','key','keymap','keymodel','keywordprg','langmap','langmenu','langnoremap','langremap','laststatus','lazyredraw','linebreak','lines','linespace','lisp','lispwords','list','listchars','loadplugins','magic','makeef','makeencoding','makeprg','matchpairs','matchtime','maxcombine','maxfuncdepth','maxmapdepth','maxmem','maxmempattern','maxmemtot','menuitems','mkspellmem','modeline','modelines','modifiable','modified','more','mouse','mousefocus','mousehide','mousemodel','mouseshape','mousetime','nrformats','number','numberwidth','omnifunc','operatorfunc','packpath','paragraphs','paste','pastetoggle','patchexpr','patchmode','path','preserveindent','previewheight','previewwindow','printdevice','printencoding','printexpr','printfont','printheader','printmbcharset','printmbfont','printoptions','prompt','pumheight','pumwidth','quoteescape','readonly','redrawtime','regexpengine','relativenumber','remap','report','revins','rightleft','rightleftcmd','ruler','rulerformat','runtimepath','scroll','scrollbind','scrolljump','scrolloff','scrollopt','sections','secure','selection','selectmode','sessionoptions','shell','shellcmdflag','shellpipe','shellquote','shellredir','shelltemp','shellxquote','shellxescape','shiftround','shiftwidth','shortmess','shortname','showbreak','showcmd','showfulltag','showmatch','showmode','showtabline','sidescroll','sidescrolloff','signcolumn','smartcase','smartindent','smarttab','softtabstop','spell','spellcapcheck','spellfile','spelllang','spellsuggest','splitbelow','splitright','startofline','statusline','suffixes','suffixesadd','swapfile','swapsync','switchbuf','synmaxcol','syntax','tabline','tabpagemax','tabstop','tagbsearch','tagcase','taglength','tagrelative','tags','tagstack','term','termbidi','termencoding','termguicolors','termwinkey','termwinscroll','termwinsize','terse','textauto','textmode','textwidth','thesaurus','tildeop','timeout','timeoutlen','title','titlelen','titleold','titlestring','toolbar','toolbariconsize','ttimeout','ttimeoutlen','ttybuiltin','ttyfast','ttymouse','ttyscroll','ttytype','undodir','undofile','undolevels','undoreload','updatecount','updatetime','varsofttabstop','vartabstop','verbose','verbosefile','viewdir','viewoptions','viminfo','viminfofile','virtualedit','visualbell','warn','weirdinvert','whichwrap','wildchar','wildcharm','wildignore','wildignorecase','wildmenu','wildmode','wildoptions','winaltkeys','window','winheight','winfixheight','winfixwidth','winminheight','winminwidth','winwidth','wrap','wrapmargin','wrapscan','write','writeany','writebackup','writedelay',],
 \ }
 lockvar! s:option
 let s:event = {
@@ -10661,13 +10880,25 @@ let s:event = {
 \         '__text__': 'CmdlineChanged',
 \         'menu': '[event]',
 \         'word': 'CmdlineChanged',
+\       },{
+\         '__text__': 'ColorSchemePre',
+\         'menu': '[event]',
+\         'word': 'ColorSchemePre',
 \       },],
 \     'D': [{
 \         '__text__': 'DirChanged',
 \         'menu': '[event]',
 \         'word': 'DirChanged',
+\       },{
+\         '__text__': 'DiffUpdated',
+\         'menu': '[event]',
+\         'word': 'DiffUpdated',
 \       },],
 \     'E': [{
+\         '__text__': 'ExitPre',
+\         'menu': '[event]',
+\         'word': 'ExitPre',
+\       },{
 \         '__text__': 'EncodingChanged',
 \         'menu': '[event]',
 \         'word': 'EncodingChanged',
@@ -10881,6 +11112,10 @@ let s:event = {
 \         'menu': '[event]',
 \         'word': 'TermResponse',
 \       },{
+\         '__text__': 'TerminalOpen',
+\         'menu': '[event]',
+\         'word': 'TerminalOpen',
+\       },{
 \         '__text__': 'TextChangedI',
 \         'menu': '[event]',
 \         'word': 'TextChangedI',
@@ -10931,7 +11166,7 @@ let s:event = {
 \   },
 \   'indexlen': 1,
 \   'name': 'event',
-\   'wordlist': ['BufAdd','BufCreate','BufDelete','BufEnter','BufFilePost','BufFilePre','BufHidden','BufLeave','BufNew','BufNewFile','BufRead','BufReadCmd','BufReadPost','BufReadPre','BufUnload','BufWinEnter','BufWinLeave','BufWipeout','BufWrite','BufWriteCmd','BufWritePost','BufWritePre','CmdUndefined','CmdlineChanged','CmdlineEnter','CmdlineLeave','CmdwinEnter','CmdwinLeave','ColorScheme','CompleteDone','CursorHold','CursorHoldI','CursorMoved','CursorMovedI','DirChanged','EncodingChanged','FileAppendCmd','FileAppendPost','FileAppendPre','FileChangedRO','FileChangedShell','FileChangedShellPost','FileEncoding','FileReadCmd','FileReadPost','FileReadPre','FileType','FileWriteCmd','FileWritePost','FileWritePre','FilterReadPost','FilterReadPre','FilterWritePost','FilterWritePre','FocusGained','FocusLost','FuncUndefined','GUIEnter','GUIFailed','InsertChange','InsertCharPre','InsertEnter','InsertLeave','MenuPopup','OptionSet','QuickFixCmdPost','QuickFixCmdPre','QuitPre','RemoteReply','SessionLoadPost','ShellCmdPost','ShellFilterPost','SourceCmd','SourcePre','SpellFileMissing','StdinReadPost','StdinReadPre','SwapExists','Syntax','TabClosed','TabEnter','TabLeave','TabNew','TermChanged','TermResponse','TextChanged','TextChangedI','TextChangedP','TextYankPost','User','VimEnter','VimLeave','VimLeavePre','VimResized','WinEnter','WinLeave','WinNew',],
+\   'wordlist': ['BufAdd','BufCreate','BufDelete','BufEnter','BufFilePost','BufFilePre','BufHidden','BufLeave','BufNew','BufNewFile','BufRead','BufReadCmd','BufReadPost','BufReadPre','BufUnload','BufWinEnter','BufWinLeave','BufWipeout','BufWrite','BufWriteCmd','BufWritePost','BufWritePre','CmdUndefined','CmdlineChanged','CmdlineEnter','CmdlineLeave','CmdwinEnter','CmdwinLeave','ColorScheme','ColorSchemePre','CompleteDone','CursorHold','CursorHoldI','CursorMoved','CursorMovedI','DiffUpdated','DirChanged','EncodingChanged','ExitPre','FileAppendCmd','FileAppendPost','FileAppendPre','FileChangedRO','FileChangedShell','FileChangedShellPost','FileEncoding','FileReadCmd','FileReadPost','FileReadPre','FileType','FileWriteCmd','FileWritePost','FileWritePre','FilterReadPost','FilterReadPre','FilterWritePost','FilterWritePre','FocusGained','FocusLost','FuncUndefined','GUIEnter','GUIFailed','InsertChange','InsertCharPre','InsertEnter','InsertLeave','MenuPopup','OptionSet','QuickFixCmdPost','QuickFixCmdPre','QuitPre','RemoteReply','SessionLoadPost','ShellCmdPost','ShellFilterPost','SourceCmd','SourcePre','SpellFileMissing','StdinReadPost','StdinReadPre','SwapExists','Syntax','TabClosed','TabEnter','TabLeave','TabNew','TermChanged','TermResponse','TerminalOpen','TextChanged','TextChangedI','TextChangedP','TextYankPost','User','VimEnter','VimLeave','VimLeavePre','VimResized','WinEnter','WinLeave','WinNew',],
 \ }
 lockvar! s:event
 let s:keys = {

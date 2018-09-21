@@ -43,6 +43,11 @@ let s:tag = {
 \         'abbr': '$HOME-use',
 \         'menu': ' version5.txt',
 \         'word': '$HOME-use',
+\       },{
+\         '__text__': '$HOME-windows',
+\         'abbr': '$HOME-windows',
+\         'menu': ' options.txt',
+\         'word': '$HOME-windows',
 \       },],
 \     '$M': [{
 \         '__text__': '$MYGVIMRC',
@@ -408,6 +413,11 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''ballooneval''',
 \       },{
+\         '__text__': '''balloonevalterm''',
+\         'abbr': '''balloonevalterm''',
+\         'menu': ' options.txt',
+\         'word': '''balloonevalterm''',
+\       },{
 \         '__text__': '''balloonexpr''',
 \         'abbr': '''balloonexpr''',
 \         'menu': ' options.txt',
@@ -437,6 +447,11 @@ let s:tag = {
 \         'abbr': '''beval''',
 \         'menu': ' options.txt',
 \         'word': '''beval''',
+\       },{
+\         '__text__': '''bevalterm''',
+\         'abbr': '''bevalterm''',
+\         'menu': ' options.txt',
+\         'word': '''bevalterm''',
 \       },{
 \         '__text__': '''bex''',
 \         'abbr': '''bex''',
@@ -1503,6 +1518,11 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''go''',
 \       },{
+\         '__text__': '''go-!''',
+\         'abbr': '''go-!''',
+\         'menu': ' options.txt',
+\         'word': '''go-!''',
+\       },{
 \         '__text__': '''go-A''',
 \         'abbr': '''go-A''',
 \         'menu': ' options.txt',
@@ -1577,6 +1597,11 @@ let s:tag = {
 \         'abbr': '''go-i''',
 \         'menu': ' options.txt',
 \         'word': '''go-i''',
+\       },{
+\         '__text__': '''go-k''',
+\         'abbr': '''go-k''',
+\         'menu': ' options.txt',
+\         'word': '''go-k''',
 \       },{
 \         '__text__': '''go-l''',
 \         'abbr': '''go-l''',
@@ -1880,10 +1905,20 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''imsf''',
 \       },{
+\         '__text__': '''imst''',
+\         'abbr': '''imst''',
+\         'menu': ' options.txt',
+\         'word': '''imst''',
+\       },{
 \         '__text__': '''imstatusfunc''',
 \         'abbr': '''imstatusfunc''',
 \         'menu': ' options.txt',
 \         'word': '''imstatusfunc''',
+\       },{
+\         '__text__': '''imstyle''',
+\         'abbr': '''imstyle''',
+\         'menu': ' options.txt',
+\         'word': '''imstyle''',
 \       },{
 \         '__text__': '''inc''',
 \         'abbr': '''inc''',
@@ -2423,6 +2458,16 @@ let s:tag = {
 \         'abbr': '''mzquantum''',
 \         'menu': ' options.txt',
 \         'word': '''mzquantum''',
+\       },{
+\         '__text__': '''mzschemedll''',
+\         'abbr': '''mzschemedll''',
+\         'menu': ' options.txt',
+\         'word': '''mzschemedll''',
+\       },{
+\         '__text__': '''mzschemegcdll''',
+\         'abbr': '''mzschemegcdll''',
+\         'menu': ' options.txt',
+\         'word': '''mzschemegcdll''',
 \       },],
 \     '''n': [{
 \         '__text__': '''nf''',
@@ -2550,10 +2595,20 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''noballooneval''',
 \       },{
+\         '__text__': '''noballoonevalterm''',
+\         'abbr': '''noballoonevalterm''',
+\         'menu': ' options.txt',
+\         'word': '''noballoonevalterm''',
+\       },{
 \         '__text__': '''nobeval''',
 \         'abbr': '''nobeval''',
 \         'menu': ' options.txt',
 \         'word': '''nobeval''',
+\       },{
+\         '__text__': '''nobevalterm''',
+\         'abbr': '''nobevalterm''',
+\         'menu': ' options.txt',
+\         'word': '''nobevalterm''',
 \       },{
 \         '__text__': '''nobin''',
 \         'abbr': '''nobin''',
@@ -3787,6 +3842,11 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''penc''',
 \       },{
+\         '__text__': '''perldll''',
+\         'abbr': '''perldll''',
+\         'menu': ' options.txt',
+\         'word': '''perldll''',
+\       },{
 \         '__text__': '''pex''',
 \         'abbr': '''pex''',
 \         'menu': ' options.txt',
@@ -3912,6 +3972,11 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''pumheight''',
 \       },{
+\         '__text__': '''pumwidth''',
+\         'abbr': '''pumwidth''',
+\         'menu': ' options.txt',
+\         'word': '''pumwidth''',
+\       },{
 \         '__text__': '''pvh''',
 \         'abbr': '''pvh''',
 \         'menu': ' options.txt',
@@ -3922,15 +3987,30 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''pvw''',
 \       },{
+\         '__text__': '''pw''',
+\         'abbr': '''pw''',
+\         'menu': ' options.txt',
+\         'word': '''pw''',
+\       },{
 \         '__text__': '''pythondll''',
 \         'abbr': '''pythondll''',
 \         'menu': ' options.txt',
 \         'word': '''pythondll''',
 \       },{
+\         '__text__': '''pythonhome''',
+\         'abbr': '''pythonhome''',
+\         'menu': ' options.txt',
+\         'word': '''pythonhome''',
+\       },{
 \         '__text__': '''pythonthreedll''',
 \         'abbr': '''pythonthreedll''',
 \         'menu': ' options.txt',
 \         'word': '''pythonthreedll''',
+\       },{
+\         '__text__': '''pythonthreehome''',
+\         'abbr': '''pythonthreehome''',
+\         'menu': ' options.txt',
+\         'word': '''pythonthreehome''',
 \       },{
 \         '__text__': '''pyx''',
 \         'abbr': '''pyx''',
@@ -4916,6 +4996,16 @@ let s:tag = {
 \         'menu': ' term.txt',
 \         'word': '''t_RB''',
 \       },{
+\         '__text__': '''t_RC''',
+\         'abbr': '''t_RC''',
+\         'menu': ' term.txt',
+\         'word': '''t_RC''',
+\       },{
+\         '__text__': '''t_RF''',
+\         'abbr': '''t_RF''',
+\         'menu': ' term.txt',
+\         'word': '''t_RF''',
+\       },{
 \         '__text__': '''t_RI''',
 \         'abbr': '''t_RI''',
 \         'menu': ' term.txt',
@@ -4926,10 +5016,20 @@ let s:tag = {
 \         'menu': ' term.txt',
 \         'word': '''t_RS''',
 \       },{
+\         '__text__': '''t_RT''',
+\         'abbr': '''t_RT''',
+\         'menu': ' term.txt',
+\         'word': '''t_RT''',
+\       },{
 \         '__text__': '''t_RV''',
 \         'abbr': '''t_RV''',
 \         'menu': ' term.txt',
 \         'word': '''t_RV''',
+\       },{
+\         '__text__': '''t_Ri''',
+\         'abbr': '''t_Ri''',
+\         'menu': ' term.txt',
+\         'word': '''t_Ri''',
 \       },{
 \         '__text__': '''t_SC''',
 \         'abbr': '''t_SC''',
@@ -4951,6 +5051,11 @@ let s:tag = {
 \         'menu': ' term.txt',
 \         'word': '''t_SR''',
 \       },{
+\         '__text__': '''t_ST''',
+\         'abbr': '''t_ST''',
+\         'menu': ' term.txt',
+\         'word': '''t_ST''',
+\       },{
 \         '__text__': '''t_Sb''',
 \         'abbr': '''t_Sb''',
 \         'menu': ' term.txt',
@@ -4960,6 +5065,21 @@ let s:tag = {
 \         'abbr': '''t_Sf''',
 \         'menu': ' term.txt',
 \         'word': '''t_Sf''',
+\       },{
+\         '__text__': '''t_Si''',
+\         'abbr': '''t_Si''',
+\         'menu': ' term.txt',
+\         'word': '''t_Si''',
+\       },{
+\         '__text__': '''t_Te''',
+\         'abbr': '''t_Te''',
+\         'menu': ' term.txt',
+\         'word': '''t_Te''',
+\       },{
+\         '__text__': '''t_Ts''',
+\         'abbr': '''t_Ts''',
+\         'menu': ' term.txt',
+\         'word': '''t_Ts''',
 \       },{
 \         '__text__': '''t_VS''',
 \         'abbr': '''t_VS''',
@@ -5401,15 +5521,20 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''termguicolors''',
 \       },{
-\         '__text__': '''termkey''',
-\         'abbr': '''termkey''',
+\         '__text__': '''termwinkey''',
+\         'abbr': '''termwinkey''',
 \         'menu': ' options.txt',
-\         'word': '''termkey''',
+\         'word': '''termwinkey''',
 \       },{
-\         '__text__': '''termsize''',
-\         'abbr': '''termsize''',
+\         '__text__': '''termwinscroll''',
+\         'abbr': '''termwinscroll''',
 \         'menu': ' options.txt',
-\         'word': '''termsize''',
+\         'word': '''termwinscroll''',
+\       },{
+\         '__text__': '''termwinsize''',
+\         'abbr': '''termwinsize''',
+\         'menu': ' options.txt',
+\         'word': '''termwinsize''',
 \       },{
 \         '__text__': '''terse''',
 \         'abbr': '''terse''',
@@ -5486,11 +5611,6 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''titlestring''',
 \       },{
-\         '__text__': '''tk''',
-\         'abbr': '''tk''',
-\         'menu': ' options.txt',
-\         'word': '''tk''',
-\       },{
 \         '__text__': '''tl''',
 \         'abbr': '''tl''',
 \         'menu': ' options.txt',
@@ -5500,11 +5620,6 @@ let s:tag = {
 \         'abbr': '''tm''',
 \         'menu': ' options.txt',
 \         'word': '''tm''',
-\       },{
-\         '__text__': '''tms''',
-\         'abbr': '''tms''',
-\         'menu': ' options.txt',
-\         'word': '''tms''',
 \       },{
 \         '__text__': '''to''',
 \         'abbr': '''to''',
@@ -5606,6 +5721,21 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''tw''',
 \       },{
+\         '__text__': '''twk''',
+\         'abbr': '''twk''',
+\         'menu': ' options.txt',
+\         'word': '''twk''',
+\       },{
+\         '__text__': '''tws''',
+\         'abbr': '''tws''',
+\         'menu': ' options.txt',
+\         'word': '''tws''',
+\       },{
+\         '__text__': '''twsl''',
+\         'abbr': '''twsl''',
+\         'menu': ' options.txt',
+\         'word': '''twsl''',
+\       },{
 \         '__text__': '''tx''',
 \         'abbr': '''tx''',
 \         'menu': ' options.txt',
@@ -5673,6 +5803,16 @@ let s:tag = {
 \         'word': '''ut''',
 \       },],
 \     '''v': [{
+\         '__text__': '''varsofttabstop''',
+\         'abbr': '''varsofttabstop''',
+\         'menu': ' options.txt',
+\         'word': '''varsofttabstop''',
+\       },{
+\         '__text__': '''vartabstop''',
+\         'abbr': '''vartabstop''',
+\         'menu': ' options.txt',
+\         'word': '''vartabstop''',
+\       },{
 \         '__text__': '''vb''',
 \         'abbr': '''vb''',
 \         'menu': ' options.txt',
@@ -5752,6 +5892,16 @@ let s:tag = {
 \         'abbr': '''vop''',
 \         'menu': ' options.txt',
 \         'word': '''vop''',
+\       },{
+\         '__text__': '''vsts''',
+\         'abbr': '''vsts''',
+\         'menu': ' options.txt',
+\         'word': '''vsts''',
+\       },{
+\         '__text__': '''vts''',
+\         'abbr': '''vts''',
+\         'menu': ' options.txt',
+\         'word': '''vts''',
 \       },],
 \     '''w': [{
 \         '__text__': '''w1200''',
@@ -6133,12 +6283,22 @@ let s:tag = {
 \         'abbr': '+autocmd',
 \         'menu': ' various.txt',
 \         'word': '+autocmd',
+\       },{
+\         '__text__': '+autoservername',
+\         'abbr': '+autoservername',
+\         'menu': ' various.txt',
+\         'word': '+autoservername',
 \       },],
 \     '+b': [{
 \         '__text__': '+balloon_eval',
 \         'abbr': '+balloon_eval',
 \         'menu': ' various.txt',
 \         'word': '+balloon_eval',
+\       },{
+\         '__text__': '+balloon_eval_term',
+\         'abbr': '+balloon_eval_term',
+\         'menu': ' various.txt',
+\         'word': '+balloon_eval_term',
 \       },{
 \         '__text__': '+browse',
 \         'abbr': '+browse',
@@ -6734,12 +6894,22 @@ let s:tag = {
 \         'word': '+toolbar',
 \       },],
 \     '+u': [{
+\         '__text__': '+unix',
+\         'abbr': '+unix',
+\         'menu': ' eval.txt',
+\         'word': '+unix',
+\       },{
 \         '__text__': '+user_commands',
 \         'abbr': '+user_commands',
 \         'menu': ' various.txt',
 \         'word': '+user_commands',
 \       },],
 \     '+v': [{
+\         '__text__': '+vartabs',
+\         'abbr': '+vartabs',
+\         'menu': ' various.txt',
+\         'word': '+vartabs',
+\       },{
 \         '__text__': '+vertsplit',
 \         'abbr': '+vertsplit',
 \         'menu': ' various.txt',
@@ -6769,6 +6939,11 @@ let s:tag = {
 \         'abbr': '+vreplace',
 \         'menu': ' various.txt',
 \         'word': '+vreplace',
+\       },{
+\         '__text__': '+vtp',
+\         'abbr': '+vtp',
+\         'menu': ' various.txt',
+\         'word': '+vtp',
 \       },],
 \     '+w': [{
 \         '__text__': '+wildignore',
@@ -7010,6 +7185,12 @@ let s:tag = {
 \         'abbr': '--windowid',
 \         'menu': ' starting.txt',
 \         'word': '--windowid',
+\       },],
+\     '-?': [{
+\         '__text__': '-?',
+\         'abbr': '-?',
+\         'menu': ' starting.txt',
+\         'word': '-?',
 \       },],
 \     '-A': [{
 \         '__text__': '-A',
@@ -9683,6 +9864,11 @@ let s:tag = {
 \         'menu': ' cmdline.txt',
 \         'word': ':<cWORD>',
 \       },{
+\         '__text__': ':<cexpr>',
+\         'abbr': ':<cexpr>',
+\         'menu': ' cmdline.txt',
+\         'word': ':<cexpr>',
+\       },{
 \         '__text__': ':<cfile>',
 \         'abbr': ':<cfile>',
 \         'menu': ' cmdline.txt',
@@ -9697,6 +9883,16 @@ let s:tag = {
 \         'abbr': ':<sfile>',
 \         'menu': ' cmdline.txt',
 \         'word': ':<sfile>',
+\       },{
+\         '__text__': ':<sflnum>',
+\         'abbr': ':<sflnum>',
+\         'menu': ' cmdline.txt',
+\         'word': ':<sflnum>',
+\       },{
+\         '__text__': ':<slnum>',
+\         'abbr': ':<slnum>',
+\         'menu': ' cmdline.txt',
+\         'word': ':<slnum>',
 \       },],
 \     ':=': [{
 \         '__text__': ':=',
@@ -9762,12 +9958,33 @@ let s:tag = {
 \         'abbr': ':AdaTypes',
 \         'menu': ' ft_ada.txt',
 \         'word': ':AdaTypes',
+\       },{
+\         '__text__': ':Arguments',
+\         'abbr': ':Arguments',
+\         'menu': ' terminal.txt',
+\         'word': ':Arguments',
+\       },],
+\     ':B': [{
+\         '__text__': ':Break',
+\         'abbr': ':Break',
+\         'menu': ' terminal.txt',
+\         'word': ':Break',
 \       },],
 \     ':C': [{
+\         '__text__': ':Clear',
+\         'abbr': ':Clear',
+\         'menu': ' terminal.txt',
+\         'word': ':Clear',
+\       },{
 \         '__text__': ':CompilerSet',
 \         'abbr': ':CompilerSet',
 \         'menu': ' usr_41.txt',
 \         'word': ':CompilerSet',
+\       },{
+\         '__text__': ':Continue',
+\         'abbr': ':Continue',
+\         'menu': ' terminal.txt',
+\         'word': ':Continue',
 \       },],
 \     ':D': [{
 \         '__text__': ':DiffOrig',
@@ -9781,16 +9998,32 @@ let s:tag = {
 \         'word': ':DoMatchParen',
 \       },],
 \     ':E': [{
+\         '__text__': ':Evaluate',
+\         'abbr': ':Evaluate',
+\         'menu': ' terminal.txt',
+\         'word': ':Evaluate',
+\       },{
 \         '__text__': ':Explore',
 \         'abbr': ':Explore',
 \         'menu': ' pi_netrw.txt',
 \         'word': ':Explore',
+\       },],
+\     ':F': [{
+\         '__text__': ':Finish',
+\         'abbr': ':Finish',
+\         'menu': ' terminal.txt',
+\         'word': ':Finish',
 \       },],
 \     ':G': [{
 \         '__text__': ':GLVS',
 \         'abbr': ':GLVS',
 \         'menu': ' pi_getscript.txt',
 \         'word': ':GLVS',
+\       },{
+\         '__text__': ':Gdb',
+\         'abbr': ':Gdb',
+\         'menu': ' terminal.txt',
+\         'word': ':Gdb',
 \       },{
 \         '__text__': ':GetLatestVimScripts_dat',
 \         'abbr': ':GetLatestVimScripts_dat',
@@ -9916,6 +10149,12 @@ let s:tag = {
 \         'menu': ' pi_netrw.txt',
 \         'word': ':Nwrite',
 \       },],
+\     ':O': [{
+\         '__text__': ':Over',
+\         'abbr': ':Over',
+\         'menu': ' terminal.txt',
+\         'word': ':Over',
+\       },],
 \     ':P': [{
 \         '__text__': ':P',
 \         'abbr': ':P',
@@ -9931,6 +10170,11 @@ let s:tag = {
 \         'abbr': ':Print',
 \         'menu': ' various.txt',
 \         'word': ':Print',
+\       },{
+\         '__text__': ':Program',
+\         'abbr': ':Program',
+\         'menu': ' terminal.txt',
+\         'word': ':Program',
 \       },],
 \     ':R': [{
 \         '__text__': ':Rexplore',
@@ -9942,6 +10186,11 @@ let s:tag = {
 \         'abbr': ':RmVimball',
 \         'menu': ' pi_vimball.txt',
 \         'word': ':RmVimball',
+\       },{
+\         '__text__': ':Run',
+\         'abbr': ':Run',
+\         'menu': ' terminal.txt',
+\         'word': ':Run',
 \       },{
 \         '__text__': ':RustEmitAsm',
 \         'abbr': ':RustEmitAsm',
@@ -9983,6 +10232,21 @@ let s:tag = {
 \         'abbr': ':Sexplore',
 \         'menu': ' pi_netrw.txt',
 \         'word': ':Sexplore',
+\       },{
+\         '__text__': ':Source',
+\         'abbr': ':Source',
+\         'menu': ' terminal.txt',
+\         'word': ':Source',
+\       },{
+\         '__text__': ':Step',
+\         'abbr': ':Step',
+\         'menu': ' terminal.txt',
+\         'word': ':Step',
+\       },{
+\         '__text__': ':Stop',
+\         'abbr': ':Stop',
+\         'menu': ' terminal.txt',
+\         'word': ':Stop',
 \       },],
 \     ':T': [{
 \         '__text__': ':TOhtml',
@@ -9994,6 +10258,16 @@ let s:tag = {
 \         'abbr': ':TarDiff',
 \         'menu': ' pi_tar.txt',
 \         'word': ':TarDiff',
+\       },{
+\         '__text__': ':Termdebug',
+\         'abbr': ':Termdebug',
+\         'menu': ' terminal.txt',
+\         'word': ':Termdebug',
+\       },{
+\         '__text__': ':TermdebugCommand',
+\         'abbr': ':TermdebugCommand',
+\         'menu': ' terminal.txt',
+\         'word': ':TermdebugCommand',
 \       },{
 \         '__text__': ':Texplore',
 \         'abbr': ':Texplore',
@@ -10021,6 +10295,12 @@ let s:tag = {
 \         'abbr': ':Vimuntar',
 \         'menu': ' pi_tar.txt',
 \         'word': ':Vimuntar',
+\       },],
+\     ':W': [{
+\         '__text__': ':Winbar',
+\         'abbr': ':Winbar',
+\         'menu': ' terminal.txt',
+\         'word': ':Winbar',
 \       },],
 \     ':X': [{
 \         '__text__': ':X',
@@ -15876,6 +16156,31 @@ let s:tag = {
 \         'menu': ' gui.txt',
 \         'word': ':tm',
 \       },{
+\         '__text__': ':tma',
+\         'abbr': ':tma',
+\         'menu': ' map.txt',
+\         'word': ':tma',
+\       },{
+\         '__text__': ':tmap',
+\         'abbr': ':tmap',
+\         'menu': ' map.txt',
+\         'word': ':tmap',
+\       },{
+\         '__text__': ':tmap_l',
+\         'abbr': ':tmap_l',
+\         'menu': ' map.txt',
+\         'word': ':tmap_l',
+\       },{
+\         '__text__': ':tmapc',
+\         'abbr': ':tmapc',
+\         'menu': ' map.txt',
+\         'word': ':tmapc',
+\       },{
+\         '__text__': ':tmapclear',
+\         'abbr': ':tmapclear',
+\         'menu': ' map.txt',
+\         'word': ':tmapclear',
+\       },{
 \         '__text__': ':tmenu',
 \         'abbr': ':tmenu',
 \         'menu': ' gui.txt',
@@ -15890,6 +16195,16 @@ let s:tag = {
 \         'abbr': ':tnext',
 \         'menu': ' tagsrch.txt',
 \         'word': ':tnext',
+\       },{
+\         '__text__': ':tno',
+\         'abbr': ':tno',
+\         'menu': ' map.txt',
+\         'word': ':tno',
+\       },{
+\         '__text__': ':tnoremap',
+\         'abbr': ':tnoremap',
+\         'menu': ' map.txt',
+\         'word': ':tnoremap',
 \       },{
 \         '__text__': ':topleft',
 \         'abbr': ':topleft',
@@ -15935,6 +16250,16 @@ let s:tag = {
 \         'abbr': ':tu',
 \         'menu': ' gui.txt',
 \         'word': ':tu',
+\       },{
+\         '__text__': ':tunma',
+\         'abbr': ':tunma',
+\         'menu': ' map.txt',
+\         'word': ':tunma',
+\       },{
+\         '__text__': ':tunmap',
+\         'abbr': ':tunmap',
+\         'menu': ' map.txt',
+\         'word': ':tunmap',
 \       },{
 \         '__text__': ':tunmenu',
 \         'abbr': ':tunmenu',
@@ -16006,6 +16331,16 @@ let s:tag = {
 \         'abbr': ':unlet',
 \         'menu': ' eval.txt',
 \         'word': ':unlet',
+\       },{
+\         '__text__': ':unlet-$',
+\         'abbr': ':unlet-$',
+\         'menu': ' eval.txt',
+\         'word': ':unlet-$',
+\       },{
+\         '__text__': ':unlet-environment',
+\         'abbr': ':unlet-environment',
+\         'menu': ' eval.txt',
+\         'word': ':unlet-environment',
 \       },{
 \         '__text__': ':unlo',
 \         'abbr': ':unlo',
@@ -17289,6 +17624,16 @@ let s:tag = {
 \         'word': '<buffer=abuf>',
 \       },],
 \     '<c': [{
+\         '__text__': '<cWORD>',
+\         'abbr': '<cWORD>',
+\         'menu': ' cmdline.txt',
+\         'word': '<cWORD>',
+\       },{
+\         '__text__': '<cexpr>',
+\         'abbr': '<cexpr>',
+\         'menu': ' cmdline.txt',
+\         'word': '<cexpr>',
+\       },{
 \         '__text__': '<cfile>',
 \         'abbr': '<cfile>',
 \         'menu': ' cmdline.txt',
@@ -17303,6 +17648,11 @@ let s:tag = {
 \         'abbr': '<count>',
 \         'menu': ' map.txt',
 \         'word': '<count>',
+\       },{
+\         '__text__': '<cword>',
+\         'abbr': '<cword>',
+\         'menu': ' cmdline.txt',
+\         'word': '<cword>',
 \       },],
 \     '<f': [{
 \         '__text__': '<f-args>',
@@ -17446,6 +17796,11 @@ let s:tag = {
 \         'word': '<q-args>',
 \       },],
 \     '<r': [{
+\         '__text__': '<range>',
+\         'abbr': '<range>',
+\         'menu': ' map.txt',
+\         'word': '<range>',
+\       },{
 \         '__text__': '<reg>',
 \         'abbr': '<reg>',
 \         'menu': ' map.txt',
@@ -17461,6 +17816,11 @@ let s:tag = {
 \         'abbr': '<sfile>',
 \         'menu': ' cmdline.txt',
 \         'word': '<sfile>',
+\       },{
+\         '__text__': '<sflnum>',
+\         'abbr': '<sflnum>',
+\         'menu': ' cmdline.txt',
+\         'word': '<sflnum>',
 \       },{
 \         '__text__': '<slnum>',
 \         'abbr': '<slnum>',
@@ -17707,6 +18067,12 @@ let s:tag = {
 \         'menu': ' editing.txt',
 \         'word': 'ACL',
 \       },],
+\     'AN': [{
+\         '__text__': 'ANSI-C',
+\         'abbr': 'ANSI-C',
+\         'menu': ' develop.txt',
+\         'word': 'ANSI-C',
+\       },],
 \     'AT': [{
 \         '__text__': 'ATTENTION',
 \         'abbr': 'ATTENTION',
@@ -17916,6 +18282,18 @@ let s:tag = {
 \         'abbr': 'C-indenting',
 \         'menu': ' indent.txt',
 \         'word': 'C-indenting',
+\       },],
+\     'C8': [{
+\         '__text__': 'C89',
+\         'abbr': 'C89',
+\         'menu': ' develop.txt',
+\         'word': 'C89',
+\       },],
+\     'C9': [{
+\         '__text__': 'C99',
+\         'abbr': 'C99',
+\         'menu': ' develop.txt',
+\         'word': 'C99',
 \       },],
 \     'CO': [{
 \         '__text__': 'COMSPEC',
@@ -18548,6 +18926,21 @@ let s:tag = {
 \         'menu': ' cmdline.txt',
 \         'word': 'Cmdline-mode',
 \       },{
+\         '__text__': 'CmdlineChanged',
+\         'abbr': 'CmdlineChanged',
+\         'menu': ' autocmd.txt',
+\         'word': 'CmdlineChanged',
+\       },{
+\         '__text__': 'CmdlineEnter',
+\         'abbr': 'CmdlineEnter',
+\         'menu': ' autocmd.txt',
+\         'word': 'CmdlineEnter',
+\       },{
+\         '__text__': 'CmdlineLeave',
+\         'abbr': 'CmdlineLeave',
+\         'menu': ' autocmd.txt',
+\         'word': 'CmdlineLeave',
+\       },{
 \         '__text__': 'CmdwinEnter',
 \         'abbr': 'CmdwinEnter',
 \         'menu': ' autocmd.txt',
@@ -18563,6 +18956,11 @@ let s:tag = {
 \         'abbr': 'ColorScheme',
 \         'menu': ' autocmd.txt',
 \         'word': 'ColorScheme',
+\       },{
+\         '__text__': 'ColorSchemePre',
+\         'abbr': 'ColorSchemePre',
+\         'menu': ' autocmd.txt',
+\         'word': 'ColorSchemePre',
 \       },{
 \         '__text__': 'Command-line',
 \         'abbr': 'Command-line',
@@ -18670,10 +19068,20 @@ let s:tag = {
 \         'menu': ' eval.txt',
 \         'word': 'Dictionary-function',
 \       },{
+\         '__text__': 'DiffUpdated',
+\         'abbr': 'DiffUpdated',
+\         'menu': ' autocmd.txt',
+\         'word': 'DiffUpdated',
+\       },{
 \         '__text__': 'Digraphs',
 \         'abbr': 'Digraphs',
 \         'menu': ' digraph.txt',
 \         'word': 'Digraphs',
+\       },{
+\         '__text__': 'DirChanged',
+\         'abbr': 'DirChanged',
+\         'menu': ' autocmd.txt',
+\         'word': 'DirChanged',
 \       },],
 \     'Do': [{
 \         '__text__': 'Down',
@@ -19088,11 +19496,6 @@ let s:tag = {
 \         'abbr': 'E171',
 \         'menu': ' eval.txt',
 \         'word': 'E171',
-\       },{
-\         '__text__': 'E172',
-\         'abbr': 'E172',
-\         'menu': ' message.txt',
-\         'word': 'E172',
 \       },{
 \         '__text__': 'E173',
 \         'abbr': 'E173',
@@ -23137,15 +23540,75 @@ let s:tag = {
 \         'menu': ' terminal.txt',
 \         'word': 'E948',
 \       },{
+\         '__text__': 'E949',
+\         'abbr': 'E949',
+\         'menu': ' editing.txt',
+\         'word': 'E949',
+\       },{
 \         '__text__': 'E95',
 \         'abbr': 'E95',
 \         'menu': ' message.txt',
 \         'word': 'E95',
 \       },{
+\         '__text__': 'E950',
+\         'abbr': 'E950',
+\         'menu': ' message.txt',
+\         'word': 'E950',
+\       },{
+\         '__text__': 'E951',
+\         'abbr': 'E951',
+\         'menu': ' pattern.txt',
+\         'word': 'E951',
+\       },{
+\         '__text__': 'E952',
+\         'abbr': 'E952',
+\         'menu': ' autocmd.txt',
+\         'word': 'E952',
+\       },{
+\         '__text__': 'E953',
+\         'abbr': 'E953',
+\         'menu': ' eval.txt',
+\         'word': 'E953',
+\       },{
+\         '__text__': 'E954',
+\         'abbr': 'E954',
+\         'menu': ' options.txt',
+\         'word': 'E954',
+\       },{
+\         '__text__': 'E955',
+\         'abbr': 'E955',
+\         'menu': ' eval.txt',
+\         'word': 'E955',
+\       },{
+\         '__text__': 'E956',
+\         'abbr': 'E956',
+\         'menu': ' pattern.txt',
+\         'word': 'E956',
+\       },{
+\         '__text__': 'E957',
+\         'abbr': 'E957',
+\         'menu': ' eval.txt',
+\         'word': 'E957',
+\       },{
+\         '__text__': 'E958',
+\         'abbr': 'E958',
+\         'menu': ' eval.txt',
+\         'word': 'E958',
+\       },{
 \         '__text__': 'E96',
 \         'abbr': 'E96',
 \         'menu': ' diff.txt',
 \         'word': 'E96',
+\       },{
+\         '__text__': 'E960',
+\         'abbr': 'E960',
+\         'menu': ' options.txt',
+\         'word': 'E960',
+\       },{
+\         '__text__': 'E961',
+\         'abbr': 'E961',
+\         'menu': ' cmdline.txt',
+\         'word': 'E961',
 \       },{
 \         '__text__': 'E97',
 \         'abbr': 'E97',
@@ -23223,6 +23686,11 @@ let s:tag = {
 \         'abbr': 'Ex-mode',
 \         'menu': ' intro.txt',
 \         'word': 'Ex-mode',
+\       },{
+\         '__text__': 'ExitPre',
+\         'abbr': 'ExitPre',
+\         'menu': ' autocmd.txt',
+\         'word': 'ExitPre',
 \       },{
 \         '__text__': 'Exuberant_ctags',
 \         'abbr': 'Exuberant_ctags',
@@ -24108,6 +24576,11 @@ let s:tag = {
 \         'menu': ' indent.txt',
 \         'word': 'PHP_default_indenting',
 \       },{
+\         '__text__': 'PHP_noArrowMatching',
+\         'abbr': 'PHP_noArrowMatching',
+\         'menu': ' indent.txt',
+\         'word': 'PHP_noArrowMatching',
+\       },{
 \         '__text__': 'PHP_outdentSLComments',
 \         'abbr': 'PHP_outdentSLComments',
 \         'menu': ' indent.txt',
@@ -24762,10 +25235,25 @@ let s:tag = {
 \         'menu': ' autocmd.txt',
 \         'word': 'TermResponse',
 \       },{
+\         '__text__': 'Terminal-Job',
+\         'abbr': 'Terminal-Job',
+\         'menu': ' terminal.txt',
+\         'word': 'Terminal-Job',
+\       },{
+\         '__text__': 'Terminal-Normal',
+\         'abbr': 'Terminal-Normal',
+\         'menu': ' terminal.txt',
+\         'word': 'Terminal-Normal',
+\       },{
 \         '__text__': 'Terminal-mode',
 \         'abbr': 'Terminal-mode',
 \         'menu': ' terminal.txt',
 \         'word': 'Terminal-mode',
+\       },{
+\         '__text__': 'TerminalOpen',
+\         'abbr': 'TerminalOpen',
+\         'menu': ' autocmd.txt',
+\         'word': 'TerminalOpen',
 \       },{
 \         '__text__': 'TextChanged',
 \         'abbr': 'TextChanged',
@@ -24776,6 +25264,16 @@ let s:tag = {
 \         'abbr': 'TextChangedI',
 \         'menu': ' autocmd.txt',
 \         'word': 'TextChangedI',
+\       },{
+\         '__text__': 'TextChangedP',
+\         'abbr': 'TextChangedP',
+\         'menu': ' autocmd.txt',
+\         'word': 'TextChangedP',
+\       },{
+\         '__text__': 'TextYankPost',
+\         'abbr': 'TextYankPost',
+\         'menu': ' autocmd.txt',
+\         'word': 'TextYankPost',
 \       },],
 \     'Tr': [{
 \         '__text__': 'Transact-SQL',
@@ -25023,6 +25521,11 @@ let s:tag = {
 \         'abbr': 'Win32',
 \         'menu': ' os_win32.txt',
 \         'word': 'Win32',
+\       },{
+\         '__text__': 'WinBar',
+\         'abbr': 'WinBar',
+\         'menu': ' gui.txt',
+\         'word': 'WinBar',
 \       },{
 \         '__text__': 'WinEnter',
 \         'abbr': 'WinEnter',
@@ -26022,6 +26525,11 @@ let s:tag = {
 \         'menu': ' version7.txt',
 \         'word': 'added-7.4',
 \       },{
+\         '__text__': 'added-8.1',
+\         'abbr': 'added-8.1',
+\         'menu': ' version8.txt',
+\         'word': 'added-8.1',
+\       },{
 \         '__text__': 'added-BeOS',
 \         'abbr': 'added-BeOS',
 \         'menu': ' version5.txt',
@@ -26198,6 +26706,11 @@ let s:tag = {
 \         'abbr': 'append()',
 \         'menu': ' eval.txt',
 \         'word': 'append()',
+\       },{
+\         '__text__': 'appendbufline()',
+\         'abbr': 'appendbufline()',
+\         'menu': ' eval.txt',
+\         'word': 'appendbufline()',
 \       },],
 \     'aq': [{
 \         '__text__': 'aquote',
@@ -26332,10 +26845,25 @@ let s:tag = {
 \         'menu': ' syntax.txt',
 \         'word': 'asmh8300.vim',
 \       },{
+\         '__text__': 'assert-return',
+\         'abbr': 'assert-return',
+\         'menu': ' eval.txt',
+\         'word': 'assert-return',
+\       },{
+\         '__text__': 'assert_beeps()',
+\         'abbr': 'assert_beeps()',
+\         'menu': ' eval.txt',
+\         'word': 'assert_beeps()',
+\       },{
 \         '__text__': 'assert_equal()',
 \         'abbr': 'assert_equal()',
 \         'menu': ' eval.txt',
 \         'word': 'assert_equal()',
+\       },{
+\         '__text__': 'assert_equalfile()',
+\         'abbr': 'assert_equalfile()',
+\         'menu': ' eval.txt',
+\         'word': 'assert_equalfile()',
 \       },{
 \         '__text__': 'assert_exception()',
 \         'abbr': 'assert_exception()',
@@ -26579,6 +27107,11 @@ let s:tag = {
 \         'menu': ' autocmd.txt',
 \         'word': 'autocommand-pattern',
 \       },{
+\         '__text__': 'autocommands',
+\         'abbr': 'autocommands',
+\         'menu': ' autocmd.txt',
+\         'word': 'autocommands',
+\       },{
 \         '__text__': 'autoformat',
 \         'abbr': 'autoformat',
 \         'menu': ' change.txt',
@@ -26731,6 +27264,11 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''ballooneval''',
 \       },{
+\         '__text__': 'balloonevalterm',
+\         'abbr': '''balloonevalterm''',
+\         'menu': ' options.txt',
+\         'word': '''balloonevalterm''',
+\       },{
 \         '__text__': 'balloonexpr',
 \         'abbr': '''balloonexpr''',
 \         'menu': ' options.txt',
@@ -26806,6 +27344,11 @@ let s:tag = {
 \         'menu': ' eval.txt',
 \         'word': 'balloon_show()',
 \       },{
+\         '__text__': 'balloon_split()',
+\         'abbr': 'balloon_split()',
+\         'menu': ' eval.txt',
+\         'word': 'balloon_split()',
+\       },{
 \         '__text__': 'bar',
 \         'abbr': 'bar',
 \         'menu': ' motion.txt',
@@ -26852,6 +27395,11 @@ let s:tag = {
 \         'abbr': '''beval''',
 \         'menu': ' options.txt',
 \         'word': '''beval''',
+\       },{
+\         '__text__': 'bevalterm',
+\         'abbr': '''bevalterm''',
+\         'menu': ' options.txt',
+\         'word': '''bevalterm''',
 \       },{
 \         '__text__': 'bex',
 \         'abbr': '''bex''',
@@ -27374,6 +27922,11 @@ let s:tag = {
 \         'word': 'c.vim',
 \       },],
 \     'cW': [{
+\         '__text__': 'cWORD',
+\         'abbr': '<cWORD>',
+\         'menu': ' cmdline.txt',
+\         'word': '<cWORD>',
+\       },{
 \         '__text__': 'cW',
 \         'abbr': 'cW',
 \         'menu': ' change.txt',
@@ -27429,6 +27982,11 @@ let s:tag = {
 \         'abbr': 'c_<C-R>_<C-F>',
 \         'menu': ' cmdline.txt',
 \         'word': 'c_<C-R>_<C-F>',
+\       },{
+\         '__text__': 'c_<C-R>_<C-L>',
+\         'abbr': 'c_<C-R>_<C-L>',
+\         'menu': ' cmdline.txt',
+\         'word': 'c_<C-R>_<C-L>',
 \       },{
 \         '__text__': 'c_<C-R>_<C-O>',
 \         'abbr': 'c_<C-R>_<C-O>',
@@ -27669,6 +28227,11 @@ let s:tag = {
 \         'abbr': 'c_CTRL-R_CTRL-F',
 \         'menu': ' cmdline.txt',
 \         'word': 'c_CTRL-R_CTRL-F',
+\       },{
+\         '__text__': 'c_CTRL-R_CTRL-L',
+\         'abbr': 'c_CTRL-R_CTRL-L',
+\         'menu': ' cmdline.txt',
+\         'word': 'c_CTRL-R_CTRL-L',
 \       },{
 \         '__text__': 'c_CTRL-R_CTRL-O',
 \         'abbr': 'c_CTRL-R_CTRL-O',
@@ -27980,6 +28543,11 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''cedit''',
 \       },{
+\         '__text__': 'cexpr',
+\         'abbr': '<cexpr>',
+\         'menu': ' cmdline.txt',
+\         'word': '<cexpr>',
+\       },{
 \         '__text__': 'ceil()',
 \         'abbr': 'ceil()',
 \         'menu': ' eval.txt',
@@ -28000,6 +28568,11 @@ let s:tag = {
 \         'abbr': '<cfile>',
 \         'menu': ' cmdline.txt',
 \         'word': '<cfile>',
+\       },{
+\         '__text__': 'cfilter-plugin',
+\         'abbr': 'cfilter-plugin',
+\         'menu': ' quickfix.txt',
+\         'word': 'cfilter-plugin',
 \       },],
 \     'ch': [{
 \         '__text__': 'ch',
@@ -28212,6 +28785,11 @@ let s:tag = {
 \         'menu': ' version7.txt',
 \         'word': 'changed-7.4',
 \       },{
+\         '__text__': 'changed-8.1',
+\         'abbr': 'changed-8.1',
+\         'menu': ' version8.txt',
+\         'word': 'changed-8.1',
+\       },{
 \         '__text__': 'changelist',
 \         'abbr': 'changelist',
 \         'menu': ' motion.txt',
@@ -28286,6 +28864,11 @@ let s:tag = {
 \         'abbr': 'channel-more',
 \         'menu': ' channel.txt',
 \         'word': 'channel-more',
+\       },{
+\         '__text__': 'channel-noblock',
+\         'abbr': 'channel-noblock',
+\         'menu': ' channel.txt',
+\         'word': 'channel-noblock',
 \       },{
 \         '__text__': 'channel-open',
 \         'abbr': 'channel-open',
@@ -30007,6 +30590,11 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''cwh''',
 \       },{
+\         '__text__': 'cword',
+\         'abbr': '<cword>',
+\         'menu': ' cmdline.txt',
+\         'word': '<cword>',
+\       },{
 \         '__text__': 'cw',
 \         'abbr': 'cw',
 \         'menu': ' change.txt',
@@ -30172,6 +30760,11 @@ let s:tag = {
 \         'menu': ' debug.txt',
 \         'word': 'debug.txt',
 \       },{
+\         '__text__': 'debugbreak()',
+\         'abbr': 'debugbreak()',
+\         'menu': ' eval.txt',
+\         'word': 'debugbreak()',
+\       },{
 \         '__text__': 'debugger-compilation',
 \         'abbr': 'debugger-compilation',
 \         'menu': ' debugger.txt',
@@ -30241,6 +30834,11 @@ let s:tag = {
 \         'abbr': 'delete-menus',
 \         'menu': ' gui.txt',
 \         'word': 'delete-menus',
+\       },{
+\         '__text__': 'deletebufline()',
+\         'abbr': 'deletebufline()',
+\         'menu': ' eval.txt',
+\         'word': 'deletebufline()',
 \       },{
 \         '__text__': 'deleting',
 \         'abbr': 'deleting',
@@ -31207,6 +31805,11 @@ let s:tag = {
 \         'abbr': 'eval.txt',
 \         'menu': ' eval.txt',
 \         'word': 'eval.txt',
+\       },{
+\         '__text__': 'event-variable',
+\         'abbr': 'event-variable',
+\         'menu': ' eval.txt',
+\         'word': 'event-variable',
 \       },{
 \         '__text__': 'eventhandler()',
 \         'abbr': 'eventhandler()',
@@ -32601,6 +33204,11 @@ let s:tag = {
 \         'menu': ' change.txt',
 \         'word': 'format-comments',
 \       },{
+\         '__text__': 'format-formatexpr',
+\         'abbr': 'format-formatexpr',
+\         'menu': ' change.txt',
+\         'word': 'format-formatexpr',
+\       },{
 \         '__text__': 'formatting',
 \         'abbr': 'formatting',
 \         'menu': ' change.txt',
@@ -33185,6 +33793,11 @@ let s:tag = {
 \         'menu': ' indent.txt',
 \         'word': 'ft-r-indent',
 \       },{
+\         '__text__': 'ft-r-syntax',
+\         'abbr': 'ft-r-syntax',
+\         'menu': ' syntax.txt',
+\         'word': 'ft-r-syntax',
+\       },{
 \         '__text__': 'ft-readline-syntax',
 \         'abbr': 'ft-readline-syntax',
 \         'menu': ' syntax.txt',
@@ -33194,6 +33807,26 @@ let s:tag = {
 \         'abbr': 'ft-rexx-syntax',
 \         'menu': ' syntax.txt',
 \         'word': 'ft-rexx-syntax',
+\       },{
+\         '__text__': 'ft-rmd-plugin',
+\         'abbr': 'ft-rmd-plugin',
+\         'menu': ' filetype.txt',
+\         'word': 'ft-rmd-plugin',
+\       },{
+\         '__text__': 'ft-rmd-syntax',
+\         'abbr': 'ft-rmd-syntax',
+\         'menu': ' syntax.txt',
+\         'word': 'ft-rmd-syntax',
+\       },{
+\         '__text__': 'ft-rrst-plugin',
+\         'abbr': 'ft-rrst-plugin',
+\         'menu': ' filetype.txt',
+\         'word': 'ft-rrst-plugin',
+\       },{
+\         '__text__': 'ft-rrst-syntax',
+\         'abbr': 'ft-rrst-syntax',
+\         'menu': ' syntax.txt',
+\         'word': 'ft-rrst-syntax',
 \       },{
 \         '__text__': 'ft-rst-syntax',
 \         'abbr': 'ft-rst-syntax',
@@ -33330,6 +33963,11 @@ let s:tag = {
 \         'menu': ' indent.txt',
 \         'word': 'ft-vim-indent',
 \       },{
+\         '__text__': 'ft-vim-plugin',
+\         'abbr': 'ft-vim-plugin',
+\         'menu': ' filetype.txt',
+\         'word': 'ft-vim-plugin',
+\       },{
 \         '__text__': 'ft-vim-syntax',
 \         'abbr': 'ft-vim-syntax',
 \         'menu': ' syntax.txt',
@@ -33364,6 +34002,11 @@ let s:tag = {
 \         'abbr': 'ft-yaml-syntax',
 \         'menu': ' syntax.txt',
 \         'word': 'ft-yaml-syntax',
+\       },{
+\         '__text__': 'ft-zimbu-plugin',
+\         'abbr': 'ft-zimbu-plugin',
+\         'menu': ' filetype.txt',
+\         'word': 'ft-zimbu-plugin',
 \       },{
 \         '__text__': 'ft-zsh-syntax',
 \         'abbr': 'ft-zsh-syntax',
@@ -34203,25 +34846,50 @@ let s:tag = {
 \         'menu': ' pi_netrw.txt',
 \         'word': 'g:netrw_localcopycmd',
 \       },{
+\         '__text__': 'g:netrw_localcopycmdopt',
+\         'abbr': 'g:netrw_localcopycmdopt',
+\         'menu': ' pi_netrw.txt',
+\         'word': 'g:netrw_localcopycmdopt',
+\       },{
 \         '__text__': 'g:netrw_localcopydircmd',
 \         'abbr': 'g:netrw_localcopydircmd',
 \         'menu': ' pi_netrw.txt',
 \         'word': 'g:netrw_localcopydircmd',
+\       },{
+\         '__text__': 'g:netrw_localcopydircmdopt',
+\         'abbr': 'g:netrw_localcopydircmdopt',
+\         'menu': ' pi_netrw.txt',
+\         'word': 'g:netrw_localcopydircmdopt',
 \       },{
 \         '__text__': 'g:netrw_localmkdir',
 \         'abbr': 'g:netrw_localmkdir',
 \         'menu': ' pi_netrw.txt',
 \         'word': 'g:netrw_localmkdir',
 \       },{
+\         '__text__': 'g:netrw_localmkdiropt',
+\         'abbr': 'g:netrw_localmkdiropt',
+\         'menu': ' pi_netrw.txt',
+\         'word': 'g:netrw_localmkdiropt',
+\       },{
 \         '__text__': 'g:netrw_localmovecmd',
 \         'abbr': 'g:netrw_localmovecmd',
 \         'menu': ' pi_netrw.txt',
 \         'word': 'g:netrw_localmovecmd',
 \       },{
+\         '__text__': 'g:netrw_localmovecmdopt',
+\         'abbr': 'g:netrw_localmovecmdopt',
+\         'menu': ' pi_netrw.txt',
+\         'word': 'g:netrw_localmovecmdopt',
+\       },{
 \         '__text__': 'g:netrw_localrmdir',
 \         'abbr': 'g:netrw_localrmdir',
 \         'menu': ' pi_netrw.txt',
 \         'word': 'g:netrw_localrmdir',
+\       },{
+\         '__text__': 'g:netrw_localrmdiropt',
+\         'abbr': 'g:netrw_localrmdiropt',
+\         'menu': ' pi_netrw.txt',
+\         'word': 'g:netrw_localrmdiropt',
 \       },{
 \         '__text__': 'g:netrw_maxfilenamelen',
 \         'abbr': 'g:netrw_maxfilenamelen',
@@ -34268,6 +34936,11 @@ let s:tag = {
 \         'menu': ' pi_netrw.txt',
 \         'word': 'g:netrw_remote_mkdir',
 \       },{
+\         '__text__': 'g:netrw_rename_cmd',
+\         'abbr': 'g:netrw_rename_cmd',
+\         'menu': ' pi_netrw.txt',
+\         'word': 'g:netrw_rename_cmd',
+\       },{
 \         '__text__': 'g:netrw_retmap',
 \         'abbr': 'g:netrw_retmap',
 \         'menu': ' pi_netrw.txt',
@@ -34292,6 +34965,11 @@ let s:tag = {
 \         'abbr': 'g:netrw_rsync_cmd',
 \         'menu': ' pi_netrw.txt',
 \         'word': 'g:netrw_rsync_cmd',
+\       },{
+\         '__text__': 'g:netrw_rsync_sep',
+\         'abbr': 'g:netrw_rsync_sep',
+\         'menu': ' pi_netrw.txt',
+\         'word': 'g:netrw_rsync_sep',
 \       },{
 \         '__text__': 'g:netrw_scp_cmd',
 \         'abbr': 'g:netrw_scp_cmd',
@@ -34542,6 +35220,11 @@ let s:tag = {
 \         'abbr': 'g:tar_writeoptions',
 \         'menu': ' pi_tar.txt',
 \         'word': 'g:tar_writeoptions',
+\       },{
+\         '__text__': 'g:terminal_ansi_colors',
+\         'abbr': 'g:terminal_ansi_colors',
+\         'menu': ' terminal.txt',
+\         'word': 'g:terminal_ansi_colors',
 \       },{
 \         '__text__': 'g:tex_comment_nospell',
 \         'abbr': 'g:tex_comment_nospell',
@@ -34916,6 +35599,11 @@ let s:tag = {
 \         'abbr': 'gdb',
 \         'menu': ' debug.txt',
 \         'word': 'gdb',
+\       },{
+\         '__text__': 'gdb-version',
+\         'abbr': 'gdb-version',
+\         'menu': ' terminal.txt',
+\         'word': 'gdb-version',
 \       },],
 \     'ge': [{
 \         '__text__': 'ge',
@@ -34947,6 +35635,11 @@ let s:tag = {
 \         'abbr': 'getbufvar()',
 \         'menu': ' eval.txt',
 \         'word': 'getbufvar()',
+\       },{
+\         '__text__': 'getchangelist()',
+\         'abbr': 'getchangelist()',
+\         'menu': ' eval.txt',
+\         'word': 'getchangelist()',
 \       },{
 \         '__text__': 'getchar()',
 \         'abbr': 'getchar()',
@@ -35023,6 +35716,11 @@ let s:tag = {
 \         'menu': ' eval.txt',
 \         'word': 'getftype()',
 \       },{
+\         '__text__': 'getjumplist()',
+\         'abbr': 'getjumplist()',
+\         'menu': ' eval.txt',
+\         'word': 'getjumplist()',
+\       },{
 \         '__text__': 'getlatestvimscripts-install',
 \         'abbr': 'getlatestvimscripts-install',
 \         'menu': ' pi_getscript.txt',
@@ -35057,6 +35755,11 @@ let s:tag = {
 \         'abbr': 'getqflist()',
 \         'menu': ' eval.txt',
 \         'word': 'getqflist()',
+\       },{
+\         '__text__': 'getqflist-examples',
+\         'abbr': 'getqflist-examples',
+\         'menu': ' quickfix.txt',
+\         'word': 'getqflist-examples',
 \       },{
 \         '__text__': 'getreg()',
 \         'abbr': 'getreg()',
@@ -35117,6 +35820,11 @@ let s:tag = {
 \         'abbr': 'getwininfo()',
 \         'menu': ' eval.txt',
 \         'word': 'getwininfo()',
+\       },{
+\         '__text__': 'getwinpos()',
+\         'abbr': 'getwinpos()',
+\         'menu': ' eval.txt',
+\         'word': 'getwinpos()',
 \       },{
 \         '__text__': 'getwinposx()',
 \         'abbr': 'getwinposx()',
@@ -35343,6 +36051,11 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''go''',
 \       },{
+\         '__text__': 'go-!',
+\         'abbr': '''go-!''',
+\         'menu': ' options.txt',
+\         'word': '''go-!''',
+\       },{
 \         '__text__': 'go-A',
 \         'abbr': '''go-A''',
 \         'menu': ' options.txt',
@@ -35417,6 +36130,11 @@ let s:tag = {
 \         'abbr': '''go-i''',
 \         'menu': ' options.txt',
 \         'word': '''go-i''',
+\       },{
+\         '__text__': 'go-k',
+\         'abbr': '''go-k''',
+\         'menu': ' options.txt',
+\         'word': '''go-k''',
 \       },{
 \         '__text__': 'go-l',
 \         'abbr': '''go-l''',
@@ -36637,6 +37355,16 @@ let s:tag = {
 \         'menu': ' syntax.txt',
 \         'word': 'hl-StatusLineNC',
 \       },{
+\         '__text__': 'hl-StatusLineTerm',
+\         'abbr': 'hl-StatusLineTerm',
+\         'menu': ' syntax.txt',
+\         'word': 'hl-StatusLineTerm',
+\       },{
+\         '__text__': 'hl-StatusLineTermNC',
+\         'abbr': 'hl-StatusLineTermNC',
+\         'menu': ' syntax.txt',
+\         'word': 'hl-StatusLineTermNC',
+\       },{
 \         '__text__': 'hl-TabLine',
 \         'abbr': 'hl-TabLine',
 \         'menu': ' syntax.txt',
@@ -36651,6 +37379,11 @@ let s:tag = {
 \         'abbr': 'hl-TabLineSel',
 \         'menu': ' syntax.txt',
 \         'word': 'hl-TabLineSel',
+\       },{
+\         '__text__': 'hl-Terminal',
+\         'abbr': 'hl-Terminal',
+\         'menu': ' syntax.txt',
+\         'word': 'hl-Terminal',
 \       },{
 \         '__text__': 'hl-Title',
 \         'abbr': 'hl-Title',
@@ -36701,6 +37434,16 @@ let s:tag = {
 \         'abbr': 'hl-WildMenu',
 \         'menu': ' syntax.txt',
 \         'word': 'hl-WildMenu',
+\       },{
+\         '__text__': 'hl-debugBreakpoint',
+\         'abbr': 'hl-debugBreakpoint',
+\         'menu': ' terminal.txt',
+\         'word': 'hl-debugBreakpoint',
+\       },{
+\         '__text__': 'hl-debugPC',
+\         'abbr': 'hl-debugPC',
+\         'menu': ' terminal.txt',
+\         'word': 'hl-debugPC',
 \       },{
 \         '__text__': 'hlID()',
 \         'abbr': 'hlID()',
@@ -37629,10 +38372,20 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''imsf''',
 \       },{
+\         '__text__': 'imst',
+\         'abbr': '''imst''',
+\         'menu': ' options.txt',
+\         'word': '''imst''',
+\       },{
 \         '__text__': 'imstatusfunc',
 \         'abbr': '''imstatusfunc''',
 \         'menu': ' options.txt',
 \         'word': '''imstatusfunc''',
+\       },{
+\         '__text__': 'imstyle',
+\         'abbr': '''imstyle''',
+\         'menu': ' options.txt',
+\         'word': '''imstyle''',
 \       },{
 \         '__text__': 'improved-autocmds-5.4',
 \         'abbr': 'improved-autocmds-5.4',
@@ -38254,6 +39007,11 @@ let s:tag = {
 \         'abbr': 'job-in_io',
 \         'menu': ' channel.txt',
 \         'word': 'job-in_io',
+\       },{
+\         '__text__': 'job-noblock',
+\         'abbr': 'job-noblock',
+\         'menu': ' channel.txt',
+\         'word': 'job-noblock',
 \       },{
 \         '__text__': 'job-options',
 \         'abbr': 'job-options',
@@ -38948,6 +39706,11 @@ let s:tag = {
 \         'abbr': 'line-continuation',
 \         'menu': ' repeat.txt',
 \         'word': 'line-continuation',
+\       },{
+\         '__text__': 'line-continuation-comment',
+\         'abbr': 'line-continuation-comment',
+\         'menu': ' repeat.txt',
+\         'word': 'line-continuation-comment',
 \       },{
 \         '__text__': 'line2byte()',
 \         'abbr': 'line2byte()',
@@ -39752,6 +40515,11 @@ let s:tag = {
 \         'menu': ' map.txt',
 \         'word': 'mapmode-s',
 \       },{
+\         '__text__': 'mapmode-t',
+\         'abbr': 'mapmode-t',
+\         'menu': ' map.txt',
+\         'word': 'mapmode-t',
+\       },{
 \         '__text__': 'mapmode-v',
 \         'abbr': 'mapmode-v',
 \         'menu': ' map.txt',
@@ -39912,6 +40680,11 @@ let s:tag = {
 \         'abbr': 'mbyte-fonts-X11',
 \         'menu': ' mbyte.txt',
 \         'word': 'mbyte-fonts-X11',
+\       },{
+\         '__text__': 'mbyte-func',
+\         'abbr': 'mbyte-func',
+\         'menu': ' mbyte.txt',
+\         'word': 'mbyte-func',
 \       },{
 \         '__text__': 'mbyte-keymap',
 \         'abbr': 'mbyte-keymap',
@@ -40447,6 +41220,16 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''mzquantum''',
 \       },{
+\         '__text__': 'mzschemedll',
+\         'abbr': '''mzschemedll''',
+\         'menu': ' options.txt',
+\         'word': '''mzschemedll''',
+\       },{
+\         '__text__': 'mzschemegcdll',
+\         'abbr': '''mzschemegcdll''',
+\         'menu': ' options.txt',
+\         'word': '''mzschemegcdll''',
+\       },{
 \         '__text__': 'mzeval()',
 \         'abbr': 'mzeval()',
 \         'menu': ' eval.txt',
@@ -40893,10 +41676,30 @@ let s:tag = {
 \         'menu': ' pi_netrw.txt',
 \         'word': 'netrw-c-tab',
 \       },{
+\         '__text__': 'netrw-cB',
+\         'abbr': 'netrw-cB',
+\         'menu': ' pi_netrw.txt',
+\         'word': 'netrw-cB',
+\       },{
 \         '__text__': 'netrw-cadaver',
 \         'abbr': 'netrw-cadaver',
 \         'menu': ' pi_netrw.txt',
 \         'word': 'netrw-cadaver',
+\       },{
+\         '__text__': 'netrw-call',
+\         'abbr': 'netrw-call',
+\         'menu': ' pi_netrw.txt',
+\         'word': 'netrw-call',
+\       },{
+\         '__text__': 'netrw-cb',
+\         'abbr': 'netrw-cb',
+\         'menu': ' pi_netrw.txt',
+\         'word': 'netrw-cb',
+\       },{
+\         '__text__': 'netrw-cd',
+\         'abbr': 'netrw-cd',
+\         'menu': ' pi_netrw.txt',
+\         'word': 'netrw-cd',
 \       },{
 \         '__text__': 'netrw-chgup',
 \         'abbr': 'netrw-chgup',
@@ -41022,6 +41825,11 @@ let s:tag = {
 \         'abbr': 'netrw-explore-cmds',
 \         'menu': ' pi_netrw.txt',
 \         'word': 'netrw-explore-cmds',
+\       },{
+\         '__text__': 'netrw-expose',
+\         'abbr': 'netrw-expose',
+\         'menu': ' pi_netrw.txt',
+\         'word': 'netrw-expose',
 \       },{
 \         '__text__': 'netrw-externapp',
 \         'abbr': 'netrw-externapp',
@@ -41267,6 +42075,11 @@ let s:tag = {
 \         'abbr': 'netrw-mm',
 \         'menu': ' pi_netrw.txt',
 \         'word': 'netrw-mm',
+\       },{
+\         '__text__': 'netrw-modify',
+\         'abbr': 'netrw-modify',
+\         'menu': ' pi_netrw.txt',
+\         'word': 'netrw-modify',
 \       },{
 \         '__text__': 'netrw-mouse',
 \         'abbr': 'netrw-mouse',
@@ -42153,6 +42966,11 @@ let s:tag = {
 \         'menu': ' version7.txt',
 \         'word': 'new-tab-pages',
 \       },{
+\         '__text__': 'new-terminal-window',
+\         'abbr': 'new-terminal-window',
+\         'menu': ' version8.txt',
+\         'word': 'new-terminal-window',
+\       },{
 \         '__text__': 'new-undo-branches',
 \         'abbr': 'new-undo-branches',
 \         'menu': ' version7.txt',
@@ -42351,10 +43169,20 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''noballooneval''',
 \       },{
+\         '__text__': 'noballoonevalterm',
+\         'abbr': '''noballoonevalterm''',
+\         'menu': ' options.txt',
+\         'word': '''noballoonevalterm''',
+\       },{
 \         '__text__': 'nobeval',
 \         'abbr': '''nobeval''',
 \         'menu': ' options.txt',
 \         'word': '''nobeval''',
+\       },{
+\         '__text__': 'nobevalterm',
+\         'abbr': '''nobevalterm''',
+\         'menu': ' options.txt',
+\         'word': '''nobevalterm''',
 \       },{
 \         '__text__': 'nobin',
 \         'abbr': '''nobin''',
@@ -43803,6 +44631,16 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': 'option-window',
 \       },{
+\         '__text__': 'option_restore()',
+\         'abbr': 'option_restore()',
+\         'menu': ' todo.txt',
+\         'word': 'option_restore()',
+\       },{
+\         '__text__': 'option_save()',
+\         'abbr': 'option_save()',
+\         'menu': ' todo.txt',
+\         'word': 'option_save()',
+\       },{
 \         '__text__': 'options',
 \         'abbr': 'options',
 \         'menu': ' options.txt',
@@ -43812,6 +44650,11 @@ let s:tag = {
 \         'abbr': 'options-changed',
 \         'menu': ' version5.txt',
 \         'word': 'options-changed',
+\       },{
+\         '__text__': 'options-in-terminal',
+\         'abbr': 'options-in-terminal',
+\         'menu': ' terminal.txt',
+\         'word': 'options-in-terminal',
 \       },{
 \         '__text__': 'options.txt',
 \         'abbr': 'options.txt',
@@ -44079,6 +44922,11 @@ let s:tag = {
 \         'menu': ' version8.txt',
 \         'word': 'patches-8',
 \       },{
+\         '__text__': 'patches-8.1',
+\         'abbr': 'patches-8.1',
+\         'menu': ' version8.txt',
+\         'word': 'patches-8.1',
+\       },{
 \         '__text__': 'pathshorten()',
 \         'abbr': 'pathshorten()',
 \         'menu': ' eval.txt',
@@ -44140,6 +44988,11 @@ let s:tag = {
 \         'abbr': '''penc''',
 \         'menu': ' options.txt',
 \         'word': '''penc''',
+\       },{
+\         '__text__': 'perldll',
+\         'abbr': '''perldll''',
+\         'menu': ' options.txt',
+\         'word': '''perldll''',
 \       },{
 \         '__text__': 'pex',
 \         'abbr': '''pex''',
@@ -44805,6 +45658,26 @@ let s:tag = {
 \         'menu': ' syntax.txt',
 \         'word': 'progress.vim',
 \       },{
+\         '__text__': 'prompt-buffer',
+\         'abbr': 'prompt-buffer',
+\         'menu': ' channel.txt',
+\         'word': 'prompt-buffer',
+\       },{
+\         '__text__': 'prompt_setcallback()',
+\         'abbr': 'prompt_setcallback()',
+\         'menu': ' eval.txt',
+\         'word': 'prompt_setcallback()',
+\       },{
+\         '__text__': 'prompt_setinterrupt()',
+\         'abbr': 'prompt_setinterrupt()',
+\         'menu': ' eval.txt',
+\         'word': 'prompt_setinterrupt()',
+\       },{
+\         '__text__': 'prompt_setprompt()',
+\         'abbr': 'prompt_setprompt()',
+\         'menu': ' eval.txt',
+\         'word': 'prompt_setprompt()',
+\       },{
 \         '__text__': 'pronounce',
 \         'abbr': 'pronounce',
 \         'menu': ' intro.txt',
@@ -44838,6 +45711,11 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''pumheight''',
 \       },{
+\         '__text__': 'pumwidth',
+\         'abbr': '''pumwidth''',
+\         'menu': ' options.txt',
+\         'word': '''pumwidth''',
+\       },{
 \         '__text__': 'pumvisible()',
 \         'abbr': 'pumvisible()',
 \         'menu': ' eval.txt',
@@ -44864,16 +45742,32 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''pvw''',
 \       },],
+\     'pw': [{
+\         '__text__': 'pw',
+\         'abbr': '''pw''',
+\         'menu': ' options.txt',
+\         'word': '''pw''',
+\       },],
 \     'py': [{
 \         '__text__': 'pythondll',
 \         'abbr': '''pythondll''',
 \         'menu': ' options.txt',
 \         'word': '''pythondll''',
 \       },{
+\         '__text__': 'pythonhome',
+\         'abbr': '''pythonhome''',
+\         'menu': ' options.txt',
+\         'word': '''pythonhome''',
+\       },{
 \         '__text__': 'pythonthreedll',
 \         'abbr': '''pythonthreedll''',
 \         'menu': ' options.txt',
 \         'word': '''pythonthreedll''',
+\       },{
+\         '__text__': 'pythonthreehome',
+\         'abbr': '''pythonthreehome''',
+\         'menu': ' options.txt',
+\         'word': '''pythonthreehome''',
 \       },{
 \         '__text__': 'pyx',
 \         'abbr': '''pyx''',
@@ -45207,6 +46101,21 @@ let s:tag = {
 \         'menu': ' version6.txt',
 \         'word': 'quickfix-6',
 \       },{
+\         '__text__': 'quickfix-ID',
+\         'abbr': 'quickfix-ID',
+\         'menu': ' quickfix.txt',
+\         'word': 'quickfix-ID',
+\       },{
+\         '__text__': 'quickfix-changedtick',
+\         'abbr': 'quickfix-changedtick',
+\         'menu': ' quickfix.txt',
+\         'word': 'quickfix-changedtick',
+\       },{
+\         '__text__': 'quickfix-context',
+\         'abbr': 'quickfix-context',
+\         'menu': ' quickfix.txt',
+\         'word': 'quickfix-context',
+\       },{
 \         '__text__': 'quickfix-directory-stack',
 \         'abbr': 'quickfix-directory-stack',
 \         'menu': ' quickfix.txt',
@@ -45232,10 +46141,25 @@ let s:tag = {
 \         'menu': ' quickfix.txt',
 \         'word': 'quickfix-manx',
 \       },{
+\         '__text__': 'quickfix-parse',
+\         'abbr': 'quickfix-parse',
+\         'menu': ' quickfix.txt',
+\         'word': 'quickfix-parse',
+\       },{
 \         '__text__': 'quickfix-perl',
 \         'abbr': 'quickfix-perl',
 \         'menu': ' quickfix.txt',
 \         'word': 'quickfix-perl',
+\       },{
+\         '__text__': 'quickfix-size',
+\         'abbr': 'quickfix-size',
+\         'menu': ' quickfix.txt',
+\         'word': 'quickfix-size',
+\       },{
+\         '__text__': 'quickfix-title',
+\         'abbr': 'quickfix-title',
+\         'menu': ' quickfix.txt',
+\         'word': 'quickfix-title',
 \       },{
 \         '__text__': 'quickfix-valid',
 \         'abbr': 'quickfix-valid',
@@ -45246,6 +46170,11 @@ let s:tag = {
 \         'abbr': 'quickfix-window',
 \         'menu': ' quickfix.txt',
 \         'word': 'quickfix-window',
+\       },{
+\         '__text__': 'quickfix-window-ID',
+\         'abbr': 'quickfix-window-ID',
+\         'menu': ' quickfix.txt',
+\         'word': 'quickfix-window-ID',
 \       },{
 \         '__text__': 'quickfix.txt',
 \         'abbr': 'quickfix.txt',
@@ -45443,7 +46372,18 @@ let s:tag = {
 \         'menu': ' change.txt',
 \         'word': 'r',
 \       },],
+\     'r.': [{
+\         '__text__': 'r.vim',
+\         'abbr': 'r.vim',
+\         'menu': ' syntax.txt',
+\         'word': 'r.vim',
+\       },],
 \     'ra': [{
+\         '__text__': 'range',
+\         'abbr': '<range>',
+\         'menu': ' map.txt',
+\         'word': '<range>',
+\       },{
 \         '__text__': 'range()',
 \         'abbr': 'range()',
 \         'menu': ' eval.txt',
@@ -45606,6 +46546,16 @@ let s:tag = {
 \         'abbr': 'reference_toc',
 \         'menu': ' help.txt',
 \         'word': 'reference_toc',
+\       },{
+\         '__text__': 'reg_executing()',
+\         'abbr': 'reg_executing()',
+\         'menu': ' eval.txt',
+\         'word': 'reg_executing()',
+\       },{
+\         '__text__': 'reg_recording()',
+\         'abbr': 'reg_recording()',
+\         'menu': ' eval.txt',
+\         'word': 'reg_recording()',
 \       },{
 \         '__text__': 'regexp',
 \         'abbr': 'regexp',
@@ -45855,6 +46805,12 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''rlc''',
 \       },],
+\     'rm': [{
+\         '__text__': 'rmd.vim',
+\         'abbr': 'rmd.vim',
+\         'menu': ' syntax.txt',
+\         'word': 'rmd.vim',
+\       },],
 \     'rn': [{
 \         '__text__': 'rnu',
 \         'abbr': '''rnu''',
@@ -45881,6 +46837,12 @@ let s:tag = {
 \         'abbr': 'round()',
 \         'menu': ' eval.txt',
 \         'word': 'round()',
+\       },],
+\     'rr': [{
+\         '__text__': 'rrst.vim',
+\         'abbr': 'rrst.vim',
+\         'menu': ' syntax.txt',
+\         'word': 'rrst.vim',
 \       },],
 \     'rs': [{
 \         '__text__': 'rs',
@@ -46626,6 +47588,11 @@ let s:tag = {
 \         'menu': ' spell.txt',
 \         'word': 'set-spc-auto',
 \       },{
+\         '__text__': 'setbufline()',
+\         'abbr': 'setbufline()',
+\         'menu': ' eval.txt',
+\         'word': 'setbufline()',
+\       },{
 \         '__text__': 'setbufvar()',
 \         'abbr': 'setbufvar()',
 \         'menu': ' eval.txt',
@@ -46670,6 +47637,11 @@ let s:tag = {
 \         'abbr': 'setqflist()',
 \         'menu': ' eval.txt',
 \         'word': 'setqflist()',
+\       },{
+\         '__text__': 'setqflist-examples',
+\         'abbr': 'setqflist-examples',
+\         'menu': ' quickfix.txt',
+\         'word': 'setqflist-examples',
 \       },{
 \         '__text__': 'setreg()',
 \         'abbr': 'setreg()',
@@ -46721,6 +47693,11 @@ let s:tag = {
 \         'abbr': '<sfile>',
 \         'menu': ' cmdline.txt',
 \         'word': '<sfile>',
+\       },{
+\         '__text__': 'sflnum',
+\         'abbr': '<sflnum>',
+\         'menu': ' cmdline.txt',
+\         'word': '<sflnum>',
 \       },{
 \         '__text__': 'sftp',
 \         'abbr': 'sftp',
@@ -48036,6 +49013,11 @@ let s:tag = {
 \         'menu': ' pattern.txt',
 \         'word': 'start-of-file',
 \       },{
+\         '__text__': 'start-vimdiff',
+\         'abbr': 'start-vimdiff',
+\         'menu': ' diff.txt',
+\         'word': 'start-vimdiff',
+\       },{
 \         '__text__': 'starting',
 \         'abbr': 'starting',
 \         'menu': ' starting.txt',
@@ -48135,6 +49117,11 @@ let s:tag = {
 \         'abbr': 'stridx()',
 \         'menu': ' eval.txt',
 \         'word': 'stridx()',
+\       },{
+\         '__text__': 'strikethrough',
+\         'abbr': 'strikethrough',
+\         'menu': ' syntax.txt',
+\         'word': 'strikethrough',
 \       },{
 \         '__text__': 'string',
 \         'abbr': 'string',
@@ -48377,6 +49364,16 @@ let s:tag = {
 \         'abbr': 'swapfile-changed',
 \         'menu': ' version4.txt',
 \         'word': 'swapfile-changed',
+\       },{
+\         '__text__': 'swapinfo()',
+\         'abbr': 'swapinfo()',
+\         'menu': ' eval.txt',
+\         'word': 'swapinfo()',
+\       },{
+\         '__text__': 'swapname()',
+\         'abbr': 'swapname()',
+\         'menu': ' eval.txt',
+\         'word': 'swapname()',
 \       },{
 \         '__text__': 'swapname-variable',
 \         'abbr': 'swapname-variable',
@@ -48864,6 +49861,16 @@ let s:tag = {
 \         'menu': ' term.txt',
 \         'word': '''t_RB''',
 \       },{
+\         '__text__': 't_RC',
+\         'abbr': '''t_RC''',
+\         'menu': ' term.txt',
+\         'word': '''t_RC''',
+\       },{
+\         '__text__': 't_RF',
+\         'abbr': '''t_RF''',
+\         'menu': ' term.txt',
+\         'word': '''t_RF''',
+\       },{
 \         '__text__': 't_RI',
 \         'abbr': '''t_RI''',
 \         'menu': ' term.txt',
@@ -48874,10 +49881,20 @@ let s:tag = {
 \         'menu': ' term.txt',
 \         'word': '''t_RS''',
 \       },{
+\         '__text__': 't_RT',
+\         'abbr': '''t_RT''',
+\         'menu': ' term.txt',
+\         'word': '''t_RT''',
+\       },{
 \         '__text__': 't_RV',
 \         'abbr': '''t_RV''',
 \         'menu': ' term.txt',
 \         'word': '''t_RV''',
+\       },{
+\         '__text__': 't_Ri',
+\         'abbr': '''t_Ri''',
+\         'menu': ' term.txt',
+\         'word': '''t_Ri''',
 \       },{
 \         '__text__': 't_SC',
 \         'abbr': '''t_SC''',
@@ -48899,6 +49916,11 @@ let s:tag = {
 \         'menu': ' term.txt',
 \         'word': '''t_SR''',
 \       },{
+\         '__text__': 't_ST',
+\         'abbr': '''t_ST''',
+\         'menu': ' term.txt',
+\         'word': '''t_ST''',
+\       },{
 \         '__text__': 't_Sb',
 \         'abbr': '''t_Sb''',
 \         'menu': ' term.txt',
@@ -48908,6 +49930,21 @@ let s:tag = {
 \         'abbr': '''t_Sf''',
 \         'menu': ' term.txt',
 \         'word': '''t_Sf''',
+\       },{
+\         '__text__': 't_Si',
+\         'abbr': '''t_Si''',
+\         'menu': ' term.txt',
+\         'word': '''t_Si''',
+\       },{
+\         '__text__': 't_Te',
+\         'abbr': '''t_Te''',
+\         'menu': ' term.txt',
+\         'word': '''t_Te''',
+\       },{
+\         '__text__': 't_Ts',
+\         'abbr': '''t_Ts''',
+\         'menu': ' term.txt',
+\         'word': '''t_Ts''',
 \       },{
 \         '__text__': 't_VS',
 \         'abbr': '''t_VS''',
@@ -49519,6 +50556,16 @@ let s:tag = {
 \         'menu': ' term.txt',
 \         'word': 't_RB',
 \       },{
+\         '__text__': 't_RC',
+\         'abbr': 't_RC',
+\         'menu': ' term.txt',
+\         'word': 't_RC',
+\       },{
+\         '__text__': 't_RF',
+\         'abbr': 't_RF',
+\         'menu': ' term.txt',
+\         'word': 't_RF',
+\       },{
 \         '__text__': 't_RI',
 \         'abbr': 't_RI',
 \         'menu': ' term.txt',
@@ -49529,10 +50576,20 @@ let s:tag = {
 \         'menu': ' term.txt',
 \         'word': 't_RS',
 \       },{
+\         '__text__': 't_RT',
+\         'abbr': 't_RT',
+\         'menu': ' term.txt',
+\         'word': 't_RT',
+\       },{
 \         '__text__': 't_RV',
 \         'abbr': 't_RV',
 \         'menu': ' term.txt',
 \         'word': 't_RV',
+\       },{
+\         '__text__': 't_Ri',
+\         'abbr': 't_Ri',
+\         'menu': ' term.txt',
+\         'word': 't_Ri',
 \       },{
 \         '__text__': 't_SC',
 \         'abbr': 't_SC',
@@ -49554,6 +50611,11 @@ let s:tag = {
 \         'menu': ' term.txt',
 \         'word': 't_SR',
 \       },{
+\         '__text__': 't_ST',
+\         'abbr': 't_ST',
+\         'menu': ' term.txt',
+\         'word': 't_ST',
+\       },{
 \         '__text__': 't_Sb',
 \         'abbr': 't_Sb',
 \         'menu': ' term.txt',
@@ -49563,6 +50625,21 @@ let s:tag = {
 \         'abbr': 't_Sf',
 \         'menu': ' term.txt',
 \         'word': 't_Sf',
+\       },{
+\         '__text__': 't_Si',
+\         'abbr': 't_Si',
+\         'menu': ' term.txt',
+\         'word': 't_Si',
+\       },{
+\         '__text__': 't_Te',
+\         'abbr': 't_Te',
+\         'menu': ' term.txt',
+\         'word': 't_Te',
+\       },{
+\         '__text__': 't_Ts',
+\         'abbr': 't_Ts',
+\         'menu': ' term.txt',
+\         'word': 't_Ts',
 \       },{
 \         '__text__': 't_VS',
 \         'abbr': 't_VS',
@@ -50723,15 +51800,20 @@ let s:tag = {
 \         'menu': ' options.txt',
 \         'word': '''termguicolors''',
 \       },{
-\         '__text__': 'termkey',
-\         'abbr': '''termkey''',
+\         '__text__': 'termwinkey',
+\         'abbr': '''termwinkey''',
 \         'menu': ' options.txt',
-\         'word': '''termkey''',
+\         'word': '''termwinkey''',
 \       },{
-\         '__text__': 'termsize',
-\         'abbr': '''termsize''',
+\         '__text__': 'termwinscroll',
+\         'abbr': '''termwinscroll''',
 \         'menu': ' options.txt',
-\         'word': '''termsize''',
+\         'word': '''termwinscroll''',
+\       },{
+\         '__text__': 'termwinsize',
+\         'abbr': '''termwinsize''',
+\         'menu': ' options.txt',
+\         'word': '''termwinsize''',
 \       },{
 \         '__text__': 'terse',
 \         'abbr': '''terse''',
@@ -50808,10 +51890,30 @@ let s:tag = {
 \         'menu': ' term.txt',
 \         'word': 'term.txt',
 \       },{
+\         '__text__': 'term_dumpdiff()',
+\         'abbr': 'term_dumpdiff()',
+\         'menu': ' eval.txt',
+\         'word': 'term_dumpdiff()',
+\       },{
+\         '__text__': 'term_dumpload()',
+\         'abbr': 'term_dumpload()',
+\         'menu': ' eval.txt',
+\         'word': 'term_dumpload()',
+\       },{
+\         '__text__': 'term_dumpwrite()',
+\         'abbr': 'term_dumpwrite()',
+\         'menu': ' eval.txt',
+\         'word': 'term_dumpwrite()',
+\       },{
 \         '__text__': 'term_getaltscreen()',
 \         'abbr': 'term_getaltscreen()',
 \         'menu': ' eval.txt',
 \         'word': 'term_getaltscreen()',
+\       },{
+\         '__text__': 'term_getansicolors()',
+\         'abbr': 'term_getansicolors()',
+\         'menu': ' eval.txt',
+\         'word': 'term_getansicolors()',
 \       },{
 \         '__text__': 'term_getattr()',
 \         'abbr': 'term_getattr()',
@@ -50873,6 +51975,26 @@ let s:tag = {
 \         'menu': ' eval.txt',
 \         'word': 'term_sendkeys()',
 \       },{
+\         '__text__': 'term_setansicolors()',
+\         'abbr': 'term_setansicolors()',
+\         'menu': ' eval.txt',
+\         'word': 'term_setansicolors()',
+\       },{
+\         '__text__': 'term_setkill()',
+\         'abbr': 'term_setkill()',
+\         'menu': ' eval.txt',
+\         'word': 'term_setkill()',
+\       },{
+\         '__text__': 'term_setrestore()',
+\         'abbr': 'term_setrestore()',
+\         'menu': ' eval.txt',
+\         'word': 'term_setrestore()',
+\       },{
+\         '__text__': 'term_setsize()',
+\         'abbr': 'term_setsize()',
+\         'menu': ' eval.txt',
+\         'word': 'term_setsize()',
+\       },{
 \         '__text__': 'term_start()',
 \         'abbr': 'term_start()',
 \         'menu': ' eval.txt',
@@ -50918,20 +52040,120 @@ let s:tag = {
 \         'menu': ' term.txt',
 \         'word': 'termcap-title',
 \       },{
+\         '__text__': 'termdebug-commands',
+\         'abbr': 'termdebug-commands',
+\         'menu': ' terminal.txt',
+\         'word': 'termdebug-commands',
+\       },{
+\         '__text__': 'termdebug-communication',
+\         'abbr': 'termdebug-communication',
+\         'menu': ' terminal.txt',
+\         'word': 'termdebug-communication',
+\       },{
+\         '__text__': 'termdebug-customizing',
+\         'abbr': 'termdebug-customizing',
+\         'menu': ' terminal.txt',
+\         'word': 'termdebug-customizing',
+\       },{
+\         '__text__': 'termdebug-example',
+\         'abbr': 'termdebug-example',
+\         'menu': ' terminal.txt',
+\         'word': 'termdebug-example',
+\       },{
+\         '__text__': 'termdebug-prompt',
+\         'abbr': 'termdebug-prompt',
+\         'menu': ' terminal.txt',
+\         'word': 'termdebug-prompt',
+\       },{
+\         '__text__': 'termdebug-starting',
+\         'abbr': 'termdebug-starting',
+\         'menu': ' terminal.txt',
+\         'word': 'termdebug-starting',
+\       },{
+\         '__text__': 'termdebug-stepping',
+\         'abbr': 'termdebug-stepping',
+\         'menu': ' terminal.txt',
+\         'word': 'termdebug-stepping',
+\       },{
+\         '__text__': 'termdebug-variables',
+\         'abbr': 'termdebug-variables',
+\         'menu': ' terminal.txt',
+\         'word': 'termdebug-variables',
+\       },{
+\         '__text__': 'termdebug_popup',
+\         'abbr': 'termdebug_popup',
+\         'menu': ' terminal.txt',
+\         'word': 'termdebug_popup',
+\       },{
+\         '__text__': 'termdebug_shortcuts',
+\         'abbr': 'termdebug_shortcuts',
+\         'menu': ' terminal.txt',
+\         'word': 'termdebug_shortcuts',
+\       },{
+\         '__text__': 'termdebug_use_prompt',
+\         'abbr': 'termdebug_use_prompt',
+\         'menu': ' terminal.txt',
+\         'word': 'termdebug_use_prompt',
+\       },{
+\         '__text__': 'termdebug_wide',
+\         'abbr': 'termdebug_wide',
+\         'menu': ' terminal.txt',
+\         'word': 'termdebug_wide',
+\       },{
 \         '__text__': 'terminal',
 \         'abbr': 'terminal',
 \         'menu': ' terminal.txt',
 \         'word': 'terminal',
+\       },{
+\         '__text__': 'terminal-api',
+\         'abbr': 'terminal-api',
+\         'menu': ' terminal.txt',
+\         'word': 'terminal-api',
+\       },{
+\         '__text__': 'terminal-client-server',
+\         'abbr': 'terminal-client-server',
+\         'menu': ' terminal.txt',
+\         'word': 'terminal-client-server',
 \       },{
 \         '__text__': 'terminal-colors',
 \         'abbr': 'terminal-colors',
 \         'menu': ' os_unix.txt',
 \         'word': 'terminal-colors',
 \       },{
+\         '__text__': 'terminal-communication',
+\         'abbr': 'terminal-communication',
+\         'menu': ' terminal.txt',
+\         'word': 'terminal-communication',
+\       },{
+\         '__text__': 'terminal-cursor-style',
+\         'abbr': 'terminal-cursor-style',
+\         'menu': ' terminal.txt',
+\         'word': 'terminal-cursor-style',
+\       },{
 \         '__text__': 'terminal-debug',
 \         'abbr': 'terminal-debug',
 \         'menu': ' terminal.txt',
 \         'word': 'terminal-debug',
+\       },{
+\         '__text__': 'terminal-debugger',
+\         'abbr': 'terminal-debugger',
+\         'menu': ' terminal.txt',
+\         'word': 'terminal-debugger',
+\       },{
+\         '__text__': 'terminal-diff',
+\         'abbr': 'terminal-diff',
+\         'menu': ' terminal.txt',
+\         'word': 'terminal-diff',
+\       },{
+\         '__text__': 'terminal-diffscreendump',
+\         'abbr': 'terminal-diffscreendump',
+\         'menu': ' terminal.txt',
+\         'word': 'terminal-diffscreendump',
+\       },{
+\         '__text__': 'terminal-dumptest',
+\         'abbr': 'terminal-dumptest',
+\         'menu': ' terminal.txt',
+\         'word': 'terminal-dumptest',
 \       },{
 \         '__text__': 'terminal-functions',
 \         'abbr': 'terminal-functions',
@@ -50948,6 +52170,11 @@ let s:tag = {
 \         'menu': ' term.txt',
 \         'word': 'terminal-key-codes',
 \       },{
+\         '__text__': 'terminal-ms-windows',
+\         'abbr': 'terminal-ms-windows',
+\         'menu': ' terminal.txt',
+\         'word': 'terminal-ms-windows',
+\       },{
 \         '__text__': 'terminal-options',
 \         'abbr': 'terminal-options',
 \         'menu': ' term.txt',
@@ -50958,15 +52185,60 @@ let s:tag = {
 \         'menu': ' term.txt',
 \         'word': 'terminal-output-codes',
 \       },{
+\         '__text__': 'terminal-resizing',
+\         'abbr': 'terminal-resizing',
+\         'menu': ' terminal.txt',
+\         'word': 'terminal-resizing',
+\       },{
+\         '__text__': 'terminal-screendump',
+\         'abbr': 'terminal-screendump',
+\         'menu': ' terminal.txt',
+\         'word': 'terminal-screendump',
+\       },{
+\         '__text__': 'terminal-session',
+\         'abbr': 'terminal-session',
+\         'menu': ' terminal.txt',
+\         'word': 'terminal-session',
+\       },{
+\         '__text__': 'terminal-size-color',
+\         'abbr': 'terminal-size-color',
+\         'menu': ' terminal.txt',
+\         'word': 'terminal-size-color',
+\       },{
+\         '__text__': 'terminal-special-keys',
+\         'abbr': 'terminal-special-keys',
+\         'menu': ' terminal.txt',
+\         'word': 'terminal-special-keys',
+\       },{
 \         '__text__': 'terminal-testing',
 \         'abbr': 'terminal-testing',
 \         'menu': ' terminal.txt',
 \         'word': 'terminal-testing',
 \       },{
+\         '__text__': 'terminal-to-job',
+\         'abbr': 'terminal-to-job',
+\         'menu': ' terminal.txt',
+\         'word': 'terminal-to-job',
+\       },{
+\         '__text__': 'terminal-typing',
+\         'abbr': 'terminal-typing',
+\         'menu': ' terminal.txt',
+\         'word': 'terminal-typing',
+\       },{
+\         '__text__': 'terminal-unix',
+\         'abbr': 'terminal-unix',
+\         'menu': ' terminal.txt',
+\         'word': 'terminal-unix',
+\       },{
 \         '__text__': 'terminal-use',
 \         'abbr': 'terminal-use',
 \         'menu': ' terminal.txt',
 \         'word': 'terminal-use',
+\       },{
+\         '__text__': 'terminal-window',
+\         'abbr': 'terminal-window',
+\         'menu': ' terminal.txt',
+\         'word': 'terminal-window',
 \       },{
 \         '__text__': 'terminal.txt',
 \         'abbr': 'terminal.txt',
@@ -50997,6 +52269,11 @@ let s:tag = {
 \         'abbr': 'test_autochdir()',
 \         'menu': ' eval.txt',
 \         'word': 'test_autochdir()',
+\       },{
+\         '__text__': 'test_feedinput()',
+\         'abbr': 'test_feedinput()',
+\         'menu': ' eval.txt',
+\         'word': 'test_feedinput()',
 \       },{
 \         '__text__': 'test_garbagecollect_now()',
 \         'abbr': 'test_garbagecollect_now()',
@@ -51038,10 +52315,20 @@ let s:tag = {
 \         'menu': ' eval.txt',
 \         'word': 'test_null_string()',
 \       },{
+\         '__text__': 'test_option_not_set()',
+\         'abbr': 'test_option_not_set()',
+\         'menu': ' eval.txt',
+\         'word': 'test_option_not_set()',
+\       },{
 \         '__text__': 'test_override()',
 \         'abbr': 'test_override()',
 \         'menu': ' eval.txt',
 \         'word': 'test_override()',
+\       },{
+\         '__text__': 'test_scrollbar()',
+\         'abbr': 'test_scrollbar()',
+\         'menu': ' eval.txt',
+\         'word': 'test_scrollbar()',
 \       },{
 \         '__text__': 'test_settime()',
 \         'abbr': 'test_settime()',
@@ -51322,12 +52609,6 @@ let s:tag = {
 \         'menu': ' tips.txt',
 \         'word': 'tips.txt',
 \       },],
-\     'tk': [{
-\         '__text__': 'tk',
-\         'abbr': '''tk''',
-\         'menu': ' options.txt',
-\         'word': '''tk''',
-\       },],
 \     'tl': [{
 \         '__text__': 'tl',
 \         'abbr': '''tl''',
@@ -51339,11 +52620,6 @@ let s:tag = {
 \         'abbr': '''tm''',
 \         'menu': ' options.txt',
 \         'word': '''tm''',
-\       },{
-\         '__text__': 'tms',
-\         'abbr': '''tms''',
-\         'menu': ' options.txt',
-\         'word': '''tms''',
 \       },],
 \     'to': [{
 \         '__text__': 'to',
@@ -51417,6 +52693,11 @@ let s:tag = {
 \         'abbr': 'tr()',
 \         'menu': ' eval.txt',
 \         'word': 'tr()',
+\       },{
+\         '__text__': 'trim()',
+\         'abbr': 'trim()',
+\         'menu': ' eval.txt',
+\         'word': 'trim()',
 \       },{
 \         '__text__': 'trojan-horse',
 \         'abbr': 'trojan-horse',
@@ -51536,6 +52817,21 @@ let s:tag = {
 \         'abbr': '''tw''',
 \         'menu': ' options.txt',
 \         'word': '''tw''',
+\       },{
+\         '__text__': 'twk',
+\         'abbr': '''twk''',
+\         'menu': ' options.txt',
+\         'word': '''twk''',
+\       },{
+\         '__text__': 'tws',
+\         'abbr': '''tws''',
+\         'menu': ' options.txt',
+\         'word': '''tws''',
+\       },{
+\         '__text__': 'twsl',
+\         'abbr': '''twsl''',
+\         'menu': ' options.txt',
+\         'word': '''twsl''',
 \       },{
 \         '__text__': 'twice',
 \         'abbr': 'twice',
@@ -52131,6 +53427,11 @@ let s:tag = {
 \         'menu': ' eval.txt',
 \         'word': 'v:errors',
 \       },{
+\         '__text__': 'v:event',
+\         'abbr': 'v:event',
+\         'menu': ' eval.txt',
+\         'word': 'v:event',
+\       },{
 \         '__text__': 'v:exception',
 \         'abbr': 'v:exception',
 \         'menu': ' eval.txt',
@@ -52396,10 +53697,35 @@ let s:tag = {
 \         'menu': ' eval.txt',
 \         'word': 'v:t_string',
 \       },{
+\         '__text__': 'v:termblinkresp',
+\         'abbr': 'v:termblinkresp',
+\         'menu': ' eval.txt',
+\         'word': 'v:termblinkresp',
+\       },{
+\         '__text__': 'v:termrbgresp',
+\         'abbr': 'v:termrbgresp',
+\         'menu': ' eval.txt',
+\         'word': 'v:termrbgresp',
+\       },{
 \         '__text__': 'v:termresponse',
 \         'abbr': 'v:termresponse',
 \         'menu': ' eval.txt',
 \         'word': 'v:termresponse',
+\       },{
+\         '__text__': 'v:termrfgresp',
+\         'abbr': 'v:termrfgresp',
+\         'menu': ' eval.txt',
+\         'word': 'v:termrfgresp',
+\       },{
+\         '__text__': 'v:termstyleresp',
+\         'abbr': 'v:termstyleresp',
+\         'menu': ' eval.txt',
+\         'word': 'v:termstyleresp',
+\       },{
+\         '__text__': 'v:termu7resp',
+\         'abbr': 'v:termu7resp',
+\         'menu': ' eval.txt',
+\         'word': 'v:termu7resp',
 \       },{
 \         '__text__': 'v:testing',
 \         'abbr': 'v:testing',
@@ -52998,6 +54324,16 @@ let s:tag = {
 \         'word': 'v_~',
 \       },],
 \     'va': [{
+\         '__text__': 'varsofttabstop',
+\         'abbr': '''varsofttabstop''',
+\         'menu': ' options.txt',
+\         'word': '''varsofttabstop''',
+\       },{
+\         '__text__': 'vartabstop',
+\         'abbr': '''vartabstop''',
+\         'menu': ' options.txt',
+\         'word': '''vartabstop''',
+\       },{
 \         '__text__': 'vab',
 \         'abbr': 'vab',
 \         'menu': ' motion.txt',
@@ -53191,6 +54527,11 @@ let s:tag = {
 \         'menu': ' version8.txt',
 \         'word': 'version-8.0',
 \       },{
+\         '__text__': 'version-8.1',
+\         'abbr': 'version-8.1',
+\         'menu': ' version8.txt',
+\         'word': 'version-8.1',
+\       },{
 \         '__text__': 'version-variable',
 \         'abbr': 'version-variable',
 \         'menu': ' eval.txt',
@@ -53245,6 +54586,11 @@ let s:tag = {
 \         'abbr': 'version8.0',
 \         'menu': ' version8.txt',
 \         'word': 'version8.0',
+\       },{
+\         '__text__': 'version8.1',
+\         'abbr': 'version8.1',
+\         'menu': ' version8.txt',
+\         'word': 'version8.1',
 \       },{
 \         '__text__': 'version8.txt',
 \         'abbr': 'version8.txt',
@@ -53352,6 +54698,11 @@ let s:tag = {
 \         'abbr': 'vim-8',
 \         'menu': ' version8.txt',
 \         'word': 'vim-8',
+\       },{
+\         '__text__': 'vim-8.1',
+\         'abbr': 'vim-8.1',
+\         'menu': ' version8.txt',
+\         'word': 'vim-8.1',
 \       },{
 \         '__text__': 'vim-additions',
 \         'abbr': 'vim-additions',
@@ -53806,7 +55157,18 @@ let s:tag = {
 \         'menu': ' insert.txt',
 \         'word': 'vreplace-mode',
 \       },],
+\     'vs': [{
+\         '__text__': 'vsts',
+\         'abbr': '''vsts''',
+\         'menu': ' options.txt',
+\         'word': '''vsts''',
+\       },],
 \     'vt': [{
+\         '__text__': 'vts',
+\         'abbr': '''vts''',
+\         'menu': ' options.txt',
+\         'word': '''vts''',
+\       },{
 \         '__text__': 'vt100-cursor-keys',
 \         'abbr': 'vt100-cursor-keys',
 \         'menu': ' term.txt',
@@ -54085,6 +55447,11 @@ let s:tag = {
 \         'menu': ' eval.txt',
 \         'word': 'wildmenumode()',
 \       },{
+\         '__text__': 'win16',
+\         'abbr': 'win16',
+\         'menu': ' os_win32.txt',
+\         'word': 'win16',
+\       },{
 \         '__text__': 'win32',
 \         'abbr': 'win32',
 \         'menu': ' os_win32.txt',
@@ -54099,6 +55466,16 @@ let s:tag = {
 \         'abbr': 'win32-PATH',
 \         'menu': ' os_win32.txt',
 \         'word': 'win32-PATH',
+\       },{
+\         '__text__': 'win32-backslashes',
+\         'abbr': 'win32-backslashes',
+\         'menu': ' os_win32.txt',
+\         'word': 'win32-backslashes',
+\       },{
+\         '__text__': 'win32-cmdargs',
+\         'abbr': 'win32-cmdargs',
+\         'menu': ' os_win32.txt',
+\         'word': 'win32-cmdargs',
 \       },{
 \         '__text__': 'win32-colors',
 \         'abbr': 'win32-colors',
@@ -54220,6 +55597,11 @@ let s:tag = {
 \         'menu': ' eval.txt',
 \         'word': 'win_id2win()',
 \       },{
+\         '__text__': 'win_screenpos()',
+\         'abbr': 'win_screenpos()',
+\         'menu': ' eval.txt',
+\         'word': 'win_screenpos()',
+\       },{
 \         '__text__': 'winbufnr()',
 \         'abbr': 'winbufnr()',
 \         'menu': ' eval.txt',
@@ -54284,6 +55666,11 @@ let s:tag = {
 \         'abbr': 'window-tag',
 \         'menu': ' windows.txt',
 \         'word': 'window-tag',
+\       },{
+\         '__text__': 'window-toolbar',
+\         'abbr': 'window-toolbar',
+\         'menu': ' gui.txt',
+\         'word': 'window-toolbar',
 \       },{
 \         '__text__': 'window-variable',
 \         'abbr': 'window-variable',
@@ -54354,6 +55741,11 @@ let s:tag = {
 \         'abbr': 'winid',
 \         'menu': ' windows.txt',
 \         'word': 'winid',
+\       },{
+\         '__text__': 'winlayout()',
+\         'abbr': 'winlayout()',
+\         'menu': ' eval.txt',
+\         'word': 'winlayout()',
 \       },{
 \         '__text__': 'winline()',
 \         'abbr': 'winline()',
@@ -55310,6 +56702,12 @@ let s:tag = {
 \         'menu': ' editing.txt',
 \         'word': '{arglist}',
 \       },],
+\     '{b': [{
+\         '__text__': '{bufname}',
+\         'abbr': '{bufname}',
+\         'menu': ' windows.txt',
+\         'word': '{bufname}',
+\       },],
 \     '{c': [{
 \         '__text__': '{char1-char2}',
 \         'abbr': '{char1-char2}',
@@ -55431,6 +56829,11 @@ let s:tag = {
 \       'abbr': '$HOME-use',
 \       'menu': ' version5.txt',
 \       'word': '$HOME-use',
+\     },{
+\       '__text__': '$HOME-windows',
+\       'abbr': '$HOME-windows',
+\       'menu': ' options.txt',
+\       'word': '$HOME-windows',
 \     },{
 \       '__text__': '$MYGVIMRC',
 \       'abbr': '$MYGVIMRC',
@@ -55982,6 +57385,16 @@ let s:tag = {
 \       'menu': ' options.txt',
 \       'word': '''ballooneval''',
 \     },{
+\       '__text__': '''balloonevalterm''',
+\       'abbr': '''balloonevalterm''',
+\       'menu': ' options.txt',
+\       'word': '''balloonevalterm''',
+\     },{
+\       '__text__': 'balloonevalterm',
+\       'abbr': '''balloonevalterm''',
+\       'menu': ' options.txt',
+\       'word': '''balloonevalterm''',
+\     },{
 \       '__text__': '''balloonexpr''',
 \       'abbr': '''balloonexpr''',
 \       'menu': ' options.txt',
@@ -56041,6 +57454,16 @@ let s:tag = {
 \       'abbr': '''beval''',
 \       'menu': ' options.txt',
 \       'word': '''beval''',
+\     },{
+\       '__text__': '''bevalterm''',
+\       'abbr': '''bevalterm''',
+\       'menu': ' options.txt',
+\       'word': '''bevalterm''',
+\     },{
+\       '__text__': 'bevalterm',
+\       'abbr': '''bevalterm''',
+\       'menu': ' options.txt',
+\       'word': '''bevalterm''',
 \     },{
 \       '__text__': '''bex''',
 \       'abbr': '''bex''',
@@ -58162,6 +59585,16 @@ let s:tag = {
 \       'menu': ' options.txt',
 \       'word': '''go''',
 \     },{
+\       '__text__': '''go-!''',
+\       'abbr': '''go-!''',
+\       'menu': ' options.txt',
+\       'word': '''go-!''',
+\     },{
+\       '__text__': 'go-!',
+\       'abbr': '''go-!''',
+\       'menu': ' options.txt',
+\       'word': '''go-!''',
+\     },{
 \       '__text__': '''go-A''',
 \       'abbr': '''go-A''',
 \       'menu': ' options.txt',
@@ -58311,6 +59744,16 @@ let s:tag = {
 \       'abbr': '''go-i''',
 \       'menu': ' options.txt',
 \       'word': '''go-i''',
+\     },{
+\       '__text__': '''go-k''',
+\       'abbr': '''go-k''',
+\       'menu': ' options.txt',
+\       'word': '''go-k''',
+\     },{
+\       '__text__': 'go-k',
+\       'abbr': '''go-k''',
+\       'menu': ' options.txt',
+\       'word': '''go-k''',
 \     },{
 \       '__text__': '''go-l''',
 \       'abbr': '''go-l''',
@@ -58912,6 +60355,16 @@ let s:tag = {
 \       'menu': ' options.txt',
 \       'word': '''imsf''',
 \     },{
+\       '__text__': '''imst''',
+\       'abbr': '''imst''',
+\       'menu': ' options.txt',
+\       'word': '''imst''',
+\     },{
+\       '__text__': 'imst',
+\       'abbr': '''imst''',
+\       'menu': ' options.txt',
+\       'word': '''imst''',
+\     },{
 \       '__text__': '''imstatusfunc''',
 \       'abbr': '''imstatusfunc''',
 \       'menu': ' options.txt',
@@ -58921,6 +60374,16 @@ let s:tag = {
 \       'abbr': '''imstatusfunc''',
 \       'menu': ' options.txt',
 \       'word': '''imstatusfunc''',
+\     },{
+\       '__text__': '''imstyle''',
+\       'abbr': '''imstyle''',
+\       'menu': ' options.txt',
+\       'word': '''imstyle''',
+\     },{
+\       '__text__': 'imstyle',
+\       'abbr': '''imstyle''',
+\       'menu': ' options.txt',
+\       'word': '''imstyle''',
 \     },{
 \       '__text__': '''inc''',
 \       'abbr': '''inc''',
@@ -59992,6 +61455,26 @@ let s:tag = {
 \       'menu': ' options.txt',
 \       'word': '''mzquantum''',
 \     },{
+\       '__text__': '''mzschemedll''',
+\       'abbr': '''mzschemedll''',
+\       'menu': ' options.txt',
+\       'word': '''mzschemedll''',
+\     },{
+\       '__text__': 'mzschemedll',
+\       'abbr': '''mzschemedll''',
+\       'menu': ' options.txt',
+\       'word': '''mzschemedll''',
+\     },{
+\       '__text__': '''mzschemegcdll''',
+\       'abbr': '''mzschemegcdll''',
+\       'menu': ' options.txt',
+\       'word': '''mzschemegcdll''',
+\     },{
+\       '__text__': 'mzschemegcdll',
+\       'abbr': '''mzschemegcdll''',
+\       'menu': ' options.txt',
+\       'word': '''mzschemegcdll''',
+\     },{
 \       '__text__': '''nf''',
 \       'abbr': '''nf''',
 \       'menu': ' options.txt',
@@ -60242,6 +61725,16 @@ let s:tag = {
 \       'menu': ' options.txt',
 \       'word': '''noballooneval''',
 \     },{
+\       '__text__': '''noballoonevalterm''',
+\       'abbr': '''noballoonevalterm''',
+\       'menu': ' options.txt',
+\       'word': '''noballoonevalterm''',
+\     },{
+\       '__text__': 'noballoonevalterm',
+\       'abbr': '''noballoonevalterm''',
+\       'menu': ' options.txt',
+\       'word': '''noballoonevalterm''',
+\     },{
 \       '__text__': '''nobeval''',
 \       'abbr': '''nobeval''',
 \       'menu': ' options.txt',
@@ -60251,6 +61744,16 @@ let s:tag = {
 \       'abbr': '''nobeval''',
 \       'menu': ' options.txt',
 \       'word': '''nobeval''',
+\     },{
+\       '__text__': '''nobevalterm''',
+\       'abbr': '''nobevalterm''',
+\       'menu': ' options.txt',
+\       'word': '''nobevalterm''',
+\     },{
+\       '__text__': 'nobevalterm',
+\       'abbr': '''nobevalterm''',
+\       'menu': ' options.txt',
+\       'word': '''nobevalterm''',
 \     },{
 \       '__text__': '''nobin''',
 \       'abbr': '''nobin''',
@@ -62712,6 +64215,16 @@ let s:tag = {
 \       'menu': ' options.txt',
 \       'word': '''penc''',
 \     },{
+\       '__text__': '''perldll''',
+\       'abbr': '''perldll''',
+\       'menu': ' options.txt',
+\       'word': '''perldll''',
+\     },{
+\       '__text__': 'perldll',
+\       'abbr': '''perldll''',
+\       'menu': ' options.txt',
+\       'word': '''perldll''',
+\     },{
 \       '__text__': '''pex''',
 \       'abbr': '''pex''',
 \       'menu': ' options.txt',
@@ -62962,6 +64475,16 @@ let s:tag = {
 \       'menu': ' options.txt',
 \       'word': '''pumheight''',
 \     },{
+\       '__text__': '''pumwidth''',
+\       'abbr': '''pumwidth''',
+\       'menu': ' options.txt',
+\       'word': '''pumwidth''',
+\     },{
+\       '__text__': 'pumwidth',
+\       'abbr': '''pumwidth''',
+\       'menu': ' options.txt',
+\       'word': '''pumwidth''',
+\     },{
 \       '__text__': '''pvh''',
 \       'abbr': '''pvh''',
 \       'menu': ' options.txt',
@@ -62982,6 +64505,16 @@ let s:tag = {
 \       'menu': ' options.txt',
 \       'word': '''pvw''',
 \     },{
+\       '__text__': '''pw''',
+\       'abbr': '''pw''',
+\       'menu': ' options.txt',
+\       'word': '''pw''',
+\     },{
+\       '__text__': 'pw',
+\       'abbr': '''pw''',
+\       'menu': ' options.txt',
+\       'word': '''pw''',
+\     },{
 \       '__text__': '''pythondll''',
 \       'abbr': '''pythondll''',
 \       'menu': ' options.txt',
@@ -62992,6 +64525,16 @@ let s:tag = {
 \       'menu': ' options.txt',
 \       'word': '''pythondll''',
 \     },{
+\       '__text__': '''pythonhome''',
+\       'abbr': '''pythonhome''',
+\       'menu': ' options.txt',
+\       'word': '''pythonhome''',
+\     },{
+\       '__text__': 'pythonhome',
+\       'abbr': '''pythonhome''',
+\       'menu': ' options.txt',
+\       'word': '''pythonhome''',
+\     },{
 \       '__text__': '''pythonthreedll''',
 \       'abbr': '''pythonthreedll''',
 \       'menu': ' options.txt',
@@ -63001,6 +64544,16 @@ let s:tag = {
 \       'abbr': '''pythonthreedll''',
 \       'menu': ' options.txt',
 \       'word': '''pythonthreedll''',
+\     },{
+\       '__text__': '''pythonthreehome''',
+\       'abbr': '''pythonthreehome''',
+\       'menu': ' options.txt',
+\       'word': '''pythonthreehome''',
+\     },{
+\       '__text__': 'pythonthreehome',
+\       'abbr': '''pythonthreehome''',
+\       'menu': ' options.txt',
+\       'word': '''pythonthreehome''',
 \     },{
 \       '__text__': '''pyx''',
 \       'abbr': '''pyx''',
@@ -64957,6 +66510,26 @@ let s:tag = {
 \       'menu': ' term.txt',
 \       'word': '''t_RB''',
 \     },{
+\       '__text__': '''t_RC''',
+\       'abbr': '''t_RC''',
+\       'menu': ' term.txt',
+\       'word': '''t_RC''',
+\     },{
+\       '__text__': 't_RC',
+\       'abbr': '''t_RC''',
+\       'menu': ' term.txt',
+\       'word': '''t_RC''',
+\     },{
+\       '__text__': '''t_RF''',
+\       'abbr': '''t_RF''',
+\       'menu': ' term.txt',
+\       'word': '''t_RF''',
+\     },{
+\       '__text__': 't_RF',
+\       'abbr': '''t_RF''',
+\       'menu': ' term.txt',
+\       'word': '''t_RF''',
+\     },{
 \       '__text__': '''t_RI''',
 \       'abbr': '''t_RI''',
 \       'menu': ' term.txt',
@@ -64977,6 +66550,16 @@ let s:tag = {
 \       'menu': ' term.txt',
 \       'word': '''t_RS''',
 \     },{
+\       '__text__': '''t_RT''',
+\       'abbr': '''t_RT''',
+\       'menu': ' term.txt',
+\       'word': '''t_RT''',
+\     },{
+\       '__text__': 't_RT',
+\       'abbr': '''t_RT''',
+\       'menu': ' term.txt',
+\       'word': '''t_RT''',
+\     },{
 \       '__text__': '''t_RV''',
 \       'abbr': '''t_RV''',
 \       'menu': ' term.txt',
@@ -64986,6 +66569,16 @@ let s:tag = {
 \       'abbr': '''t_RV''',
 \       'menu': ' term.txt',
 \       'word': '''t_RV''',
+\     },{
+\       '__text__': '''t_Ri''',
+\       'abbr': '''t_Ri''',
+\       'menu': ' term.txt',
+\       'word': '''t_Ri''',
+\     },{
+\       '__text__': 't_Ri',
+\       'abbr': '''t_Ri''',
+\       'menu': ' term.txt',
+\       'word': '''t_Ri''',
 \     },{
 \       '__text__': '''t_SC''',
 \       'abbr': '''t_SC''',
@@ -65027,6 +66620,16 @@ let s:tag = {
 \       'menu': ' term.txt',
 \       'word': '''t_SR''',
 \     },{
+\       '__text__': '''t_ST''',
+\       'abbr': '''t_ST''',
+\       'menu': ' term.txt',
+\       'word': '''t_ST''',
+\     },{
+\       '__text__': 't_ST',
+\       'abbr': '''t_ST''',
+\       'menu': ' term.txt',
+\       'word': '''t_ST''',
+\     },{
 \       '__text__': '''t_Sb''',
 \       'abbr': '''t_Sb''',
 \       'menu': ' term.txt',
@@ -65046,6 +66649,36 @@ let s:tag = {
 \       'abbr': '''t_Sf''',
 \       'menu': ' term.txt',
 \       'word': '''t_Sf''',
+\     },{
+\       '__text__': '''t_Si''',
+\       'abbr': '''t_Si''',
+\       'menu': ' term.txt',
+\       'word': '''t_Si''',
+\     },{
+\       '__text__': 't_Si',
+\       'abbr': '''t_Si''',
+\       'menu': ' term.txt',
+\       'word': '''t_Si''',
+\     },{
+\       '__text__': '''t_Te''',
+\       'abbr': '''t_Te''',
+\       'menu': ' term.txt',
+\       'word': '''t_Te''',
+\     },{
+\       '__text__': 't_Te',
+\       'abbr': '''t_Te''',
+\       'menu': ' term.txt',
+\       'word': '''t_Te''',
+\     },{
+\       '__text__': '''t_Ts''',
+\       'abbr': '''t_Ts''',
+\       'menu': ' term.txt',
+\       'word': '''t_Ts''',
+\     },{
+\       '__text__': 't_Ts',
+\       'abbr': '''t_Ts''',
+\       'menu': ' term.txt',
+\       'word': '''t_Ts''',
 \     },{
 \       '__text__': '''t_VS''',
 \       'abbr': '''t_VS''',
@@ -65927,25 +67560,35 @@ let s:tag = {
 \       'menu': ' options.txt',
 \       'word': '''termguicolors''',
 \     },{
-\       '__text__': '''termkey''',
-\       'abbr': '''termkey''',
+\       '__text__': '''termwinkey''',
+\       'abbr': '''termwinkey''',
 \       'menu': ' options.txt',
-\       'word': '''termkey''',
+\       'word': '''termwinkey''',
 \     },{
-\       '__text__': 'termkey',
-\       'abbr': '''termkey''',
+\       '__text__': 'termwinkey',
+\       'abbr': '''termwinkey''',
 \       'menu': ' options.txt',
-\       'word': '''termkey''',
+\       'word': '''termwinkey''',
 \     },{
-\       '__text__': '''termsize''',
-\       'abbr': '''termsize''',
+\       '__text__': '''termwinscroll''',
+\       'abbr': '''termwinscroll''',
 \       'menu': ' options.txt',
-\       'word': '''termsize''',
+\       'word': '''termwinscroll''',
 \     },{
-\       '__text__': 'termsize',
-\       'abbr': '''termsize''',
+\       '__text__': 'termwinscroll',
+\       'abbr': '''termwinscroll''',
 \       'menu': ' options.txt',
-\       'word': '''termsize''',
+\       'word': '''termwinscroll''',
+\     },{
+\       '__text__': '''termwinsize''',
+\       'abbr': '''termwinsize''',
+\       'menu': ' options.txt',
+\       'word': '''termwinsize''',
+\     },{
+\       '__text__': 'termwinsize',
+\       'abbr': '''termwinsize''',
+\       'menu': ' options.txt',
+\       'word': '''termwinsize''',
 \     },{
 \       '__text__': '''terse''',
 \       'abbr': '''terse''',
@@ -66097,16 +67740,6 @@ let s:tag = {
 \       'menu': ' options.txt',
 \       'word': '''titlestring''',
 \     },{
-\       '__text__': '''tk''',
-\       'abbr': '''tk''',
-\       'menu': ' options.txt',
-\       'word': '''tk''',
-\     },{
-\       '__text__': 'tk',
-\       'abbr': '''tk''',
-\       'menu': ' options.txt',
-\       'word': '''tk''',
-\     },{
 \       '__text__': '''tl''',
 \       'abbr': '''tl''',
 \       'menu': ' options.txt',
@@ -66126,16 +67759,6 @@ let s:tag = {
 \       'abbr': '''tm''',
 \       'menu': ' options.txt',
 \       'word': '''tm''',
-\     },{
-\       '__text__': '''tms''',
-\       'abbr': '''tms''',
-\       'menu': ' options.txt',
-\       'word': '''tms''',
-\     },{
-\       '__text__': 'tms',
-\       'abbr': '''tms''',
-\       'menu': ' options.txt',
-\       'word': '''tms''',
 \     },{
 \       '__text__': '''to''',
 \       'abbr': '''to''',
@@ -66337,6 +67960,36 @@ let s:tag = {
 \       'menu': ' options.txt',
 \       'word': '''tw''',
 \     },{
+\       '__text__': '''twk''',
+\       'abbr': '''twk''',
+\       'menu': ' options.txt',
+\       'word': '''twk''',
+\     },{
+\       '__text__': 'twk',
+\       'abbr': '''twk''',
+\       'menu': ' options.txt',
+\       'word': '''twk''',
+\     },{
+\       '__text__': '''tws''',
+\       'abbr': '''tws''',
+\       'menu': ' options.txt',
+\       'word': '''tws''',
+\     },{
+\       '__text__': 'tws',
+\       'abbr': '''tws''',
+\       'menu': ' options.txt',
+\       'word': '''tws''',
+\     },{
+\       '__text__': '''twsl''',
+\       'abbr': '''twsl''',
+\       'menu': ' options.txt',
+\       'word': '''twsl''',
+\     },{
+\       '__text__': 'twsl',
+\       'abbr': '''twsl''',
+\       'menu': ' options.txt',
+\       'word': '''twsl''',
+\     },{
 \       '__text__': '''tx''',
 \       'abbr': '''tx''',
 \       'menu': ' options.txt',
@@ -66466,6 +68119,26 @@ let s:tag = {
 \       'abbr': '''ut''',
 \       'menu': ' options.txt',
 \       'word': '''ut''',
+\     },{
+\       '__text__': '''varsofttabstop''',
+\       'abbr': '''varsofttabstop''',
+\       'menu': ' options.txt',
+\       'word': '''varsofttabstop''',
+\     },{
+\       '__text__': 'varsofttabstop',
+\       'abbr': '''varsofttabstop''',
+\       'menu': ' options.txt',
+\       'word': '''varsofttabstop''',
+\     },{
+\       '__text__': '''vartabstop''',
+\       'abbr': '''vartabstop''',
+\       'menu': ' options.txt',
+\       'word': '''vartabstop''',
+\     },{
+\       '__text__': 'vartabstop',
+\       'abbr': '''vartabstop''',
+\       'menu': ' options.txt',
+\       'word': '''vartabstop''',
 \     },{
 \       '__text__': '''vb''',
 \       'abbr': '''vb''',
@@ -66626,6 +68299,26 @@ let s:tag = {
 \       'abbr': '''vop''',
 \       'menu': ' options.txt',
 \       'word': '''vop''',
+\     },{
+\       '__text__': '''vsts''',
+\       'abbr': '''vsts''',
+\       'menu': ' options.txt',
+\       'word': '''vsts''',
+\     },{
+\       '__text__': 'vsts',
+\       'abbr': '''vsts''',
+\       'menu': ' options.txt',
+\       'word': '''vsts''',
+\     },{
+\       '__text__': '''vts''',
+\       'abbr': '''vts''',
+\       'menu': ' options.txt',
+\       'word': '''vts''',
+\     },{
+\       '__text__': 'vts',
+\       'abbr': '''vts''',
+\       'menu': ' options.txt',
+\       'word': '''vts''',
 \     },{
 \       '__text__': '''w1200''',
 \       'abbr': '''w1200''',
@@ -67252,10 +68945,20 @@ let s:tag = {
 \       'menu': ' various.txt',
 \       'word': '+autocmd',
 \     },{
+\       '__text__': '+autoservername',
+\       'abbr': '+autoservername',
+\       'menu': ' various.txt',
+\       'word': '+autoservername',
+\     },{
 \       '__text__': '+balloon_eval',
 \       'abbr': '+balloon_eval',
 \       'menu': ' various.txt',
 \       'word': '+balloon_eval',
+\     },{
+\       '__text__': '+balloon_eval_term',
+\       'abbr': '+balloon_eval_term',
+\       'menu': ' various.txt',
+\       'word': '+balloon_eval_term',
 \     },{
 \       '__text__': '+browse',
 \       'abbr': '+browse',
@@ -67832,10 +69535,20 @@ let s:tag = {
 \       'menu': ' various.txt',
 \       'word': '+toolbar',
 \     },{
+\       '__text__': '+unix',
+\       'abbr': '+unix',
+\       'menu': ' eval.txt',
+\       'word': '+unix',
+\     },{
 \       '__text__': '+user_commands',
 \       'abbr': '+user_commands',
 \       'menu': ' various.txt',
 \       'word': '+user_commands',
+\     },{
+\       '__text__': '+vartabs',
+\       'abbr': '+vartabs',
+\       'menu': ' various.txt',
+\       'word': '+vartabs',
 \     },{
 \       '__text__': '+vertsplit',
 \       'abbr': '+vertsplit',
@@ -67866,6 +69579,11 @@ let s:tag = {
 \       'abbr': '+vreplace',
 \       'menu': ' various.txt',
 \       'word': '+vreplace',
+\     },{
+\       '__text__': '+vtp',
+\       'abbr': '+vtp',
+\       'menu': ' various.txt',
+\       'word': '+vtp',
 \     },{
 \       '__text__': '+wildignore',
 \       'abbr': '+wildignore',
@@ -68101,6 +69819,11 @@ let s:tag = {
 \       'abbr': '--windowid',
 \       'menu': ' starting.txt',
 \       'word': '--windowid',
+\     },{
+\       '__text__': '-?',
+\       'abbr': '-?',
+\       'menu': ' starting.txt',
+\       'word': '-?',
 \     },{
 \       '__text__': '-A',
 \       'abbr': '-A',
@@ -70652,6 +72375,11 @@ let s:tag = {
 \       'menu': ' cmdline.txt',
 \       'word': ':<cWORD>',
 \     },{
+\       '__text__': ':<cexpr>',
+\       'abbr': ':<cexpr>',
+\       'menu': ' cmdline.txt',
+\       'word': ':<cexpr>',
+\     },{
 \       '__text__': ':<cfile>',
 \       'abbr': ':<cfile>',
 \       'menu': ' cmdline.txt',
@@ -70666,6 +72394,16 @@ let s:tag = {
 \       'abbr': ':<sfile>',
 \       'menu': ' cmdline.txt',
 \       'word': ':<sfile>',
+\     },{
+\       '__text__': ':<sflnum>',
+\       'abbr': ':<sflnum>',
+\       'menu': ' cmdline.txt',
+\       'word': ':<sflnum>',
+\     },{
+\       '__text__': ':<slnum>',
+\       'abbr': ':<slnum>',
+\       'menu': ' cmdline.txt',
+\       'word': ':<slnum>',
 \     },{
 \       '__text__': ':=',
 \       'abbr': ':=',
@@ -70727,10 +72465,30 @@ let s:tag = {
 \       'menu': ' ft_ada.txt',
 \       'word': ':AdaTypes',
 \     },{
+\       '__text__': ':Arguments',
+\       'abbr': ':Arguments',
+\       'menu': ' terminal.txt',
+\       'word': ':Arguments',
+\     },{
+\       '__text__': ':Break',
+\       'abbr': ':Break',
+\       'menu': ' terminal.txt',
+\       'word': ':Break',
+\     },{
+\       '__text__': ':Clear',
+\       'abbr': ':Clear',
+\       'menu': ' terminal.txt',
+\       'word': ':Clear',
+\     },{
 \       '__text__': ':CompilerSet',
 \       'abbr': ':CompilerSet',
 \       'menu': ' usr_41.txt',
 \       'word': ':CompilerSet',
+\     },{
+\       '__text__': ':Continue',
+\       'abbr': ':Continue',
+\       'menu': ' terminal.txt',
+\       'word': ':Continue',
 \     },{
 \       '__text__': ':DiffOrig',
 \       'abbr': ':DiffOrig',
@@ -70742,15 +72500,30 @@ let s:tag = {
 \       'menu': ' pi_paren.txt',
 \       'word': ':DoMatchParen',
 \     },{
+\       '__text__': ':Evaluate',
+\       'abbr': ':Evaluate',
+\       'menu': ' terminal.txt',
+\       'word': ':Evaluate',
+\     },{
 \       '__text__': ':Explore',
 \       'abbr': ':Explore',
 \       'menu': ' pi_netrw.txt',
 \       'word': ':Explore',
 \     },{
+\       '__text__': ':Finish',
+\       'abbr': ':Finish',
+\       'menu': ' terminal.txt',
+\       'word': ':Finish',
+\     },{
 \       '__text__': ':GLVS',
 \       'abbr': ':GLVS',
 \       'menu': ' pi_getscript.txt',
 \       'word': ':GLVS',
+\     },{
+\       '__text__': ':Gdb',
+\       'abbr': ':Gdb',
+\       'menu': ' terminal.txt',
+\       'word': ':Gdb',
 \     },{
 \       '__text__': ':GetLatestVimScripts_dat',
 \       'abbr': ':GetLatestVimScripts_dat',
@@ -70872,6 +72645,11 @@ let s:tag = {
 \       'menu': ' pi_netrw.txt',
 \       'word': ':Nwrite',
 \     },{
+\       '__text__': ':Over',
+\       'abbr': ':Over',
+\       'menu': ' terminal.txt',
+\       'word': ':Over',
+\     },{
 \       '__text__': ':P',
 \       'abbr': ':P',
 \       'menu': ' various.txt',
@@ -70887,6 +72665,11 @@ let s:tag = {
 \       'menu': ' various.txt',
 \       'word': ':Print',
 \     },{
+\       '__text__': ':Program',
+\       'abbr': ':Program',
+\       'menu': ' terminal.txt',
+\       'word': ':Program',
+\     },{
 \       '__text__': ':Rexplore',
 \       'abbr': ':Rexplore',
 \       'menu': ' pi_netrw.txt',
@@ -70896,6 +72679,11 @@ let s:tag = {
 \       'abbr': ':RmVimball',
 \       'menu': ' pi_vimball.txt',
 \       'word': ':RmVimball',
+\     },{
+\       '__text__': ':Run',
+\       'abbr': ':Run',
+\       'menu': ' terminal.txt',
+\       'word': ':Run',
 \     },{
 \       '__text__': ':RustEmitAsm',
 \       'abbr': ':RustEmitAsm',
@@ -70937,6 +72725,21 @@ let s:tag = {
 \       'menu': ' pi_netrw.txt',
 \       'word': ':Sexplore',
 \     },{
+\       '__text__': ':Source',
+\       'abbr': ':Source',
+\       'menu': ' terminal.txt',
+\       'word': ':Source',
+\     },{
+\       '__text__': ':Step',
+\       'abbr': ':Step',
+\       'menu': ' terminal.txt',
+\       'word': ':Step',
+\     },{
+\       '__text__': ':Stop',
+\       'abbr': ':Stop',
+\       'menu': ' terminal.txt',
+\       'word': ':Stop',
+\     },{
 \       '__text__': ':TOhtml',
 \       'abbr': ':TOhtml',
 \       'menu': ' syntax.txt',
@@ -70946,6 +72749,16 @@ let s:tag = {
 \       'abbr': ':TarDiff',
 \       'menu': ' pi_tar.txt',
 \       'word': ':TarDiff',
+\     },{
+\       '__text__': ':Termdebug',
+\       'abbr': ':Termdebug',
+\       'menu': ' terminal.txt',
+\       'word': ':Termdebug',
+\     },{
+\       '__text__': ':TermdebugCommand',
+\       'abbr': ':TermdebugCommand',
+\       'menu': ' terminal.txt',
+\       'word': ':TermdebugCommand',
 \     },{
 \       '__text__': ':Texplore',
 \       'abbr': ':Texplore',
@@ -70971,6 +72784,11 @@ let s:tag = {
 \       'abbr': ':Vimuntar',
 \       'menu': ' pi_tar.txt',
 \       'word': ':Vimuntar',
+\     },{
+\       '__text__': ':Winbar',
+\       'abbr': ':Winbar',
+\       'menu': ' terminal.txt',
+\       'word': ':Winbar',
 \     },{
 \       '__text__': ':X',
 \       'abbr': ':X',
@@ -76802,6 +78620,31 @@ let s:tag = {
 \       'menu': ' gui.txt',
 \       'word': ':tm',
 \     },{
+\       '__text__': ':tma',
+\       'abbr': ':tma',
+\       'menu': ' map.txt',
+\       'word': ':tma',
+\     },{
+\       '__text__': ':tmap',
+\       'abbr': ':tmap',
+\       'menu': ' map.txt',
+\       'word': ':tmap',
+\     },{
+\       '__text__': ':tmap_l',
+\       'abbr': ':tmap_l',
+\       'menu': ' map.txt',
+\       'word': ':tmap_l',
+\     },{
+\       '__text__': ':tmapc',
+\       'abbr': ':tmapc',
+\       'menu': ' map.txt',
+\       'word': ':tmapc',
+\     },{
+\       '__text__': ':tmapclear',
+\       'abbr': ':tmapclear',
+\       'menu': ' map.txt',
+\       'word': ':tmapclear',
+\     },{
 \       '__text__': ':tmenu',
 \       'abbr': ':tmenu',
 \       'menu': ' gui.txt',
@@ -76816,6 +78659,16 @@ let s:tag = {
 \       'abbr': ':tnext',
 \       'menu': ' tagsrch.txt',
 \       'word': ':tnext',
+\     },{
+\       '__text__': ':tno',
+\       'abbr': ':tno',
+\       'menu': ' map.txt',
+\       'word': ':tno',
+\     },{
+\       '__text__': ':tnoremap',
+\       'abbr': ':tnoremap',
+\       'menu': ' map.txt',
+\       'word': ':tnoremap',
 \     },{
 \       '__text__': ':topleft',
 \       'abbr': ':topleft',
@@ -76861,6 +78714,16 @@ let s:tag = {
 \       'abbr': ':tu',
 \       'menu': ' gui.txt',
 \       'word': ':tu',
+\     },{
+\       '__text__': ':tunma',
+\       'abbr': ':tunma',
+\       'menu': ' map.txt',
+\       'word': ':tunma',
+\     },{
+\       '__text__': ':tunmap',
+\       'abbr': ':tunmap',
+\       'menu': ' map.txt',
+\       'word': ':tunmap',
 \     },{
 \       '__text__': ':tunmenu',
 \       'abbr': ':tunmenu',
@@ -76931,6 +78794,16 @@ let s:tag = {
 \       'abbr': ':unlet',
 \       'menu': ' eval.txt',
 \       'word': ':unlet',
+\     },{
+\       '__text__': ':unlet-$',
+\       'abbr': ':unlet-$',
+\       'menu': ' eval.txt',
+\       'word': ':unlet-$',
+\     },{
+\       '__text__': ':unlet-environment',
+\       'abbr': ':unlet-environment',
+\       'menu': ' eval.txt',
+\       'word': ':unlet-environment',
 \     },{
 \       '__text__': ':unlo',
 \       'abbr': ':unlo',
@@ -78552,6 +80425,26 @@ let s:tag = {
 \       'menu': ' autocmd.txt',
 \       'word': '<buffer=abuf>',
 \     },{
+\       '__text__': '<cWORD>',
+\       'abbr': '<cWORD>',
+\       'menu': ' cmdline.txt',
+\       'word': '<cWORD>',
+\     },{
+\       '__text__': 'cWORD',
+\       'abbr': '<cWORD>',
+\       'menu': ' cmdline.txt',
+\       'word': '<cWORD>',
+\     },{
+\       '__text__': '<cexpr>',
+\       'abbr': '<cexpr>',
+\       'menu': ' cmdline.txt',
+\       'word': '<cexpr>',
+\     },{
+\       '__text__': 'cexpr',
+\       'abbr': '<cexpr>',
+\       'menu': ' cmdline.txt',
+\       'word': '<cexpr>',
+\     },{
 \       '__text__': '<cfile>',
 \       'abbr': '<cfile>',
 \       'menu': ' cmdline.txt',
@@ -78581,6 +80474,16 @@ let s:tag = {
 \       'abbr': '<count>',
 \       'menu': ' map.txt',
 \       'word': '<count>',
+\     },{
+\       '__text__': '<cword>',
+\       'abbr': '<cword>',
+\       'menu': ' cmdline.txt',
+\       'word': '<cword>',
+\     },{
+\       '__text__': 'cword',
+\       'abbr': '<cword>',
+\       'menu': ' cmdline.txt',
+\       'word': '<cword>',
 \     },{
 \       '__text__': '<f-args>',
 \       'abbr': '<f-args>',
@@ -78842,6 +80745,16 @@ let s:tag = {
 \       'menu': ' map.txt',
 \       'word': '<q-args>',
 \     },{
+\       '__text__': '<range>',
+\       'abbr': '<range>',
+\       'menu': ' map.txt',
+\       'word': '<range>',
+\     },{
+\       '__text__': 'range',
+\       'abbr': '<range>',
+\       'menu': ' map.txt',
+\       'word': '<range>',
+\     },{
 \       '__text__': '<reg>',
 \       'abbr': '<reg>',
 \       'menu': ' map.txt',
@@ -78871,6 +80784,16 @@ let s:tag = {
 \       'abbr': '<sfile>',
 \       'menu': ' cmdline.txt',
 \       'word': '<sfile>',
+\     },{
+\       '__text__': '<sflnum>',
+\       'abbr': '<sflnum>',
+\       'menu': ' cmdline.txt',
+\       'word': '<sflnum>',
+\     },{
+\       '__text__': 'sflnum',
+\       'abbr': '<sflnum>',
+\       'menu': ' cmdline.txt',
+\       'word': '<sflnum>',
 \     },{
 \       '__text__': '<slnum>',
 \       'abbr': '<slnum>',
@@ -79152,6 +81075,11 @@ let s:tag = {
 \       'menu': ' editing.txt',
 \       'word': 'ACL',
 \     },{
+\       '__text__': 'ANSI-C',
+\       'abbr': 'ANSI-C',
+\       'menu': ' develop.txt',
+\       'word': 'ANSI-C',
+\     },{
 \       '__text__': 'ATTENTION',
 \       'abbr': 'ATTENTION',
 \       'menu': ' usr_11.txt',
@@ -79331,6 +81259,16 @@ let s:tag = {
 \       'abbr': 'C-indenting',
 \       'menu': ' indent.txt',
 \       'word': 'C-indenting',
+\     },{
+\       '__text__': 'C89',
+\       'abbr': 'C89',
+\       'menu': ' develop.txt',
+\       'word': 'C89',
+\     },{
+\       '__text__': 'C99',
+\       'abbr': 'C99',
+\       'menu': ' develop.txt',
+\       'word': 'C99',
 \     },{
 \       '__text__': 'COMSPEC',
 \       'abbr': 'COMSPEC',
@@ -79942,6 +81880,21 @@ let s:tag = {
 \       'menu': ' cmdline.txt',
 \       'word': 'Cmdline-mode',
 \     },{
+\       '__text__': 'CmdlineChanged',
+\       'abbr': 'CmdlineChanged',
+\       'menu': ' autocmd.txt',
+\       'word': 'CmdlineChanged',
+\     },{
+\       '__text__': 'CmdlineEnter',
+\       'abbr': 'CmdlineEnter',
+\       'menu': ' autocmd.txt',
+\       'word': 'CmdlineEnter',
+\     },{
+\       '__text__': 'CmdlineLeave',
+\       'abbr': 'CmdlineLeave',
+\       'menu': ' autocmd.txt',
+\       'word': 'CmdlineLeave',
+\     },{
 \       '__text__': 'CmdwinEnter',
 \       'abbr': 'CmdwinEnter',
 \       'menu': ' autocmd.txt',
@@ -79956,6 +81909,11 @@ let s:tag = {
 \       'abbr': 'ColorScheme',
 \       'menu': ' autocmd.txt',
 \       'word': 'ColorScheme',
+\     },{
+\       '__text__': 'ColorSchemePre',
+\       'abbr': 'ColorSchemePre',
+\       'menu': ' autocmd.txt',
+\       'word': 'ColorSchemePre',
 \     },{
 \       '__text__': 'Command-line',
 \       'abbr': 'Command-line',
@@ -80047,10 +82005,20 @@ let s:tag = {
 \       'menu': ' eval.txt',
 \       'word': 'Dictionary-function',
 \     },{
+\       '__text__': 'DiffUpdated',
+\       'abbr': 'DiffUpdated',
+\       'menu': ' autocmd.txt',
+\       'word': 'DiffUpdated',
+\     },{
 \       '__text__': 'Digraphs',
 \       'abbr': 'Digraphs',
 \       'menu': ' digraph.txt',
 \       'word': 'Digraphs',
+\     },{
+\       '__text__': 'DirChanged',
+\       'abbr': 'DirChanged',
+\       'menu': ' autocmd.txt',
+\       'word': 'DirChanged',
 \     },{
 \       '__text__': 'E',
 \       'abbr': 'E',
@@ -80451,11 +82419,6 @@ let s:tag = {
 \       'abbr': 'E171',
 \       'menu': ' eval.txt',
 \       'word': 'E171',
-\     },{
-\       '__text__': 'E172',
-\       'abbr': 'E172',
-\       'menu': ' message.txt',
-\       'word': 'E172',
 \     },{
 \       '__text__': 'E173',
 \       'abbr': 'E173',
@@ -84492,15 +86455,75 @@ let s:tag = {
 \       'menu': ' terminal.txt',
 \       'word': 'E948',
 \     },{
+\       '__text__': 'E949',
+\       'abbr': 'E949',
+\       'menu': ' editing.txt',
+\       'word': 'E949',
+\     },{
 \       '__text__': 'E95',
 \       'abbr': 'E95',
 \       'menu': ' message.txt',
 \       'word': 'E95',
 \     },{
+\       '__text__': 'E950',
+\       'abbr': 'E950',
+\       'menu': ' message.txt',
+\       'word': 'E950',
+\     },{
+\       '__text__': 'E951',
+\       'abbr': 'E951',
+\       'menu': ' pattern.txt',
+\       'word': 'E951',
+\     },{
+\       '__text__': 'E952',
+\       'abbr': 'E952',
+\       'menu': ' autocmd.txt',
+\       'word': 'E952',
+\     },{
+\       '__text__': 'E953',
+\       'abbr': 'E953',
+\       'menu': ' eval.txt',
+\       'word': 'E953',
+\     },{
+\       '__text__': 'E954',
+\       'abbr': 'E954',
+\       'menu': ' options.txt',
+\       'word': 'E954',
+\     },{
+\       '__text__': 'E955',
+\       'abbr': 'E955',
+\       'menu': ' eval.txt',
+\       'word': 'E955',
+\     },{
+\       '__text__': 'E956',
+\       'abbr': 'E956',
+\       'menu': ' pattern.txt',
+\       'word': 'E956',
+\     },{
+\       '__text__': 'E957',
+\       'abbr': 'E957',
+\       'menu': ' eval.txt',
+\       'word': 'E957',
+\     },{
+\       '__text__': 'E958',
+\       'abbr': 'E958',
+\       'menu': ' eval.txt',
+\       'word': 'E958',
+\     },{
 \       '__text__': 'E96',
 \       'abbr': 'E96',
 \       'menu': ' diff.txt',
 \       'word': 'E96',
+\     },{
+\       '__text__': 'E960',
+\       'abbr': 'E960',
+\       'menu': ' options.txt',
+\       'word': 'E960',
+\     },{
+\       '__text__': 'E961',
+\       'abbr': 'E961',
+\       'menu': ' cmdline.txt',
+\       'word': 'E961',
 \     },{
 \       '__text__': 'E97',
 \       'abbr': 'E97',
@@ -84551,6 +86574,11 @@ let s:tag = {
 \       'abbr': 'Ex-mode',
 \       'menu': ' intro.txt',
 \       'word': 'Ex-mode',
+\     },{
+\       '__text__': 'ExitPre',
+\       'abbr': 'ExitPre',
+\       'menu': ' autocmd.txt',
+\       'word': 'ExitPre',
 \     },{
 \       '__text__': 'Exuberant_ctags',
 \       'abbr': 'Exuberant_ctags',
@@ -85162,6 +87190,11 @@ let s:tag = {
 \       'menu': ' indent.txt',
 \       'word': 'PHP_default_indenting',
 \     },{
+\       '__text__': 'PHP_noArrowMatching',
+\       'abbr': 'PHP_noArrowMatching',
+\       'menu': ' indent.txt',
+\       'word': 'PHP_noArrowMatching',
+\     },{
 \       '__text__': 'PHP_outdentSLComments',
 \       'abbr': 'PHP_outdentSLComments',
 \       'menu': ' indent.txt',
@@ -85697,10 +87730,25 @@ let s:tag = {
 \       'menu': ' autocmd.txt',
 \       'word': 'TermResponse',
 \     },{
+\       '__text__': 'Terminal-Job',
+\       'abbr': 'Terminal-Job',
+\       'menu': ' terminal.txt',
+\       'word': 'Terminal-Job',
+\     },{
+\       '__text__': 'Terminal-Normal',
+\       'abbr': 'Terminal-Normal',
+\       'menu': ' terminal.txt',
+\       'word': 'Terminal-Normal',
+\     },{
 \       '__text__': 'Terminal-mode',
 \       'abbr': 'Terminal-mode',
 \       'menu': ' terminal.txt',
 \       'word': 'Terminal-mode',
+\     },{
+\       '__text__': 'TerminalOpen',
+\       'abbr': 'TerminalOpen',
+\       'menu': ' autocmd.txt',
+\       'word': 'TerminalOpen',
 \     },{
 \       '__text__': 'TextChanged',
 \       'abbr': 'TextChanged',
@@ -85711,6 +87759,16 @@ let s:tag = {
 \       'abbr': 'TextChangedI',
 \       'menu': ' autocmd.txt',
 \       'word': 'TextChangedI',
+\     },{
+\       '__text__': 'TextChangedP',
+\       'abbr': 'TextChangedP',
+\       'menu': ' autocmd.txt',
+\       'word': 'TextChangedP',
+\     },{
+\       '__text__': 'TextYankPost',
+\       'abbr': 'TextYankPost',
+\       'menu': ' autocmd.txt',
+\       'word': 'TextYankPost',
 \     },{
 \       '__text__': 'Transact-SQL',
 \       'abbr': 'Transact-SQL',
@@ -85921,6 +87979,11 @@ let s:tag = {
 \       'abbr': 'Win32',
 \       'menu': ' os_win32.txt',
 \       'word': 'Win32',
+\     },{
+\       '__text__': 'WinBar',
+\       'abbr': 'WinBar',
+\       'menu': ' gui.txt',
+\       'word': 'WinBar',
 \     },{
 \       '__text__': 'WinEnter',
 \       'abbr': 'WinEnter',
@@ -86807,6 +88870,11 @@ let s:tag = {
 \       'menu': ' version7.txt',
 \       'word': 'added-7.4',
 \     },{
+\       '__text__': 'added-8.1',
+\       'abbr': 'added-8.1',
+\       'menu': ' version8.txt',
+\       'word': 'added-8.1',
+\     },{
 \       '__text__': 'added-BeOS',
 \       'abbr': 'added-BeOS',
 \       'menu': ' version5.txt',
@@ -86912,6 +88980,11 @@ let s:tag = {
 \       'menu': ' eval.txt',
 \       'word': 'append()',
 \     },{
+\       '__text__': 'appendbufline()',
+\       'abbr': 'appendbufline()',
+\       'menu': ' eval.txt',
+\       'word': 'appendbufline()',
+\     },{
 \       '__text__': 'aquote',
 \       'abbr': 'aquote',
 \       'menu': ' motion.txt',
@@ -87002,10 +89075,25 @@ let s:tag = {
 \       'menu': ' syntax.txt',
 \       'word': 'asmh8300.vim',
 \     },{
+\       '__text__': 'assert-return',
+\       'abbr': 'assert-return',
+\       'menu': ' eval.txt',
+\       'word': 'assert-return',
+\     },{
+\       '__text__': 'assert_beeps()',
+\       'abbr': 'assert_beeps()',
+\       'menu': ' eval.txt',
+\       'word': 'assert_beeps()',
+\     },{
 \       '__text__': 'assert_equal()',
 \       'abbr': 'assert_equal()',
 \       'menu': ' eval.txt',
 \       'word': 'assert_equal()',
+\     },{
+\       '__text__': 'assert_equalfile()',
+\       'abbr': 'assert_equalfile()',
+\       'menu': ' eval.txt',
+\       'word': 'assert_equalfile()',
 \     },{
 \       '__text__': 'assert_exception()',
 \       'abbr': 'assert_exception()',
@@ -87212,6 +89300,11 @@ let s:tag = {
 \       'menu': ' autocmd.txt',
 \       'word': 'autocommand-pattern',
 \     },{
+\       '__text__': 'autocommands',
+\       'abbr': 'autocommands',
+\       'menu': ' autocmd.txt',
+\       'word': 'autocommands',
+\     },{
 \       '__text__': 'autoformat',
 \       'abbr': 'autoformat',
 \       'menu': ' change.txt',
@@ -87366,6 +89459,11 @@ let s:tag = {
 \       'abbr': 'balloon_show()',
 \       'menu': ' eval.txt',
 \       'word': 'balloon_show()',
+\     },{
+\       '__text__': 'balloon_split()',
+\       'abbr': 'balloon_split()',
+\       'menu': ' eval.txt',
+\       'word': 'balloon_split()',
 \     },{
 \       '__text__': 'bar',
 \       'abbr': 'bar',
@@ -87807,6 +89905,11 @@ let s:tag = {
 \       'menu': ' cmdline.txt',
 \       'word': 'c_<C-R>_<C-F>',
 \     },{
+\       '__text__': 'c_<C-R>_<C-L>',
+\       'abbr': 'c_<C-R>_<C-L>',
+\       'menu': ' cmdline.txt',
+\       'word': 'c_<C-R>_<C-L>',
+\     },{
 \       '__text__': 'c_<C-R>_<C-O>',
 \       'abbr': 'c_<C-R>_<C-O>',
 \       'menu': ' cmdline.txt',
@@ -88046,6 +90149,11 @@ let s:tag = {
 \       'abbr': 'c_CTRL-R_CTRL-F',
 \       'menu': ' cmdline.txt',
 \       'word': 'c_CTRL-R_CTRL-F',
+\     },{
+\       '__text__': 'c_CTRL-R_CTRL-L',
+\       'abbr': 'c_CTRL-R_CTRL-L',
+\       'menu': ' cmdline.txt',
+\       'word': 'c_CTRL-R_CTRL-L',
 \     },{
 \       '__text__': 'c_CTRL-R_CTRL-O',
 \       'abbr': 'c_CTRL-R_CTRL-O',
@@ -88322,6 +90430,11 @@ let s:tag = {
 \       'menu': ' eval.txt',
 \       'word': 'ceil()',
 \     },{
+\       '__text__': 'cfilter-plugin',
+\       'abbr': 'cfilter-plugin',
+\       'menu': ' quickfix.txt',
+\       'word': 'cfilter-plugin',
+\     },{
 \       '__text__': 'ch.vim',
 \       'abbr': 'ch.vim',
 \       'menu': ' syntax.txt',
@@ -88512,6 +90625,11 @@ let s:tag = {
 \       'menu': ' version7.txt',
 \       'word': 'changed-7.4',
 \     },{
+\       '__text__': 'changed-8.1',
+\       'abbr': 'changed-8.1',
+\       'menu': ' version8.txt',
+\       'word': 'changed-8.1',
+\     },{
 \       '__text__': 'changelist',
 \       'abbr': 'changelist',
 \       'menu': ' motion.txt',
@@ -88586,6 +90704,11 @@ let s:tag = {
 \       'abbr': 'channel-more',
 \       'menu': ' channel.txt',
 \       'word': 'channel-more',
+\     },{
+\       '__text__': 'channel-noblock',
+\       'abbr': 'channel-noblock',
+\       'menu': ' channel.txt',
+\       'word': 'channel-noblock',
 \     },{
 \       '__text__': 'channel-open',
 \       'abbr': 'channel-open',
@@ -90122,6 +92245,11 @@ let s:tag = {
 \       'menu': ' debug.txt',
 \       'word': 'debug.txt',
 \     },{
+\       '__text__': 'debugbreak()',
+\       'abbr': 'debugbreak()',
+\       'menu': ' eval.txt',
+\       'word': 'debugbreak()',
+\     },{
 \       '__text__': 'debugger-compilation',
 \       'abbr': 'debugger-compilation',
 \       'menu': ' debugger.txt',
@@ -90191,6 +92319,11 @@ let s:tag = {
 \       'abbr': 'delete-menus',
 \       'menu': ' gui.txt',
 \       'word': 'delete-menus',
+\     },{
+\       '__text__': 'deletebufline()',
+\       'abbr': 'deletebufline()',
+\       'menu': ' eval.txt',
+\       'word': 'deletebufline()',
 \     },{
 \       '__text__': 'deleting',
 \       'abbr': 'deleting',
@@ -90946,6 +93079,11 @@ let s:tag = {
 \       'abbr': 'eval.txt',
 \       'menu': ' eval.txt',
 \       'word': 'eval.txt',
+\     },{
+\       '__text__': 'event-variable',
+\       'abbr': 'event-variable',
+\       'menu': ' eval.txt',
+\       'word': 'event-variable',
 \     },{
 \       '__text__': 'eventhandler()',
 \       'abbr': 'eventhandler()',
@@ -92047,6 +94185,11 @@ let s:tag = {
 \       'menu': ' change.txt',
 \       'word': 'format-comments',
 \     },{
+\       '__text__': 'format-formatexpr',
+\       'abbr': 'format-formatexpr',
+\       'menu': ' change.txt',
+\       'word': 'format-formatexpr',
+\     },{
 \       '__text__': 'formatting',
 \       'abbr': 'formatting',
 \       'menu': ' change.txt',
@@ -92607,6 +94750,11 @@ let s:tag = {
 \       'menu': ' indent.txt',
 \       'word': 'ft-r-indent',
 \     },{
+\       '__text__': 'ft-r-syntax',
+\       'abbr': 'ft-r-syntax',
+\       'menu': ' syntax.txt',
+\       'word': 'ft-r-syntax',
+\     },{
 \       '__text__': 'ft-readline-syntax',
 \       'abbr': 'ft-readline-syntax',
 \       'menu': ' syntax.txt',
@@ -92616,6 +94764,26 @@ let s:tag = {
 \       'abbr': 'ft-rexx-syntax',
 \       'menu': ' syntax.txt',
 \       'word': 'ft-rexx-syntax',
+\     },{
+\       '__text__': 'ft-rmd-plugin',
+\       'abbr': 'ft-rmd-plugin',
+\       'menu': ' filetype.txt',
+\       'word': 'ft-rmd-plugin',
+\     },{
+\       '__text__': 'ft-rmd-syntax',
+\       'abbr': 'ft-rmd-syntax',
+\       'menu': ' syntax.txt',
+\       'word': 'ft-rmd-syntax',
+\     },{
+\       '__text__': 'ft-rrst-plugin',
+\       'abbr': 'ft-rrst-plugin',
+\       'menu': ' filetype.txt',
+\       'word': 'ft-rrst-plugin',
+\     },{
+\       '__text__': 'ft-rrst-syntax',
+\       'abbr': 'ft-rrst-syntax',
+\       'menu': ' syntax.txt',
+\       'word': 'ft-rrst-syntax',
 \     },{
 \       '__text__': 'ft-rst-syntax',
 \       'abbr': 'ft-rst-syntax',
@@ -92752,6 +94920,11 @@ let s:tag = {
 \       'menu': ' indent.txt',
 \       'word': 'ft-vim-indent',
 \     },{
+\       '__text__': 'ft-vim-plugin',
+\       'abbr': 'ft-vim-plugin',
+\       'menu': ' filetype.txt',
+\       'word': 'ft-vim-plugin',
+\     },{
 \       '__text__': 'ft-vim-syntax',
 \       'abbr': 'ft-vim-syntax',
 \       'menu': ' syntax.txt',
@@ -92786,6 +94959,11 @@ let s:tag = {
 \       'abbr': 'ft-yaml-syntax',
 \       'menu': ' syntax.txt',
 \       'word': 'ft-yaml-syntax',
+\     },{
+\       '__text__': 'ft-zimbu-plugin',
+\       'abbr': 'ft-zimbu-plugin',
+\       'menu': ' filetype.txt',
+\       'word': 'ft-zimbu-plugin',
 \     },{
 \       '__text__': 'ft-zsh-syntax',
 \       'abbr': 'ft-zsh-syntax',
@@ -93612,25 +95790,50 @@ let s:tag = {
 \       'menu': ' pi_netrw.txt',
 \       'word': 'g:netrw_localcopycmd',
 \     },{
+\       '__text__': 'g:netrw_localcopycmdopt',
+\       'abbr': 'g:netrw_localcopycmdopt',
+\       'menu': ' pi_netrw.txt',
+\       'word': 'g:netrw_localcopycmdopt',
+\     },{
 \       '__text__': 'g:netrw_localcopydircmd',
 \       'abbr': 'g:netrw_localcopydircmd',
 \       'menu': ' pi_netrw.txt',
 \       'word': 'g:netrw_localcopydircmd',
+\     },{
+\       '__text__': 'g:netrw_localcopydircmdopt',
+\       'abbr': 'g:netrw_localcopydircmdopt',
+\       'menu': ' pi_netrw.txt',
+\       'word': 'g:netrw_localcopydircmdopt',
 \     },{
 \       '__text__': 'g:netrw_localmkdir',
 \       'abbr': 'g:netrw_localmkdir',
 \       'menu': ' pi_netrw.txt',
 \       'word': 'g:netrw_localmkdir',
 \     },{
+\       '__text__': 'g:netrw_localmkdiropt',
+\       'abbr': 'g:netrw_localmkdiropt',
+\       'menu': ' pi_netrw.txt',
+\       'word': 'g:netrw_localmkdiropt',
+\     },{
 \       '__text__': 'g:netrw_localmovecmd',
 \       'abbr': 'g:netrw_localmovecmd',
 \       'menu': ' pi_netrw.txt',
 \       'word': 'g:netrw_localmovecmd',
 \     },{
+\       '__text__': 'g:netrw_localmovecmdopt',
+\       'abbr': 'g:netrw_localmovecmdopt',
+\       'menu': ' pi_netrw.txt',
+\       'word': 'g:netrw_localmovecmdopt',
+\     },{
 \       '__text__': 'g:netrw_localrmdir',
 \       'abbr': 'g:netrw_localrmdir',
 \       'menu': ' pi_netrw.txt',
 \       'word': 'g:netrw_localrmdir',
+\     },{
+\       '__text__': 'g:netrw_localrmdiropt',
+\       'abbr': 'g:netrw_localrmdiropt',
+\       'menu': ' pi_netrw.txt',
+\       'word': 'g:netrw_localrmdiropt',
 \     },{
 \       '__text__': 'g:netrw_maxfilenamelen',
 \       'abbr': 'g:netrw_maxfilenamelen',
@@ -93677,6 +95880,11 @@ let s:tag = {
 \       'menu': ' pi_netrw.txt',
 \       'word': 'g:netrw_remote_mkdir',
 \     },{
+\       '__text__': 'g:netrw_rename_cmd',
+\       'abbr': 'g:netrw_rename_cmd',
+\       'menu': ' pi_netrw.txt',
+\       'word': 'g:netrw_rename_cmd',
+\     },{
 \       '__text__': 'g:netrw_retmap',
 \       'abbr': 'g:netrw_retmap',
 \       'menu': ' pi_netrw.txt',
@@ -93701,6 +95909,11 @@ let s:tag = {
 \       'abbr': 'g:netrw_rsync_cmd',
 \       'menu': ' pi_netrw.txt',
 \       'word': 'g:netrw_rsync_cmd',
+\     },{
+\       '__text__': 'g:netrw_rsync_sep',
+\       'abbr': 'g:netrw_rsync_sep',
+\       'menu': ' pi_netrw.txt',
+\       'word': 'g:netrw_rsync_sep',
 \     },{
 \       '__text__': 'g:netrw_scp_cmd',
 \       'abbr': 'g:netrw_scp_cmd',
@@ -93951,6 +96164,11 @@ let s:tag = {
 \       'abbr': 'g:tar_writeoptions',
 \       'menu': ' pi_tar.txt',
 \       'word': 'g:tar_writeoptions',
+\     },{
+\       '__text__': 'g:terminal_ansi_colors',
+\       'abbr': 'g:terminal_ansi_colors',
+\       'menu': ' terminal.txt',
+\       'word': 'g:terminal_ansi_colors',
 \     },{
 \       '__text__': 'g:tex_comment_nospell',
 \       'abbr': 'g:tex_comment_nospell',
@@ -94287,6 +96505,11 @@ let s:tag = {
 \       'menu': ' debug.txt',
 \       'word': 'gdb',
 \     },{
+\       '__text__': 'gdb-version',
+\       'abbr': 'gdb-version',
+\       'menu': ' terminal.txt',
+\       'word': 'gdb-version',
+\     },{
 \       '__text__': 'ge',
 \       'abbr': 'ge',
 \       'menu': ' motion.txt',
@@ -94316,6 +96539,11 @@ let s:tag = {
 \       'abbr': 'getbufvar()',
 \       'menu': ' eval.txt',
 \       'word': 'getbufvar()',
+\     },{
+\       '__text__': 'getchangelist()',
+\       'abbr': 'getchangelist()',
+\       'menu': ' eval.txt',
+\       'word': 'getchangelist()',
 \     },{
 \       '__text__': 'getchar()',
 \       'abbr': 'getchar()',
@@ -94392,6 +96620,11 @@ let s:tag = {
 \       'menu': ' eval.txt',
 \       'word': 'getftype()',
 \     },{
+\       '__text__': 'getjumplist()',
+\       'abbr': 'getjumplist()',
+\       'menu': ' eval.txt',
+\       'word': 'getjumplist()',
+\     },{
 \       '__text__': 'getlatestvimscripts-install',
 \       'abbr': 'getlatestvimscripts-install',
 \       'menu': ' pi_getscript.txt',
@@ -94426,6 +96659,11 @@ let s:tag = {
 \       'abbr': 'getqflist()',
 \       'menu': ' eval.txt',
 \       'word': 'getqflist()',
+\     },{
+\       '__text__': 'getqflist-examples',
+\       'abbr': 'getqflist-examples',
+\       'menu': ' quickfix.txt',
+\       'word': 'getqflist-examples',
 \     },{
 \       '__text__': 'getreg()',
 \       'abbr': 'getreg()',
@@ -94486,6 +96724,11 @@ let s:tag = {
 \       'abbr': 'getwininfo()',
 \       'menu': ' eval.txt',
 \       'word': 'getwininfo()',
+\     },{
+\       '__text__': 'getwinpos()',
+\       'abbr': 'getwinpos()',
+\       'menu': ' eval.txt',
+\       'word': 'getwinpos()',
 \     },{
 \       '__text__': 'getwinposx()',
 \       'abbr': 'getwinposx()',
@@ -95667,6 +97910,16 @@ let s:tag = {
 \       'menu': ' syntax.txt',
 \       'word': 'hl-StatusLineNC',
 \     },{
+\       '__text__': 'hl-StatusLineTerm',
+\       'abbr': 'hl-StatusLineTerm',
+\       'menu': ' syntax.txt',
+\       'word': 'hl-StatusLineTerm',
+\     },{
+\       '__text__': 'hl-StatusLineTermNC',
+\       'abbr': 'hl-StatusLineTermNC',
+\       'menu': ' syntax.txt',
+\       'word': 'hl-StatusLineTermNC',
+\     },{
 \       '__text__': 'hl-TabLine',
 \       'abbr': 'hl-TabLine',
 \       'menu': ' syntax.txt',
@@ -95681,6 +97934,11 @@ let s:tag = {
 \       'abbr': 'hl-TabLineSel',
 \       'menu': ' syntax.txt',
 \       'word': 'hl-TabLineSel',
+\     },{
+\       '__text__': 'hl-Terminal',
+\       'abbr': 'hl-Terminal',
+\       'menu': ' syntax.txt',
+\       'word': 'hl-Terminal',
 \     },{
 \       '__text__': 'hl-Title',
 \       'abbr': 'hl-Title',
@@ -95731,6 +97989,16 @@ let s:tag = {
 \       'abbr': 'hl-WildMenu',
 \       'menu': ' syntax.txt',
 \       'word': 'hl-WildMenu',
+\     },{
+\       '__text__': 'hl-debugBreakpoint',
+\       'abbr': 'hl-debugBreakpoint',
+\       'menu': ' terminal.txt',
+\       'word': 'hl-debugBreakpoint',
+\     },{
+\       '__text__': 'hl-debugPC',
+\       'abbr': 'hl-debugPC',
+\       'menu': ' terminal.txt',
+\       'word': 'hl-debugPC',
 \     },{
 \       '__text__': 'hlID()',
 \       'abbr': 'hlID()',
@@ -97042,6 +99310,11 @@ let s:tag = {
 \       'menu': ' channel.txt',
 \       'word': 'job-in_io',
 \     },{
+\       '__text__': 'job-noblock',
+\       'abbr': 'job-noblock',
+\       'menu': ' channel.txt',
+\       'word': 'job-noblock',
+\     },{
 \       '__text__': 'job-options',
 \       'abbr': 'job-options',
 \       'menu': ' channel.txt',
@@ -97476,6 +99749,11 @@ let s:tag = {
 \       'abbr': 'line-continuation',
 \       'menu': ' repeat.txt',
 \       'word': 'line-continuation',
+\     },{
+\       '__text__': 'line-continuation-comment',
+\       'abbr': 'line-continuation-comment',
+\       'menu': ' repeat.txt',
+\       'word': 'line-continuation-comment',
 \     },{
 \       '__text__': 'line2byte()',
 \       'abbr': 'line2byte()',
@@ -98127,6 +100405,11 @@ let s:tag = {
 \       'menu': ' map.txt',
 \       'word': 'mapmode-s',
 \     },{
+\       '__text__': 'mapmode-t',
+\       'abbr': 'mapmode-t',
+\       'menu': ' map.txt',
+\       'word': 'mapmode-t',
+\     },{
 \       '__text__': 'mapmode-v',
 \       'abbr': 'mapmode-v',
 \       'menu': ' map.txt',
@@ -98286,6 +100569,11 @@ let s:tag = {
 \       'abbr': 'mbyte-fonts-X11',
 \       'menu': ' mbyte.txt',
 \       'word': 'mbyte-fonts-X11',
+\     },{
+\       '__text__': 'mbyte-func',
+\       'abbr': 'mbyte-func',
+\       'menu': ' mbyte.txt',
+\       'word': 'mbyte-func',
 \     },{
 \       '__text__': 'mbyte-keymap',
 \       'abbr': 'mbyte-keymap',
@@ -99062,10 +101350,30 @@ let s:tag = {
 \       'menu': ' pi_netrw.txt',
 \       'word': 'netrw-c-tab',
 \     },{
+\       '__text__': 'netrw-cB',
+\       'abbr': 'netrw-cB',
+\       'menu': ' pi_netrw.txt',
+\       'word': 'netrw-cB',
+\     },{
 \       '__text__': 'netrw-cadaver',
 \       'abbr': 'netrw-cadaver',
 \       'menu': ' pi_netrw.txt',
 \       'word': 'netrw-cadaver',
+\     },{
+\       '__text__': 'netrw-call',
+\       'abbr': 'netrw-call',
+\       'menu': ' pi_netrw.txt',
+\       'word': 'netrw-call',
+\     },{
+\       '__text__': 'netrw-cb',
+\       'abbr': 'netrw-cb',
+\       'menu': ' pi_netrw.txt',
+\       'word': 'netrw-cb',
+\     },{
+\       '__text__': 'netrw-cd',
+\       'abbr': 'netrw-cd',
+\       'menu': ' pi_netrw.txt',
+\       'word': 'netrw-cd',
 \     },{
 \       '__text__': 'netrw-chgup',
 \       'abbr': 'netrw-chgup',
@@ -99191,6 +101499,11 @@ let s:tag = {
 \       'abbr': 'netrw-explore-cmds',
 \       'menu': ' pi_netrw.txt',
 \       'word': 'netrw-explore-cmds',
+\     },{
+\       '__text__': 'netrw-expose',
+\       'abbr': 'netrw-expose',
+\       'menu': ' pi_netrw.txt',
+\       'word': 'netrw-expose',
 \     },{
 \       '__text__': 'netrw-externapp',
 \       'abbr': 'netrw-externapp',
@@ -99436,6 +101749,11 @@ let s:tag = {
 \       'abbr': 'netrw-mm',
 \       'menu': ' pi_netrw.txt',
 \       'word': 'netrw-mm',
+\     },{
+\       '__text__': 'netrw-modify',
+\       'abbr': 'netrw-modify',
+\       'menu': ' pi_netrw.txt',
+\       'word': 'netrw-modify',
 \     },{
 \       '__text__': 'netrw-mouse',
 \       'abbr': 'netrw-mouse',
@@ -100322,6 +102640,11 @@ let s:tag = {
 \       'menu': ' version7.txt',
 \       'word': 'new-tab-pages',
 \     },{
+\       '__text__': 'new-terminal-window',
+\       'abbr': 'new-terminal-window',
+\       'menu': ' version8.txt',
+\       'word': 'new-terminal-window',
+\     },{
 \       '__text__': 'new-undo-branches',
 \       'abbr': 'new-undo-branches',
 \       'menu': ' version7.txt',
@@ -100652,6 +102975,16 @@ let s:tag = {
 \       'menu': ' options.txt',
 \       'word': 'option-window',
 \     },{
+\       '__text__': 'option_restore()',
+\       'abbr': 'option_restore()',
+\       'menu': ' todo.txt',
+\       'word': 'option_restore()',
+\     },{
+\       '__text__': 'option_save()',
+\       'abbr': 'option_save()',
+\       'menu': ' todo.txt',
+\       'word': 'option_save()',
+\     },{
 \       '__text__': 'options',
 \       'abbr': 'options',
 \       'menu': ' options.txt',
@@ -100661,6 +102994,11 @@ let s:tag = {
 \       'abbr': 'options-changed',
 \       'menu': ' version5.txt',
 \       'word': 'options-changed',
+\     },{
+\       '__text__': 'options-in-terminal',
+\       'abbr': 'options-in-terminal',
+\       'menu': ' terminal.txt',
+\       'word': 'options-in-terminal',
 \     },{
 \       '__text__': 'options.txt',
 \       'abbr': 'options.txt',
@@ -100871,6 +103209,11 @@ let s:tag = {
 \       'abbr': 'patches-8',
 \       'menu': ' version8.txt',
 \       'word': 'patches-8',
+\     },{
+\       '__text__': 'patches-8.1',
+\       'abbr': 'patches-8.1',
+\       'menu': ' version8.txt',
+\       'word': 'patches-8.1',
 \     },{
 \       '__text__': 'pathshorten()',
 \       'abbr': 'pathshorten()',
@@ -101462,6 +103805,26 @@ let s:tag = {
 \       'menu': ' syntax.txt',
 \       'word': 'progress.vim',
 \     },{
+\       '__text__': 'prompt-buffer',
+\       'abbr': 'prompt-buffer',
+\       'menu': ' channel.txt',
+\       'word': 'prompt-buffer',
+\     },{
+\       '__text__': 'prompt_setcallback()',
+\       'abbr': 'prompt_setcallback()',
+\       'menu': ' eval.txt',
+\       'word': 'prompt_setcallback()',
+\     },{
+\       '__text__': 'prompt_setinterrupt()',
+\       'abbr': 'prompt_setinterrupt()',
+\       'menu': ' eval.txt',
+\       'word': 'prompt_setinterrupt()',
+\     },{
+\       '__text__': 'prompt_setprompt()',
+\       'abbr': 'prompt_setprompt()',
+\       'menu': ' eval.txt',
+\       'word': 'prompt_setprompt()',
+\     },{
 \       '__text__': 'pronounce',
 \       'abbr': 'pronounce',
 \       'menu': ' intro.txt',
@@ -101802,6 +104165,21 @@ let s:tag = {
 \       'menu': ' version6.txt',
 \       'word': 'quickfix-6',
 \     },{
+\       '__text__': 'quickfix-ID',
+\       'abbr': 'quickfix-ID',
+\       'menu': ' quickfix.txt',
+\       'word': 'quickfix-ID',
+\     },{
+\       '__text__': 'quickfix-changedtick',
+\       'abbr': 'quickfix-changedtick',
+\       'menu': ' quickfix.txt',
+\       'word': 'quickfix-changedtick',
+\     },{
+\       '__text__': 'quickfix-context',
+\       'abbr': 'quickfix-context',
+\       'menu': ' quickfix.txt',
+\       'word': 'quickfix-context',
+\     },{
 \       '__text__': 'quickfix-directory-stack',
 \       'abbr': 'quickfix-directory-stack',
 \       'menu': ' quickfix.txt',
@@ -101827,10 +104205,25 @@ let s:tag = {
 \       'menu': ' quickfix.txt',
 \       'word': 'quickfix-manx',
 \     },{
+\       '__text__': 'quickfix-parse',
+\       'abbr': 'quickfix-parse',
+\       'menu': ' quickfix.txt',
+\       'word': 'quickfix-parse',
+\     },{
 \       '__text__': 'quickfix-perl',
 \       'abbr': 'quickfix-perl',
 \       'menu': ' quickfix.txt',
 \       'word': 'quickfix-perl',
+\     },{
+\       '__text__': 'quickfix-size',
+\       'abbr': 'quickfix-size',
+\       'menu': ' quickfix.txt',
+\       'word': 'quickfix-size',
+\     },{
+\       '__text__': 'quickfix-title',
+\       'abbr': 'quickfix-title',
+\       'menu': ' quickfix.txt',
+\       'word': 'quickfix-title',
 \     },{
 \       '__text__': 'quickfix-valid',
 \       'abbr': 'quickfix-valid',
@@ -101841,6 +104234,11 @@ let s:tag = {
 \       'abbr': 'quickfix-window',
 \       'menu': ' quickfix.txt',
 \       'word': 'quickfix-window',
+\     },{
+\       '__text__': 'quickfix-window-ID',
+\       'abbr': 'quickfix-window-ID',
+\       'menu': ' quickfix.txt',
+\       'word': 'quickfix-window-ID',
 \     },{
 \       '__text__': 'quickfix.txt',
 \       'abbr': 'quickfix.txt',
@@ -102037,6 +104435,11 @@ let s:tag = {
 \       'menu': ' change.txt',
 \       'word': 'r',
 \     },{
+\       '__text__': 'r.vim',
+\       'abbr': 'r.vim',
+\       'menu': ' syntax.txt',
+\       'word': 'r.vim',
+\     },{
 \       '__text__': 'range()',
 \       'abbr': 'range()',
 \       'menu': ' eval.txt',
@@ -102126,6 +104529,16 @@ let s:tag = {
 \       'abbr': 'reference_toc',
 \       'menu': ' help.txt',
 \       'word': 'reference_toc',
+\     },{
+\       '__text__': 'reg_executing()',
+\       'abbr': 'reg_executing()',
+\       'menu': ' eval.txt',
+\       'word': 'reg_executing()',
+\     },{
+\       '__text__': 'reg_recording()',
+\       'abbr': 'reg_recording()',
+\       'menu': ' eval.txt',
+\       'word': 'reg_recording()',
 \     },{
 \       '__text__': 'regexp',
 \       'abbr': 'regexp',
@@ -102347,6 +104760,11 @@ let s:tag = {
 \       'menu': ' os_risc.txt',
 \       'word': 'riscos',
 \     },{
+\       '__text__': 'rmd.vim',
+\       'abbr': 'rmd.vim',
+\       'menu': ' syntax.txt',
+\       'word': 'rmd.vim',
+\     },{
 \       '__text__': 'rot13',
 \       'abbr': 'rot13',
 \       'menu': ' change.txt',
@@ -102356,6 +104774,11 @@ let s:tag = {
 \       'abbr': 'round()',
 \       'menu': ' eval.txt',
 \       'word': 'round()',
+\     },{
+\       '__text__': 'rrst.vim',
+\       'abbr': 'rrst.vim',
+\       'menu': ' syntax.txt',
+\       'word': 'rrst.vim',
 \     },{
 \       '__text__': 'rst.vim',
 \       'abbr': 'rst.vim',
@@ -102947,6 +105370,11 @@ let s:tag = {
 \       'menu': ' spell.txt',
 \       'word': 'set-spc-auto',
 \     },{
+\       '__text__': 'setbufline()',
+\       'abbr': 'setbufline()',
+\       'menu': ' eval.txt',
+\       'word': 'setbufline()',
+\     },{
 \       '__text__': 'setbufvar()',
 \       'abbr': 'setbufvar()',
 \       'menu': ' eval.txt',
@@ -102991,6 +105419,11 @@ let s:tag = {
 \       'abbr': 'setqflist()',
 \       'menu': ' eval.txt',
 \       'word': 'setqflist()',
+\     },{
+\       '__text__': 'setqflist-examples',
+\       'abbr': 'setqflist-examples',
+\       'menu': ' quickfix.txt',
+\       'word': 'setqflist-examples',
 \     },{
 \       '__text__': 'setreg()',
 \       'abbr': 'setreg()',
@@ -103977,6 +106410,11 @@ let s:tag = {
 \       'menu': ' pattern.txt',
 \       'word': 'start-of-file',
 \     },{
+\       '__text__': 'start-vimdiff',
+\       'abbr': 'start-vimdiff',
+\       'menu': ' diff.txt',
+\       'word': 'start-vimdiff',
+\     },{
 \       '__text__': 'starting',
 \       'abbr': 'starting',
 \       'menu': ' starting.txt',
@@ -104076,6 +106514,11 @@ let s:tag = {
 \       'abbr': 'stridx()',
 \       'menu': ' eval.txt',
 \       'word': 'stridx()',
+\     },{
+\       '__text__': 'strikethrough',
+\       'abbr': 'strikethrough',
+\       'menu': ' syntax.txt',
+\       'word': 'strikethrough',
 \     },{
 \       '__text__': 'string',
 \       'abbr': 'string',
@@ -104261,6 +106704,16 @@ let s:tag = {
 \       'abbr': 'swapfile-changed',
 \       'menu': ' version4.txt',
 \       'word': 'swapfile-changed',
+\     },{
+\       '__text__': 'swapinfo()',
+\       'abbr': 'swapinfo()',
+\       'menu': ' eval.txt',
+\       'word': 'swapinfo()',
+\     },{
+\       '__text__': 'swapname()',
+\       'abbr': 'swapname()',
+\       'menu': ' eval.txt',
+\       'word': 'swapname()',
 \     },{
 \       '__text__': 'swapname-variable',
 \       'abbr': 'swapname-variable',
@@ -104727,6 +107180,16 @@ let s:tag = {
 \       'menu': ' term.txt',
 \       'word': 't_RB',
 \     },{
+\       '__text__': 't_RC',
+\       'abbr': 't_RC',
+\       'menu': ' term.txt',
+\       'word': 't_RC',
+\     },{
+\       '__text__': 't_RF',
+\       'abbr': 't_RF',
+\       'menu': ' term.txt',
+\       'word': 't_RF',
+\     },{
 \       '__text__': 't_RI',
 \       'abbr': 't_RI',
 \       'menu': ' term.txt',
@@ -104737,10 +107200,20 @@ let s:tag = {
 \       'menu': ' term.txt',
 \       'word': 't_RS',
 \     },{
+\       '__text__': 't_RT',
+\       'abbr': 't_RT',
+\       'menu': ' term.txt',
+\       'word': 't_RT',
+\     },{
 \       '__text__': 't_RV',
 \       'abbr': 't_RV',
 \       'menu': ' term.txt',
 \       'word': 't_RV',
+\     },{
+\       '__text__': 't_Ri',
+\       'abbr': 't_Ri',
+\       'menu': ' term.txt',
+\       'word': 't_Ri',
 \     },{
 \       '__text__': 't_SC',
 \       'abbr': 't_SC',
@@ -104762,6 +107235,11 @@ let s:tag = {
 \       'menu': ' term.txt',
 \       'word': 't_SR',
 \     },{
+\       '__text__': 't_ST',
+\       'abbr': 't_ST',
+\       'menu': ' term.txt',
+\       'word': 't_ST',
+\     },{
 \       '__text__': 't_Sb',
 \       'abbr': 't_Sb',
 \       'menu': ' term.txt',
@@ -104771,6 +107249,21 @@ let s:tag = {
 \       'abbr': 't_Sf',
 \       'menu': ' term.txt',
 \       'word': 't_Sf',
+\     },{
+\       '__text__': 't_Si',
+\       'abbr': 't_Si',
+\       'menu': ' term.txt',
+\       'word': 't_Si',
+\     },{
+\       '__text__': 't_Te',
+\       'abbr': 't_Te',
+\       'menu': ' term.txt',
+\       'word': 't_Te',
+\     },{
+\       '__text__': 't_Ts',
+\       'abbr': 't_Ts',
+\       'menu': ' term.txt',
+\       'word': 't_Ts',
 \     },{
 \       '__text__': 't_VS',
 \       'abbr': 't_VS',
@@ -105862,10 +108355,30 @@ let s:tag = {
 \       'menu': ' term.txt',
 \       'word': 'term.txt',
 \     },{
+\       '__text__': 'term_dumpdiff()',
+\       'abbr': 'term_dumpdiff()',
+\       'menu': ' eval.txt',
+\       'word': 'term_dumpdiff()',
+\     },{
+\       '__text__': 'term_dumpload()',
+\       'abbr': 'term_dumpload()',
+\       'menu': ' eval.txt',
+\       'word': 'term_dumpload()',
+\     },{
+\       '__text__': 'term_dumpwrite()',
+\       'abbr': 'term_dumpwrite()',
+\       'menu': ' eval.txt',
+\       'word': 'term_dumpwrite()',
+\     },{
 \       '__text__': 'term_getaltscreen()',
 \       'abbr': 'term_getaltscreen()',
 \       'menu': ' eval.txt',
 \       'word': 'term_getaltscreen()',
+\     },{
+\       '__text__': 'term_getansicolors()',
+\       'abbr': 'term_getansicolors()',
+\       'menu': ' eval.txt',
+\       'word': 'term_getansicolors()',
 \     },{
 \       '__text__': 'term_getattr()',
 \       'abbr': 'term_getattr()',
@@ -105927,6 +108440,26 @@ let s:tag = {
 \       'menu': ' eval.txt',
 \       'word': 'term_sendkeys()',
 \     },{
+\       '__text__': 'term_setansicolors()',
+\       'abbr': 'term_setansicolors()',
+\       'menu': ' eval.txt',
+\       'word': 'term_setansicolors()',
+\     },{
+\       '__text__': 'term_setkill()',
+\       'abbr': 'term_setkill()',
+\       'menu': ' eval.txt',
+\       'word': 'term_setkill()',
+\     },{
+\       '__text__': 'term_setrestore()',
+\       'abbr': 'term_setrestore()',
+\       'menu': ' eval.txt',
+\       'word': 'term_setrestore()',
+\     },{
+\       '__text__': 'term_setsize()',
+\       'abbr': 'term_setsize()',
+\       'menu': ' eval.txt',
+\       'word': 'term_setsize()',
+\     },{
 \       '__text__': 'term_start()',
 \       'abbr': 'term_start()',
 \       'menu': ' eval.txt',
@@ -105972,20 +108505,120 @@ let s:tag = {
 \       'menu': ' term.txt',
 \       'word': 'termcap-title',
 \     },{
+\       '__text__': 'termdebug-commands',
+\       'abbr': 'termdebug-commands',
+\       'menu': ' terminal.txt',
+\       'word': 'termdebug-commands',
+\     },{
+\       '__text__': 'termdebug-communication',
+\       'abbr': 'termdebug-communication',
+\       'menu': ' terminal.txt',
+\       'word': 'termdebug-communication',
+\     },{
+\       '__text__': 'termdebug-customizing',
+\       'abbr': 'termdebug-customizing',
+\       'menu': ' terminal.txt',
+\       'word': 'termdebug-customizing',
+\     },{
+\       '__text__': 'termdebug-example',
+\       'abbr': 'termdebug-example',
+\       'menu': ' terminal.txt',
+\       'word': 'termdebug-example',
+\     },{
+\       '__text__': 'termdebug-prompt',
+\       'abbr': 'termdebug-prompt',
+\       'menu': ' terminal.txt',
+\       'word': 'termdebug-prompt',
+\     },{
+\       '__text__': 'termdebug-starting',
+\       'abbr': 'termdebug-starting',
+\       'menu': ' terminal.txt',
+\       'word': 'termdebug-starting',
+\     },{
+\       '__text__': 'termdebug-stepping',
+\       'abbr': 'termdebug-stepping',
+\       'menu': ' terminal.txt',
+\       'word': 'termdebug-stepping',
+\     },{
+\       '__text__': 'termdebug-variables',
+\       'abbr': 'termdebug-variables',
+\       'menu': ' terminal.txt',
+\       'word': 'termdebug-variables',
+\     },{
+\       '__text__': 'termdebug_popup',
+\       'abbr': 'termdebug_popup',
+\       'menu': ' terminal.txt',
+\       'word': 'termdebug_popup',
+\     },{
+\       '__text__': 'termdebug_shortcuts',
+\       'abbr': 'termdebug_shortcuts',
+\       'menu': ' terminal.txt',
+\       'word': 'termdebug_shortcuts',
+\     },{
+\       '__text__': 'termdebug_use_prompt',
+\       'abbr': 'termdebug_use_prompt',
+\       'menu': ' terminal.txt',
+\       'word': 'termdebug_use_prompt',
+\     },{
+\       '__text__': 'termdebug_wide',
+\       'abbr': 'termdebug_wide',
+\       'menu': ' terminal.txt',
+\       'word': 'termdebug_wide',
+\     },{
 \       '__text__': 'terminal',
 \       'abbr': 'terminal',
 \       'menu': ' terminal.txt',
 \       'word': 'terminal',
+\     },{
+\       '__text__': 'terminal-api',
+\       'abbr': 'terminal-api',
+\       'menu': ' terminal.txt',
+\       'word': 'terminal-api',
+\     },{
+\       '__text__': 'terminal-client-server',
+\       'abbr': 'terminal-client-server',
+\       'menu': ' terminal.txt',
+\       'word': 'terminal-client-server',
 \     },{
 \       '__text__': 'terminal-colors',
 \       'abbr': 'terminal-colors',
 \       'menu': ' os_unix.txt',
 \       'word': 'terminal-colors',
 \     },{
+\       '__text__': 'terminal-communication',
+\       'abbr': 'terminal-communication',
+\       'menu': ' terminal.txt',
+\       'word': 'terminal-communication',
+\     },{
+\       '__text__': 'terminal-cursor-style',
+\       'abbr': 'terminal-cursor-style',
+\       'menu': ' terminal.txt',
+\       'word': 'terminal-cursor-style',
+\     },{
 \       '__text__': 'terminal-debug',
 \       'abbr': 'terminal-debug',
 \       'menu': ' terminal.txt',
 \       'word': 'terminal-debug',
+\     },{
+\       '__text__': 'terminal-debugger',
+\       'abbr': 'terminal-debugger',
+\       'menu': ' terminal.txt',
+\       'word': 'terminal-debugger',
+\     },{
+\       '__text__': 'terminal-diff',
+\       'abbr': 'terminal-diff',
+\       'menu': ' terminal.txt',
+\       'word': 'terminal-diff',
+\     },{
+\       '__text__': 'terminal-diffscreendump',
+\       'abbr': 'terminal-diffscreendump',
+\       'menu': ' terminal.txt',
+\       'word': 'terminal-diffscreendump',
+\     },{
+\       '__text__': 'terminal-dumptest',
+\       'abbr': 'terminal-dumptest',
+\       'menu': ' terminal.txt',
+\       'word': 'terminal-dumptest',
 \     },{
 \       '__text__': 'terminal-functions',
 \       'abbr': 'terminal-functions',
@@ -106002,6 +108635,11 @@ let s:tag = {
 \       'menu': ' term.txt',
 \       'word': 'terminal-key-codes',
 \     },{
+\       '__text__': 'terminal-ms-windows',
+\       'abbr': 'terminal-ms-windows',
+\       'menu': ' terminal.txt',
+\       'word': 'terminal-ms-windows',
+\     },{
 \       '__text__': 'terminal-options',
 \       'abbr': 'terminal-options',
 \       'menu': ' term.txt',
@@ -106012,15 +108650,60 @@ let s:tag = {
 \       'menu': ' term.txt',
 \       'word': 'terminal-output-codes',
 \     },{
+\       '__text__': 'terminal-resizing',
+\       'abbr': 'terminal-resizing',
+\       'menu': ' terminal.txt',
+\       'word': 'terminal-resizing',
+\     },{
+\       '__text__': 'terminal-screendump',
+\       'abbr': 'terminal-screendump',
+\       'menu': ' terminal.txt',
+\       'word': 'terminal-screendump',
+\     },{
+\       '__text__': 'terminal-session',
+\       'abbr': 'terminal-session',
+\       'menu': ' terminal.txt',
+\       'word': 'terminal-session',
+\     },{
+\       '__text__': 'terminal-size-color',
+\       'abbr': 'terminal-size-color',
+\       'menu': ' terminal.txt',
+\       'word': 'terminal-size-color',
+\     },{
+\       '__text__': 'terminal-special-keys',
+\       'abbr': 'terminal-special-keys',
+\       'menu': ' terminal.txt',
+\       'word': 'terminal-special-keys',
+\     },{
 \       '__text__': 'terminal-testing',
 \       'abbr': 'terminal-testing',
 \       'menu': ' terminal.txt',
 \       'word': 'terminal-testing',
 \     },{
+\       '__text__': 'terminal-to-job',
+\       'abbr': 'terminal-to-job',
+\       'menu': ' terminal.txt',
+\       'word': 'terminal-to-job',
+\     },{
+\       '__text__': 'terminal-typing',
+\       'abbr': 'terminal-typing',
+\       'menu': ' terminal.txt',
+\       'word': 'terminal-typing',
+\     },{
+\       '__text__': 'terminal-unix',
+\       'abbr': 'terminal-unix',
+\       'menu': ' terminal.txt',
+\       'word': 'terminal-unix',
+\     },{
 \       '__text__': 'terminal-use',
 \       'abbr': 'terminal-use',
 \       'menu': ' terminal.txt',
 \       'word': 'terminal-use',
+\     },{
+\       '__text__': 'terminal-window',
+\       'abbr': 'terminal-window',
+\       'menu': ' terminal.txt',
+\       'word': 'terminal-window',
 \     },{
 \       '__text__': 'terminal.txt',
 \       'abbr': 'terminal.txt',
@@ -106051,6 +108734,11 @@ let s:tag = {
 \       'abbr': 'test_autochdir()',
 \       'menu': ' eval.txt',
 \       'word': 'test_autochdir()',
+\     },{
+\       '__text__': 'test_feedinput()',
+\       'abbr': 'test_feedinput()',
+\       'menu': ' eval.txt',
+\       'word': 'test_feedinput()',
 \     },{
 \       '__text__': 'test_garbagecollect_now()',
 \       'abbr': 'test_garbagecollect_now()',
@@ -106092,10 +108780,20 @@ let s:tag = {
 \       'menu': ' eval.txt',
 \       'word': 'test_null_string()',
 \     },{
+\       '__text__': 'test_option_not_set()',
+\       'abbr': 'test_option_not_set()',
+\       'menu': ' eval.txt',
+\       'word': 'test_option_not_set()',
+\     },{
 \       '__text__': 'test_override()',
 \       'abbr': 'test_override()',
 \       'menu': ' eval.txt',
 \       'word': 'test_override()',
+\     },{
+\       '__text__': 'test_scrollbar()',
+\       'abbr': 'test_scrollbar()',
+\       'menu': ' eval.txt',
+\       'word': 'test_scrollbar()',
 \     },{
 \       '__text__': 'test_settime()',
 \       'abbr': 'test_settime()',
@@ -106356,6 +109054,11 @@ let s:tag = {
 \       'abbr': 'tr()',
 \       'menu': ' eval.txt',
 \       'word': 'tr()',
+\     },{
+\       '__text__': 'trim()',
+\       'abbr': 'trim()',
+\       'menu': ' eval.txt',
+\       'word': 'trim()',
 \     },{
 \       '__text__': 'trojan-horse',
 \       'abbr': 'trojan-horse',
@@ -106917,6 +109620,11 @@ let s:tag = {
 \       'menu': ' eval.txt',
 \       'word': 'v:errors',
 \     },{
+\       '__text__': 'v:event',
+\       'abbr': 'v:event',
+\       'menu': ' eval.txt',
+\       'word': 'v:event',
+\     },{
 \       '__text__': 'v:exception',
 \       'abbr': 'v:exception',
 \       'menu': ' eval.txt',
@@ -107182,10 +109890,35 @@ let s:tag = {
 \       'menu': ' eval.txt',
 \       'word': 'v:t_string',
 \     },{
+\       '__text__': 'v:termblinkresp',
+\       'abbr': 'v:termblinkresp',
+\       'menu': ' eval.txt',
+\       'word': 'v:termblinkresp',
+\     },{
+\       '__text__': 'v:termrbgresp',
+\       'abbr': 'v:termrbgresp',
+\       'menu': ' eval.txt',
+\       'word': 'v:termrbgresp',
+\     },{
 \       '__text__': 'v:termresponse',
 \       'abbr': 'v:termresponse',
 \       'menu': ' eval.txt',
 \       'word': 'v:termresponse',
+\     },{
+\       '__text__': 'v:termrfgresp',
+\       'abbr': 'v:termrfgresp',
+\       'menu': ' eval.txt',
+\       'word': 'v:termrfgresp',
+\     },{
+\       '__text__': 'v:termstyleresp',
+\       'abbr': 'v:termstyleresp',
+\       'menu': ' eval.txt',
+\       'word': 'v:termstyleresp',
+\     },{
+\       '__text__': 'v:termu7resp',
+\       'abbr': 'v:termu7resp',
+\       'menu': ' eval.txt',
+\       'word': 'v:termu7resp',
 \     },{
 \       '__text__': 'v:testing',
 \       'abbr': 'v:testing',
@@ -107942,6 +110675,11 @@ let s:tag = {
 \       'menu': ' version8.txt',
 \       'word': 'version-8.0',
 \     },{
+\       '__text__': 'version-8.1',
+\       'abbr': 'version-8.1',
+\       'menu': ' version8.txt',
+\       'word': 'version-8.1',
+\     },{
 \       '__text__': 'version-variable',
 \       'abbr': 'version-variable',
 \       'menu': ' eval.txt',
@@ -107996,6 +110734,11 @@ let s:tag = {
 \       'abbr': 'version8.0',
 \       'menu': ' version8.txt',
 \       'word': 'version8.0',
+\     },{
+\       '__text__': 'version8.1',
+\       'abbr': 'version8.1',
+\       'menu': ' version8.txt',
+\       'word': 'version8.1',
 \     },{
 \       '__text__': 'version8.txt',
 \       'abbr': 'version8.txt',
@@ -108056,6 +110799,11 @@ let s:tag = {
 \       'abbr': 'vim-8',
 \       'menu': ' version8.txt',
 \       'word': 'vim-8',
+\     },{
+\       '__text__': 'vim-8.1',
+\       'abbr': 'vim-8.1',
+\       'menu': ' version8.txt',
+\       'word': 'vim-8.1',
 \     },{
 \       '__text__': 'vim-additions',
 \       'abbr': 'vim-additions',
@@ -108582,6 +111330,11 @@ let s:tag = {
 \       'menu': ' eval.txt',
 \       'word': 'wildmenumode()',
 \     },{
+\       '__text__': 'win16',
+\       'abbr': 'win16',
+\       'menu': ' os_win32.txt',
+\       'word': 'win16',
+\     },{
 \       '__text__': 'win32',
 \       'abbr': 'win32',
 \       'menu': ' os_win32.txt',
@@ -108596,6 +111349,16 @@ let s:tag = {
 \       'abbr': 'win32-PATH',
 \       'menu': ' os_win32.txt',
 \       'word': 'win32-PATH',
+\     },{
+\       '__text__': 'win32-backslashes',
+\       'abbr': 'win32-backslashes',
+\       'menu': ' os_win32.txt',
+\       'word': 'win32-backslashes',
+\     },{
+\       '__text__': 'win32-cmdargs',
+\       'abbr': 'win32-cmdargs',
+\       'menu': ' os_win32.txt',
+\       'word': 'win32-cmdargs',
 \     },{
 \       '__text__': 'win32-colors',
 \       'abbr': 'win32-colors',
@@ -108717,6 +111480,11 @@ let s:tag = {
 \       'menu': ' eval.txt',
 \       'word': 'win_id2win()',
 \     },{
+\       '__text__': 'win_screenpos()',
+\       'abbr': 'win_screenpos()',
+\       'menu': ' eval.txt',
+\       'word': 'win_screenpos()',
+\     },{
 \       '__text__': 'winbufnr()',
 \       'abbr': 'winbufnr()',
 \       'menu': ' eval.txt',
@@ -108781,6 +111549,11 @@ let s:tag = {
 \       'abbr': 'window-tag',
 \       'menu': ' windows.txt',
 \       'word': 'window-tag',
+\     },{
+\       '__text__': 'window-toolbar',
+\       'abbr': 'window-toolbar',
+\       'menu': ' gui.txt',
+\       'word': 'window-toolbar',
 \     },{
 \       '__text__': 'window-variable',
 \       'abbr': 'window-variable',
@@ -108851,6 +111624,11 @@ let s:tag = {
 \       'abbr': 'winid',
 \       'menu': ' windows.txt',
 \       'word': 'winid',
+\     },{
+\       '__text__': 'winlayout()',
+\       'abbr': 'winlayout()',
+\       'menu': ' eval.txt',
+\       'word': 'winlayout()',
 \     },{
 \       '__text__': 'winline()',
 \       'abbr': 'winline()',
@@ -109606,6 +112384,11 @@ let s:tag = {
 \       'abbr': '{arglist}',
 \       'menu': ' editing.txt',
 \       'word': '{arglist}',
+\     },{
+\       '__text__': '{bufname}',
+\       'abbr': '{bufname}',
+\       'menu': ' windows.txt',
+\       'word': '{bufname}',
 \     },{
 \       '__text__': '{char1-char2}',
 \       'abbr': '{char1-char2}',
