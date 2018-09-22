@@ -53,7 +53,7 @@ let s:constants.DOCPATHSMAX = 20
 let s:constants.DEFAULTORDERVIM = ['var', 'func', 'keymap', 'command', 'higroup']
 let s:constants.DEFAULTORDERHELP = ['tag']
 " paths
-let s:constants.VERDINTOPDIR = expand('%:p:h:h:h')
+let s:constants.VERDINTOPDIR = expand('<sfile>:p:h:h:h')
 " regular expressions
 let s:constants.VARNAME = '\m\C' . s:VARNAME
 let s:constants.VARREGEX = s:VARREGEX
