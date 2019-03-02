@@ -1,5 +1,5 @@
 *Verdin.txt*	An omni completion function for Vim script.
-						Last change:20-May-2018.
+						Last change:03-Oct-2018.
 
 Author  : machakann <https://github.com/machakann>
 License : NYSL license
@@ -12,10 +12,10 @@ Requirement:	Vim 8.0 or higher
 USAGE					*Verdin-usage*
 
 *Verdin* is an implementation of omni completion |compl-omni| function for Vim
-script. If this plugin is appropriately installed, it automatically sets
-|'omnifunc'|. User can call the functionality by the key sequence <C-x><C-o>
-in insert mode. |i_CTRL-X_CTRL-O| If you don't want to set |'omnifunc'|
-option, add the line into your vimrc.
+script. This plugin automatically sets |Verdin#omnifunc()| to |'omnifunc'|.
+The key sequence <C-x><C-o> in insert mode shows pop-up window to suggest
+possible completion items. |i_CTRL-X_CTRL-O|
+If you don't want to set |'omnifunc'| option, add the line into your vimrc.
 					*g:Verdin#donotsetomnifunc*
 >
 	let g:Verdin#donotsetomnifunc = 1
@@ -78,13 +78,13 @@ environments and, of course, personal preference. The default value is 200.
 ------------------------------------------------------------------------------
 
 This plugin searches and scans the project files in the following directory.
-  `*.vim`
-  `autoload/*.vim`
-  `autoload/**/*.vim`
-  `plugin/*.vim`
-  `plugin/**/*.vim`
-  `ftplugin/*.vim`
-  `ftplugin/**/*.vim`
+  `./*.vim`
+  `./autoload/*.vim`
+  `./autoload/**/*.vim`
+  `./plugin/*.vim`
+  `./plugin/**/*.vim`
+  `./ftplugin/*.vim`
+  `./ftplugin/**/*.vim`
 
 					*g:Verdin#loadpath*
 If user wants to add extra project files, use |g:Verdin#loadpath| to point the

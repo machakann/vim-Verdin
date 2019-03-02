@@ -1,5 +1,5 @@
 *Verdin.txt*	Vim script 用オムニ補完関数
-						Last change:20-May-2018.
+						Last change:03-Oct-2018.
 
 書いた人   : machakann <https://github.com/machakann>
 ライセンス : NYSL license
@@ -84,13 +84,13 @@ YouCompleteMe <http://valloric.github.io/YouCompleteMe/> のような、ほか�
 
 以下のディレクトリから関係する Vim script ファイルを検索し、補完候補を走査しま
 す。
-  `*.vim`
-  `autoload/*.vim`
-  `autoload/**/*.vim`
-  `plugin/*.vim`
-  `plugin/**/*.vim`
-  `ftplugin/*.vim`
-  `ftplugin/**/*.vim`
+  `./*.vim`
+  `./autoload/*.vim`
+  `./autoload/**/*.vim`
+  `./plugin/*.vim`
+  `./plugin/**/*.vim`
+  `./ftplugin/*.vim`
+  `./ftplugin/**/*.vim`
 
 					*g:Verdin#loadpath*
 上記以外の場所を検索したい場合は、 |g:Verdin#loadpath| を使います。これはパス
