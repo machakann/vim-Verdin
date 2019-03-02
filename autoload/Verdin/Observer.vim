@@ -10,6 +10,8 @@ function! Verdin#Observer#new(target, kind, ...) abort "{{{
   let testmode = get(a:000, 0, 0)
   return s:Observer(a:target, a:kind, testmode)
 endfunction "}}}
+
+
 function! Verdin#Observer#get(...) abort "{{{
   let target = get(a:000, 0, '%')
   let bufinfo = get(getbufinfo(target), 0, {})
@@ -34,7 +36,27 @@ function! Verdin#Observer#get(...) abort "{{{
   endif
   return bufinfo.variables.Verdin.Observer
 endfunction "}}}
+
+
+let s:timerid = -1
+
+function! Verdin#Observer#debounce(bufnr) abort "{{{
+  call Verdin#Observer#cancel_debounce()
+  let s:timerid = timer_start(1, {-> Verdin#Observer#inspect(a:bufnr)})
+endfunction "}}}
+
+
+function! Verdin#Observer#cancel_debounce() abort "{{{
+  if s:timerid isnot# -1
+    let hoge = s:timerid
+    call timer_stop(s:timerid)
+    let s:timerid = -1
+  endif
+endfunction "}}}
+
+
 function! Verdin#Observer#inspect(bufnr, ...) abort "{{{
+  let s:timerid = -1
   if s:lib.filetypematches('vim')
     let order = get(a:000, 1, s:const.DEFAULTORDERVIM)
   elseif s:lib.filetypematches('help')
@@ -69,6 +91,8 @@ function! Verdin#Observer#inspect(bufnr, ...) abort "{{{
     endif
   endif
 endfunction "}}}
+
+
 function! Verdin#Observer#checkglobals(bufnr, ...) abort "{{{
   if s:lib.filetypematches('vim')
     let order = get(a:000, 1, s:const.DEFAULTORDERVIM)
@@ -103,6 +127,7 @@ function! Verdin#Observer#checkglobals(bufnr, ...) abort "{{{
     endif
   endif
 endfunction "}}}
+
 
 " Observer object {{{
 let s:Observer = {

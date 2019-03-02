@@ -254,12 +254,28 @@ function! Verdin#Verdin#omnifunc_cooperative(findstart, base) abort "{{{
 endfunction "}}}
 
 
+let s:timerid = -1
+
+function! Verdin#Verdin#debounce() abort "{{{
+  if s:timerid isnot# -1
+    call timer_stop(s:timerid)
+  endif
+  let lnum = line('.')
+  let col = col('.')
+  let s:timerid = timer_start(1, {-> Verdin#Verdin#trigger(lnum, col)})
+endfunction "}}}
+
+
 " Popup completion window in insert mode
-" NOTE: call this func like `<C-r>=Verdin#Verdin#triggercomplete()<CR>`
-function! Verdin#Verdin#triggercomplete() abort "{{{
+function! Verdin#Verdin#trigger(lnum, col) abort "{{{
+  let s:timerid = -1
+  if mode() isnot# 'i' || line('.') != a:lnum || col('.') != a:col
+    return
+  endif
+
   let Completer = Verdin#Completer#get()
   if s:nothingchanged(Completer)
-    return ''
+    return
   endif
 
   " to update cursor
@@ -268,7 +284,6 @@ function! Verdin#Verdin#triggercomplete() abort "{{{
     let Completer.is.lazyredraw_changed = s:TRUE
   endif
   call feedkeys(s:VerdinCompletionTrigger, 'im')
-  return ''
 endfunction
 
 let s:VerdinCompletionTrigger = s:SID . '(VerdinCompletionTrigger)'
@@ -277,13 +292,14 @@ inoremap <silent> <SID>(VerdinCompletionTrigger) <C-r>=Verdin#Verdin#complete()<
 
 
 " The function for auto-complete feature
+" NOTE: call this func like `<C-r>=Verdin#Verdin#complete()<CR>`
 function! Verdin#Verdin#complete() abort "{{{
   let Completer = Verdin#Completer#get()
   call Completer.clock.start()
 
   " to show matchparen highlight etc...
   redraw
-  " restore the 'lazyredraw' option changed in Verdin#Verdin#triggercomplete()
+  " restore the 'lazyredraw' option changed in Verdin#Verdin#trigger()
   if Completer.is.lazyredraw_changed
     set lazyredraw
     let Completer.is.lazyredraw_changed = s:FALSE
