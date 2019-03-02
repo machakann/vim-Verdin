@@ -72,7 +72,7 @@ function! s:Event.autocomplete_on(...) abort "{{{
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
     execute printf('autocmd CursorMovedI <buffer=%d> call Verdin#Verdin#debounce()', self.bufnr)
     if exists('##TextChangedP')
-      execute printf('autocmd TextChangedP <buffer=%d> call Verdin#Verdin#trigger()', self.bufnr)
+      execute printf('autocmd TextChangedP <buffer=%d> call Verdin#Verdin#trigger(line("."), col("."))', self.bufnr)
     endif
   augroup END
 endfunction "}}}
