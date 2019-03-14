@@ -111,11 +111,11 @@ function! s:Event.aftercomplete_setCompleteDone(Funcref) dict abort "{{{
   augroup END
 endfunction "}}}
 
-function! s:Event.autoketinsert_set() abort "{{{
-  augroup Verdin-autoketinsert
+function! s:Event.autoparen_set() abort "{{{
+  augroup Verdin-autoparen
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
-    if g:Verdin#autobraketinsert == 2
-      execute printf('autocmd CompleteDone <buffer=%d> call s:autoketinsert(%d)', self.bufnr, self.bufnr)
+    if g:Verdin#autoparen == 2
+      execute printf('autocmd CompleteDone <buffer=%d> call s:autoparenclose(%d)', self.bufnr, self.bufnr)
     endif
   augroup END
 endfunction "}}}
@@ -137,28 +137,28 @@ function! s:aftercomplete(event) abort "{{{
   augroup END
 endfunction "}}}
 
-function! s:autoketinsert(bufnr) abort "{{{
+function! s:autoparenclose(bufnr) abort "{{{
   if empty(v:completed_item)
     return
   endif
 
-  augroup Verdin-autoketinsert
+  augroup Verdin-autoparen
     execute printf('autocmd! * <buffer=%d>', a:bufnr)
   augroup END
 
   let user_data = get(v:completed_item, 'user_data', '')
-  if user_data !=# 'Verdin:autobraketinsert:2'
+  if user_data !=# 'Verdin:autoparen:2'
     return
   endif
 
-  call feedkeys(s:InsertKetKey, 'im')
+  call feedkeys(s:CloseParen, 'im')
 endfunction
 
-let s:InsertKetKey = s:SID . '(InsertKet)'
-inoremap <silent> <SID>(InsertKet) <C-r>=<SID>InsertKet('i')<CR>
-cnoremap <silent> <SID>(InsertKet) <Nop>
-nnoremap <silent><expr> <SID>(InsertKet) <SID>InsertKet('n')
-function! s:InsertKet(mode) abort
+let s:CloseParen = s:SID . '(CloseParen)'
+inoremap <silent> <SID>(CloseParen) <C-r>=<SID>CloseParen('i')<CR>
+cnoremap <silent> <SID>(CloseParen) <Nop>
+nnoremap <silent><expr> <SID>(CloseParen) <SID>CloseParen('n')
+function! s:CloseParen(mode) abort
   let Completer = Verdin#Completer#get()
   if Completer.last.postcursor[0] ==# '('
     return ''

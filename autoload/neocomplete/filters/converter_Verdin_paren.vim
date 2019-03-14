@@ -1,12 +1,12 @@
 let s:converter = {
-      \   'name': 'converter_Verdin_braket',
+      \   'name': 'converter_Verdin_paren',
       \ }
 function! s:converter.filter(context) dict abort "{{{
   let Completer = Verdin#Completer#get()
-  return Completer.modify(a:context.candidates, 'braket')
+  return Completer.modify(a:context.candidates, 'paren')
 endfunction "}}}
 
-function! neocomplete#filters#converter_Verdin_braket#define() abort
+function! neocomplete#filters#converter_Verdin_paren#define() abort
   return s:converter
 endfunction
 

@@ -1,5 +1,5 @@
 *Verdin.txt*	Vim script 用オムニ補完関数
-						Last change:03-Oct-2018.
+						Last change:14-Mar-2019.
 
 書いた人   : machakann <https://github.com/machakann>
 ライセンス : NYSL license
@@ -104,21 +104,21 @@ YouCompleteMe <http://valloric.github.io/YouCompleteMe/> のような、ほか�
 
 ------------------------------------------------------------------------------
 
-|g:Verdin#autobraketinsert| が 1 か 2 の時、関数名のあとの括弧が自動的に入力さ
+|g:Verdin#autoparen| が 1 か 2 の時、関数名のあとの括弧が自動的に入力さ
 れます。
 
-  * |g:Verdin#autobraketinsert| が 1 の時は、引数が 0 個の関数の開き・閉じ括弧
+  * |g:Verdin#autoparen| が 1 の時は、引数が 0 個の関数の開き・閉じ括弧
     の両方を入力します。引数を 1 個以上もつ関数の場合は開き括弧のみを入力しま
     す。
 
   * |g:Verdin#autocompletedelay| が 2 の時は、開き・閉じ括弧の両方を入力しま
     す。
-					*g:Verdin#autobraketinsert*
+					*g:Verdin#autoparen*
 >
-	let g:Verdin#autobraketinsert = 2
+	let g:Verdin#autoparen = 2
 <
-`b:Verdin_autobraketinsert` も使用できます。そのバッファでのみ有効であり、
-|g:Verdin#autobraketinsert| よりも優先されます。
+`b:Verdin_autoparen` も使用できます。そのバッファでのみ有効であり、
+|g:Verdin#autoparen| よりも優先されます。
 
 ==============================================================================
 COMMANDS				*Verdin-commands*

@@ -164,9 +164,9 @@ function! s:Completer.fuzzymatch(base, ...) dict abort "{{{
 endfunction "}}}
 
 function! s:Completer.modify(candidatelist, ...) dict abort "{{{
-  let modifiers = get(a:000, 0, ['braket', 'snip'])
-  if match(modifiers, '\m\C^braket$') > -1
-    call s:autobrainsert(a:candidatelist, self.last.postcursor)
+  let modifiers = get(a:000, 0, ['paren', 'snip'])
+  if match(modifiers, '\m\C^paren$') > -1
+    call s:autoparen(a:candidatelist, self.last.postcursor)
   endif
   if match(modifiers, '\m\C^snip$') > -1
     call s:addsnippeditems(a:candidatelist, self.last.postcursor)
@@ -179,7 +179,7 @@ function! s:Completer.complete(startcol, itemlist) dict abort "{{{
   endif
   set completeopt=menuone,noselect,noinsert
   let Event = Verdin#Event#get()
-  call Event.autoketinsert_set()
+  call Event.autoparen_set()
   call Event.aftercomplete_set(function(self.aftercomplete, [1], self))
   call Event.aftercomplete_set(function(Event.autocomplete_on, [], Event))
   call Event.autocomplete_off()
@@ -447,13 +447,13 @@ function! s:strcmp(base, text) abort "{{{
   endif
   return d
 endfunction "}}}
-function! s:autobrainsert(candidatelist, postcursor) abort "{{{
+function! s:autoparen(candidatelist, postcursor) abort "{{{
   if a:postcursor[0] ==# '('
     return a:candidatelist
   endif
 
-  let autobraketinsert = Verdin#_getoption('autobraketinsert')
-  if autobraketinsert
+  let autoparen = Verdin#_getoption('autoparen')
+  if autoparen
     for i in range(len(a:candidatelist))
       let candidate = a:candidatelist[i]
       if type(candidate) == v:t_dict && get(candidate, '__func__', s:FALSE)
@@ -462,7 +462,7 @@ function! s:autobrainsert(candidatelist, postcursor) abort "{{{
           let new.word = candidate.word . '()'
         else
           let new.word = candidate.word . '('
-          let new.user_data = 'Verdin:autobraketinsert:' . g:Verdin#autobraketinsert
+          let new.user_data = 'Verdin:autoparen:' . g:Verdin#autoparen
         endif
         call remove(a:candidatelist, i)
         call insert(a:candidatelist, new, i)

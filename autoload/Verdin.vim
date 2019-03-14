@@ -14,18 +14,21 @@ let s:default.loadpath = [
       \   join(['ftplugin', '*.vim'], s:PATHSEPARATOR),
       \   join(['ftplugin', '**', '*.vim'], s:PATHSEPARATOR),
       \ ]
-let s:default.autobraketinsert = 0
+let s:default.autoparen = 0
 let s:default.debugmodeon = 0
 let s:default.cooperativemode = 0
 
-let g:Verdin#autocomplete = get(g:, 'Verdin#autocomplete', s:default.autocomplete)
+let g:Verdin#autocomplete      = get(g:, 'Verdin#autocomplete', s:default.autocomplete)
 let g:Verdin#autocompletedelay = get(g:, 'Verdin#autocompletedelay', s:default.autocompletedelay)
-let g:Verdin#donotsetomnifunc = get(g:, 'Verdin#donotsetomnifunc', s:default.donotsetomnifunc)
-let g:Verdin#fuzzymatch = get(g:, 'Verdin#fuzzymatch', s:default.fuzzymatch)
-let g:Verdin#loadpath = get(g:, 'Verdin#loadpath', s:default.loadpath)
-let g:Verdin#autobraketinsert = get(g:, 'Verdin#autobraketinsert', s:default.autobraketinsert)
-let g:Verdin#debugmodeon = get(g:, 'Verdin#debugmodeon', s:default.debugmodeon)
-let g:Verdin#cooperativemode = get(g:, 'Verdin#cooperativemode', s:default.cooperativemode)
+let g:Verdin#donotsetomnifunc  = get(g:, 'Verdin#donotsetomnifunc', s:default.donotsetomnifunc)
+let g:Verdin#fuzzymatch        = get(g:, 'Verdin#fuzzymatch', s:default.fuzzymatch)
+let g:Verdin#loadpath          = get(g:, 'Verdin#loadpath', s:default.loadpath)
+let g:Verdin#debugmodeon       = get(g:, 'Verdin#debugmodeon', s:default.debugmodeon)
+let g:Verdin#cooperativemode   = get(g:, 'Verdin#cooperativemode', s:default.cooperativemode)
+" check 'autobraketinsert' for historical reason
+let g:Verdin#autoparen         = get(g:, 'Verdin#autoparen',
+                               \ get(g:, 'Verdin#autobraketinsert',
+                               \     s:default.autoparen))
 "}}}
 
 " The omni-completion function for Vim script

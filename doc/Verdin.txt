@@ -1,5 +1,5 @@
 *Verdin.txt*	An omni completion function for Vim script.
-						Last change:03-Oct-2018.
+						Last change:14-Mar-2019.
 
 Author  : machakann <https://github.com/machakann>
 License : NYSL license
@@ -97,21 +97,22 @@ location of the files. It is a list of strings. Each string would be passed to
 
 ------------------------------------------------------------------------------
 
-If |g:Verdin#autobraketinsert| is 1 or 2, braket may be added after a
-completed function name.
+If |g:Verdin#autoparen| is 1 or 2, parenthesis (parentheses) may be added
+after a completed function name.
 
-  * If |g:Verdin#autobraketinsert| is 1, both bra and ket are added for
-    functions without argments and only bra is added for functions with
-    1 or more arguments.
+  * If |g:Verdin#autoparen| is 1, both open and close parentheses are added
+    for functions without argments and only open parenthesis is added for
+    functions with 1 or more arguments.
 
-  * If |g:Verdin#autocompletedelay| is 2, both bra and ket are added.
+  * If |g:Verdin#autocompletedelay| is 2, both open and close parentheses are
+    added.
 
-					*g:Verdin#autobraketinsert*
+					*g:Verdin#autoparen*
 >
-	let g:Verdin#autobraketinsert = 2
+	let g:Verdin#autoparen = 2
 <
-`b:Verdin_autobraketinsert` works buffer-locally prior to
-|g:Verdin#autobraketinsert|.
+`b:Verdin_autoparen` works buffer-locally prior to
+|g:Verdin#autoparen|.
 
 ==============================================================================
 COMMANDS				*Verdin-commands*
