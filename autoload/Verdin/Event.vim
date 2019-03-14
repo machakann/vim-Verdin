@@ -1,7 +1,16 @@
 " function library specialized for managing autocommands
 
+" script ID {{{
+function! s:SID() abort
+  return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$')
+endfunction
+let s:SID = printf("\<SNR>%s_", s:SID())
+delfunction s:SID
+"}}}
+
 " script local variables {{{
 let s:const = Verdin#constants#distribute()
+let s:lib = Verdin#lib#distribute()
 let s:ON  = 1
 let s:OFF = 0
 "}}}
@@ -102,13 +111,12 @@ function! s:Event.aftercomplete_setCompleteDone(Funcref) dict abort "{{{
   augroup END
 endfunction "}}}
 
-function! s:Event.aftercomplete_done(event) abort "{{{
-  for F in self.todolist
-    call F(a:event)
-  endfor
-  call filter(self.todolist, 0)
-  augroup Verdin-aftercomplete
+function! s:Event.autoketinsert_set() abort "{{{
+  augroup Verdin-autoketinsert
     execute printf('autocmd! * <buffer=%d>', self.bufnr)
+    if g:Verdin#autobraketinsert == 2
+      execute printf('autocmd CompleteDone <buffer=%d> call s:autoketinsert(%d)', self.bufnr, self.bufnr)
+    endif
   augroup END
 endfunction "}}}
 
@@ -120,8 +128,60 @@ function! s:aftercomplete(event) abort "{{{
   endif
 
   let Event = Verdin#Event#get()
-  call Event.aftercomplete_done(a:event)
+  for l:F in Event.todolist
+    call l:F(a:event)
+  endfor
+  call filter(Event.todolist, 0)
+  augroup Verdin-aftercomplete
+    execute printf('autocmd! * <buffer=%d>', Event.bufnr)
+  augroup END
 endfunction "}}}
+
+function! s:autoketinsert(bufnr) abort "{{{
+  if empty(v:completed_item)
+    return
+  endif
+
+  augroup Verdin-autoketinsert
+    execute printf('autocmd! * <buffer=%d>', a:bufnr)
+  augroup END
+
+  let user_data = get(v:completed_item, 'user_data', '')
+  if user_data !=# 'Verdin:autobraketinsert:2'
+    return
+  endif
+
+  call feedkeys(s:InsertKetKey, 'im')
+endfunction
+
+let s:InsertKetKey = s:SID . '(InsertKet)'
+inoremap <silent> <SID>(InsertKet) <C-r>=<SID>InsertKet('i')<CR>
+cnoremap <silent> <SID>(InsertKet) <Nop>
+nnoremap <silent><expr> <SID>(InsertKet) <SID>InsertKet('n')
+function! s:InsertKet(mode) abort
+  let Completer = Verdin#Completer#get()
+  if Completer.last.postcursor[0] ==# '('
+    return ''
+  endif
+  let lnum = Completer.last.lnum
+  let startcol = Completer.last.startcol+1
+  let funcname = s:lib.escape(v:completed_item.word)
+  let postcursor = s:lib.escape(Completer.last.postcursor)
+  if a:mode ==# 'i'
+    let pat = printf('\m\%%%dl\%%%dc%s.*\%%#%s$',
+                    \lnum, startcol, funcname, postcursor)
+    let keyseq = ")\<C-g>U\<Left>"
+  elseif a:mode ==# 'n'
+    let pat = printf('\m\%%%dl\%%%dc%s\%%#(%s$',
+                    \lnum, startcol, funcname[:-2], postcursor)
+    let keyseq = "a)\<Esc>"
+  endif
+  if search(pat, 'bcn', Completer.last.lnum)
+    return keyseq
+  endif
+  return ''
+endfunction
+"}}}
 
 " vim:set ts=2 sts=2 sw=2 tw=0:
 " vim:set foldmethod=marker: commentstring="%s:

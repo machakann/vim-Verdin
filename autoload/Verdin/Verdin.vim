@@ -207,6 +207,7 @@ function! Verdin#Verdin#omnifunc(findstart, base) abort "{{{
   for item in Completer.modify(Completer.match(a:base))
     call complete_add(item)
   endfor
+  call Event.autoketinsert_set()
   call Event.aftercomplete_set(function(Completer.aftercomplete, [0], Completer))
 
   " fuzzy matching
@@ -241,6 +242,7 @@ function! Verdin#Verdin#omnifunc_cooperative(findstart, base) abort "{{{
 
   " second run
   let itemlist = Completer.modify(Completer.match(a:base))
+  call Event.autoketinsert_set()
   call Event.aftercomplete_set(function(Completer.aftercomplete, [0], Completer))
 
   " fuzzy matching

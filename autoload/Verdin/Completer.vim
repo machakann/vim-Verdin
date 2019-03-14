@@ -1,12 +1,4 @@
 " FIXME: CR to close popup and break at once
-" script ID {{{
-function! s:SID() abort
-  return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$')
-endfunction
-let s:SID = printf("\<SNR>%s_", s:SID())
-delfunction s:SID
-"}}}
-
 
 " script local variables {{{
 let s:const = Verdin#constants#distribute()
@@ -187,6 +179,7 @@ function! s:Completer.complete(startcol, itemlist) dict abort "{{{
   endif
   set completeopt=menuone,noselect,noinsert
   let Event = Verdin#Event#get()
+  call Event.autoketinsert_set()
   call Event.aftercomplete_set(function(self.aftercomplete, [1], self))
   call Event.aftercomplete_set(function(Event.autocomplete_on, [], Event))
   call Event.autocomplete_off()
@@ -199,9 +192,6 @@ endfunction "}}}
 function! s:Completer.aftercomplete(autocomplete, event) dict abort "{{{
   if self.is.in_completion
     return 0
-  endif
-  if a:event ==# 'CompleteDone' && get(v:completed_item, 'abbr', '') =~# s:FUNCABBR
-    call s:autoketinsert(v:completed_item)
   endif
   if !a:autocomplete
     return 1
@@ -472,6 +462,7 @@ function! s:autobrainsert(candidatelist, postcursor) abort "{{{
           let new.word = candidate.word . '()'
         else
           let new.word = candidate.word . '('
+          let new.user_data = 'Verdin:autobraketinsert:' . g:Verdin#autobraketinsert
         endif
         call remove(a:candidatelist, i)
         call insert(a:candidatelist, new, i)
@@ -480,43 +471,6 @@ function! s:autobrainsert(candidatelist, postcursor) abort "{{{
   endif
   return a:candidatelist
 endfunction "}}}
-function! s:autoketinsert(item) abort "{{{
-  let autobraketinsert = Verdin#_getoption('autobraketinsert')
-  if autobraketinsert == 2
-    if matchstr(a:item.abbr, s:FUNCARG) !=# ''
-      call feedkeys(s:InsertKetKey, 'im')
-    endif
-  endif
-endfunction
-
-let s:InsertKetKey = s:SID . '(InsertKet)'
-inoremap <silent> <SID>(InsertKet) <C-r>=<SID>InsertKet('i')<CR>
-cnoremap <silent> <SID>(InsertKet) <Nop>
-nnoremap <silent><expr> <SID>(InsertKet) <SID>InsertKet('n')
-function! s:InsertKet(mode) abort
-  let Completer = Verdin#Completer#get()
-  if Completer.last.postcursor[0] ==# '('
-    return ''
-  endif
-  let lnum = Completer.last.lnum
-  let startcol = Completer.last.startcol+1
-  let funcname = s:lib.escape(v:completed_item.word)
-  let postcursor = s:lib.escape(Completer.last.postcursor)
-  if a:mode ==# 'i'
-    let pat = printf('\m\%%%dl\%%%dc%s.*\%%#%s$',
-                    \lnum, startcol, funcname, postcursor)
-    let keyseq = ")\<C-g>U\<Left>"
-  elseif a:mode ==# 'n'
-    let pat = printf('\m\%%%dl\%%%dc%s\%%#(%s$',
-                    \lnum, startcol, funcname[:-2], postcursor)
-    let keyseq = "a)\<Esc>"
-  endif
-  if search(pat, 'bcn', Completer.last.lnum)
-    return keyseq
-  endif
-  return ''
-endfunction
-"}}}
 "}}}
 
 " vim:set ts=2 sts=2 sw=2 tw=0:
