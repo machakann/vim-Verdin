@@ -115,6 +115,8 @@ function! Verdin#Observer#checkglobals(bufnr, ...) abort "{{{
       call Completer.addDictionary('globalkeymap', Observer.shelf.globalkeymap)
       call Completer.addDictionary('globalcommand', Observer.shelf.globalcommand)
       call Completer.addDictionary('globalhigroup', Observer.shelf.globalhigroup)
+      call Completer.addDictionary('uservar', Observer.shelf.uservar)
+      call Completer.addDictionary('userfunc', Observer.shelf.userfunc)
     endif
   elseif s:lib.filetypematches('help')
     if !has_key(Completer.shelf, 'globaltag')
@@ -152,6 +154,8 @@ let s:Observer = {
       \     'globaltag': {},
       \     'varfragment': {},
       \     'funcfragment': {},
+      \     'uservar': {},
+      \     'userfunc': {},
       \   },
       \   'testmode': 0,
       \ }
@@ -217,6 +221,21 @@ function! s:checkglobalsvim(...) dict abort "{{{
     let higroup = Verdin#Dictionary#new('higroup', conditionlist, higrouplist, 2)
     call s:inject(self.shelf['globalhigroup'], higroup)
   endif
+
+  " correct candidates from user space (not from buffers)
+  let uservarlist = getcompletion('', 'var')
+  call filter(uservarlist, "v:val !~# '^v:'")
+  call map(uservarlist, "v:val[1] !=# ':' ? 'g:' . v:val : v:val")
+  let conditionlist = s:decrementpriority(s:const.VARCONDITIONLIST, 2)
+  let uservar = Verdin#Dictionary#new('var', conditionlist, uservarlist, 2)
+  call s:inject(self.shelf['uservar'], uservar)
+
+  let userfunclist = getcompletion('', 'function')
+  call filter(userfunclist, "v:val =~# '^[A-Z]' || v:val =~# '#'")
+  call map(userfunclist, 'matchstr(v:val, ''^[[:alnum:]_#]\+'')')
+  let conditionlist = s:decrementpriority(s:const.FUNCCONDITIONLIST, 2)
+  let userfunc = Verdin#Dictionary#new('func', conditionlist, userfunclist, 1)
+  call s:inject(self.shelf['userfunc'], userfunc)
 endfunction "}}}
 function! s:checkglobalshelp(...) dict abort "{{{
   let files = filter(s:lib.searchvimhelps(), 'bufnr(v:val) != self.bufnr')
@@ -662,11 +681,12 @@ function! s:inject(destination, Dictionary) abort "{{{
   call filter(a:destination, 0)
   return extend(a:destination, a:Dictionary)
 endfunction "}}}
-function! s:decrementpriority(conditionlist) abort "{{{
+function! s:decrementpriority(conditionlist, ...) abort "{{{
+  let dec = get(a:000, 0, 1)
   let newlist = deepcopy(a:conditionlist)
   for condition in newlist
     if has_key(condition, 'priority') && condition.priority > 0
-      let condition.priority -= 1
+      let condition.priority -= dec
     endif
   endfor
   return newlist
