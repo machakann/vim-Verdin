@@ -3,7 +3,7 @@ let s:GIVEUPIFSHORT = 1
 let s:source = {
       \ 'name' : 'Verdin',
       \ 'kind' : 'manual',
-      \ 'filetypes' : {'vim' : 1, 'help' : 1},
+      \ 'filetypes' : {'vim' : 1, 'vimspec': 1, 'help' : 1},
       \ 'is_volatile' : 1,
       \ 'rank' : 300,
       \ 'max_candidates': 20,

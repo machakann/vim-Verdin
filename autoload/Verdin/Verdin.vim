@@ -20,7 +20,7 @@ let s:OFF = 0
 " Start continuous buffer observation to gather completion items
 " NOTE: If a:bang is '!', applied for all the buffer opened
 function! Verdin#Verdin#startbufferinspection(bang) abort "{{{
-  if !s:lib.filetypematches('vim') && !s:lib.filetypematches('help')
+  if !s:lib.filetypematches('vim') && !s:lib.filetypematches('vimspec') && !s:lib.filetypematches('help')
     return
   endif
   if s:lib.filetypematches('help') && &buftype ==# 'help'
@@ -60,7 +60,7 @@ endfunction "}}}
 " NOTE: If a:bang is '!', applied for all the buffer opened
 " NOTE: Connected to `:VerdinStartAutocompletion`
 function! Verdin#Verdin#startautocomplete(bang) abort "{{{
-  if !s:lib.filetypematches('vim') && !s:lib.filetypematches('help')
+  if !s:lib.filetypematches('vim') && !s:lib.filetypematches('vimspec') && !s:lib.filetypematches('help')
     return
   endif
   if s:lib.filetypematches('help') && &buftype ==# 'help'
@@ -148,7 +148,7 @@ endfunction "}}}
 "       Check s:const.DEFAULTORDERVIM or s:const.DEFAULTORDERHELP for
 "       available options
 function! Verdin#Verdin#scanbuffer(args) abort "{{{
-  if s:lib.filetypematches('vim')
+  if s:lib.filetypematches('vim') || s:lib.filetypematches('vimspec') || filename =~# '\.vim\%(spec\)\?$'
     let defaultorder = s:const.DEFAULTORDERVIM
   elseif s:lib.filetypematches('help')
     let defaultorder = s:const.DEFAULTORDERHELP
@@ -181,7 +181,7 @@ endfunction "}}}
 
 " Complete options for `:VerdinScanBuffer` in command line mode
 function! Verdin#Verdin#scanbuffer_compl(ArgLead, CmdLine, CursorPos) abort "{{{
-  if s:lib.filetypematches('vim')
+  if s:lib.filetypematches('vim') || s:lib.filetypematches('vimspec') || filename =~# '\.vim\%(spec\)\?$'
     let defaultorder = s:const.DEFAULTORDERVIM
   elseif s:lib.filetypematches('help')
     let defaultorder = s:const.DEFAULTORDERHELP
@@ -357,8 +357,8 @@ endfunction "}}}
 
 
 function! s:getbufinfo() abort "{{{
-  if s:lib.filetypematches('vim')
-    return filter(getbufinfo({'buflisted':1}), 's:lib.filetypematches("vim", v:val.bufnr)')
+  if s:lib.filetypematches('vim') || s:lib.filetypematches('vimspec') || filename =~# '\.vim\%(spec\)\?$'
+    return filter(getbufinfo({'buflisted':1}), 's:lib.filetypematches("vim", v:val.bufnr) || s:lib.filetypematches("vimspec", v:val.bufnr) || bufname(v:val.bufnr) =~# ''\.vim\%(spec\)\?$'')
   elseif s:lib.filetypematches('help')
     return filter(getbufinfo({'buflisted':1}), 's:lib.filetypematches("help", v:val.bufnr) && getbufvar(v:val.bufnr, "&buftype") !=# "help"')
   endif
