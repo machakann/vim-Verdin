@@ -453,22 +453,25 @@ function! s:autoparen(candidatelist, postcursor) abort "{{{
   endif
 
   let autoparen = Verdin#_getoption('autoparen')
-  if autoparen
-    for i in range(len(a:candidatelist))
-      let candidate = a:candidatelist[i]
-      if type(candidate) == v:t_dict && get(candidate, '__func__', s:FALSE)
-        let new = copy(candidate)
-        if matchstr(candidate.abbr, s:FUNCARG) ==# ''
-          let new.word = candidate.word . '()'
-        else
-          let new.word = candidate.word . '('
-          let new.user_data = 'Verdin:autoparen:' . g:Verdin#autoparen
-        endif
-        call remove(a:candidatelist, i)
-        call insert(a:candidatelist, new, i)
-      endif
-    endfor
+  if !autoparen
+    return a:candidatelist
   endif
+
+  let user_data = json_encode({'Verdin': {'autoparen': g:Verdin#autoparen}})
+  for i in range(len(a:candidatelist))
+    let candidate = a:candidatelist[i]
+    if type(candidate) == v:t_dict && get(candidate, '__func__', s:FALSE)
+      let new = copy(candidate)
+      if matchstr(candidate.abbr, s:FUNCARG) ==# ''
+        let new.word = candidate.word . '()'
+      else
+        let new.word = candidate.word . '('
+        let new.user_data = user_data
+      endif
+      call remove(a:candidatelist, i)
+      call insert(a:candidatelist, new, i)
+    endif
+  endfor
   return a:candidatelist
 endfunction "}}}
 "}}}

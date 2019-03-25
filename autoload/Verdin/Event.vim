@@ -147,7 +147,22 @@ function! s:autoparenclose(bufnr) abort "{{{
   augroup END
 
   let user_data = get(v:completed_item, 'user_data', '')
-  if user_data !=# 'Verdin:autoparen:2'
+  if user_data is# ''
+    return
+  endif
+
+  try
+    let dict = json_decode(user_data)
+  catch
+    return
+  endtry
+
+  if !has_key(dict, 'Verdin')
+    return
+  endif
+
+  let autoparen = get(dict['Verdin'], 'autoparen', 0)
+  if autoparen != 2
     return
   endif
 
