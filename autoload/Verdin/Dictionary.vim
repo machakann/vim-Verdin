@@ -4,7 +4,14 @@ let s:lib = Verdin#lib#distribute()
 function! Verdin#Dictionary#new(name, conditionlist, wordlist, ...) abort "{{{
   let indexlen = max([get(a:000, 0, 1), 1])
   let options = get(a:000, 1, {})
-  return s:Dictionary(a:name, a:conditionlist, a:wordlist, indexlen, options)
+
+  let Dictionary = deepcopy(s:Dictionary)
+  let Dictionary.name = a:name
+  let Dictionary.conditionlist = a:conditionlist
+  let Dictionary.wordlist = copy(a:wordlist)
+  let Dictionary.indexlen = indexlen
+  let Dictionary.index = Verdin#Dictionary#makeindex(a:name, a:wordlist, indexlen, options)
+  return Dictionary
 endfunction "}}}
 function! Verdin#Dictionary#makeindex(name, wordlist, indexlen, ...) abort "{{{
   let options = get(a:000, 0, {})
@@ -37,16 +44,6 @@ let s:Dictionary = {
       \   'index': {},
       \ }
 
-function! s:Dictionary(name, conditionlist, wordlist, indexlen, options) abort
-  let Dictionary = deepcopy(s:Dictionary)
-  let Dictionary.name = a:name
-  let Dictionary.conditionlist = a:conditionlist
-  let Dictionary.wordlist = copy(a:wordlist)
-  let Dictionary.indexlen = a:indexlen
-  let Dictionary.index = Verdin#Dictionary#makeindex(
-        \ Dictionary.name, Dictionary.wordlist, Dictionary.indexlen, a:options)
-  return Dictionary
-endfunction
 function! s:extract(list, pattern) abort "{{{
   let extracted = []
   for i in reverse(range(len(a:list)))

@@ -162,6 +162,35 @@ function! s:Completer.fuzzymatch(base, ...) dict abort "{{{
   endwhile
   return candidatelist
 endfunction "}}}
+function! s:strcmp(base, text) abort "{{{
+  if has_key(s:MEMO_fuzzymatch, a:text)
+    let d = s:MEMO_fuzzymatch[a:text]
+  else
+    let d = s:lib.Jaro_Winkler_distance(a:base, a:text)
+    let s:MEMO_fuzzymatch[a:text] = d
+  endif
+  return d
+endfunction "}}}
+function! s:fuzzyitem(item, base, score, difflen) abort "{{{
+  let itemtype = type(a:item)
+  let fuzzymenu = ' *fuzzy*'
+  if itemtype == v:t_dict
+    let candidate = deepcopy(a:item)
+    if has_key(candidate, 'menu')
+      let candidate.menu .= fuzzymenu
+    else
+      let candidate.menu = fuzzymenu
+    endif
+    let candidate.dup = 0
+    let candidate.__text__ = a:base
+    let candidate.__score__ = a:score
+    let candidate.__difflen__ = a:difflen
+  elseif itemtype == v:t_string
+    let candidate = {'word': a:item, 'menu': fuzzymenu, 'dup': 0,
+                  \  '__text__': a:base, '__score__': a:score, '__difflen__': a:difflen}
+  endif
+  return candidate
+endfunction "}}}
 
 function! s:Completer.modify(candidatelist, ...) dict abort "{{{
   let modifiers = get(a:000, 0, ['paren', 'snip'])
@@ -205,13 +234,6 @@ endfunction "}}}
 function! s:Completer.addDictionary(name, new) dict abort "{{{
   let self.shelf[a:name] = a:new
 endfunction "}}}
-function! s:Completer.dropduplicates(wordlist, namelist) dict abort "{{{
-  for name in a:namelist
-    call filter(a:wordlist, 'count(self.shelf[name]["wordlist"], v:val) == 0')
-  endfor
-  return a:wordlist
-endfunction "}}}
-let s:NOTHING_FOUND = [-1, {}, {}]
 function! s:getcontext(lnum, col, line, startcol) abort "{{{
   let context = {}
   let context.lnum = a:lnum
@@ -233,6 +255,7 @@ function! s:getcursorsyntax(context) abort "{{{
   endif
   return {'comment': 0, 'string': 0}
 endfunction "}}}
+let s:NOTHING_FOUND = [-1, {}, {}]
 function! s:lookup(Dictionary, context, giveupifshort, fuzzymatch) abort  "{{{
   if a:Dictionary == {}
     return s:NOTHING_FOUND
@@ -381,9 +404,6 @@ function! s:addsnippeditems(candidatelist, postcursor, ...) abort "{{{
   endwhile
   return a:candidatelist
 endfunction "}}}
-function! s:is_started() abort "{{{
-  return exists('b:Verdin')
-endfunction "}}}
 function! s:flatten(candidatelist, base) abort "{{{
   let nbase = strchars(a:base)
   if nbase < 3
@@ -417,35 +437,6 @@ function! s:similarlist(candidatelist, base) abort "{{{
     endfor
   endfor
   return similarlist
-endfunction "}}}
-function! s:fuzzyitem(item, base, score, difflen) abort "{{{
-  let itemtype = type(a:item)
-  let fuzzymenu = ' *fuzzy*'
-  if itemtype == v:t_dict
-    let candidate = deepcopy(a:item)
-    if has_key(candidate, 'menu')
-      let candidate.menu .= fuzzymenu
-    else
-      let candidate.menu = fuzzymenu
-    endif
-    let candidate.dup = 0
-    let candidate.__text__ = a:base
-    let candidate.__score__ = a:score
-    let candidate.__difflen__ = a:difflen
-  elseif itemtype == v:t_string
-    let candidate = {'word': a:item, 'menu': fuzzymenu, 'dup': 0,
-                  \  '__text__': a:base, '__score__': a:score, '__difflen__': a:difflen}
-  endif
-  return candidate
-endfunction "}}}
-function! s:strcmp(base, text) abort "{{{
-  if has_key(s:MEMO_fuzzymatch, a:text)
-    let d = s:MEMO_fuzzymatch[a:text]
-  else
-    let d = s:lib.Jaro_Winkler_distance(a:base, a:text)
-    let s:MEMO_fuzzymatch[a:text] = d
-  endif
-  return d
 endfunction "}}}
 function! s:autoparen(candidatelist, postcursor) abort "{{{
   if a:postcursor[0] ==# '('
