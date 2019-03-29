@@ -122,6 +122,7 @@ function! Verdin#Observer#checkglobals(bufnr, ...) abort "{{{
       call Completer.addDictionary('uservar', Observer.shelf.uservar)
       call Completer.addDictionary('userfunc', Observer.shelf.userfunc)
       call Completer.addDictionary('usercmd', Observer.shelf.usercmd)
+      call Completer.addDictionary('higroup', Observer.shelf.higroup)  " overwrite
     endif
   elseif filetype ==# 'help'
     if !has_key(Completer.shelf, 'globaltag')
@@ -162,6 +163,7 @@ let s:Observer = {
       \     'uservar': {},
       \     'userfunc': {},
       \     'usercmd': {},
+      \     'higroup': {},
       \   },
       \   'testmode': 0,
       \ }
@@ -248,6 +250,11 @@ function! s:checkglobalsvim(...) dict abort "{{{
   let conditionlist = s:decrementpriority(s:const.COMMANDCONDITIONLIST, 2)
   let usercmd = Verdin#Dictionary#new('command', conditionlist, usercmdlist, 1)
   call s:inject(self.shelf['usercmd'], usercmd)
+
+  let higrouplist = getcompletion('', 'highlight')
+  let conditionlist = s:decrementpriority(s:const.HIGROUPCONDITIONLIST, 2)
+  let higroup = Verdin#Dictionary#new('higroup', conditionlist, higrouplist, 1)
+  call s:inject(self.shelf['higroup'], higroup)
 endfunction "}}}
 function! s:checkglobalshelp(...) dict abort "{{{
   let files = filter(s:lib.searchvimhelps(), 'bufnr(v:val) != self.bufnr')
