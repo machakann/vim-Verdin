@@ -213,45 +213,6 @@ function! s:suite.sortbyoccurrence() dict abort "{{{
           \         input.name, input.indexlen, string(input.wordlist), string(input.options)))
   endfor
 endfunction "}}}
-function! s:suite.delimitermatch() dict abort "{{{
-  " testset {{{
-  let testset = [
-        \   {
-        \     'input': {
-        \       'name': 'test',
-        \       'wordlist': ['aa_bb_cc'],
-        \       'indexlen': 1,
-        \       'options': {'delimitermatch': 1},
-        \     },
-        \     'expect': {
-        \       'a': [{'word': 'aa_bb_cc', 'menu': '[test]', '__text__': 'aa_bb_cc'},
-        \             {'word': 'aa_bb_cc', 'menu': '[test] abc', 'dup': 1, '__text__': 'abc', '__delimitermatch__': 1}],
-        \     },
-        \   },
-        \
-        \   {
-        \     'input': {
-        \       'name': 'test',
-        \       'wordlist': ['AaBbCc'],
-        \       'indexlen': 1,
-        \       'options': {'delimitermatch': 1},
-        \     },
-        \     'expect': {
-        \       'A': [{'word': 'AaBbCc', 'menu': '[test]', '__text__': 'AaBbCc'},
-        \             {'word': 'AaBbCc', 'menu': '[test] abc', 'dup': 1, '__text__': 'ABC', '__delimitermatch__': 1}],
-        \     },
-        \   },
-        \ ] "}}}
-
-  for test in testset
-    let input = test.input
-    let expect = test.expect
-    let Dictionary = Verdin#Dictionary#new(input.name, [], input.wordlist, input.indexlen, input.options)
-    call g:assert.equals(Dictionary.index, expect,
-          \ printf("name: %s,\nindexlen: %d,\nwordlist: %s,\noptions: %s",
-          \         input.name, input.indexlen, string(input.wordlist), string(input.options)))
-  endfor
-endfunction "}}}
 
 " vim:set foldmethod=marker:
 " vim:set commentstring="%s:

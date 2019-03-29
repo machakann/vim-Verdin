@@ -35,8 +35,6 @@ let s:ARGNAME = '\<a:\h\w*\%(\.\h\w*\)*\>'
 let s:ARGREGEX = printf('\m\C\%%(^\|\n\)\s*fu\%%[nction]!\?\s\+\%%(%s\|%s\%%(\.\h\w*\)*\)(\s*\zs\%%(\h\w*\%%(,\s*\h\w*\)*\%%(,\s*\.\{3}\)\?\|\s*\.\{3}\)\ze\s*)', s:FUNCNAME, s:VARNAME)
 let s:COMMANDREGEX = '\m\C\%(^\|\n\)\s*com\%[mand]!\?\s\+\%(\%(-nargs=[01*?+]\|-complete=\S\+\|-range\%(=\%(%\|\d\+\)\)\?\|-count=\d\+\|-addr=\w\+\|-bang\|-bar\|-registers\|-buffer\)\s\+\)*\zs\w\+\>'
 let s:HIGROUPREGEX = '\m\C\%(^\|\n\)\s*hi\%[ghlight]!\?\s\+\%(default\s\+\)\?\%(link\s\+\)\?\zs\h\w*'
-let s:SNAKECASEWORDREGEX = '\m\C\(\h\)[0-9A-Za-z]*' . repeat('\%([_#\-]\+\(\h\)[0-9A-Za-z]*\)\?', 8)
-let s:CAMELCASEWORDREGEX = '\m\C\(\h\)[0-9a-z]\+' . repeat('\%(\(\u\)\u*[0-9a-z]\+\)\?', 8)
 let s:HELPTAGREGEX = '\m\*\zs[^*[:space:]]\+\ze\*'
 
 let s:constants = {}
@@ -72,8 +70,6 @@ let s:constants.ARGNAME = '\m\C' . s:ARGNAME
 let s:constants.ARGREGEX = s:ARGREGEX
 let s:constants.COMMANDREGEX = s:COMMANDREGEX
 let s:constants.HIGROUPREGEX = s:HIGROUPREGEX
-let s:constants.SNAKECASEWORDREGEX = s:SNAKECASEWORDREGEX
-let s:constants.CAMELCASEWORDREGEX = s:CAMELCASEWORDREGEX
 let s:constants.HELPTAGREGEX = s:HELPTAGREGEX
 " constants for Dictionary
 let s:constants.COMMANDCONDITIONLIST = [
