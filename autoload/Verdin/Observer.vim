@@ -6,12 +6,6 @@ let s:cache = {}
 "}}}
 
 
-function! Verdin#Observer#new(target, kind, ...) abort "{{{
-  let testmode = get(a:000, 0, 0)
-  return s:Observer(a:target, a:kind, testmode)
-endfunction "}}}
-
-
 function! Verdin#Observer#get(...) abort "{{{
   let target = get(a:000, 0, '%')
   let bufinfo = get(getbufinfo(target), 0, {})
@@ -666,8 +660,11 @@ function! s:decrementpriority(conditionlist, ...) abort "{{{
   endfor
   return newlist
 endfunction "}}}
+"}}}
 
-function! s:Observer(target, kind, testmode) abort
+
+function! Verdin#Observer#new(target, kind, ...) abort "{{{
+  let testmode = get(a:000, 0, 0)
   let bufinfo = get(getbufinfo(a:target), 0, {})
   let Observer = deepcopy(s:Observer)
   if type(a:target) == v:t_number
@@ -676,7 +673,7 @@ function! s:Observer(target, kind, testmode) abort
     let Observer.bufname = fnamemodify(a:target, ':p')
   endif
   let Observer.bufnr = bufnr(a:target)
-  let Observer.testmode = a:testmode
+  let Observer.testmode = testmode
   if a:kind ==# 'vim'
     let Observer.inspect = function('s:inspectvim')
     let Observer.checkglobals = function('s:checkglobalsvim')
