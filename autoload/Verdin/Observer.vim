@@ -121,6 +121,7 @@ function! Verdin#Observer#checkglobals(bufnr, ...) abort "{{{
       call Completer.addDictionary('globalhigroup', Observer.shelf.globalhigroup)
       call Completer.addDictionary('uservar', Observer.shelf.uservar)
       call Completer.addDictionary('userfunc', Observer.shelf.userfunc)
+      call Completer.addDictionary('usercmd', Observer.shelf.usercmd)
     endif
   elseif filetype ==# 'help'
     if !has_key(Completer.shelf, 'globaltag')
@@ -160,6 +161,7 @@ let s:Observer = {
       \     'funcfragment': {},
       \     'uservar': {},
       \     'userfunc': {},
+      \     'usercmd': {},
       \   },
       \   'testmode': 0,
       \ }
@@ -238,8 +240,14 @@ function! s:checkglobalsvim(...) dict abort "{{{
   call filter(userfunclist, "v:val =~# '^[A-Z]' || v:val =~# '#'")
   call map(userfunclist, 'matchstr(v:val, ''^[[:alnum:]_#]\+'')')
   let conditionlist = s:decrementpriority(s:const.FUNCCONDITIONLIST, 2)
-  let userfunc = Verdin#Dictionary#new('func', conditionlist, userfunclist, 1)
+  let userfunc = Verdin#Dictionary#new('function', conditionlist, userfunclist, 1)
   call s:inject(self.shelf['userfunc'], userfunc)
+
+  let usercmdlist = getcompletion('', 'command')
+  call filter(usercmdlist, "v:val =~# '^[A-Z]'")
+  let conditionlist = s:decrementpriority(s:const.COMMANDCONDITIONLIST, 2)
+  let usercmd = Verdin#Dictionary#new('command', conditionlist, usercmdlist, 1)
+  call s:inject(self.shelf['usercmd'], usercmd)
 endfunction "}}}
 function! s:checkglobalshelp(...) dict abort "{{{
   let files = filter(s:lib.searchvimhelps(), 'bufnr(v:val) != self.bufnr')
