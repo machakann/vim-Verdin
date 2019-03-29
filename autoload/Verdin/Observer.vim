@@ -57,7 +57,7 @@ endfunction "}}}
 
 function! Verdin#Observer#inspect(bufnr, ...) abort "{{{
   let s:timerid = -1
-  if s:lib.filetypematches('vim') || s:lib.filetypematches('vimspec') || filename =~# '\.vim\%(spec\)\?$'
+  if s:lib.filetypematches('vim') || s:lib.filetypematches('vimspec') || bufname(a:bufnr) =~# '\.vim\%(spec\)\?$'
     let filetype = 'vim'
     let order = get(a:000, 1, s:const.DEFAULTORDERVIM)
   elseif s:lib.filetypematches('help')
@@ -96,7 +96,7 @@ endfunction "}}}
 
 
 function! Verdin#Observer#checkglobals(bufnr, ...) abort "{{{
-  if s:lib.filetypematches('vim') || s:lib.filetypematches('vimspec') || filename =~# '\.vim\%(spec\)\?$'
+  if s:lib.filetypematches('vim') || s:lib.filetypematches('vimspec') || bufname(a:bufnr) =~# '\.vim\%(spec\)\?$'
     let filetype = 'vim'
     let order = get(a:000, 1, s:const.DEFAULTORDERVIM)
   elseif s:lib.filetypematches('help')
