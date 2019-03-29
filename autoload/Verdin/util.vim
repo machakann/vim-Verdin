@@ -270,10 +270,7 @@ let s:specialkeywordlist = [
       \ ]
 "}}}
 " Map attribute dictionary {{{
-let s:mapattrwordlist = [
-      \   '<buffer>', '<nowait>', '<silent>', '<special>', '<script>', '<expr>',
-      \   '<unique>',
-      \ ]
+let s:mapattrwordlist = getcompletion('', 'mapping')
 "}}}
 " Command attribute dictionary {{{
 let s:commandattrwordlist = [
