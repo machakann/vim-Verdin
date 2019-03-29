@@ -13,7 +13,9 @@ let s:FUNCARG = printf('^%s(\zs[^)]*\ze)$', s:const.FUNCNAME)
 
 " public constructor of Completer object
 function! Verdin#Completer#new(Dictionaries) abort "{{{
-  return s:Completer(a:Dictionaries)
+  let Completer = deepcopy(s:Completer)
+  let Completer.shelf = copy(a:Dictionaries)
+  return Completer
 endfunction "}}}
 
 
@@ -44,7 +46,7 @@ function! Verdin#Completer#get(...) abort "{{{
       let filetype = 'vim'
     endif
     let Dictionaries = s:getbasedict(filetype)
-    let bufinfo.variables.Verdin.Completer = s:Completer(Dictionaries)
+    let bufinfo.variables.Verdin.Completer = Verdin#Completer#new(Dictionaries)
   endif
   return bufinfo.variables.Verdin.Completer
 endfunction "}}}
@@ -72,13 +74,6 @@ let s:Completer = {
       \   },
       \ }
 
-" (private) constructor of Completer object
-function! s:Completer(Dictionaries) abort
-  let Completer = deepcopy(s:Completer)
-  let Completer.shelf = copy(a:Dictionaries)
-  return Completer
-endfunction
-
 " return the column where the completion starts
 function! s:Completer.startcol(...) dict abort "{{{
   let giveupifshort = get(a:000, 0, s:FALSE)
@@ -88,6 +83,9 @@ function! s:Completer.startcol(...) dict abort "{{{
   let self.candidatelist = []
   let self.fuzzycandidatelist = []
   for Dictionary in values(self.shelf)
+    if Dictionary == {}
+      continue
+    endif
     let [startcol, candidate, fuzzycandidate] = s:lookup(Dictionary, context, giveupifshort, fuzzymatch)
     if startcol < 0 || startcol > context.startcol
       continue
@@ -113,6 +111,149 @@ function! s:Completer.startcol(...) dict abort "{{{
   let self.last = context
   return context.startcol
 endfunction "}}}
+function! s:getcontext(lnum, col, line, startcol) abort "{{{
+  let context = {}
+  let context.lnum = a:lnum
+  let context.col = a:col
+  let context.line = a:line
+  let context.precursor = a:col == 1 ? '' : a:line[: a:col-2]
+  let context.postcursor = a:line[a:col-1 :]
+  let context.syntax = s:getcursorsyntax(context)
+  let context.startcol = a:startcol
+  let context.base = context.precursor
+  return context
+endfunction "}}}
+function! s:getcursorsyntax(context) abort "{{{
+  if synIDattr(synIDtrans(synID(a:context.lnum, a:context.col-1, 1)), 'name') ==# 'Comment'
+    return {'comment': 1, 'string': 0}
+  endif
+  if match(a:context.precursor, '^[^''"]*\%(\%(''[^'']*''\|".\{-}\%(\\\%(\\\\\)*\)\@21<!"\)[^''"]*\)*[''"][^''"]*$') > -1
+    return {'comment': 0, 'string': 1}
+  endif
+  return {'comment': 0, 'string': 0}
+endfunction "}}}
+function! s:lookup(Dictionary, context, giveupifshort, fuzzymatch) abort  "{{{
+  let candidate = {}
+  let candidate.name = a:Dictionary.name
+  let candidate.itemlist = []
+  let fuzzycandidate = {}
+  let notyetmatched = s:TRUE
+  let savedstartcol = -1
+  for condition in a:Dictionary.conditionlist
+    let [matched, str] = s:matchstr(a:context, condition.cursor_at)
+    if !matched || (a:giveupifshort && strchars(str) < a:Dictionary.indexlen) || !s:cursor_is_in(condition, a:context) || s:cursor_not_at(condition, a:context)
+      continue
+    endif
+    let startcol = a:context.col - strlen(str) - 1
+    if startcol > a:context.startcol
+      continue
+    endif
+
+    if a:fuzzymatch && notyetmatched
+      let fuzzycandidate = a:Dictionary.index
+      let savedstartcol = startcol
+      let notyetmatched = s:FALSE
+    endif
+
+    let c = strcharpart(str, 0, a:Dictionary.indexlen)
+    let escaped_c = '^' . s:lib.escape(c)
+    if has_key(a:Dictionary.index, c)
+      let keys = [c] + filter(keys(a:Dictionary.index), 'v:val =~? escaped_c && v:val !=# c')
+    else
+      let keys = filter(keys(a:Dictionary.index), 'v:val =~? escaped_c')
+    endif
+
+    for key in keys
+      let candidate.itemlist += a:Dictionary.index[key]
+    endfor
+    if candidate.itemlist != []
+      let candidate.priority = get(condition, 'priority', 0)
+      return [startcol, candidate, fuzzycandidate]
+    endif
+  endfor
+  if savedstartcol >= 0 && savedstartcol <= a:context.startcol
+    return [savedstartcol, {}, fuzzycandidate]
+  endif
+  return [-1, {}, {}]
+endfunction "}}}
+function! s:matchstr(context, pat) abort "{{{
+  let [lnum, col] = searchpos(a:pat, 'bcnW', a:context.lnum)
+  if lnum != 0
+    return [s:TRUE, a:context.precursor[col-1 :]]
+  endif
+  return  [s:FALSE, '']
+endfunction "}}}
+function! s:cursor_not_at(condition, context) abort "{{{
+  let cursor_not_at = get(a:condition, 'cursor_not_at', '')
+  return cursor_not_at !=# '' && (search(cursor_not_at, 'bcnW', a:context.lnum) != 0 || search(cursor_not_at, 'cn', a:context.lnum) != 0)
+endfunction "}}}
+function! s:cursor_is_in(condition, context) abort "{{{
+  let flags = []
+  if has_key(a:condition, 'in_string')
+    if !!a:context.syntax.string == !!a:condition.in_string
+      call add(flags, 1)
+    else
+      call add(flags, 0)
+    endif
+  endif
+  if has_key(a:condition, 'in_comment')
+    if !!a:context.syntax.comment == !!a:condition.in_comment
+      call add(flags, 1)
+    else
+      call add(flags, 0)
+    endif
+  endif
+  if has_key(a:condition, 'not_in_string')
+    if !!a:context.syntax.string != !!a:condition.not_in_string
+      call add(flags, 1)
+    else
+      call add(flags, 0)
+    endif
+  endif
+  if has_key(a:condition, 'not_in_comment')
+    if !!a:context.syntax.comment != !!a:condition.not_in_comment
+      call add(flags, 1)
+    else
+      call add(flags, 0)
+    endif
+  endif
+  return flags == [] || eval(join(flags, '&&')) ? 1 : 0
+endfunction "}}}
+function! s:flatten(candidatelist, base) abort "{{{
+  let nbase = strchars(a:base)
+  if nbase < 3
+    return []
+  endif
+
+  let similarlist = s:similarlist(a:candidatelist, a:base)
+  let flattened = []
+  for [_, itemlist] in sort(similarlist, {a, b -> a[0] - b[0]})
+    let flattened += itemlist
+  endfor
+  return flattened
+endfunction "}}}
+function! s:similarlist(candidatelist, base) abort "{{{
+  let pat = join(['\m^\%(', strcharpart(a:base, 0, 1), '\|', substitute(a:base, '\m^\(.\)\(.\).*', '\2\1', ''), '\)'], '')
+  let similarlist = []
+  for candidate in a:candidatelist
+    for key in filter(keys(candidate), 'v:val =~? pat')
+      let n = strchars(key)
+      let shortbase = strcharpart(a:base, 0, n)
+      if n <= 2
+        let d = shortbase ==? key ? 0 : 1
+        call add(similarlist, [d, copy(candidate[key])])
+        continue
+      endif
+      let threshold = s:lib.DL_threshold(n)
+      let d = s:lib.Damerau_Levenshtein_distance(shortbase, key)
+      if d <= threshold
+        call add(similarlist, [d, copy(candidate[key])])
+      endif
+    endfor
+  endfor
+  return similarlist
+endfunction "}}}
+
 
 " return the list of complete items matched with a:base
 function! s:Completer.match(base) dict abort "{{{
@@ -135,6 +276,7 @@ function! s:Completer.match(base) dict abort "{{{
   endfor
   return candidatelist
 endfunction "}}}
+
 
 " return the list of complete items fuzzy-matched with a:base
 let s:MEMO_fuzzymatch = {}
@@ -192,6 +334,7 @@ function! s:fuzzyitem(item, base, score, difflen) abort "{{{
   return candidate
 endfunction "}}}
 
+
 function! s:Completer.modify(candidatelist, ...) dict abort "{{{
   let modifiers = get(a:000, 0, ['paren', 'snip'])
   if match(modifiers, '\m\C^paren$') > -1
@@ -202,158 +345,32 @@ function! s:Completer.modify(candidatelist, ...) dict abort "{{{
   endif
   return a:candidatelist
 endfunction "}}}
-function! s:Completer.complete(startcol, itemlist) dict abort "{{{
-  if self.savedoptions == {}
-    let self.savedoptions.completeopt = &completeopt
-  endif
-  set completeopt=menuone,noselect,noinsert
-  let Event = Verdin#Event#get()
-  call Event.autoparen_set()
-  call Event.aftercomplete_set(function(self.aftercomplete, [1], self))
-  call Event.aftercomplete_set(function(Event.autocomplete_on, [], Event))
-  call Event.autocomplete_off()
-
-  " NOTE: It seems 'CompleteDone' event is triggered even inside complete() function.
-  let self.is.in_completion = s:TRUE
-  call complete(a:startcol+1, a:itemlist)
-  let self.is.in_completion = s:FALSE
-endfunction "}}}
-function! s:Completer.aftercomplete(autocomplete, event) dict abort "{{{
-  if self.is.in_completion
-    return 0
-  endif
-  if !a:autocomplete
-    return 1
-  endif
-  if self.savedoptions != {}
-    let &completeopt = self.savedoptions.completeopt
-    let self.savedoptions = {}
-  endif
-  return 1
-endfunction "}}}
-function! s:Completer.addDictionary(name, new) dict abort "{{{
-  let self.shelf[a:name] = a:new
-endfunction "}}}
-function! s:getcontext(lnum, col, line, startcol) abort "{{{
-  let context = {}
-  let context.lnum = a:lnum
-  let context.col = a:col
-  let context.line = a:line
-  let context.precursor = a:col == 1 ? '' : a:line[: a:col-2]
-  let context.postcursor = a:line[a:col-1 :]
-  let context.syntax = s:getcursorsyntax(context)
-  let context.startcol = a:startcol
-  let context.base = context.precursor
-  return context
-endfunction "}}}
-function! s:getcursorsyntax(context) abort "{{{
-  if synIDattr(synIDtrans(synID(a:context.lnum, a:context.col-1, 1)), 'name') ==# 'Comment'
-    return {'comment': 1, 'string': 0}
-  endif
-  if match(a:context.precursor, '^[^''"]*\%(\%(''[^'']*''\|".\{-}\%(\\\%(\\\\\)*\)\@21<!"\)[^''"]*\)*[''"][^''"]*$') > -1
-    return {'comment': 0, 'string': 1}
-  endif
-  return {'comment': 0, 'string': 0}
-endfunction "}}}
-let s:NOTHING_FOUND = [-1, {}, {}]
-function! s:lookup(Dictionary, context, giveupifshort, fuzzymatch) abort  "{{{
-  if a:Dictionary == {}
-    return s:NOTHING_FOUND
+function! s:autoparen(candidatelist, postcursor) abort "{{{
+  if a:postcursor[0] ==# '('
+    return a:candidatelist
   endif
 
-  " for reactive dictionaries
-  if has_key(a:Dictionary, 'compile')
-    let success = a:Dictionary.compile(a:context.precursor)
-    if !success
-      return s:NOTHING_FOUND
-    endif
+  let autoparen = Verdin#_getoption('autoparen')
+  if !autoparen
+    return a:candidatelist
   endif
 
-  let candidate = {}
-  let candidate.name = a:Dictionary.name
-  let candidate.itemlist = []
-  let fuzzycandidate = {}
-  let notyetmatched = s:TRUE
-  let savedstartcol = -1
-  for condition in a:Dictionary.conditionlist
-    let [matched, str] = s:matchstr(a:context, condition.cursor_at)
-    if !matched || (a:giveupifshort && strchars(str) < a:Dictionary.indexlen) || !s:cursor_is_in(condition, a:context) || s:cursor_not_at(condition, a:context)
-      continue
-    endif
-    let startcol = a:context.col - strlen(str) - 1
-    if startcol > a:context.startcol
-      continue
-    endif
-
-    if a:fuzzymatch && notyetmatched
-      let fuzzycandidate = a:Dictionary.index
-      let savedstartcol = startcol
-      let notyetmatched = s:FALSE
-    endif
-
-    let c = strcharpart(str, 0, a:Dictionary.indexlen)
-    let escaped_c = '^' . s:lib.escape(c)
-    if has_key(a:Dictionary.index, c)
-      let keys = [c] + filter(keys(a:Dictionary.index), 'v:val =~? escaped_c && v:val !=# c')
-    else
-      let keys = filter(keys(a:Dictionary.index), 'v:val =~? escaped_c')
-    endif
-
-    for key in keys
-      let candidate.itemlist += a:Dictionary.index[key]
-    endfor
-    if candidate.itemlist != []
-      let candidate.priority = get(condition, 'priority', 0)
-      return [startcol, candidate, fuzzycandidate]
+  let user_data = json_encode({'Verdin': {'autoparen': g:Verdin#autoparen}})
+  for i in range(len(a:candidatelist))
+    let candidate = a:candidatelist[i]
+    if type(candidate) == v:t_dict && get(candidate, '__func__', s:FALSE)
+      let new = copy(candidate)
+      if matchstr(candidate.abbr, s:FUNCARG) ==# ''
+        let new.word = candidate.word . '()'
+      else
+        let new.word = candidate.word . '('
+        let new.user_data = user_data
+      endif
+      call remove(a:candidatelist, i)
+      call insert(a:candidatelist, new, i)
     endif
   endfor
-  if savedstartcol >= 0 && savedstartcol <= a:context.startcol
-    return [savedstartcol, {}, fuzzycandidate]
-  endif
-  return s:NOTHING_FOUND
-endfunction "}}}
-function! s:matchstr(context, pat) abort "{{{
-  let [lnum, col] = searchpos(a:pat, 'bcnW', a:context.lnum)
-  if lnum != 0
-    return [s:TRUE, a:context.precursor[col-1 :]]
-  endif
-  return  [s:FALSE, '']
-endfunction "}}}
-function! s:cursor_not_at(condition, context) abort "{{{
-  let cursor_not_at = get(a:condition, 'cursor_not_at', '')
-  return cursor_not_at !=# '' && (search(cursor_not_at, 'bcnW', a:context.lnum) != 0 || search(cursor_not_at, 'cn', a:context.lnum) != 0)
-endfunction "}}}
-function! s:cursor_is_in(condition, context) abort "{{{
-  let flags = []
-  if has_key(a:condition, 'in_string')
-    if !!a:context.syntax.string == !!a:condition.in_string
-      call add(flags, 1)
-    else
-      call add(flags, 0)
-    endif
-  endif
-  if has_key(a:condition, 'in_comment')
-    if !!a:context.syntax.comment == !!a:condition.in_comment
-      call add(flags, 1)
-    else
-      call add(flags, 0)
-    endif
-  endif
-  if has_key(a:condition, 'not_in_string')
-    if !!a:context.syntax.string != !!a:condition.not_in_string
-      call add(flags, 1)
-    else
-      call add(flags, 0)
-    endif
-  endif
-  if has_key(a:condition, 'not_in_comment')
-    if !!a:context.syntax.comment != !!a:condition.not_in_comment
-      call add(flags, 1)
-    else
-      call add(flags, 0)
-    endif
-  endif
-  return flags == [] || eval(join(flags, '&&')) ? 1 : 0
+  return a:candidatelist
 endfunction "}}}
 function! s:addsnippeditems(candidatelist, postcursor, ...) abort "{{{
   let postcursor = matchstr(a:postcursor, '^\S\+')
@@ -404,66 +421,43 @@ function! s:addsnippeditems(candidatelist, postcursor, ...) abort "{{{
   endwhile
   return a:candidatelist
 endfunction "}}}
-function! s:flatten(candidatelist, base) abort "{{{
-  let nbase = strchars(a:base)
-  if nbase < 3
-    return []
-  endif
 
-  let similarlist = s:similarlist(a:candidatelist, a:base)
-  let flattened = []
-  for [_, itemlist] in sort(similarlist, {a, b -> a[0] - b[0]})
-    let flattened += itemlist
-  endfor
-  return flattened
+
+function! s:Completer.complete(startcol, itemlist) dict abort "{{{
+  if self.savedoptions == {}
+    let self.savedoptions.completeopt = &completeopt
+  endif
+  set completeopt=menuone,noselect,noinsert
+  let Event = Verdin#Event#get()
+  call Event.autoparen_set()
+  call Event.aftercomplete_set(function(self.aftercomplete, [1], self))
+  call Event.aftercomplete_set(function(Event.autocomplete_on, [], Event))
+  call Event.autocomplete_off()
+
+  " NOTE: It seems 'CompleteDone' event is triggered even inside complete() function.
+  let self.is.in_completion = s:TRUE
+  call complete(a:startcol+1, a:itemlist)
+  let self.is.in_completion = s:FALSE
 endfunction "}}}
-function! s:similarlist(candidatelist, base) abort "{{{
-  let pat = join(['\m^\%(', strcharpart(a:base, 0, 1), '\|', substitute(a:base, '\m^\(.\)\(.\).*', '\2\1', ''), '\)'], '')
-  let similarlist = []
-  for candidate in a:candidatelist
-    for key in filter(keys(candidate), 'v:val =~? pat')
-      let n = strchars(key)
-      let shortbase = strcharpart(a:base, 0, n)
-      if n <= 2
-        let d = shortbase ==? key ? 0 : 1
-        call add(similarlist, [d, copy(candidate[key])])
-        continue
-      endif
-      let threshold = s:lib.DL_threshold(n)
-      let d = s:lib.Damerau_Levenshtein_distance(shortbase, key)
-      if d <= threshold
-        call add(similarlist, [d, copy(candidate[key])])
-      endif
-    endfor
-  endfor
-  return similarlist
+
+
+function! s:Completer.aftercomplete(autocomplete, event) dict abort "{{{
+  if self.is.in_completion
+    return 0
+  endif
+  if !a:autocomplete
+    return 1
+  endif
+  if self.savedoptions != {}
+    let &completeopt = self.savedoptions.completeopt
+    let self.savedoptions = {}
+  endif
+  return 1
 endfunction "}}}
-function! s:autoparen(candidatelist, postcursor) abort "{{{
-  if a:postcursor[0] ==# '('
-    return a:candidatelist
-  endif
 
-  let autoparen = Verdin#_getoption('autoparen')
-  if !autoparen
-    return a:candidatelist
-  endif
 
-  let user_data = json_encode({'Verdin': {'autoparen': g:Verdin#autoparen}})
-  for i in range(len(a:candidatelist))
-    let candidate = a:candidatelist[i]
-    if type(candidate) == v:t_dict && get(candidate, '__func__', s:FALSE)
-      let new = copy(candidate)
-      if matchstr(candidate.abbr, s:FUNCARG) ==# ''
-        let new.word = candidate.word . '()'
-      else
-        let new.word = candidate.word . '('
-        let new.user_data = user_data
-      endif
-      call remove(a:candidatelist, i)
-      call insert(a:candidatelist, new, i)
-    endif
-  endfor
-  return a:candidatelist
+function! s:Completer.addDictionary(name, new) dict abort "{{{
+  let self.shelf[a:name] = a:new
 endfunction "}}}
 "}}}
 
