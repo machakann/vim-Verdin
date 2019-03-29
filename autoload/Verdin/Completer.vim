@@ -80,9 +80,10 @@ function! s:Completer.startcol(...) dict abort "{{{
   let fuzzymatch = Verdin#_getoption('fuzzymatch')
   let context = s:getcontext(line('.'), col('.'), getline('.'), s:INF)
   let startcol = context.startcol
+  let Observer = Verdin#Observer#get()
   let self.candidatelist = []
   let self.fuzzycandidatelist = []
-  for Dictionary in values(self.shelf)
+  for Dictionary in values(self.shelf) + values(Observer.shelf)
     if Dictionary == {}
       continue
     endif
@@ -453,11 +454,6 @@ function! s:Completer.aftercomplete(autocomplete, event) dict abort "{{{
     let self.savedoptions = {}
   endif
   return 1
-endfunction "}}}
-
-
-function! s:Completer.addDictionary(name, new) dict abort "{{{
-  let self.shelf[a:name] = a:new
 endfunction "}}}
 "}}}
 

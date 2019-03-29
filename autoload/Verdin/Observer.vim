@@ -72,26 +72,7 @@ function! Verdin#Observer#inspect(bufnr, ...) abort "{{{
   if Observer.changedtick == -1
     call Verdin#Observer#checkglobals(a:bufnr, timeout, order, forcescan)
   endif
-
   call Observer.inspect(timeout, order, forcescan)
-  let Completer = Verdin#Completer#get()
-  if filetype ==# 'vim'
-    if !has_key(Completer.shelf, 'buffervar')
-      call Completer.addDictionary('buffervar', Observer.shelf.buffervar)
-      call Completer.addDictionary('bufferfunc', Observer.shelf.bufferfunc)
-      call Completer.addDictionary('buffermember', Observer.shelf.buffermember)
-      call Completer.addDictionary('bufferkeymap', Observer.shelf.bufferkeymap)
-      call Completer.addDictionary('buffercommand', Observer.shelf.buffercommand)
-      call Completer.addDictionary('buffercommand', Observer.shelf.buffercommand)
-      call Completer.addDictionary('bufferhigroup', Observer.shelf.bufferhigroup)
-      call Completer.addDictionary('funcfragment', Observer.shelf.funcfragment)
-      call Completer.addDictionary('varfragment', Observer.shelf.varfragment)
-    endif
-  elseif filetype ==# 'help'
-    if !has_key(Completer.shelf, 'buffertag')
-      call Completer.addDictionary('buffertag', Observer.shelf.buffertag)
-    endif
-  endif
 endfunction "}}}
 
 
@@ -109,31 +90,6 @@ function! Verdin#Observer#checkglobals(bufnr, ...) abort "{{{
   let forcescan = get(a:000, 2, 0)
   let Observer = Verdin#Observer#get()
   call Observer.checkglobals(timeout, order, forcescan)
-  let Completer = Verdin#Completer#get()
-
-  if filetype ==# 'vim'
-    if !has_key(Completer.shelf, 'globalvar')
-      call Completer.addDictionary('globalvar', Observer.shelf.globalvar)
-      call Completer.addDictionary('globalfunc', Observer.shelf.globalfunc)
-      call Completer.addDictionary('globalmember', Observer.shelf.globalmember)
-      call Completer.addDictionary('globalkeymap', Observer.shelf.globalkeymap)
-      call Completer.addDictionary('globalcommand', Observer.shelf.globalcommand)
-      call Completer.addDictionary('globalhigroup', Observer.shelf.globalhigroup)
-      call Completer.addDictionary('uservar', Observer.shelf.uservar)
-      call Completer.addDictionary('userfunc', Observer.shelf.userfunc)
-      call Completer.addDictionary('usercmd', Observer.shelf.usercmd)
-      call Completer.addDictionary('higroup', Observer.shelf.higroup)  " overwrite
-    endif
-  elseif filetype ==# 'help'
-    if !has_key(Completer.shelf, 'globaltag')
-      call Completer.addDictionary('globalvar', Observer.shelf.globalvar)
-      call Completer.addDictionary('globalfunc', Observer.shelf.globalfunc)
-      call Completer.addDictionary('globalkeymap', Observer.shelf.globalkeymap)
-      call Completer.addDictionary('globalcommand', Observer.shelf.globalcommand)
-      call Completer.addDictionary('globalhigroup', Observer.shelf.globalhigroup)
-      call Completer.addDictionary('globaltag', Observer.shelf.globaltag)
-    endif
-  endif
 endfunction "}}}
 
 
