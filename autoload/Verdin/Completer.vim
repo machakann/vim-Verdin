@@ -83,6 +83,8 @@ function! s:Completer.startcol(...) dict abort "{{{
   let Observer = Verdin#Observer#get()
   let self.candidatelist = []
   let self.fuzzycandidatelist = []
+
+  " Dictionary completion
   for Dictionary in values(self.shelf) + values(Observer.shelf)
     if Dictionary == {}
       continue
@@ -93,21 +95,30 @@ function! s:Completer.startcol(...) dict abort "{{{
     endif
     if startcol < context.startcol
       let context.startcol = startcol
+      let context.history = {}
       let self.candidatelist = []
       let self.fuzzycandidatelist = []
     endif
+    call s:add_history(context.history, Dictionary.name, candidate)
     call add(self.candidatelist, candidate)
     call add(self.fuzzycandidatelist, fuzzycandidate)
   endfor
   if context.startcol == s:INF
     return -1
   endif
+  let context.base = context.col == 1 ? '' : context.line[context.startcol : context.col-2]
+
+  " Live completion
+  call add(self.candidatelist, s:user_var(context))
+  call add(self.candidatelist, s:user_func(context))
+  call add(self.candidatelist, s:user_cmd(context))
+  call add(self.candidatelist, s:user_higroup(context))
+
   call filter(self.candidatelist, 'v:val != {}')
   call filter(self.fuzzycandidatelist, 'v:val != {}')
   if self.candidatelist == [] && self.fuzzycandidatelist == []
     return -1
   endif
-  let context.base = context.col == 1 ? '' : context.line[context.startcol : context.col-2]
   let self.fuzzycandidatelist = s:flatten(self.fuzzycandidatelist, context.base)
   let self.last = context
   return context.startcol
@@ -122,6 +133,7 @@ function! s:getcontext(lnum, col, line, startcol) abort "{{{
   let context.syntax = s:getcursorsyntax(context)
   let context.startcol = a:startcol
   let context.base = context.precursor
+  let context.history = {}
   return context
 endfunction "}}}
 function! s:getcursorsyntax(context) abort "{{{
@@ -133,20 +145,21 @@ function! s:getcursorsyntax(context) abort "{{{
   endif
   return {'comment': 0, 'string': 0}
 endfunction "}}}
+function! s:candidate(name, itemlist, priority) abort "{{{
+  return {
+    \ 'name': a:name,
+    \ 'itemlist': a:itemlist,
+    \ 'priority': a:priority,
+    \ }
+endfunction "}}}
 function! s:lookup(Dictionary, context, giveupifshort, fuzzymatch) abort  "{{{
-  let candidate = {}
-  let candidate.name = a:Dictionary.name
-  let candidate.itemlist = []
+  let candidate = s:candidate(a:Dictionary.name, [], 0)
   let fuzzycandidate = {}
   let notyetmatched = s:TRUE
   let savedstartcol = -1
   for condition in a:Dictionary.conditionlist
-    let [matched, str] = s:matchstr(a:context, condition.cursor_at)
-    if !matched || (a:giveupifshort && strchars(str) < a:Dictionary.indexlen) || !s:cursor_is_in(condition, a:context) || s:cursor_not_at(condition, a:context)
-      continue
-    endif
-    let startcol = a:context.col - strlen(str) - 1
-    if startcol > a:context.startcol
+    let [startcol, str] = s:match_condition(condition, a:context, a:Dictionary.indexlen, a:giveupifshort)
+    if startcol == s:INF || startcol > a:context.startcol
       continue
     endif
 
@@ -176,6 +189,17 @@ function! s:lookup(Dictionary, context, giveupifshort, fuzzymatch) abort  "{{{
     return [savedstartcol, {}, fuzzycandidate]
   endif
   return [-1, {}, {}]
+endfunction "}}}
+function! s:match_condition(condition, context, indexlen, giveupifshort) abort "{{{
+    let [matched, str] = s:matchstr(a:context, a:condition.cursor_at)
+    if !matched ||
+        \ (a:giveupifshort && strchars(str) < a:indexlen) ||
+        \ !s:cursor_is_in(a:condition, a:context) ||
+        \ s:cursor_not_at(a:condition, a:context)
+      return [s:INF, '']
+    endif
+    let startcol = a:context.col - strlen(str) - 1
+    return [startcol, str]
 endfunction "}}}
 function! s:matchstr(context, pat) abort "{{{
   let [lnum, col] = searchpos(a:pat, 'bcnW', a:context.lnum)
@@ -219,6 +243,86 @@ function! s:cursor_is_in(condition, context) abort "{{{
     endif
   endif
   return flags == [] || eval(join(flags, '&&')) ? 1 : 0
+endfunction "}}}
+function! s:add_history(history, name, candidate) abort "{{{
+  if empty(a:candidate)
+    return
+  endif
+
+  if has_key(a:history, a:name)
+    let a:history[a:name].itemlist += a:candidate.itemlist
+    let a:history[a:name].priority = min([a:history[a:name].priority, a:candidate.priority])
+  else
+    let a:history[a:name] = a:candidate
+  endif
+endfunction "}}}
+function! s:contains_in(itemlist, word) abort "{{{
+  return filter(copy(a:itemlist), 'v:val.__text__ is# a:word') != []
+endfunction "}}}
+function! s:user_var(context) abort "{{{
+  if !has_key(a:context.history, 'var')
+    return {}
+  endif
+
+  let itemlist = getcompletion(a:context.base, 'var')
+  call filter(itemlist, "v:val[:1] isnot# 'v:'")
+  call filter(itemlist, '!s:contains_in(a:context.history.var.itemlist, v:val)')
+  if empty(itemlist)
+    return {}
+  endif
+
+  call map(itemlist, "v:val[1] !=# ':' ? 'g:' . v:val : v:val")
+  call map(itemlist, '{"word": v:val, "menu": "[var]", "__text__": v:val}')
+  let priority = a:context.history.var.priority - 2
+  return s:candidate('uservar', itemlist, priority)
+endfunction "}}}
+function! s:user_func(context) abort "{{{
+  if !has_key(a:context.history, 'function')
+    return {}
+  endif
+
+  let itemlist = getcompletion(a:context.base, 'function')
+  call filter(itemlist, "v:val =~# '^[A-Z]' || v:val =~# '#'")
+  call filter(itemlist, '!s:contains_in(a:context.history.function.itemlist, v:val)')
+  if empty(itemlist)
+    return {}
+  endif
+
+  call map(itemlist, '[v:val, matchstr(v:val, ''^[[:alnum:]_#]\+'')]')
+  call map(itemlist, '{"word": v:val[1], "abbr": v:val[0], "menu": "[function]", "__text__": v:val[1], "__func__": s:TRUE}')
+  let priority = a:context.history.function.priority - 2
+  return s:candidate('userfunc', itemlist, priority)
+endfunction "}}}
+function! s:user_cmd(context) abort "{{{
+  if !has_key(a:context.history, 'command')
+    return {}
+  endif
+
+  let itemlist = getcompletion(a:context.base, 'command')
+  call filter(itemlist, "v:val =~# '^[A-Z]'")
+  call filter(itemlist, '!s:contains_in(a:context.history.command.itemlist, v:val)')
+  if empty(itemlist)
+    return {}
+  endif
+
+  call map(itemlist, '{"word": v:val, "menu": "[command]", "__text__": v:val}')
+  let priority = a:context.history.command.priority - 2
+  return s:candidate('usercmd', itemlist, priority)
+endfunction "}}}
+function! s:user_higroup(context) abort "{{{
+  if !has_key(a:context.history, 'higroup')
+    return {}
+  endif
+
+  let itemlist = getcompletion(a:context.base, 'highlight')
+  call filter(itemlist, '!s:contains_in(a:context.history.higroup.itemlist, v:val)')
+  if empty(itemlist)
+    return {}
+  endif
+
+  call map(itemlist, '{"word": v:val, "menu": "[higroup]", "__text__": v:val}')
+  let priority = a:context.history.higroup.priority - 2
+  return s:candidate('userhigroup', itemlist, priority)
 endfunction "}}}
 function! s:flatten(candidatelist, base) abort "{{{
   let nbase = strchars(a:base)
@@ -361,7 +465,7 @@ function! s:autoparen(candidatelist, postcursor) abort "{{{
     let candidate = a:candidatelist[i]
     if type(candidate) == v:t_dict && get(candidate, '__func__', s:FALSE)
       let new = copy(candidate)
-      if matchstr(candidate.abbr, s:FUNCARG) ==# ''
+      if candidate.abbr =~# '()$'
         let new.word = candidate.word . '()'
       else
         let new.word = candidate.word . '('

@@ -179,32 +179,6 @@ function! s:checkglobalsvim(...) dict abort "{{{
     let higroup = Verdin#Dictionary#new('higroup', conditionlist, higrouplist, 2)
     call s:inject(self.shelf['globalhigroup'], higroup)
   endif
-
-  " correct candidates from user space (not from buffers)
-  let uservarlist = getcompletion('', 'var')
-  call filter(uservarlist, "v:val !~# '^v:'")
-  call map(uservarlist, "v:val[1] !=# ':' ? 'g:' . v:val : v:val")
-  let conditionlist = s:decrementpriority(s:const.VARCONDITIONLIST, 2)
-  let uservar = Verdin#Dictionary#new('var', conditionlist, uservarlist, 2)
-  call s:inject(self.shelf['uservar'], uservar)
-
-  let userfunclist = getcompletion('', 'function')
-  call filter(userfunclist, "v:val =~# '^[A-Z]' || v:val =~# '#'")
-  call map(userfunclist, 'matchstr(v:val, ''^[[:alnum:]_#]\+'')')
-  let conditionlist = s:decrementpriority(s:const.FUNCCONDITIONLIST, 2)
-  let userfunc = Verdin#Dictionary#new('function', conditionlist, userfunclist, 1)
-  call s:inject(self.shelf['userfunc'], userfunc)
-
-  let usercmdlist = getcompletion('', 'command')
-  call filter(usercmdlist, "v:val =~# '^[A-Z]'")
-  let conditionlist = s:decrementpriority(s:const.COMMANDCONDITIONLIST, 2)
-  let usercmd = Verdin#Dictionary#new('command', conditionlist, usercmdlist, 1)
-  call s:inject(self.shelf['usercmd'], usercmd)
-
-  let higrouplist = getcompletion('', 'highlight')
-  let conditionlist = s:decrementpriority(s:const.HIGROUPCONDITIONLIST, 2)
-  let higroup = Verdin#Dictionary#new('higroup', conditionlist, higrouplist, 1)
-  call s:inject(self.shelf['higroup'], higroup)
 endfunction "}}}
 function! s:checkglobalshelp(...) dict abort "{{{
   let files = filter(s:lib.searchvimhelps(), 'bufnr(v:val) != self.bufnr')

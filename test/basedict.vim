@@ -347,7 +347,7 @@ function! s:suite.basedict() dict abort "{{{
         \     'cursorline': 'highlight \%#',
         \     'expect': {
         \       'startcol': 10,
-        \       'itemlist': ['highlight', 'higroup'],
+        \       'itemlist': ['highlight', 'higroup', 'userhigroup'],
         \     },
         \   },
         \
@@ -355,7 +355,7 @@ function! s:suite.basedict() dict abort "{{{
         \     'cursorline': 'highlight default \%#',
         \     'expect': {
         \       'startcol': 18,
-        \       'itemlist': ['highlight', 'higroup'],
+        \       'itemlist': ['highlight', 'higroup', 'userhigroup'],
         \     },
         \   },
         \
@@ -387,7 +387,7 @@ function! s:suite.basedict() dict abort "{{{
         \     'cursorline': '2match \%#',
         \     'expect': {
         \       'startcol': 7,
-        \       'itemlist': ['higroup'],
+        \       'itemlist': ['higroup', 'userhigroup'],
         \     },
         \   },
         \
