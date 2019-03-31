@@ -103,6 +103,7 @@ let s:Observer = {
       \     'bufferkeymap': {},
       \     'buffercommand': {},
       \     'bufferhigroup': {},
+      \     'bufferaugroup': {},
       \     'buffertag': {},
       \     'globalvar': {},
       \     'globalfunc': {},
@@ -110,6 +111,7 @@ let s:Observer = {
       \     'globalkeymap': {},
       \     'globalcommand': {},
       \     'globalhigroup': {},
+      \     'globalaugroup': {},
       \     'globaltag': {},
       \     'varfragment': {},
       \     'funcfragment': {},
@@ -139,6 +141,7 @@ function! s:checkglobalsvim(...) dict abort "{{{
   let keymapwordlist = []
   let commandlist = []
   let higrouplist = []
+  let augrouplist = []
   for filepath in files
     let Observer = s:check(filepath, 'vim', timeout, order)
     if empty(Observer)
@@ -150,6 +153,7 @@ function! s:checkglobalsvim(...) dict abort "{{{
     let keymapwordlist += filter(copy(get(Observer.shelf.bufferkeymap, 'wordlist', [])), 's:lib.word(v:val) =~# ''\m\C^<Plug>''')
     let commandlist += get(Observer.shelf.buffercommand, 'wordlist', [])
     let higrouplist += get(Observer.shelf.bufferhigroup, 'wordlist', [])
+    let augrouplist += get(Observer.shelf.bufferaugroup, 'wordlist', [])
   endfor
 
   if varlist != []
@@ -182,6 +186,11 @@ function! s:checkglobalsvim(...) dict abort "{{{
     let conditionlist = s:decrementpriority(s:const.HIGROUPCONDITIONLIST)
     let higroup = Verdin#Dictionary#new('higroup', conditionlist, higrouplist, 2)
     call s:inject(self.shelf['globalhigroup'], higroup)
+  endif
+  if augrouplist != []
+    let conditionlist = s:decrementpriority(s:const.AUGROUPCONDITIONLIST)
+    let augroup = Verdin#Dictionary#new('augroup', conditionlist, augrouplist, 1)
+    call s:inject(self.shelf['globalaugroup'], augroup)
   endif
 endfunction "}}}
 function! s:checkglobalshelp(...) dict abort "{{{
@@ -323,6 +332,7 @@ function! s:inspectvim(...) dict abort "{{{
   let keymaplist = []
   let commandlist = []
   let higrouplist = []
+  let augrouplist = []
   if match(order, '\m\C^var$') >= 0
     let [lvarlist, lmemberlist] = s:splitvarname(s:scan(local, s:const.LOCALVARREGEX, clock, timeout))
     let [gvarlist, gmemberlist] = s:splitvarname(s:scan(global, s:const.GLOBALVARREGEX, clock, timeout))
@@ -346,6 +356,9 @@ function! s:inspectvim(...) dict abort "{{{
   endif
   if match(order, '\m\C^higroup$') >= 0
     let higrouplist = s:scan(global, s:const.HIGROUPREGEX, clock, timeout)
+  endif
+  if match(order, '\m\C^augroup$') >= 0
+    let augrouplist = s:scan(global, s:const.AUGROUPREGEX, clock, timeout)
   endif
 
   if varlist != []
@@ -382,6 +395,10 @@ function! s:inspectvim(...) dict abort "{{{
     let options = {'delimitermatch': 1}
     let higroup = Verdin#Dictionary#new('higroup', s:const.HIGROUPCONDITIONLIST, higrouplist, 2, options)
     call s:inject(self.shelf['bufferhigroup'], higroup)
+  endif
+  if augrouplist != []
+    let augroup = Verdin#Dictionary#new('augroup', s:const.AUGROUPCONDITIONLIST, augrouplist, 1)
+    call s:inject(self.shelf['bufferaugroup'], augroup)
   endif
   if self.shelf.funcfragment == {}
     let funcfragmentwordlist = s:funcfragmentwordlist()

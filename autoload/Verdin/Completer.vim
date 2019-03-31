@@ -126,6 +126,7 @@ function! s:Completer.startcol(...) dict abort "{{{
   call add(self.candidatelist, s:user_func(context))
   call add(self.candidatelist, s:user_cmd(context))
   call add(self.candidatelist, s:user_higroup(context))
+  call add(self.candidatelist, s:user_augroup(context))
 
   call filter(self.candidatelist, 'v:val != {}')
   call filter(self.fuzzycandidatelist, 'v:val != {}')
@@ -336,6 +337,21 @@ function! s:user_higroup(context) abort "{{{
   call map(itemlist, '{"word": v:val, "menu": "[higroup]", "__text__": v:val}')
   let priority = a:context.history.higroup.priority - 2
   return s:candidate('userhigroup', itemlist, priority)
+endfunction "}}}
+function! s:user_augroup(context) abort "{{{
+  if !has_key(a:context.history, 'augroup')
+    return {}
+  endif
+
+  let itemlist = getcompletion(a:context.base, 'augroup')
+  call filter(itemlist, '!s:contains_in(a:context.history.augroup.itemlist, v:val)')
+  if empty(itemlist)
+    return {}
+  endif
+
+  call map(itemlist, '{"word": v:val, "menu": "[augroup]", "__text__": v:val}')
+  let priority = a:context.history.augroup.priority - 2
+  return s:candidate('useraugroup', itemlist, priority)
 endfunction "}}}
 function! s:flatten(candidatelist, base) abort "{{{
   let nbase = strchars(a:base)

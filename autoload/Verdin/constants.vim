@@ -35,6 +35,7 @@ let s:ARGNAME = '\<a:\h\w*\%(\.\h\w*\)*\>'
 let s:ARGREGEX = printf('\m\C\%%(^\|\n\)\s*fu\%%[nction]!\?\s\+\%%(%s\|%s\%%(\.\h\w*\)*\)(\s*\zs\%%(\h\w*\%%(,\s*\h\w*\)*\%%(,\s*\.\{3}\)\?\|\s*\.\{3}\)\ze\s*)', s:FUNCNAME, s:VARNAME)
 let s:COMMANDREGEX = '\m\C\%(^\|\n\)\s*com\%[mand]!\?\s\+\%(\%(-nargs=[01*?+]\|-complete=\S\+\|-range\%(=\%(%\|\d\+\)\)\?\|-count=\d\+\|-addr=\w\+\|-bang\|-bar\|-registers\|-buffer\)\s\+\)*\zs\w\+\>'
 let s:HIGROUPREGEX = '\m\C\%(^\|\n\)\s*hi\%[ghlight]!\?\s\+\%(default\s\+\)\?\%(link\s\+\)\?\zs\h\w*'
+let s:AUGROUPREGEX = '\m\C\%(^\|\n\)\s*aug\%[roup]!\?\s\+\zs[^[:space:]]\+\ze[[:space:]]'
 let s:HELPTAGREGEX = '\m\*\zs[^*[:space:]]\+\ze\*'
 
 let s:constants = {}
@@ -48,7 +49,7 @@ let s:constants.ITEMLISTTHRESHOLD = 20
 let s:constants.FUZZYMATCHINTERVAL = 5.0
 let s:constants.FUZZYMATCHTHRESHOLD = 0.88
 let s:constants.DOCPATHSMAX = 20
-let s:constants.DEFAULTORDERVIM = ['var', 'func', 'keymap', 'command', 'higroup']
+let s:constants.DEFAULTORDERVIM = ['var', 'func', 'keymap', 'command', 'higroup', 'augroup']
 let s:constants.DEFAULTORDERHELP = ['tag']
 " paths
 let s:constants.VERDINTOPDIR = expand('<sfile>:p:h:h:h')
@@ -70,6 +71,7 @@ let s:constants.ARGNAME = '\m\C' . s:ARGNAME
 let s:constants.ARGREGEX = s:ARGREGEX
 let s:constants.COMMANDREGEX = s:COMMANDREGEX
 let s:constants.HIGROUPREGEX = s:HIGROUPREGEX
+let s:constants.AUGROUPREGEX = s:AUGROUPREGEX
 let s:constants.HELPTAGREGEX = s:HELPTAGREGEX
 " constants for Dictionary
 let s:constants.COMMANDCONDITIONLIST = [
@@ -188,6 +190,10 @@ let s:constants.KEYMAPCONDITIONLIST = [
       \ ]
 let s:constants.FUNCFRAGMENTCONDITIONLIST = insert(map(deepcopy(s:constants.FUNCCONDITIONLIST), 'extend(v:val, {"priority": get(v:val, "priority", 0) + 128}, "force")'), {'cursor_at': '\m\C^\s*fu\%[nction]!\?\s\+\zs\%([gs]:\)\?\k*\%#', 'priority': 384})
 let s:constants.VARFRAGMENTCONDITIONLIST = map(deepcopy(s:constants.VARCONDITIONLIST), 'extend(v:val, {"priority": get(v:val, "priority", 0) + 128}, "force")')
+let s:constants.AUGROUPCONDITIONLIST = [
+      \   {'cursor_at': '\m\C^\s*aug\%[roup]!\?\s\+\zs\S*\%#', 'priority': 256},
+      \   {'cursor_at': '\m\C^\s*au\%[tocmd]!\?\s\+\zs\S\+\%#', 'priority': 0},
+      \ ]
 lockvar! s:constants
 
 " vim:set ts=2 sts=2 sw=2 tw=0:
