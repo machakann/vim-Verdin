@@ -78,6 +78,7 @@ let s:constants.COMMANDCONDITIONLIST = [
       \   {'cursor_at': '\m\C\%(^\s*\|[^|]|\s\+\)com\%[mand!]\s\+\%(\%(-nargs=[01*?+]\|-complete=\h\w*\%(,\S\+\)\?\|-range\%(=[%[:digit:]]\)\?\|-count=\d\+\|-addr=\h\w*\|-bang\|-bar\|-register\|-buffer\)\s\+\)*[A-Z]\w*\s\+:\?\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#', 'priority': 256},
       \   {'cursor_at': '\m\C\<exists([''"]:\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#', 'priority': 256},
       \   {'cursor_at': '\m\C^\s*\%([nvxsoilc]\?\%(m\%[ap]\|no\%[remap]\)\|map!\|no\%[remap]!\)\s\+\%(<\%(buffer\|nowait\|silent\|special\|script\|unique\)>\s*\)*\S\+\s\+:\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#', 'priority': 256},
+      \   {'cursor_at': '\m\C\%(\s\+|\s\+\|\s*\n\s*\\\s*|\s*\|\s*|\s*\n\s*\\\s*\)\zs\%(!!\?\|@@\?\|[#&<>=]\|\a\w*\)\?\%#', 'priority': 128},
       \   {'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\w\{5,}\%#', 'in_comment': 1, 'priority': 0},
       \   {'cursor_at': '\m^\%(\%([^"]*"[^"]*"\)*[^"]*"[^"]*\|\%([^'']*''[^'']*''\)*[^'']*''[^'']*\)\zs\<\a\w\{5,}\%#', 'in_string': 1, 'priority': 0},
       \ ]
@@ -92,6 +93,7 @@ let s:constants.FUNCCONDITIONLIST = [
       \   {'cursor_at': '\m\C^\s*\%(if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.&]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#', 'not_in_string': 1, 'not_in_comment': 1, 'priority': 128},
       \   {'cursor_at': '\m\C^\s*[A-Z]\w*!\?\s.*[:.&]\@1<!\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#', 'not_in_string': 1, 'not_in_comment': 1, 'priority': 0,},
       \   {'cursor_at': '\m\C\%(<S\%[ID>]\|<SID>\h\w*\)\%#', 'priority': 0},
+      \   {'cursor_at': '\m\C^\s*\\\s*\zs\%(\<[gs]:\h\k*\|\<[gs]:\|\<\k*\)\%#', 'priority': 0},
       \   {'cursor_at': '\m\C\<\%([gs]:\h\k\{5,}\|\%([gs]:\)\?\h\k\{5,}\)\%#', 'in_string': 1, 'priority': 0},
       \   {'cursor_at': '\m\C\<\%([gs]:\h\k\{5,}\|\%([gs]:\)\?\h\k\{5,}\)\%#', 'in_comment': 1, 'priority': 0},
       \ ]
@@ -169,6 +171,7 @@ let s:constants.HELPTAGCONDITIONLIST = [
 let s:constants.VARCONDITIONLIST = [
       \   {'cursor_at': '\m\C^\s*call\s\+\zs\%([ablstw]:\|\%([ablstw]:\)\?\<\h\w*\|g:\h[0-9A-Za-z_#]*\)\?\%#', 'priority': 128},
       \   {'cursor_at': '\m\C^\s*\%(let\|call\?\|if\|elseif\?\|for\|wh\%[ile]\|retu\%[rn]\|exe\%[cute]\|fu\%[nction]!\?\|unl\%[et]!\?\|ec\%[hon]\|echom\%[sg]\|echoe\%[rr]\)\s.*[:.&+]\@1<!\zs\%(\<[abglstwv]:\h\k*\|\<[abglstwv]:\|\<\k*\)\%#', 'priority': 256},
+      \   {'cursor_at': '\m\C^\s*\\\s*\zs\%(\<[abglstwv]:\h\k*\|\<[abglstwv]:\|\<\k*\)\%#', 'priority': 0},
       \   {'cursor_at': '\m\C^\s*[A-Z]\w*!\?\s.*[:.&]\@1<!\zs\%(\<[abglstwv]:\h\k*\|\<[abglstwv]:\|\<\k*\)\%#', 'priority': 0},
       \   {'cursor_at': '\m\C\%(\%([:.&]\@1<![ablstw]:\)\?\<\h\w\{5,}\|g:\h[0-9A-Za-z_#]\{6,}\)\%#', 'priority': 0},
       \ ]
