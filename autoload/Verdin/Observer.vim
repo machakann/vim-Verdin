@@ -2,6 +2,8 @@
 let s:SEARCHLINES = 200
 let s:const = Verdin#constants#distribute()
 let s:lib = Verdin#lib#distribute()
+let s:TRUE = 1
+let s:FALSE = 0
 let s:cache = {}
 "}}}
 
@@ -17,16 +19,14 @@ function! Verdin#Observer#get(...) abort "{{{
     let bufinfo.variables.Verdin = {}
   endif
   if !has_key(bufinfo.variables.Verdin, 'Observer')
-    let filetype = getbufvar(target, '&filetype')
-    let filename = bufname(target)
-    if s:lib.filetypematches('vim') || s:lib.filetypematches('vimspec') || filename =~# '\.vim\%(spec\)\?$'
-      let kind = 'vim'
+    if s:lib.filetypematches('vim') || s:lib.filetypematches('vimspec') || bufname(target) =~# '\.vim\%(spec\)\?$'
+      let filetype = 'vim'
     elseif s:lib.filetypematches('help')
-      let kind = 'help'
+      let filetype = 'help'
     else
       return {}
     endif
-    let bufinfo.variables.Verdin.Observer = Verdin#Observer#new(target, kind)
+    let bufinfo.variables.Verdin.Observer = Verdin#Observer#new(target, filetype)
   endif
   return bufinfo.variables.Verdin.Observer
 endfunction "}}}
@@ -60,11 +60,12 @@ function! Verdin#Observer#inspect(bufnr, ...) abort "{{{
   else
     return
   endif
+
   let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
   let forcescan = get(a:000, 2, 0)
-  let Observer = Verdin#Observer#get()
+  let Observer = Verdin#Observer#get(a:bufnr)
   if Observer.changedtick == -1
-    call Verdin#Observer#checkglobals(a:bufnr, timeout, order, forcescan)
+    call Observer.checkglobals(timeout, order, forcescan)
   endif
   call Observer.inspect(timeout, order, forcescan)
 endfunction "}}}
@@ -80,17 +81,19 @@ function! Verdin#Observer#checkglobals(bufnr, ...) abort "{{{
   else
     return
   endif
+
   let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
   let forcescan = get(a:000, 2, 0)
-  let Observer = Verdin#Observer#get()
+  let Observer = Verdin#Observer#get(a:bufnr)
   call Observer.checkglobals(timeout, order, forcescan)
 endfunction "}}}
 
 
 " Observer object {{{
 let s:Observer = {
+      \   'filetype': '',
       \   'bufname': '',
-      \   'bufnr': -1,
+      \   'bufnr': 0,
       \   'changedtick': -1,
       \   'globalcheckstarted': 0,
       \   'shelf': {
@@ -110,24 +113,25 @@ let s:Observer = {
       \     'globaltag': {},
       \     'varfragment': {},
       \     'funcfragment': {},
-      \     'uservar': {},
-      \     'userfunc': {},
-      \     'usercmd': {},
-      \     'higroup': {},
       \   },
       \   'testmode': 0,
+      \   'bufferinspection': s:FALSE,
       \ }
 function! s:Observer.changed() dict abort "{{{
   return getbufvar(self.bufnr, 'changedtick', 0) != self.changedtick
 endfunction "}}}
+
+
 function! s:checkglobalsvim(...) dict abort "{{{
+  let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
+  let order = get(a:000, 1, s:const.DEFAULTORDERVIM)
+  let forcescan = get(a:000, 2, 0)
+
   let files = filter(s:lib.searchvimscripts(), 'bufnr(v:val) != self.bufnr')
-  if self.globalcheckstarted && !s:changed(files)
+  if !forcescan && self.globalcheckstarted && !s:changed(files)
     return
   endif
   let self.globalcheckstarted = 1
-  let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
-  let order = get(a:000, 1, s:const.DEFAULTORDERVIM)
 
   let varlist = []
   let funclist = []
@@ -181,13 +185,15 @@ function! s:checkglobalsvim(...) dict abort "{{{
   endif
 endfunction "}}}
 function! s:checkglobalshelp(...) dict abort "{{{
+  let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
+  let order = get(a:000, 1, s:const.DEFAULTORDERHELP)
+  let forcescan = get(a:000, 2, 0)
+
   let files = filter(s:lib.searchvimhelps(), 'bufnr(v:val) != self.bufnr')
-  if self.globalcheckstarted && !s:changed(files)
+  if !forcescan && self.globalcheckstarted && !s:changed(files)
     return
   endif
   let self.globalcheckstarted = 1
-  let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
-  let order = get(a:000, 1, s:const.DEFAULTORDERHELP)
 
   " check help buffer
   let helptaglist = []
@@ -249,7 +255,7 @@ function! s:checkglobalshelp(...) dict abort "{{{
     call s:inject(self.shelf['globalhigroup'], higroup)
   endif
 endfunction "}}}
-function! s:check(filepath, kind, timeout, order) abort "{{{
+function! s:check(filepath, filetype, timeout, order) abort "{{{
   if bufloaded(a:filepath)
     let Observer = Verdin#Observer#get(a:filepath)
     if empty(Observer)
@@ -260,7 +266,7 @@ function! s:check(filepath, kind, timeout, order) abort "{{{
       unlet s:cache[a:filepath]
     endif
   elseif !has_key(s:cache, a:filepath)
-    let Observer = Verdin#Observer#new(a:filepath, a:kind)
+    let Observer = Verdin#Observer#new(a:filepath, a:filetype)
     call Observer.inspect(a:timeout, a:order)
     let s:cache[a:filepath] = Observer
   else
@@ -282,14 +288,17 @@ function! s:changed(vimscripts) abort "{{{
   endfor
   return 0
 endfunction "}}}
+
+
 function! s:inspectvim(...) dict abort "{{{
+  let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
+  let order = get(a:000, 1, s:const.DEFAULTORDERVIM)
   let forcescan = get(a:000, 2, 0)
+
   if !forcescan && !self.changed()
     return
   endif
   let self.changedtick = getbufvar(self.bufnr, 'changedtick', 0)
-  let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
-  let order = get(a:000, 1, s:const.DEFAULTORDERVIM)
 
   " NOTE: The second condition is for tests
   if bufloaded(self.bufnr) || self.testmode
@@ -387,13 +396,14 @@ function! s:inspectvim(...) dict abort "{{{
   call clock.stop()
 endfunction "}}}
 function! s:inspecthelp(...) dict abort "{{{
+  let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
+  let order = get(a:000, 1, s:const.DEFAULTORDERHELP)
   let forcescan = get(a:000, 2, 0)
+
   if !forcescan && !self.changed()
     return
   endif
   let self.changedtick = getbufvar(self.bufnr, 'changedtick', 0)
-  let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
-  let order = get(a:000, 1, s:const.DEFAULTORDERHELP)
 
   if bufloaded(self.bufnr)
     let doc = s:get_buffer_string(self.bufnr)
@@ -634,13 +644,46 @@ function! s:decrementpriority(conditionlist, ...) abort "{{{
   endfor
   return newlist
 endfunction "}}}
+
+
+let s:ON  = 1
+let s:OFF = 0
+function! s:Observer.bufferinspection_on(...) abort "{{{
+  if self.bufferinspection is s:ON
+    return
+  endif
+  let self.bufferinspection = s:ON
+
+  let timeout = get(a:000, 0, s:const.SCANTIMEOUT)
+  let order = get(a:000, 1, self.filetype is# 'help' ? s:const.DEFAULTORDERHELP : s:const.DEFAULTORDERVIM)
+  let forcescan = get(a:000, 2, 0)
+  if self.changedtick == -1
+    call self.checkglobals(timeout, order, forcescan)
+  endif
+  call self.inspect(timeout, order, forcescan)
+
+  augroup Verdin-bufferinspection
+    execute printf('autocmd! * <buffer=%d>', self.bufnr)
+    execute printf('autocmd InsertEnter  <buffer=%d> call Verdin#Observer#debounce(%d)', self.bufnr, self.bufnr)
+    execute printf('autocmd InsertLeave  <buffer=%d> call Verdin#Observer#cancel_debounce()', self.bufnr)
+    execute printf('autocmd BufWritePost <buffer=%d> call Verdin#Observer#inspect(%d, %d)', self.bufnr, self.bufnr, s:const.SCANTIMEOUTLONG)
+    execute printf('autocmd BufEnter     <buffer=%d> call Verdin#Observer#checkglobals(%d)', self.bufnr, self.bufnr)
+  augroup END
+endfunction "}}}
+function! s:Observer.bufferinspection_off(...) abort "{{{
+  let self.bufferinspection = s:OFF
+  augroup Verdin-bufferinspection
+    execute printf('autocmd! * <buffer=%d>', self.bufnr)
+  augroup END
+endfunction "}}}
 "}}}
 
 
-function! Verdin#Observer#new(target, kind, ...) abort "{{{
+function! Verdin#Observer#new(target, filetype, ...) abort "{{{
   let testmode = get(a:000, 0, 0)
   let bufinfo = get(getbufinfo(a:target), 0, {})
   let Observer = deepcopy(s:Observer)
+  let Observer.filetype = a:filetype
   if type(a:target) == v:t_number
     let Observer.bufname = fnamemodify(bufname(a:target), ':p')
   else
@@ -648,10 +691,10 @@ function! Verdin#Observer#new(target, kind, ...) abort "{{{
   endif
   let Observer.bufnr = bufnr(a:target)
   let Observer.testmode = testmode
-  if a:kind ==# 'vim'
+  if a:filetype ==# 'vim'
     let Observer.inspect = function('s:inspectvim')
     let Observer.checkglobals = function('s:checkglobalsvim')
-  elseif a:kind ==# 'help'
+  elseif a:filetype ==# 'help'
     let Observer.inspect = function('s:inspecthelp')
     let Observer.checkglobals = function('s:checkglobalshelp')
   else

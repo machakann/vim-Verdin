@@ -1,5 +1,13 @@
 " FIXME: CR to close popup and break at once
 
+" script ID {{{
+function! s:SID() abort
+  return matchstr(expand('<sfile>'), '<SNR>\zs\d\+\ze_SID$')
+endfunction
+let s:SID = printf("\<SNR>%s_", s:SID())
+delfunction s:SID
+"}}}
+
 " script local variables {{{
 let s:const = Verdin#constants#distribute()
 let s:lib = Verdin#lib#distribute()
@@ -12,8 +20,9 @@ let s:FUNCARG = printf('^%s(\zs[^)]*\ze)$', s:const.FUNCNAME)
 
 
 " public constructor of Completer object
-function! Verdin#Completer#new(Dictionaries) abort "{{{
+function! Verdin#Completer#new(bufnr, Dictionaries) abort "{{{
   let Completer = deepcopy(s:Completer)
+  let Completer.bufnr = a:bufnr
   let Completer.shelf = copy(a:Dictionaries)
   return Completer
 endfunction "}}}
@@ -46,7 +55,8 @@ function! Verdin#Completer#get(...) abort "{{{
       let filetype = 'vim'
     endif
     let Dictionaries = s:getbasedict(filetype)
-    let bufinfo.variables.Verdin.Completer = Verdin#Completer#new(Dictionaries)
+    let bufnr = bufinfo.bufnr
+    let bufinfo.variables.Verdin.Completer = Verdin#Completer#new(bufnr, Dictionaries)
   endif
   return bufinfo.variables.Verdin.Completer
 endfunction "}}}
@@ -54,25 +64,28 @@ endfunction "}}}
 
 " Completer object {{{
 let s:Completer = {
-      \   'shelf': {},
-      \   'candidatelist': [],
-      \   'fuzzycandidatelist': [],
-      \   'clock': Verdin#clock#new(),
-      \   'savedoptions': {},
-      \   'is': {
-      \     'in_completion': s:FALSE,
-      \     'lazyredraw_changed': s:FALSE,
-      \   },
-      \   'last': {
-      \     'lnum': 0,
-      \     'col': 0,
-      \     'line': '',
-      \     'precursor': '',
-      \     'postcursor': '',
-      \     'startcol': -1,
-      \     'base': '',
-      \   },
-      \ }
+  \   'bufnr': 0,
+  \   'shelf': {},
+  \   'candidatelist': [],
+  \   'fuzzycandidatelist': [],
+  \   'clock': Verdin#clock#new(),
+  \   'savedoptions': {},
+  \   'is': {
+  \     'in_completion': s:FALSE,
+  \     'lazyredraw_changed': s:FALSE,
+  \   },
+  \   'last': {
+  \     'lnum': 0,
+  \     'col': 0,
+  \     'line': '',
+  \     'precursor': '',
+  \     'postcursor': '',
+  \     'startcol': -1,
+  \     'base': '',
+  \   },
+  \   'autocomplete': s:FALSE,
+  \   'autocmdqueue': [],
+  \ }
 
 " return the column where the completion starts
 function! s:Completer.startcol(...) dict abort "{{{
@@ -533,32 +546,140 @@ function! s:Completer.complete(startcol, itemlist) dict abort "{{{
     let self.savedoptions.completeopt = &completeopt
   endif
   set completeopt=menuone,noselect,noinsert
-  let Event = Verdin#Event#get()
-  call Event.autoparen_set()
-  call Event.aftercomplete_set(function(self.aftercomplete, [1], self))
-  call Event.aftercomplete_set(function(Event.autocomplete_on, [], Event))
-  call Event.autocomplete_off()
+  call self.autocomplete_off()
+  call self.aftercomplete_set(function('s:restore_options', [self]))
+  call self.aftercomplete_set(function(self.autocomplete_on, [], self))
+  call self.autoparen_set()
 
   " NOTE: It seems 'CompleteDone' event is triggered even inside complete() function.
   let self.is.in_completion = s:TRUE
   call complete(a:startcol+1, a:itemlist)
   let self.is.in_completion = s:FALSE
 endfunction "}}}
-
-
-function! s:Completer.aftercomplete(autocomplete, event) dict abort "{{{
-  if self.is.in_completion
-    return 0
-  endif
-  if !a:autocomplete
-    return 1
-  endif
-  if self.savedoptions != {}
-    let &completeopt = self.savedoptions.completeopt
-    let self.savedoptions = {}
-  endif
-  return 1
+function! s:restore_options(Completer, event) abort "{{{
+  let &completeopt = a:Completer.savedoptions.completeopt
+  let a:Completer.savedoptions = {}
 endfunction "}}}
+
+
+let s:ON  = 1
+let s:OFF = 0
+function! s:Completer.autocomplete_on(...) abort "{{{
+  if self.autocomplete is s:ON
+    return
+  endif
+
+  let self.autocomplete = s:ON
+  augroup Verdin-autocomplete
+    execute printf('autocmd! * <buffer=%d>', self.bufnr)
+    execute printf('autocmd CursorMovedI <buffer=%d> call Verdin#Verdin#debounce()', self.bufnr)
+    if exists('##TextChangedP')
+      execute printf('autocmd TextChangedP <buffer=%d> call Verdin#Verdin#trigger(line("."), col("."))', self.bufnr)
+    endif
+  augroup END
+endfunction "}}}
+function! s:Completer.autocomplete_off(...) abort "{{{
+  let self.autocomplete = s:OFF
+  augroup Verdin-autocomplete
+    execute printf('autocmd! * <buffer=%d>', self.bufnr)
+  augroup END
+endfunction "}}}
+
+
+function! s:Completer.aftercomplete_set(Funcref) dict abort "{{{
+  call add(self.autocmdqueue, a:Funcref)
+  augroup Verdin-aftercomplete
+    execute printf('autocmd! * <buffer=%d>', self.bufnr)
+    execute printf('autocmd CompleteDone  <buffer=%d> call s:aftercomplete("CompleteDone")', self.bufnr)
+    execute printf('autocmd InsertLeave   <buffer=%d> call s:aftercomplete("InsertLeave")',  self.bufnr)
+    execute printf('autocmd CursorMovedI  <buffer=%d> call s:aftercomplete("CursorMovedI")', self.bufnr)
+  augroup END
+endfunction "}}}
+function! s:aftercomplete(event) abort "{{{
+  let Completer = Verdin#Completer#get()
+  if Completer.is.in_completion
+    return
+  endif
+
+  for l:F in Completer.autocmdqueue
+    call l:F(a:event)
+  endfor
+  call filter(Completer.autocmdqueue, 0)
+
+  augroup Verdin-aftercomplete
+    execute printf('autocmd! * <buffer=%d>', Completer.bufnr)
+  augroup END
+endfunction "}}}
+
+
+function! s:Completer.autoparen_set() abort "{{{
+  augroup Verdin-autoparen
+    execute printf('autocmd! * <buffer=%d>', self.bufnr)
+    if Verdin#_getoption('autoparen') == 2
+      execute printf('autocmd CompleteDone <buffer=%d> call s:autoparenclose(%d)', self.bufnr, self.bufnr)
+    endif
+  augroup END
+endfunction "}}}
+function! s:autoparenclose(bufnr) abort "{{{
+  if empty(v:completed_item)
+    return
+  endif
+
+  augroup Verdin-autoparen
+    execute printf('autocmd! * <buffer=%d>', a:bufnr)
+  augroup END
+
+  let user_data = get(v:completed_item, 'user_data', '')
+  if user_data is# ''
+    return
+  endif
+
+  try
+    let dict = json_decode(user_data)
+  catch
+    return
+  endtry
+
+  if !has_key(dict, 'Verdin')
+    return
+  endif
+
+  let autoparen = get(dict['Verdin'], 'autoparen', 0)
+  if autoparen != 2
+    return
+  endif
+
+  call feedkeys(s:CloseParen, 'im')
+endfunction
+
+let s:CloseParen = s:SID . '(CloseParen)'
+inoremap <silent> <SID>(CloseParen) <C-r>=<SID>CloseParen('i')<CR>
+cnoremap <silent> <SID>(CloseParen) <Nop>
+nnoremap <silent><expr> <SID>(CloseParen) <SID>CloseParen('n')
+function! s:CloseParen(mode) abort
+  let Completer = Verdin#Completer#get()
+  if Completer.last.postcursor[0] ==# '('
+    return ''
+  endif
+  let lnum = Completer.last.lnum
+  let startcol = Completer.last.startcol+1
+  let funcname = s:lib.escape(v:completed_item.word)
+  let postcursor = s:lib.escape(Completer.last.postcursor)
+  if a:mode ==# 'i'
+    let pat = printf('\m\%%%dl\%%%dc%s.*\%%#%s$',
+                    \lnum, startcol, funcname, postcursor)
+    let keyseq = ")\<C-g>U\<Left>"
+  elseif a:mode ==# 'n'
+    let pat = printf('\m\%%%dl\%%%dc%s\%%#(%s$',
+                    \lnum, startcol, funcname[:-2], postcursor)
+    let keyseq = "a)\<Esc>"
+  endif
+  if search(pat, 'bcn', Completer.last.lnum)
+    return keyseq
+  endif
+  return ''
+endfunction
+"}}}
 "}}}
 
 " vim:set ts=2 sts=2 sw=2 tw=0:

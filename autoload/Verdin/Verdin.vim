@@ -29,12 +29,12 @@ function! Verdin#Verdin#startbufferinspection(bang) abort "{{{
 
   if a:bang ==# '!'
     for bufinfo in s:getbufinfo()
-      let Event = Verdin#Event#get(bufinfo.bufnr)
-      call Event.bufferinspection_on()
+      let Observer = Verdin#Observer#get(bufinfo.bufnr)
+      call Observer.bufferinspection_on()
     endfor
   else
-    let Event = Verdin#Event#get()
-    call Event.bufferinspection_on()
+    let Observer = Verdin#Observer#get()
+    call Observer.bufferinspection_on()
   endif
 endfunction "}}}
 
@@ -45,13 +45,13 @@ function! Verdin#Verdin#stopbufferinspection(bang) abort "{{{
   if a:bang ==# '!'
     for bufinfo in s:getbufinfo()
       if has_key(bufinfo.variables, 'Verdin')
-        let Event = Verdin#Event#get(bufinfo.bufnr)
-        call Event.bufferinspection_off()
+        let Observer = Verdin#Observer#get(bufinfo.bufnr)
+        call Observer.bufferinspection_off()
       endif
     endfor
   else
-    let Event = Verdin#Event#get()
-    call Event.bufferinspection_off()
+    let Observer = Verdin#Observer#get()
+    call Observer.bufferinspection_off()
   endif
 endfunction "}}}
 
@@ -67,17 +67,17 @@ function! Verdin#Verdin#startautocomplete(bang) abort "{{{
     return
   endif
 
+  call Verdin#Verdin#startbufferinspection(a:bang)
+
   if a:bang ==# '!'
     let g:Verdin#autocomplete = s:ON
     for bufinfo in s:getbufinfo()
-      let Event = Verdin#Event#get(bufinfo.bufnr)
-      call Event.bufferinspection_on()
-      call Event.autocomplete_on()
+      let Completer = Verdin#Completer#get(bufinfo.bufnr)
+      call Completer.autocomplete_on()
     endfor
   else
-    let Event = Verdin#Event#get()
-    call Event.bufferinspection_on()
-    call Event.autocomplete_on()
+    let Completer = Verdin#Completer#get()
+    call Completer.autocomplete_on()
   endif
 endfunction "}}}
 
@@ -90,15 +90,13 @@ function! Verdin#Verdin#stopautocomplete(bang) abort "{{{
     let g:Verdin#autocomplete = s:OFF
     for bufinfo in s:getbufinfo()
       if has_key(bufinfo.variables, 'Verdin')
-        let Event = Verdin#Event#get(bufinfo.bufnr)
-        call Event.bufferinspection_off()
-        call Event.autocomplete_off()
+        let Completer = Verdin#Completer#get(bufinfo.bufnr)
+        call Completer.autocomplete_off()
       endif
     endfor
   else
-    let Event = Verdin#Event#get()
-    call Event.bufferinspection_off()
-    call Event.autocomplete_off()
+    let Completer = Verdin#Completer#get()
+    call Completer.autocomplete_off()
   endif
 endfunction "}}}
 
@@ -127,16 +125,18 @@ function! Verdin#Verdin#finishautocomplete(bang) abort "{{{
   if a:bang ==# '!'
     for bufinfo in s:getbufinfo()
       if has_key(bufinfo.variables, 'Verdin')
-        let Event = Verdin#Event#get(bufinfo.bufnr)
-        call Event.bufferinspection_off()
-        call Event.autocomplete_off()
+        let Observer = Verdin#Observer#get(bufinfo.bufnr)
+        call Observer.bufferinspection_off()
+        let Completer = Verdin#Completer#get(bufinfo.bufnr)
+        call Completer.autocomplete_off()
         unlet! bufinfo.variables.Verdin
       endif
     endfor
   else
-    let Event = Verdin#Event#get()
-    call Event.bufferinspection_off()
-    call Event.autocomplete_off()
+    let Observer = Verdin#Observer#get()
+    call Observer.bufferinspection_off()
+    let Completer = Verdin#Completer#get()
+    call Completer.autocomplete_off()
     unlet! b:Verdin
   endif
 endfunction "}}}
@@ -148,7 +148,7 @@ endfunction "}}}
 "       Check s:const.DEFAULTORDERVIM or s:const.DEFAULTORDERHELP for
 "       available options
 function! Verdin#Verdin#scanbuffer(args) abort "{{{
-  if s:lib.filetypematches('vim') || s:lib.filetypematches('vimspec') || filename =~# '\.vim\%(spec\)\?$'
+  if s:lib.filetypematches('vim') || s:lib.filetypematches('vimspec') || bufname('%') =~# '\.vim\%(spec\)\?$'
     let defaultorder = s:const.DEFAULTORDERVIM
   elseif s:lib.filetypematches('help')
     let defaultorder = s:const.DEFAULTORDERHELP
@@ -181,7 +181,7 @@ endfunction "}}}
 
 " Complete options for `:VerdinScanBuffer` in command line mode
 function! Verdin#Verdin#scanbuffer_compl(ArgLead, CmdLine, CursorPos) abort "{{{
-  if s:lib.filetypematches('vim') || s:lib.filetypematches('vimspec') || filename =~# '\.vim\%(spec\)\?$'
+  if s:lib.filetypematches('vim') || s:lib.filetypematches('vimspec') || bufname('%') =~# '\.vim\%(spec\)\?$'
     let defaultorder = s:const.DEFAULTORDERVIM
   elseif s:lib.filetypematches('help')
     let defaultorder = s:const.DEFAULTORDERHELP
@@ -194,8 +194,8 @@ endfunction "}}}
 
 " Concrete implementation of `Verdin#omnifunc()`
 function! Verdin#Verdin#omnifunc(findstart, base) abort "{{{
-  let Event = Verdin#Event#get()
-  call Event.bufferinspection_on()
+  let Observer = Verdin#Observer#get()
+  call Observer.bufferinspection_on()
 
   let Completer = Verdin#Completer#get()
   if a:findstart == 1
@@ -207,8 +207,7 @@ function! Verdin#Verdin#omnifunc(findstart, base) abort "{{{
   for item in Completer.modify(Completer.match(a:base))
     call complete_add(item)
   endfor
-  call Event.autoparen_set()
-  call Event.aftercomplete_set(function(Completer.aftercomplete, [0], Completer))
+  call Completer.autoparen_set()
 
   " fuzzy matching
   let fuzzymatch = Verdin#_getoption('fuzzymatch')
@@ -231,8 +230,8 @@ endfunction "}}}
 
 " Concrete implementation of `Verdin#omnifunc()` in cooperative mode
 function! Verdin#Verdin#omnifunc_cooperative(findstart, base) abort "{{{
-  let Event = Verdin#Event#get()
-  call Event.bufferinspection_on()
+  let Observer = Verdin#Observer#get()
+  call Observer.bufferinspection_on()
 
   let Completer = Verdin#Completer#get()
   if a:findstart == 1
@@ -242,8 +241,7 @@ function! Verdin#Verdin#omnifunc_cooperative(findstart, base) abort "{{{
 
   " second run
   let itemlist = Completer.modify(Completer.match(a:base))
-  call Event.autoparen_set()
-  call Event.aftercomplete_set(function(Completer.aftercomplete, [0], Completer))
+  call Completer.autoparen_set()
 
   " fuzzy matching
   let fuzzymatch = Verdin#_getoption('fuzzymatch')
@@ -357,8 +355,8 @@ endfunction "}}}
 
 
 function! s:getbufinfo() abort "{{{
-  if s:lib.filetypematches('vim') || s:lib.filetypematches('vimspec') || filename =~# '\.vim\%(spec\)\?$'
-    return filter(getbufinfo({'buflisted':1}), 's:lib.filetypematches("vim", v:val.bufnr) || s:lib.filetypematches("vimspec", v:val.bufnr) || bufname(v:val.bufnr) =~# ''\.vim\%(spec\)\?$'')
+  if s:lib.filetypematches('vim') || s:lib.filetypematches('vimspec') || bufname('%') =~# '\.vim\%(spec\)\?$'
+    return filter(getbufinfo({'buflisted':1}), 's:lib.filetypematches("vim", v:val.bufnr) || s:lib.filetypematches("vimspec", v:val.bufnr) || bufname(v:val.bufnr) =~# ''\.vim\%(spec\)\?$''')
   elseif s:lib.filetypematches('help')
     return filter(getbufinfo({'buflisted':1}), 's:lib.filetypematches("help", v:val.bufnr) && getbufvar(v:val.bufnr, "&buftype") !=# "help"')
   endif
@@ -372,12 +370,18 @@ endfunction "}}}
 
 
 function! s:refresh(bufnr) abort "{{{
-  let Event = Verdin#Event#get(a:bufnr)
-  unlet! b:Verdin
-  call Verdin#Completer#get()
-  call Verdin#Observer#get()
-  let b:Verdin.Event = Event
-  call Event.bufferinspection_on()
+  let Completer = Verdin#Completer#get(a:bufnr)
+  let Observer = Verdin#Observer#get(a:bufnr)
+  let autocomplete = Completer.autocomplete
+  let bufferinspection = Observer.bufferinspection
+  let bufferinfo = get(getbufinfo(a:bufnr), 0, {})
+  if !empty(bufferinfo)
+    unlet! bufferinfo.variables.Verdin
+  endif
+  let Completer = Verdin#Completer#get(a:bufnr)
+  let Observer = Verdin#Observer#get(a:bufnr)
+  let Completer.autocomplete = autocomplete
+  let Observer.bufferinspection = bufferinspection
 endfunction "}}}
 
 
