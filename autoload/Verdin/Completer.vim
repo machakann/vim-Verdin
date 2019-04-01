@@ -258,101 +258,6 @@ function! s:cursor_is_in(condition, context) abort "{{{
   endif
   return flags == [] || eval(join(flags, '&&')) ? 1 : 0
 endfunction "}}}
-function! s:add_history(history, name, candidate) abort "{{{
-  if empty(a:candidate)
-    return
-  endif
-
-  if has_key(a:history, a:name)
-    let a:history[a:name].itemlist += a:candidate.itemlist
-    let a:history[a:name].priority = min([a:history[a:name].priority, a:candidate.priority])
-  else
-    let a:history[a:name] = a:candidate
-  endif
-endfunction "}}}
-function! s:contains_in(itemlist, word) abort "{{{
-  return filter(copy(a:itemlist), 'v:val.__text__ is# a:word') != []
-endfunction "}}}
-function! s:user_var(context) abort "{{{
-  if !has_key(a:context.history, 'var')
-    return {}
-  endif
-
-  let itemlist = getcompletion(a:context.base, 'var')
-  call filter(itemlist, "v:val[:1] isnot# 'v:'")
-  call filter(itemlist, '!s:contains_in(a:context.history.var.itemlist, v:val)')
-  if empty(itemlist)
-    return {}
-  endif
-
-  call map(itemlist, "v:val[1] !=# ':' ? 'g:' . v:val : v:val")
-  call map(itemlist, '{"word": v:val, "menu": "[var]", "__text__": v:val}')
-  let priority = a:context.history.var.priority - 2
-  return s:candidate('uservar', itemlist, priority)
-endfunction "}}}
-function! s:user_func(context) abort "{{{
-  if !has_key(a:context.history, 'function')
-    return {}
-  endif
-
-  let itemlist = getcompletion(a:context.base, 'function')
-  call filter(itemlist, "v:val =~# '^[A-Z]' || v:val =~# '#'")
-  call filter(itemlist, '!s:contains_in(a:context.history.function.itemlist, v:val)')
-  if empty(itemlist)
-    return {}
-  endif
-
-  call map(itemlist, '[v:val, matchstr(v:val, ''^[[:alnum:]_#]\+'')]')
-  call map(itemlist, '{"word": v:val[1], "abbr": v:val[0], "menu": "[function]", "__text__": v:val[1], "__func__": s:TRUE}')
-  let priority = a:context.history.function.priority - 2
-  return s:candidate('userfunc', itemlist, priority)
-endfunction "}}}
-function! s:user_cmd(context) abort "{{{
-  if !has_key(a:context.history, 'command')
-    return {}
-  endif
-
-  let itemlist = getcompletion(a:context.base, 'command')
-  call filter(itemlist, "v:val =~# '^[A-Z]'")
-  call filter(itemlist, '!s:contains_in(a:context.history.command.itemlist, v:val)')
-  if empty(itemlist)
-    return {}
-  endif
-
-  call map(itemlist, '{"word": v:val, "menu": "[command]", "__text__": v:val}')
-  let priority = a:context.history.command.priority - 2
-  return s:candidate('usercmd', itemlist, priority)
-endfunction "}}}
-function! s:user_higroup(context) abort "{{{
-  if !has_key(a:context.history, 'higroup')
-    return {}
-  endif
-
-  let itemlist = getcompletion(a:context.base, 'highlight')
-  call filter(itemlist, '!s:contains_in(a:context.history.higroup.itemlist, v:val)')
-  if empty(itemlist)
-    return {}
-  endif
-
-  call map(itemlist, '{"word": v:val, "menu": "[higroup]", "__text__": v:val}')
-  let priority = a:context.history.higroup.priority - 2
-  return s:candidate('userhigroup', itemlist, priority)
-endfunction "}}}
-function! s:user_augroup(context) abort "{{{
-  if !has_key(a:context.history, 'augroup')
-    return {}
-  endif
-
-  let itemlist = getcompletion(a:context.base, 'augroup')
-  call filter(itemlist, '!s:contains_in(a:context.history.augroup.itemlist, v:val)')
-  if empty(itemlist)
-    return {}
-  endif
-
-  call map(itemlist, '{"word": v:val, "menu": "[augroup]", "__text__": v:val}')
-  let priority = a:context.history.augroup.priority - 2
-  return s:candidate('useraugroup', itemlist, priority)
-endfunction "}}}
 function! s:flatten(candidatelist, base) abort "{{{
   let nbase = strchars(a:base)
   if nbase < 3
@@ -386,6 +291,146 @@ function! s:similarlist(candidatelist, base) abort "{{{
     endfor
   endfor
   return similarlist
+endfunction "}}}
+
+function! s:add_history(history, name, candidate) abort "{{{
+  if empty(a:candidate)
+    return
+  endif
+
+  if has_key(a:history, a:name)
+    let a:history[a:name].itemlist += a:candidate.itemlist
+    let a:history[a:name].priority = min([a:history[a:name].priority, a:candidate.priority])
+  else
+    let a:history[a:name] = a:candidate
+  endif
+endfunction "}}}
+function! s:contains_in(itemlist, word) abort "{{{
+  return filter(copy(a:itemlist), 'v:val.__text__ is# a:word') != []
+endfunction "}}}
+function! s:match_conditions(conditions, context) abort "{{{
+  for condition in a:conditions
+    let [startcol, str] = s:match_condition(condition, a:context, 1, s:FALSE)
+    if startcol == a:context.startcol
+      return condition
+    endif
+  endfor
+  return {}
+endfunction "}}}
+function! s:user_var(context) abort "{{{
+  if has_key(a:context.history, 'var')
+    let queueditems = a:context.history.var.itemlist
+    let priority = a:context.history.var.priority
+  else
+    let condition = s:match_conditions(s:const.VARCONDITIONLIST, a:context)
+    if empty(condition)
+      return {}
+    endif
+    let queueditems = []
+    let priority = get(condition, 'priority', 0)
+  endif
+
+  let itemlist = getcompletion(a:context.base, 'var')
+  call filter(itemlist, "v:val[:1] isnot# 'v:'")
+  call filter(itemlist, '!s:contains_in(queueditems, v:val)')
+  if empty(itemlist)
+    return {}
+  endif
+
+  call map(itemlist, "v:val[1] !=# ':' ? 'g:' . v:val : v:val")
+  call map(itemlist, '{"word": v:val, "menu": "[var]", "__text__": v:val}')
+  return s:candidate('uservar', itemlist, priority - 2)
+endfunction "}}}
+function! s:user_func(context) abort "{{{
+  if has_key(a:context.history, 'function')
+    let queueditems = a:context.history.function.itemlist
+    let priority = a:context.history.function.priority
+  else
+    let condition = s:match_conditions(s:const.FUNCCONDITIONLIST, a:context)
+    if empty(condition)
+      return {}
+    endif
+    let queueditems = []
+    let priority = get(condition, 'priority', 0)
+  endif
+
+  let itemlist = getcompletion(a:context.base, 'function')
+  call filter(itemlist, "v:val =~# '^[A-Z]' || v:val =~# '#'")
+  call filter(itemlist, '!s:contains_in(queueditems, v:val)')
+  if empty(itemlist)
+    return {}
+  endif
+
+  call map(itemlist, '[v:val, matchstr(v:val, ''^[[:alnum:]_#]\+'')]')
+  call map(itemlist, '{"word": v:val[1], "abbr": v:val[0], "menu": "[function]", "__text__": v:val[1], "__func__": s:TRUE}')
+  return s:candidate('userfunc', itemlist, priority - 2)
+endfunction "}}}
+function! s:user_cmd(context) abort "{{{
+  if has_key(a:context.history, 'command')
+    let queueditems = a:context.history.command.itemlist
+    let priority = a:context.history.command.priority
+  else
+    let condition = s:match_conditions(s:const.COMMANDCONDITIONLIST, a:context)
+    if empty(condition)
+      return {}
+    endif
+    let queueditems = []
+    let priority = get(condition, 'priority', 0)
+  endif
+
+  let itemlist = getcompletion(a:context.base, 'command')
+  call filter(itemlist, "v:val =~# '^[A-Z]'")
+  call filter(itemlist, '!s:contains_in(queueditems, v:val)')
+  if empty(itemlist)
+    return {}
+  endif
+
+  call map(itemlist, '{"word": v:val, "menu": "[command]", "__text__": v:val}')
+  return s:candidate('usercmd', itemlist, priority - 2)
+endfunction "}}}
+function! s:user_higroup(context) abort "{{{
+  if has_key(a:context.history, 'higroup')
+    let queueditems = a:context.history.higroup.itemlist
+    let priority = a:context.history.higroup.priority
+  else
+    let condition = s:match_conditions(s:const.HIGROUPCONDITIONLIST, a:context)
+    if empty(condition)
+      return {}
+    endif
+    let queueditems = []
+    let priority = get(condition, 'priority', 0)
+  endif
+
+  let itemlist = getcompletion(a:context.base, 'highlight')
+  call filter(itemlist, '!s:contains_in(queueditems, v:val)')
+  if empty(itemlist)
+    return {}
+  endif
+
+  call map(itemlist, '{"word": v:val, "menu": "[higroup]", "__text__": v:val}')
+  return s:candidate('userhigroup', itemlist, priority - 2)
+endfunction "}}}
+function! s:user_augroup(context) abort "{{{
+  if has_key(a:context.history, 'augroup')
+    let queueditems = a:context.history.augroup.itemlist
+    let priority = a:context.history.augroup.priority
+  else
+    let condition = s:match_conditions(s:const.AUGROUPCONDITIONLIST, a:context)
+    if empty(condition)
+      return {}
+    endif
+    let queueditems = []
+    let priority = get(condition, 'priority', 0)
+  endif
+
+  let itemlist = getcompletion(a:context.base, 'augroup')
+  call filter(itemlist, '!s:contains_in(queueditems, v:val)')
+  if empty(itemlist)
+    return {}
+  endif
+
+  call map(itemlist, '{"word": v:val, "menu": "[augroup]", "__text__": v:val}')
+  return s:candidate('useraugroup', itemlist, priority - 2)
 endfunction "}}}
 
 
