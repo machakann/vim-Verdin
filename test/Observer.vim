@@ -184,13 +184,13 @@ function! s:suite.inspect() dict abort "{{{
     endif
     if has_key(expect, 'buffercommand')
       let got = Observer.shelf.buffercommand.wordlist
-      let exp = Verdin#Dictionary#new('command', [], expect.buffercommand, 2, {'delimitermatch': 1}).wordlist
+      let exp = Verdin#Dictionary#new('command', [], expect.buffercommand, 2).wordlist
       let message = "Mismatches in 'buffercommand' items.\n\n" . basemessage
       call g:assert.equals(sort(got), sort(exp), message)
     endif
     if has_key(expect, 'bufferhigroup')
       let got = Observer.shelf.bufferhigroup.wordlist
-      let exp = Verdin#Dictionary#new('higroup', [], expect.bufferhigroup, 2, {'delimitermatch': 1}).wordlist
+      let exp = Verdin#Dictionary#new('higroup', [], expect.bufferhigroup, 2).wordlist
       let message = "Mismatches in 'bufferhigroup' items.\n\n" . basemessage
       call g:assert.equals(sort(got), sort(exp), message)
     endif

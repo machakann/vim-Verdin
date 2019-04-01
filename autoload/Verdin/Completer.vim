@@ -473,7 +473,7 @@ function! s:Completer.fuzzymatch(base, ...) dict abort "{{{
     let __text__ = s:lib.__text__(item)
     let difflen = strchars(__text__) - nbase
     let texthead = strcharpart(__text__, 0, nbase)
-    if a:base ==? texthead || difflen < -2 || (type(item) == v:t_dict && get(item, '__delimitermatch__', 0))
+    if a:base ==? texthead || difflen < -2
       continue
     endif
     let d = s:strcmp(a:base, texthead)
@@ -567,11 +567,6 @@ function! s:addsnippeditems(candidatelist, postcursor, ...) abort "{{{
   let i = len(a:candidatelist) - 1
   while i >= 0
     let candidate = a:candidatelist[i]
-    if get(candidate, '__delimitermatch__', s:FALSE)
-      let i -= 1
-      continue
-    endif
-
     let word = s:lib.word(candidate)
     let idx = match(word, pattern)
     if idx > 0

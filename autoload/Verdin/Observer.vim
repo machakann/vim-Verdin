@@ -366,13 +366,12 @@ function! s:inspectvim(...) dict abort "{{{
     if local.is_dictfunc
       call add(varlist, 'self')
     endif
-    let options = {'delimitermatch': 1}
-    let var = Verdin#Dictionary#new('var', s:const.VARCONDITIONLIST, varlist, 2, options)
+    let var = Verdin#Dictionary#new('var', s:const.VARCONDITIONLIST, varlist, 2)
     call s:inject(self.shelf['buffervar'], var)
   endif
   if funclist != []
     call s:SIDfuncitems(funclist)
-    let options = {'sortbyoccurrence': 1, 'delimitermatch': 1}
+    let options = {'sortbyoccurrence': 1}
     let func = Verdin#Dictionary#new('function', s:const.FUNCCONDITIONLIST, funclist, 1, options)
     call s:inject(self.shelf['bufferfunc'], func)
   endif
@@ -382,18 +381,16 @@ function! s:inspectvim(...) dict abort "{{{
     call s:inject(self.shelf['buffermember'], member)
   endif
   if keymaplist != []
-    let options = {'sortbyoccurrence': 1, 'delimitermatch': 1}
+    let options = {'sortbyoccurrence': 1}
     let keymap = Verdin#Dictionary#new('keymap', s:const.KEYMAPCONDITIONLIST, keymaplist, 2, options)
     call s:inject(self.shelf['bufferkeymap'], keymap)
   endif
   if commandlist != []
-    let options = {'delimitermatch': 1}
-    let command = Verdin#Dictionary#new('command', s:const.COMMANDCONDITIONLIST, commandlist, 2, options)
+    let command = Verdin#Dictionary#new('command', s:const.COMMANDCONDITIONLIST, commandlist, 2)
     call s:inject(self.shelf['buffercommand'], command)
   endif
   if higrouplist != []
-    let options = {'delimitermatch': 1}
-    let higroup = Verdin#Dictionary#new('higroup', s:const.HIGROUPCONDITIONLIST, higrouplist, 2, options)
+    let higroup = Verdin#Dictionary#new('higroup', s:const.HIGROUPCONDITIONLIST, higrouplist, 2)
     call s:inject(self.shelf['bufferhigroup'], higroup)
   endif
   if augrouplist != []
