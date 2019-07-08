@@ -330,7 +330,7 @@ function! s:featurelist() abort
       break
     endif
   endfor
-  return filter(map(evallines[start : end], 'matchstr(v:val, ''\m^\h\w*'')'), 'v:val !=# ""')
+  return filter(map(evallines[start : end], 'matchstr(v:val, ''\m^\h[-[:alnum:]_]*'')'), 'v:val !=# ""')
 endfunction
 let s:featurewordlist = s:featurelist()
 "}}}
