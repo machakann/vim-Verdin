@@ -398,7 +398,7 @@ function! s:inspectvim(...) dict abort "{{{
     call s:inject(self.shelf['bufferaugroup'], augroup)
   endif
   if self.shelf.funcfragment == {}
-    let funcfragmentwordlist = s:funcfragmentwordlist()
+    let funcfragmentwordlist = s:funcfragmentwordlist(self.bufnr)
     let funcfragment = Verdin#Dictionary#new('funcfragment', s:const.FUNCFRAGMENTCONDITIONLIST, funcfragmentwordlist)
     call s:inject(self.shelf['funcfragment'], funcfragment)
   endif
@@ -622,10 +622,12 @@ function! s:SIDfuncitems(funclist) abort "{{{
   endfor
   return a:funclist
 endfunction "}}}
-function! s:funcfragmentwordlist() abort "{{{
+function! s:funcfragmentwordlist(bufnr) abort "{{{
   let funcfragmentwordlist = []
   let fragment = ''
-  for dir in split(matchstr(expand('%:p'), printf('autoload\zs\%%(%s\h\w*\)\+\ze\.vim$', s:lib.escape(s:const.PATHSEPARATOR))), s:lib.escape(s:const.PATHSEPARATOR))
+  let pat = printf('autoload\zs\%%(%s\h\w*\)\+\ze\.vim$', s:lib.escape(s:const.PATHSEPARATOR))
+  let autoloadpath = matchstr(bufname(a:bufnr), pat)
+  for dir in split(autoloadpath, s:lib.escape(s:const.PATHSEPARATOR))
     let fragment .= dir . '#'
     let item = {'word': fragment, 'menu': '[fragment]', '__text__': fragment}
     call add(funcfragmentwordlist, item)
