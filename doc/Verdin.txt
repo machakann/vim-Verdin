@@ -1,5 +1,5 @@
 *Verdin.txt*	An omni completion function for Vim script.
-						Last change:14-Mar-2019.
+						Last change:27-Jul-2019.
 
 Author  : machakann <https://github.com/machakann>
 License : NYSL license
@@ -104,8 +104,7 @@ after a completed function name.
     for functions without argments and only open parenthesis is added for
     functions with 1 or more arguments.
 
-  * If |g:Verdin#autocompletedelay| is 2, both open and close parentheses are
-    added.
+  * If |g:Verdin#autoparen| is 2, both open and close parentheses are added.
 
 					*g:Verdin#autoparen*
 >
