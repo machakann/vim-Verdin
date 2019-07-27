@@ -1,5 +1,5 @@
 *Verdin.txt*	Vim script 用オムニ補完関数
-						Last change:14-Mar-2019.
+						Last change:27-Jul-2019.
 
 書いた人   : machakann <https://github.com/machakann>
 ライセンス : NYSL license
@@ -111,8 +111,7 @@ YouCompleteMe <http://valloric.github.io/YouCompleteMe/> のような、ほか�
     の両方を入力します。引数を 1 個以上もつ関数の場合は開き括弧のみを入力しま
     す。
 
-  * |g:Verdin#autocompletedelay| が 2 の時は、開き・閉じ括弧の両方を入力しま
-    す。
+  * |g:Verdin#autoparen| が 2 の時は、開き・閉じ括弧の両方を入力します。
 					*g:Verdin#autoparen*
 >
 	let g:Verdin#autoparen = 2
