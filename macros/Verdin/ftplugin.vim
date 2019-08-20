@@ -6,7 +6,7 @@ if Verdin#_getoption('debugmodeon')
   command! -buffer -nargs=0 -bang VerdinFinishAutocompletion  call Verdin#Verdin#finishautocomplete('<bang>')
 endif
 
-if !Verdin#_getoption('donotsetomnifunc')
+if Verdin#_getoption('setomnifunc')
   setlocal omnifunc=Verdin#omnifunc
 endif
 

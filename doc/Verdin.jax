@@ -1,5 +1,5 @@
 *Verdin.txt*	Vim script 用オムニ補完関数
-						Last change:27-Jul-2019.
+						Last change:19-Aug-2019.
 
 書いた人   : machakann <https://github.com/machakann>
 ライセンス : NYSL license
@@ -17,12 +17,12 @@ USAGE					*Verdin-usage*
 入力することで機能を呼び出すことができます。 |i_CTRL-X_CTRL-O|
 もし、 |'omnifunc'| が自動的に設定されるのを防ぎたい場合は次の一行を vimrc に
 加えてください。
-					*g:Verdin#donotsetomnifunc*
+					*g:Verdin#setomnifunc*
 >
-	let g:Verdin#donotsetomnifunc = 1
+	let g:Verdin#setomnifunc = 0
 <
-`b:Verdin_donotsetomnifunc` も使用できます。そのバッファでのみ有効であり、
-|g:Verdin#donotsetomnifunc| よりも優先されます。
+`b:Verdin_setomnifunc` も使用できます。そのバッファでのみ有効であり、
+|g:Verdin#setomnifunc| よりも優先されます。
 
 ------------------------------------------------------------------------------
 

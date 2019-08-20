@@ -1,5 +1,5 @@
 *Verdin.txt*	An omni completion function for Vim script.
-						Last change:27-Jul-2019.
+						Last change:19-Aug-2019.
 
 Author  : machakann <https://github.com/machakann>
 License : NYSL license
@@ -11,17 +11,17 @@ Requirement:	Vim 8.0 or higher
 ==============================================================================
 USAGE					*Verdin-usage*
 
-*Verdin* is an implementation of omni completion |compl-omni| function for Vim
-script. This plugin automatically sets |Verdin#omnifunc()| to |'omnifunc'|.
+*Verdin* is an implementation of omni completion function for Vim script.
+This plugin automatically sets |Verdin#omnifunc()| to |'omnifunc'|.
 The key sequence <C-x><C-o> in insert mode shows pop-up window to suggest
 possible completion items. |i_CTRL-X_CTRL-O|
 If you don't want to set |'omnifunc'| option, add the line into your vimrc.
-					*g:Verdin#donotsetomnifunc*
+					*g:Verdin#setomnifunc*
 >
-	let g:Verdin#donotsetomnifunc = 1
+	let g:Verdin#setomnifunc = 0
 <
-`b:Verdin_donotsetomnifunc` works buffer-locally prior to
-|g:Verdin#donotsetomnifunc|.
+`b:Verdin_setomnifunc` works buffer-locally prior to
+|g:Verdin#setomnifunc|.
 
 ------------------------------------------------------------------------------
 
