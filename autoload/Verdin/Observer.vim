@@ -397,15 +397,19 @@ function! s:inspectvim(...) dict abort "{{{
     let augroup = Verdin#Dictionary#new('augroup', s:const.AUGROUPCONDITIONLIST, augrouplist, 1)
     call s:inject(self.shelf['bufferaugroup'], augroup)
   endif
-  if self.shelf.funcfragment == {}
-    let funcfragmentwordlist = s:funcfragmentwordlist(self.bufnr)
-    let funcfragment = Verdin#Dictionary#new('funcfragment', s:const.FUNCFRAGMENTCONDITIONLIST, funcfragmentwordlist)
-    call s:inject(self.shelf['funcfragment'], funcfragment)
+  if !g:Verdin#disable_func_fragment
+    if self.shelf.funcfragment == {}
+      let funcfragmentwordlist = s:funcfragmentwordlist(self.bufnr)
+      let funcfragment = Verdin#Dictionary#new('funcfragment', s:const.FUNCFRAGMENTCONDITIONLIST, funcfragmentwordlist)
+      call s:inject(self.shelf['funcfragment'], funcfragment)
+    endif
   endif
-  let varfragmentwordlist = s:varfragmentwordlist(varlist)
-  if varfragmentwordlist != []
-    let varfragment = Verdin#Dictionary#new('varfragment', s:const.VARFRAGMENTCONDITIONLIST, varfragmentwordlist)
-    call s:inject(self.shelf['varfragment'], varfragment)
+  if !g:Verdin#disable_var_fragment
+    let varfragmentwordlist = s:varfragmentwordlist(varlist)
+    if varfragmentwordlist != []
+      let varfragment = Verdin#Dictionary#new('varfragment', s:const.VARFRAGMENTCONDITIONLIST, varfragmentwordlist)
+      call s:inject(self.shelf['varfragment'], varfragment)
+    endif
   endif
   call clock.stop()
 endfunction "}}}
