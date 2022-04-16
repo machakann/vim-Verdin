@@ -113,6 +113,23 @@ after a completed function name.
 `b:Verdin_autoparen` works buffer-locally prior to
 |g:Verdin#autoparen|.
 
+------------------------------------------------------------------------------
+
+					*g:Verdin#disable_var_fragment*
+To prevent Verdin from adding the variable fragment to the completion list:
+>
+	let g:Verdin#disable_var_fragment = 1
+<
+------------------------------------------------------------------------------
+
+					*g:Verdin#disable_func_fragment*
+To prevent Verdin from adding the function fragment to the completion list:
+>
+	let g:Verdin#disable_func_fragment = 1
+<
+
+------------------------------------------------------------------------------
+
 ==============================================================================
 COMMANDS				*Verdin-commands*
 

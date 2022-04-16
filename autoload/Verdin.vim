@@ -32,6 +32,9 @@ let g:Verdin#setomnifunc       =  get(g:, 'Verdin#setomnifunc',
 let g:Verdin#autoparen         = get(g:, 'Verdin#autoparen',
                                \ get(g:, 'Verdin#autobraketinsert',
                                \     s:default.autoparen))
+
+let g:Verdin#disable_var_fragment = get(g:, 'Verdin#disable_var_fragment', 0)
+let g:Verdin#disable_func_fragment = get(g:, 'Verdin#disable_func_fragment', 0)
 "}}}
 
 " The omni-completion function for Vim script
