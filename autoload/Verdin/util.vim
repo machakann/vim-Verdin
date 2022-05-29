@@ -316,7 +316,10 @@ let s:existshelperwordlist = [
 "}}}
 " Feature dictionary{{{
 function! s:featurelist() abort
-  let evaltxtpath = s:lib.pathjoin([expand('$VIMRUNTIME'), 'doc', 'eval.txt'])
+  let evaltxtpath = s:lib.pathjoin([expand('$VIMRUNTIME'), 'doc', 'builtin.txt'])
+  if !filereadable(evaltxtpath)
+    let evaltxtpath = s:lib.pathjoin([expand('$VIMRUNTIME'), 'doc', 'eval.txt'])
+  endif
   let evallines = readfile(evaltxtpath)
   for i in range(len(evallines))
     if evallines[i] =~# '^use: `if exists(''+shellslash'')`'
@@ -325,7 +328,7 @@ function! s:featurelist() abort
     endif
   endfor
   for i in range(start + 1, len(evallines) - 1)
-    if evallines[i] =~# '^\s\+\*string-match\*'
+    if evallines[i] =~# '\*string-match\*'
       let end = i
       break
     endif
